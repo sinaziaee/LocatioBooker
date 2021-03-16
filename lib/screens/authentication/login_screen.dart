@@ -19,11 +19,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   FocusNode node;
   Color color;
-  TextEditingController usernameController, passwordController;
+  TextEditingController emailController, passwordController;
 
   @override
   void initState() {
-    usernameController = TextEditingController();
+    emailController = TextEditingController();
     passwordController = TextEditingController();
     color = Colors.black;
     super.initState();
@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    usernameController.dispose();
+    emailController.dispose();
     super.dispose();
   }
 
@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
               node: node,
               hint: 'Email',
               color: Colors.black,
-              controller: usernameController,
+              controller: emailController,
               isLast: false,
               isPassword: false,
             ),
@@ -133,7 +133,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void onContinuePressed() {
-    Navigator.pushNamed(context, SignUpScreen.id);
+    String email = emailController.text.toString();
+    // email = 'temp.id';
+    print(email);
+    Navigator.pushNamed(context, SignUpScreen.id, arguments: {'email': email});
   }
 
   _showDialog() {

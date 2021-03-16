@@ -22,6 +22,7 @@ class MyTestField extends StatelessWidget {
         vertical: LoginScreen.size.height * 0.005
       ),
       child: TextFormField(
+        controller: controller,
         onEditingComplete: () => (isLast == null || isLast == false)
             ? node.nextFocus()
             : node.unfocus(),
