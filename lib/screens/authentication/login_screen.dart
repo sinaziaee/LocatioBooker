@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/home/home_screen.dart';
 
 import '../../constants.dart';
@@ -132,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void onContinuePressed() {
-    Navigator.pushNamed(context, HomeScreen.id);
+    Navigator.pushNamed(context, SignUpScreen.id);
   }
 
   _showDialog() {
