@@ -25,7 +25,7 @@ class MyConfirmButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Text(
-          'Continue',
+          text,
           style: kBodyTextStyle.copyWith(
             color: Colors.white,
           ),

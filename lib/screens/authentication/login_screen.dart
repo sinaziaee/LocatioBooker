@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/home/home_screen.dart';
+import 'package:loctio_booker/screens/static_methods.dart';
 
 import '../../constants.dart';
 import 'components/confirm_button.dart';
@@ -123,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
               text: 'Continue with Google',
               imageAsset: 'assets/images/logo_google.png',
               onTapped: () {
-                _showDialog();
+                onContinuePressed();
               },
             ),
           ],
@@ -134,49 +135,41 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void onContinuePressed() {
     String email = emailController.text.toString();
-    // email = 'temp.id';
-    print(email);
+    // if(isValidated(email)){
+    //   print(email);
+    //   Navigator.pushNamed(context, SignUpScreen.id, arguments: {'email': email});
+    // }
+    // else{
+    //   _showDialog('Bad email format');
+    // }
+
     Navigator.pushNamed(context, SignUpScreen.id, arguments: {'email': email});
   }
 
-  _showDialog() {
+  _showDialog(String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          title: Text(
-            'Enter your password for confirmation',
-            textAlign: TextAlign.center,
-            style: kHeaderTextStyle.copyWith(
-              color: color,
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              MyTestFieldWithoutNode(
-                color: Colors.black,
-                hint: 'Re-Password',
-                controller: passwordController,
-                isLast: false,
-                isPassword: true,
-              ),
-              SizedBox(
-                height: LoginScreen.size.height * 0.01,
-              ),
-              MyConfirmButton(
-                onPressed: () {
-                  onContinuePressed();
-                },
-                text: 'Submit',
-              ),
-            ],
-          ),
+        return CustomDialog(
+          color: color,
+          text: 'OK !!!',
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          message: message,
         );
       },
     );
   }
+
+
+
+  bool isValidated(String email){
+    if(email.length < 3 || !email.contains("@")){
+      print('wrong');
+      return false;
+    }
+    return true;
+  }
+
 }

@@ -3,8 +3,10 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:loctio_booker/screens/home/home_screen.dart';
 
 import '../../constants.dart';
+import '../static_methods.dart';
 import 'components/confirm_button.dart';
 import 'components/my_textfield.dart';
+import 'components/phone_textfield.dart';
 import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -62,7 +64,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: LoginScreen.size.height * 0.03,
               ),
               Text(
-                email,
+                (email.length != 0) ? email : 'Email here',
                 style: kBodyTextStyle.copyWith(
                   color: Colors.grey,
                 ),
@@ -114,39 +116,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: LoginScreen.size.height * 0.03,
               ),
-              Container(
-                height: LoginScreen.size.height * 0.06,
-                margin: EdgeInsets.symmetric(
-                    horizontal: LoginScreen.size.width * 0.05,
-                    vertical: LoginScreen.size.height * 0.005),
-                child: IntlPhoneField(
-                  controller: phoneController,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(
-                      bottom: LoginScreen.size.height * 0.03,
-                      left: LoginScreen.size.width * 0.03,
-                      right: LoginScreen.size.width * 0.03,
-                    ),
-                    hintText: 'Phone Number',
-                    focusedBorder: kOutLineInputBorder.copyWith(
-                      borderSide: BorderSide(
-                        color: color ?? Colors.black,
-                        width: 1.5,
-                        style: BorderStyle.solid,
-                      ),
-                    ),
-                    border: kOutLineInputBorder.copyWith(
-                      borderSide: BorderSide(
-                        color: color ?? Colors.grey,
-                        width: 0.5,
-                        style: BorderStyle.solid,
-                      ),
-                    ),
-                  ),
-                  onChanged: (phone) {
-                    print(phone.completeNumber);
-                  },
-                ),
+              PhoneTextField(
+                phoneController: phoneController,
+                color: color,
               ),
               SizedBox(
                 height: LoginScreen.size.height * 0.06,
@@ -164,7 +136,62 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void onContinuePressed() {
-    Navigator.pushNamed(context, HomeScreen.id);
+  bool isValidated(){
+    String firstName = firstNameController.text;
+    String lastName = lastNameController.text;
+    String phone = phoneController.text;
+    String password = passwordController.text;
+    String rePassword = rePasswordController.text;
+    if(firstName.length < 3){
+      _showDialog('Bad First Name Format');
+      return false;
+    }
+    else if(lastName.length < 3){
+      _showDialog('Bad Last Name Format');
+      return false;
+    }
+    else if(phone.length < 3){
+      _showDialog('Bad Phone Format');
+      return false;
+    }
+    else if(password.length < 3){
+      _showDialog('Bad Password Format');
+      return false;
+    }
+    else if(rePassword.length < 3){
+      _showDialog('Bad RePassword Format');
+      return false;
+    }
+    if(password == rePassword){
+      _showDialog('Password and Re-Password do not match');
+      return false;
+    }
+    return true;
   }
+
+  void onContinuePressed() {
+    if(isValidated()){
+      Navigator.pushNamed(context, HomeScreen.id);
+    }
+    else{
+      // pass
+    }
+  }
+
+  _showDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomDialog(
+          color: color,
+          text: 'OK !!!',
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          message: message,
+        );
+      },
+    );
+  }
+
 }
