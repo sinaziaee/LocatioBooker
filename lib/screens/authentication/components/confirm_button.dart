@@ -7,8 +7,9 @@ class MyConfirmButton extends StatelessWidget {
 
   final String text;
   final Function onPressed;
+  final Color color;
 
-  MyConfirmButton({this.text, this.onPressed});
+  MyConfirmButton({this.text, this.onPressed, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class MyConfirmButton extends StatelessWidget {
         horizontal: LoginScreen.size.width * 0.05,
       ),
       child: RaisedButton(
-        color: Colors.red,
+        color: color ?? Colors.red,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),

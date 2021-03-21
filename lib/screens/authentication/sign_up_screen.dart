@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:loctio_booker/screens/authentication/verification_screen.dart';
 import 'package:loctio_booker/screens/home/home_screen.dart';
 
 import '../../constants.dart';
@@ -11,7 +12,7 @@ import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   static String id = 'sign_up_screen';
-
+  static int theCode;
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -170,12 +171,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void onContinuePressed() {
-    if(isValidated()){
-      Navigator.pushNamed(context, HomeScreen.id);
-    }
-    else{
-      // pass
-    }
+    // if(isValidated()){
+    //   Navigator.pushNamed(context, HomeScreen.id);
+    // }
+    // else{
+    //   // pass
+    // }
+    Navigator.pushNamed(context, VerificationScreen.id);
   }
 
   _showDialog(String message) {
