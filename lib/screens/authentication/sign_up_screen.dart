@@ -4,9 +4,10 @@ import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/verification_screen.dart';
 import 'package:loctio_booker/screens/home/home_screen.dart';
 import 'package:loctio_booker/static_methods.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 import '../../constants.dart';
-import '../../custom_dialog.dart';
+import '../../components/custom_dialog.dart';
 import 'components/confirm_button.dart';
 import 'components/my_textfield.dart';
 import 'components/phone_textfield.dart';
@@ -23,7 +24,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   FocusNode node;
   Color color = Colors.black;
-
+  String url = '$mainUrl/api/register/';
   TextEditingController firstNameController;
   TextEditingController lastNameController;
   TextEditingController passwordController;
@@ -57,10 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     node = FocusScope.of(context);
-    args = ModalRoute
-        .of(context)
-        .settings
-        .arguments;
+    args = ModalRoute.of(context).settings.arguments;
     email = args['email'];
     print('e: $email');
     return Scaffold(
@@ -170,7 +168,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _showDialog('Password and Re-Password do not match');
       return false;
     }
-    user = User(firstName: firstName,
+    user = User(
+        firstName: firstName,
         lastName: lastName,
         phone: phone,
         email: email,
@@ -191,7 +190,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   uploadInfo() async {
-
+    try {
+      http.Response response = await http.post(
+        Uri.parse(url),
+        body: convert.jsonEncode(
+          user.toJson(),
+        ),
+      );
+      if (response.statusCode < 400) {
+        StaticMethods.showSuccessDialog(
+            context, 'Your are logged in successfully');
+        var jsonResponse =
+            convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+        print(jsonResponse);
+        // saveInfo();
+      } else {
+        StaticMethods.showErrorDialog(
+            context, 'An Error happened while logging in');
+        print(response.body);
+      }
+    } catch (e) {
+      print('sth went wrong with: $e');
+    }
   }
 
   saveInfo() async {

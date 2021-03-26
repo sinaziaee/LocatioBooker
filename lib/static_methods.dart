@@ -1,3 +1,5 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/user.dart';
@@ -56,4 +58,33 @@ class StaticMethods {
 
     return user;
   }
+
+  static void showSuccessDialog(BuildContext context, String message){
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.SUCCES,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: false,
+        title: 'Successful',
+        btnOkText: 'OK',
+        desc: message,
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.check_circle,
+        btnOkColor: Colors.green).show();
+  }
+
+  static void showErrorDialog(BuildContext context, String message){
+    AwesomeDialog(
+        context: context,
+        dialogType: DialogType.ERROR,
+        animType: AnimType.LEFTSLIDE,
+        headerAnimationLoop: false,
+        title: 'Error',
+        btnOkText: 'OK',
+        desc: message,
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.close,
+        btnOkColor: Colors.red).show();
+  }
+
 }

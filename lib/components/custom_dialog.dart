@@ -1,7 +1,8 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
-import 'screens/authentication/components/confirm_button.dart';
+import '../constants.dart';
+import '../screens/authentication/components/confirm_button.dart';
 
 class CustomDialog extends StatelessWidget {
   final String message;
@@ -29,6 +30,7 @@ class CustomDialog extends StatelessWidget {
         text: text,
       ),
     );
+
   }
 
 }
