@@ -19,11 +19,17 @@ class MyConfirmButton extends StatelessWidget {
       margin: EdgeInsets.symmetric(
         horizontal: LoginScreen.size.width * 0.05,
       ),
-      child: RaisedButton(
-        color: color ?? Colors.red,
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(
+            color ?? Colors.red,
+          ),
+          elevation: MaterialStateProperty.all(0),
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
         ),
         child: Text(
           text,

@@ -4,6 +4,7 @@ import 'package:loctio_booker/screens/authentication/components/confirm_button.d
 import 'package:loctio_booker/screens/authentication/components/my_textfield.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
+import 'package:loctio_booker/screens/home/home_screen.dart';
 
 class VerificationScreen extends StatefulWidget {
   static String id = 'verification_screen';
@@ -147,7 +148,8 @@ class _VerificationScreenState extends State<VerificationScreen>
   }
 
   void onResetPressed(){
-    reset();
+    // reset();
+    Navigator.pushNamed(context, HomeScreen.id);
   }
 
 }

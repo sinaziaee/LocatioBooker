@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/home/home_screen.dart';
-import 'package:loctio_booker/screens/static_methods.dart';
+import 'file:///D:/FlutterProjects/Class_folder/loctio_booker/lib/custom_dialog.dart';
 
 import '../../constants.dart';
 import 'components/confirm_button.dart';
