@@ -5,7 +5,6 @@ import 'package:loctio_booker/screens/profile/settings.dart';
 
 import 'screens/authentication/login_screen.dart';
 import 'screens/home/home_screen.dart';
-import 'screens/home/home_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,13 +15,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: settings.id,
+      initialRoute: LoginScreen.id,
       routes: {
         LoginScreen.id: (context) => LoginScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         SignUpScreen.id: (context) => SignUpScreen(),
         VerificationScreen.id: (context) => VerificationScreen(),
-        settings.id : (context) => settings(),
+        Settings.id : (context) => Settings(),
       },
     );
   }

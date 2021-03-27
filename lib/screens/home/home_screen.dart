@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
+import 'package:loctio_booker/screens/profile/settings.dart';
 
 import '../../constants.dart';
 
@@ -52,9 +53,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       );
-    } else {
-      return Container();
     }
+    else if(index == 4){
+      return Settings();
+    }
+
+    else
+      return Container();
+
+
   }
 
   @override

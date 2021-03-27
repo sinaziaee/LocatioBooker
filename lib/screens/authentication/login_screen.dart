@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:loctio_booker/components/custom_dialog.dart';
+import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/home/home_screen.dart';
-import 'package:loctio_booker/screens/static_methods.dart';
-
 import '../../constants.dart';
+import '../../static_methods.dart';
 import 'components/confirm_button.dart';
 import 'components/my_login_card.dart';
 import 'components/my_textfield.dart';
 import 'components/my_textfield_without_node.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
 
 class LoginScreen extends StatefulWidget {
   static Size size;
@@ -21,6 +25,9 @@ class _LoginScreenState extends State<LoginScreen> {
   FocusNode node;
   Color color;
   TextEditingController emailController, passwordController;
+
+  User user;
+  String url = '$mainUrl/api/login/';
 
   @override
   void initState() {
@@ -162,14 +169,47 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
-
   bool isValidated(String email){
     if(email.length < 3 || !email.contains("@")){
       print('wrong');
       return false;
     }
     return true;
+  }
+
+  uploadInfo() async {
+    try {
+      http.Response response = await http.post(
+        Uri.parse(url),
+        body: convert.jsonEncode(
+          user.toJson(),
+        ),
+      );
+      if(response.statusCode < 400){
+        StaticMethods.showSuccessDialog(context, 'Your information was uploaded successfully');
+        var jsonResponse = convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+        print(jsonResponse);
+        // saveInfo();
+      }
+      else {
+        StaticMethods.showErrorDialog(context, 'An Error happened while uploading information');
+        print(response.body);
+      }
+    } catch (e) {
+      print('sth went wrong with: $e');
+    }
+  }
+
+  saveInfo() async {
+    await StaticMethods.saveToPreferences(
+      firstName: user.firstName,
+      lastName: user.lastName,
+      token: user.token,
+      email: user.email,
+      password: user.password,
+      phone: user.phone,
+      country: user.country,
+    );
   }
 
 }
