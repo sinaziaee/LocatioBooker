@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/home/home_screen.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../constants.dart';
 import '../../static_methods.dart';
@@ -24,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   FocusNode node;
   Color color;
   TextEditingController emailController, passwordController;
-
+  bool showSpinner = false;
   User user;
   String url = '$mainUrl/api/account/login';
   String checkExistenceUrl = '$mainUrl/api/account/check-existence';
@@ -68,85 +69,89 @@ class _LoginScreenState extends State<LoginScreen> {
     node = FocusScope.of(context);
     LoginScreen.size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: LoginScreen.size.height * 0.1,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: LoginScreen.size.width * 0.06,
+      body: ModalProgressHUD(
+        progressIndicator: kMyProgressIndicator,
+        inAsyncCall: showSpinner,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: LoginScreen.size.height * 0.1,
               ),
-              child: Text(
-                'Log in or Sign up to Locatio',
-                style: kHeaderTextStyle.copyWith(
-                  color: color,
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: LoginScreen.size.width * 0.06,
+                ),
+                child: Text(
+                  'Log in or Sign up to Locatio',
+                  style: kHeaderTextStyle.copyWith(
+                    color: color,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: LoginScreen.size.height * 0.03,
-            ),
-            MyTestField(
-              node: node,
-              hint: 'Email',
-              color: Colors.black,
-              controller: emailController,
-              isLast: false,
-              isPassword: false,
-            ),
-            SizedBox(
-              height: LoginScreen.size.height * 0.012,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: LoginScreen.size.width * 0.07,
+              SizedBox(
+                height: LoginScreen.size.height * 0.03,
               ),
-              child: Text(
-                'Enter your email or username and then your password, If you don\'t have any account it will automatically register your email',
-                style: kBodyTextStyle.copyWith(
-                  color: color,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w300,
+              MyTestField(
+                node: node,
+                hint: 'Email',
+                color: Colors.black,
+                controller: emailController,
+                isLast: true,
+                isPassword: false,
+              ),
+              SizedBox(
+                height: LoginScreen.size.height * 0.012,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: LoginScreen.size.width * 0.07,
+                ),
+                child: Text(
+                  'Enter your email and then your password, If you don\'t have any account it will automatically register your email',
+                  style: kBodyTextStyle.copyWith(
+                    color: color,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w300,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: LoginScreen.size.height * 0.016,
-            ),
-            MyConfirmButton(
-              text: 'Continue',
-              onPressed: () {
-                onContinuePressed();
-              },
-            ),
-            SizedBox(
-              height: LoginScreen.size.height * 0.015,
-            ),
-            Center(
-              child: Text(
-                'or',
-                style: kBodyTextStyle.copyWith(
-                  color: color,
-                  fontWeight: FontWeight.w300,
+              SizedBox(
+                height: LoginScreen.size.height * 0.016,
+              ),
+              MyConfirmButton(
+                text: 'Continue',
+                onPressed: () {
+                  onContinuePressed();
+                },
+              ),
+              SizedBox(
+                height: LoginScreen.size.height * 0.015,
+              ),
+              Center(
+                child: Text(
+                  'or',
+                  style: kBodyTextStyle.copyWith(
+                    color: color,
+                    fontWeight: FontWeight.w300,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: LoginScreen.size.height * 0.015,
-            ),
-            LoginCard(
-              color: Colors.white,
-              borderColor: Colors.black,
-              text: 'Continue with Google',
-              imageAsset: 'assets/images/logo_google.png',
-              onTapped: () {
-                onContinuePressed();
-              },
-            ),
-          ],
+              SizedBox(
+                height: LoginScreen.size.height * 0.015,
+              ),
+              LoginCard(
+                color: Colors.white,
+                borderColor: Colors.black,
+                text: 'Continue with Google',
+                imageAsset: 'assets/images/logo_google.png',
+                onTapped: () {
+                  onContinuePressed();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -156,6 +161,8 @@ class _LoginScreenState extends State<LoginScreen> {
     String email = emailController.text.toString();
     if (isValidated(email)) {
       print(email);
+      showSpinner = true;
+      setState(() {});
       checkEmailExistence(email);
     } else {
       StaticMethods.showErrorDialog(context, 'Bad email format');
@@ -178,6 +185,8 @@ class _LoginScreenState extends State<LoginScreen> {
           'email': email,
         },
       );
+      showSpinner = false;
+      setState(() {});
       print(response.statusCode);
       if (response.statusCode < 400) {
         print(response.body);
@@ -187,12 +196,15 @@ class _LoginScreenState extends State<LoginScreen> {
         showPasswordDialog();
       } else if (response.statusCode == 404) {
         print(response.body);
-        Navigator.pushNamed(context, SignUpScreen.id, arguments: {'email': email});
+        Navigator.pushNamed(context, SignUpScreen.id,
+            arguments: {'email': email});
       } else {
         print(response.statusCode);
         print(response.body);
       }
     } catch (e) {
+      showSpinner = false;
+      setState(() {});
       StaticMethods.printError(e);
     }
   }
@@ -217,6 +229,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   uploadInfo() async {
     print(user.email);
+
     try {
       http.Response response = await StaticMethods.upload(
         url,
@@ -281,10 +294,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.red,
                 text: 'Submit',
                 onPressed: () {
-                  if(checkPasswordValidation()){
+                  if (checkPasswordValidation()) {
                     uploadInfo();
-                  }
-                  else{
+                  } else {
                     // pass
                   }
                 },

@@ -85,17 +85,32 @@ class StaticMethods {
         btnOkColor: Colors.red).show();
   }
 
-  static Future<http.Response> upload(String url, Map map) async{
-    return await http.post(
-      Uri.parse(url),
-      body: convert.jsonEncode(
-          map
-      ),
-      headers: {
-        "Accept": "application/json",
-        "content-type": "application/json"
-      },
-    );
+  static Future<http.Response> upload(String url, Map map, {String vcCode}) async{
+    if(vcCode == null){
+      return await http.post(
+        Uri.parse(url),
+        body: convert.jsonEncode(
+            map
+        ),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json"
+        },
+      );
+    }
+    else{
+      map['vc_code'] = vcCode;
+      return await http.post(
+        Uri.parse(url),
+        body: convert.jsonEncode(
+            map
+        ),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json"
+        },
+      );
+    }
   }
 
   static void printError(e){
