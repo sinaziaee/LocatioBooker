@@ -14,4 +14,4 @@ final kBodyTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
 );
 
-final String mainUrl = '';
+final String mainUrl = 'https://softcheetahs.herokuapp.com';

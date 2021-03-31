@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/verification_screen.dart';
 import 'package:loctio_booker/screens/home/home_screen.dart';
@@ -24,7 +23,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   FocusNode node;
   Color color = Colors.black;
-  String url = '$mainUrl/api/register/';
+  String sendEmailUrl = '$mainUrl/api/account/send-email';
   TextEditingController firstNameController;
   TextEditingController lastNameController;
   TextEditingController passwordController;
@@ -149,96 +148,84 @@ class _SignUpScreenState extends State<SignUpScreen> {
     String password = passwordController.text;
     String rePassword = rePasswordController.text;
     if (firstName.length < 3) {
-      _showDialog('Bad First Name Format');
+      StaticMethods.showErrorDialog(context, 'Bad First Name Format');
       return false;
     } else if (lastName.length < 3) {
-      _showDialog('Bad Last Name Format');
+      StaticMethods.showErrorDialog(context, 'Bad Last Name Format');
       return false;
     } else if (phone.length < 3) {
-      _showDialog('Bad Phone Format');
+      StaticMethods.showErrorDialog(context, 'Bad Phone Format');
       return false;
     } else if (password.length < 3) {
-      _showDialog('Bad Password Format');
+      StaticMethods.showErrorDialog(context, 'Bad Password Format');
       return false;
     } else if (rePassword.length < 3) {
-      _showDialog('Bad RePassword Format');
+      StaticMethods.showErrorDialog(context, 'Bad RePassword Format');
       return false;
     }
-    if (password == rePassword) {
-      _showDialog('Password and Re-Password do not match');
+    if (password != rePassword) {
+      StaticMethods.showErrorDialog(
+          context, 'Password and Re-Password do not match');
       return false;
     }
     user = User(
-        firstName: firstName,
-        lastName: lastName,
-        phone: phone,
-        email: email,
-        password: password,
-        country: country,
-        token: token);
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      email: email,
+      password: password,
+      country: country,
+    );
     return true;
   }
 
   void onContinuePressed() {
-    // if(isValidated()){
-    //   Navigator.pushNamed(context, HomeScreen.id);
-    // }
-    // else{
-    //   // pass
-    // }
-    Navigator.pushNamed(context, VerificationScreen.id);
+    if (isValidated()) {
+      sendVerificationEmail();
+    } else {
+      // pass
+    }
   }
 
-  uploadInfo() async {
+  sendVerificationEmail() async {
     try {
-      http.Response response = await http.post(
-        Uri.parse(url),
-        body: convert.jsonEncode(
-          user.toJson(),
-        ),
+      http.Response response = await StaticMethods.upload(
+        sendEmailUrl,
+        user.toJson(),
       );
+      print('statusCode: ${response.statusCode}');
       if (response.statusCode < 400) {
-        StaticMethods.showSuccessDialog(
-            context, 'Your are logged in successfully');
         var jsonResponse =
             convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
         print(jsonResponse);
-        // saveInfo();
+        SignUpScreen.theCode = jsonResponse['vc_code'];
+        Navigator.pushNamed(context, VerificationScreen.id);
       } else {
         StaticMethods.showErrorDialog(
-            context, 'An Error happened while logging in');
+            context, 'An Error happened while signing up');
         print(response.body);
       }
     } catch (e) {
-      print('sth went wrong with: $e');
+      StaticMethods.printError(e.toString());
     }
   }
 
   saveInfo() async {
-    await StaticMethods.saveToPreferences(
-      firstName: user.firstName,
-      lastName: user.lastName,
-      token: user.token,
-      email: user.email,
-      password: user.password,
-      phone: user.phone,
-      country: user.country,
-    );
-  }
-
-  _showDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CustomDialog(
-          color: color,
-          text: 'OK !!!',
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          message: message,
-        );
+    await StaticMethods.saveToPreferences(user);
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      HomeScreen.id,
+      (route) => false,
+      arguments: {
+        'user': user,
       },
     );
+    // Navigator.pushNamed(
+    //   context,
+    //   VerificationScreen.id,
+    //   arguments: {
+    //     'user': user,
+    //   },
+    // );
   }
 }

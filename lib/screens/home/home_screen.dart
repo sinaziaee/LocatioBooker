@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 
@@ -14,13 +16,23 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
   Color color;
+  Map args;
+  User user;
+  String token;
 
   Widget bodyContainer(int index) {
     if (index == 0) {
       return CustomScrollView(
         slivers: [
           SliverAppBar(
-            
+            actions: [
+              IconButton(
+                icon: Icon(Icons.exit_to_app),
+                onPressed: () {
+                  logOut();
+                },
+              ),
+            ],
           ),
         ],
       );
@@ -65,6 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    args = ModalRoute.of(context).settings.arguments;
+    user = args['user'];
+    token = user.token;
     return Scaffold(
       body: SafeArea(
         child: bodyContainer(selectedIndex),
@@ -133,4 +148,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  logOut() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    Navigator.popAndPushNamed(context, LoginScreen.id);
+  }
+
 }

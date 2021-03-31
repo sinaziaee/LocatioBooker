@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
+import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/components/confirm_button.dart';
 import 'package:loctio_booker/screens/authentication/components/my_textfield.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/home/home_screen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+
+import 'package:loctio_booker/static_methods.dart';
 
 class VerificationScreen extends StatefulWidget {
   static String id = 'verification_screen';
@@ -15,17 +20,19 @@ class VerificationScreen extends StatefulWidget {
 
 class _VerificationScreenState extends State<VerificationScreen>
     with SingleTickerProviderStateMixin {
+  String url = '$mainUrl/api/account/register';
+  String sendEmailUrl = '$mainUrl/api/account/send-email';
   String code = '';
-  int theCode = SignUpScreen.theCode;
   int verifTime = 180;
   AnimationController controller;
   Animation<double> animation;
   int progress = 0;
   FocusNode node;
-  Map arguments;
-
+  Map args;
+  User user;
   TextEditingController verificationController;
   Color color = Colors.black;
+
   @override
   void initState() {
     reset();
@@ -51,20 +58,22 @@ class _VerificationScreenState extends State<VerificationScreen>
 
   void reset() {
     Future.delayed(
-        Duration(
-          seconds: verifTime,
-        ), () {
-      theCode = null;
-      SignUpScreen.theCode = null;
-      print(theCode);
-    });
+      Duration(
+        seconds: verifTime,
+      ),
+      () {
+        SignUpScreen.theCode = null;
+        sendVerificationCode();
+        print('signUpCode was resat to: ${SignUpScreen.theCode}');
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     node = FocusScope.of(context);
-    arguments = ModalRoute.of(context).settings.arguments as Map;
-
+    args = ModalRoute.of(context).settings.arguments as Map;
+    user = args['user'];
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -120,7 +129,7 @@ class _VerificationScreenState extends State<VerificationScreen>
             children: [
               Expanded(
                 child: MyConfirmButton(
-                  onPressed: (){
+                  onPressed: () {
                     onResetPressed();
                   },
                   text: 'Reset',
@@ -129,7 +138,7 @@ class _VerificationScreenState extends State<VerificationScreen>
               ),
               Expanded(
                 child: MyConfirmButton(
-                  onPressed: (){
+                  onPressed: () {
                     onCancelPressed();
                   },
                   text: 'Cancel',
@@ -143,13 +152,76 @@ class _VerificationScreenState extends State<VerificationScreen>
     );
   }
 
-  void onCancelPressed(){
+  void onCancelPressed() {
     Navigator.pop(context);
   }
 
-  void onResetPressed(){
-    // reset();
-    Navigator.pushNamed(context, HomeScreen.id);
+  void onResetPressed() {
+    reset();
+    // Navigator.pushNamed(context, HomeScreen.id);
   }
 
+  uploadInfo() async {
+    try {
+      http.Response response = await StaticMethods.upload(
+        url,
+        user.toJson(),
+      );
+      print('statusCode: ${response.statusCode}');
+      if (response.statusCode < 400) {
+        var jsonResponse =
+            convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+        print(jsonResponse);
+        user = User.fromJson(jsonResponse);
+        saveInfo();
+      } else {
+        StaticMethods.showErrorDialog(
+            context, 'An Error happened while signing up');
+        print(response.body);
+      }
+    } catch (e) {
+      StaticMethods.printError(e.toString());
+    }
+  }
+
+  saveInfo() async {
+    await StaticMethods.saveToPreferences(user);
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      HomeScreen.id,
+          (route) => false,
+      arguments: {
+        'user': user,
+      },
+    );
+    // Navigator.pushNamed(
+    //   context,
+    //   VerificationScreen.id,
+    //   arguments: {
+    //     'user': user,
+    //   },
+    // );
+  }
+
+  sendVerificationCode() async {
+    try {
+      http.Response response = await StaticMethods.upload(
+        sendEmailUrl,
+        user.toJson(),
+      );
+      print('statusCode: ${response.statusCode}');
+      if (response.statusCode < 400) {
+        var jsonResponse =
+            convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+        print(jsonResponse);
+        SignUpScreen.theCode = jsonResponse['vc_code'];
+      } else {
+        StaticMethods.showErrorDialog(
+            context, 'An Error happened while signing up');
+        print(response.body);
+      }
+    } catch (e) {
+      StaticMethods.printError(e.toString());
+    }
+  }
 }
