@@ -21,6 +21,7 @@ class MyTestFieldWithoutNode extends StatelessWidget {
         vertical: LoginScreen.size.height * 0.005
       ),
       child: TextFormField(
+        controller: controller,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(
             bottom: LoginScreen.size.height * 0.03,

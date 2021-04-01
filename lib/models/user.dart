@@ -1,14 +1,15 @@
 class User {
-  String firstName, lastName, phone, email, password, country, token;
+  String firstName, lastName, phone, email, password, country, token, nationalCode;
 
   User({this.firstName, this.lastName, this.phone, this.email, this.password,
-      this.country, this.token});
+      this.country, this.token, nationalCode});
 
   User.fromJson(Map<String, dynamic> json) {
-    firstName = json['firstName'];
-    lastName = json['lastName'];
-    country = json['country'];
-    phone = json['phone'];
+    firstName = json['first_name'];
+    lastName = json['last_name'];
+    country = json['country'] ?? 'Iran';
+    nationalCode = json['national_code'];
+    phone = json['phone_number'];
     email = json['email'];
     password = json['password'];
     token = json['token'];
@@ -16,12 +17,13 @@ class User {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['firstName'] = this.firstName;
-    data['lastName'] = this.lastName;
+    data['first_name'] = this.firstName;
+    data['last_name'] = this.lastName;
     data['email'] = this.email;
     data['password'] = this.password;
-    data['phone'] = this.phone;
+    data['phone_number'] = this.phone;
     data['country'] = this.country;
+    data['national_code'] = this.country;
     data['token'] = this.token;
     return data;
   }

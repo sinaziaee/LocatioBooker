@@ -1,42 +1,37 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 import 'models/user.dart';
 
 class StaticMethods {
   static Future<void> saveToPreferences(
-      {String firstName,
-      String lastName,
-      String token,
-      String email,
-      String country,
-      String password,
-      String phone}) async {
+      User user) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (firstName != null) {
-      preferences.setString("firstName", firstName);
+    if (user.firstName != null) {
+      preferences.setString("firstName", user.firstName);
     }
-    if (lastName != null) {
-      preferences.setString("lastName", lastName);
+    if (user.lastName != null) {
+      preferences.setString("lastName", user.lastName);
     }
-    if (country != null) {
-      preferences.setString("country", country);
+    if (user.country != null) {
+      preferences.setString("country", user.country);
     }
-    if (token != null) {
-      preferences.setString("token", token);
+    if (user.token != null) {
+      preferences.setString("token", user.token);
     }
-    if (password != null) {
-      preferences.setString("password", password);
+    if (user.password != null) {
+      preferences.setString("password", user.password);
     }
-    if (email != null) {
-      preferences.setString("email", email);
+    if (user.email != null) {
+      preferences.setString("email", user.email);
     }
-    if (phone != null) {
-      preferences.setString("phone", phone);
+    if (user.phone != null) {
+      preferences.setString("phone", user.phone);
     }
-    if (token != null) {
-      preferences.setString("token", token);
+    if (user.token != null) {
+      preferences.setString("token", user.token);
     }
   }
 
@@ -88,6 +83,38 @@ class StaticMethods {
         btnOkOnPress: () {},
         btnOkIcon: Icons.close,
         btnOkColor: Colors.red).show();
+  }
+
+  static Future<http.Response> upload(String url, Map map, {String vcCode}) async{
+    if(vcCode == null){
+      return await http.post(
+        Uri.parse(url),
+        body: convert.jsonEncode(
+            map
+        ),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json"
+        },
+      );
+    }
+    else{
+      map['vc_code'] = vcCode;
+      return await http.post(
+        Uri.parse(url),
+        body: convert.jsonEncode(
+            map
+        ),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json"
+        },
+      );
+    }
+  }
+
+  static void printError(e){
+    print('myError: ${e.toString()}');
   }
 
 }

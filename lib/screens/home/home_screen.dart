@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/profile/settings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../constants.dart';
 
@@ -21,7 +22,14 @@ class _HomeScreenState extends State<HomeScreen> {
       return CustomScrollView(
         slivers: [
           SliverAppBar(
-            
+            actions: [
+              IconButton(
+                icon: Icon(Icons.exit_to_app),
+                onPressed: () {
+                  logOut();
+                },
+              ),
+            ],
           ),
         ],
       );
@@ -139,5 +147,11 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: selectedIndex,
       ),
     );
+  }
+
+  logOut() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    Navigator.popAndPushNamed(context, LoginScreen.id);
   }
 }

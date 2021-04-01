@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/verification_screen.dart';
 import 'package:loctio_booker/screens/home/home_screen.dart';
 import 'package:loctio_booker/static_methods.dart';
 import 'package:http/http.dart' as http;
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'dart:convert' as convert;
 import '../../constants.dart';
 import '../../components/custom_dialog.dart';
@@ -24,7 +24,7 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   FocusNode node;
   Color color = Colors.black;
-  String url = '$mainUrl/api/register/';
+  String sendEmailUrl = '$mainUrl/api/account/send-email';
   TextEditingController firstNameController;
   TextEditingController lastNameController;
   TextEditingController passwordController;
@@ -34,6 +34,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String email, country, token;
   Map args;
   User user;
+
+  bool showSpinner = false;
 
   @override
   void initState() {
@@ -62,80 +64,84 @@ class _SignUpScreenState extends State<SignUpScreen> {
     email = args['email'];
     print('e: $email');
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: LoginScreen.size.height * 0.03,
-              ),
-              Text(
-                (email.length != 0) ? email : 'Email here',
-                style: kBodyTextStyle.copyWith(
-                  color: Colors.grey,
+      body: ModalProgressHUD(
+        progressIndicator: kMyProgressIndicator,
+        inAsyncCall: showSpinner,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: LoginScreen.size.height * 0.1,
                 ),
-              ),
-              SizedBox(
-                height: LoginScreen.size.height * 0.03,
-              ),
-              MyTestField(
-                node: node,
-                hint: 'First Name',
-                color: Colors.black,
-                controller: firstNameController,
-                isLast: false,
-                isPassword: false,
-              ),
-              SizedBox(
-                height: LoginScreen.size.height * 0.03,
-              ),
-              MyTestField(
-                node: node,
-                hint: 'Last Name',
-                color: Colors.black,
-                controller: lastNameController,
-                isLast: false,
-                isPassword: false,
-              ),
-              SizedBox(
-                height: LoginScreen.size.height * 0.03,
-              ),
-              MyTestField(
-                node: node,
-                hint: 'Password',
-                color: Colors.black,
-                controller: passwordController,
-                isLast: false,
-                isPassword: false,
-              ),
-              SizedBox(
-                height: LoginScreen.size.height * 0.03,
-              ),
-              MyTestField(
-                node: node,
-                hint: 'Re-Password',
-                color: Colors.black,
-                controller: rePasswordController,
-                isLast: true,
-                isPassword: false,
-              ),
-              SizedBox(
-                height: LoginScreen.size.height * 0.03,
-              ),
-              PhoneTextField(
-                phoneController: phoneController,
-                color: color,
-              ),
-              SizedBox(
-                height: LoginScreen.size.height * 0.06,
-              ),
-              MyConfirmButton(
-                onPressed: () {
-                  onContinuePressed();
-                },
-                text: 'Submit',
-              ),
-            ],
+                Text(
+                  (email.length != 0) ? email : 'Email here',
+                  style: kBodyTextStyle.copyWith(
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(
+                  height: LoginScreen.size.height * 0.03,
+                ),
+                MyTestField(
+                  node: node,
+                  hint: 'First Name',
+                  color: Colors.black,
+                  controller: firstNameController,
+                  isLast: false,
+                  isPassword: false,
+                ),
+                SizedBox(
+                  height: LoginScreen.size.height * 0.03,
+                ),
+                MyTestField(
+                  node: node,
+                  hint: 'Last Name',
+                  color: Colors.black,
+                  controller: lastNameController,
+                  isLast: false,
+                  isPassword: false,
+                ),
+                SizedBox(
+                  height: LoginScreen.size.height * 0.03,
+                ),
+                MyTestField(
+                  node: node,
+                  hint: 'Password',
+                  color: Colors.black,
+                  controller: passwordController,
+                  isLast: false,
+                  isPassword: false,
+                ),
+                SizedBox(
+                  height: LoginScreen.size.height * 0.03,
+                ),
+                MyTestField(
+                  node: node,
+                  hint: 'Re-Password',
+                  color: Colors.black,
+                  controller: rePasswordController,
+                  isLast: true,
+                  isPassword: false,
+                ),
+                SizedBox(
+                  height: LoginScreen.size.height * 0.03,
+                ),
+                PhoneTextField(
+                  phoneController: phoneController,
+                  color: color,
+                ),
+                SizedBox(
+                  height: LoginScreen.size.height * 0.06,
+                ),
+                MyConfirmButton(
+                  onPressed: () {
+                    onContinuePressed();
+                  },
+                  text: 'Submit',
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -149,96 +155,78 @@ class _SignUpScreenState extends State<SignUpScreen> {
     String password = passwordController.text;
     String rePassword = rePasswordController.text;
     if (firstName.length < 3) {
-      _showDialog('Bad First Name Format');
+      StaticMethods.showErrorDialog(context, 'Bad First Name Format');
       return false;
     } else if (lastName.length < 3) {
-      _showDialog('Bad Last Name Format');
+      StaticMethods.showErrorDialog(context, 'Bad Last Name Format');
       return false;
     } else if (phone.length < 3) {
-      _showDialog('Bad Phone Format');
+      StaticMethods.showErrorDialog(context, 'Bad Phone Format');
       return false;
     } else if (password.length < 3) {
-      _showDialog('Bad Password Format');
+      StaticMethods.showErrorDialog(context, 'Bad Password Format');
       return false;
     } else if (rePassword.length < 3) {
-      _showDialog('Bad RePassword Format');
+      StaticMethods.showErrorDialog(context, 'Bad RePassword Format');
       return false;
     }
-    if (password == rePassword) {
-      _showDialog('Password and Re-Password do not match');
+    if (password != rePassword) {
+      StaticMethods.showErrorDialog(
+          context, 'Password and Re-Password do not match');
       return false;
     }
     user = User(
-        firstName: firstName,
-        lastName: lastName,
-        phone: phone,
-        email: email,
-        password: password,
-        country: country,
-        token: token);
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      email: email,
+      password: password,
+      country: country ?? 'US',
+    );
     return true;
   }
 
   void onContinuePressed() {
-    // if(isValidated()){
-    //   Navigator.pushNamed(context, HomeScreen.id);
-    // }
-    // else{
-    //   // pass
-    // }
-    Navigator.pushNamed(context, VerificationScreen.id);
-  }
-
-  uploadInfo() async {
-    try {
-      http.Response response = await http.post(
-        Uri.parse(url),
-        body: convert.jsonEncode(
-          user.toJson(),
-        ),
-      );
-      if (response.statusCode < 400) {
-        StaticMethods.showSuccessDialog(
-            context, 'Your are logged in successfully');
-        var jsonResponse =
-            convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
-        print(jsonResponse);
-        // saveInfo();
-      } else {
-        StaticMethods.showErrorDialog(
-            context, 'An Error happened while logging in');
-        print(response.body);
-      }
-    } catch (e) {
-      print('sth went wrong with: $e');
+    if (isValidated()) {
+      showSpinner = true;
+      setState(() {});
+      sendVerificationEmail();
+    } else {
+      // pass
     }
   }
 
-  saveInfo() async {
-    await StaticMethods.saveToPreferences(
-      firstName: user.firstName,
-      lastName: user.lastName,
-      token: user.token,
-      email: user.email,
-      password: user.password,
-      phone: user.phone,
-      country: user.country,
-    );
-  }
-
-  _showDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CustomDialog(
-          color: color,
-          text: 'OK !!!',
-          onPressed: () {
-            Navigator.pop(context);
+  sendVerificationEmail() async {
+    print(user.toJson().toString());
+    try {
+      http.Response response = await StaticMethods.upload(
+        sendEmailUrl,
+        user.toJson(),
+      );
+      showSpinner = false;
+      setState(() {});
+      print('statusCode: ${response.statusCode}');
+      if (response.statusCode < 400) {
+        var jsonResponse =
+        convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+        print(response.body);
+        SignUpScreen.theCode = jsonResponse['vc_code'];
+        Navigator.pushNamed(
+          context,
+          VerificationScreen.id,
+          arguments: {
+            'user': user,
           },
-          message: message,
         );
-      },
-    );
+      } else {
+        StaticMethods.showErrorDialog(
+            context, 'An Error happened while signing up');
+        print(response.body);
+      }
+    } catch (e) {
+      showSpinner = false;
+      setState(() {});
+      StaticMethods.printError(e.toString());
+    }
   }
 }

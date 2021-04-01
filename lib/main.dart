@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/authentication/verification_screen.dart';
+import 'package:loctio_booker/screens/profile/profile.dart';
 import 'package:loctio_booker/screens/profile/settings.dart';
+import 'package:loctio_booker/screens/profile/personalInformation.dart';
 
 import 'screens/authentication/login_screen.dart';
 import 'screens/home/home_screen.dart';
@@ -22,6 +24,8 @@ class MyApp extends StatelessWidget {
         SignUpScreen.id: (context) => SignUpScreen(),
         VerificationScreen.id: (context) => VerificationScreen(),
         Settings.id : (context) => Settings(),
+        profile.id : (context) => profile(),
+        personalInformation.id : (context) => personalInformation()
       },
     );
   }
