@@ -72,7 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: LoginScreen.size.height * 0.03,
+                  height: LoginScreen.size.height * 0.1,
                 ),
                 Text(
                   (email.length != 0) ? email : 'Email here',
@@ -197,6 +197,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   sendVerificationEmail() async {
+    print(user.toJson().toString());
     try {
       http.Response response = await StaticMethods.upload(
         sendEmailUrl,

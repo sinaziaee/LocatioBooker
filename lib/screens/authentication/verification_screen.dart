@@ -80,137 +80,138 @@ class _VerificationScreenState extends State<VerificationScreen>
     args = ModalRoute.of(context).settings.arguments as Map;
     user = args['user'];
     return Scaffold(
-      body: ModalProgressHUD(
-        progressIndicator: kMyProgressIndicator,
-        inAsyncCall: showSpinner,
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              // mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: LoginScreen.size.height * 0.1,
+        body: ModalProgressHUD(
+      progressIndicator: kMyProgressIndicator,
+      inAsyncCall: showSpinner,
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            // mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: LoginScreen.size.height * 0.1,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: LoginScreen.size.width * 0.04,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: LoginScreen.size.width * 0.04,
-                  ),
-                  child: Text(
-                    'Please Enter a verification code',
-                    style: kBodyTextStyle,
-                  ),
+                child: Text(
+                  'Please Enter a verification code',
+                  style: kBodyTextStyle,
                 ),
-                SizedBox(
-                  height: LoginScreen.size.height * 0.03,
-                ),
-                MyTestField(
-                  color: color,
-                  controller: verificationController,
-                  isPassword: false,
-                  isLast: true,
-                  node: node,
-                  hint: 'Verification Code',
-                ),
-                SizedBox(
-                  height: LoginScreen.size.height * 0.03,
-                ),
-                MyConfirmButton(
-                  color: (progress != verifTime) ? Colors.red : Colors.redAccent[100],
-                  onPressed: () {
-                    typedCode = verificationController.text;
-                    if (typedCode.length == 0) {
-                      StaticMethods.showErrorDialog(
-                          context, 'Please type the code first');
-                      return;
-                    }
-                    if (typedCode != SignUpScreen.theCode.toString()) {
-                      StaticMethods.showErrorDialog(
-                          context, 'Wrong verification code');
-                      return;
-                    }
-                    showSpinner = true;
-                    setState(() {});
-                    uploadInfo();
-                  },
-                  text: 'Continue',
-                ),
-                SizedBox(
-                  height: LoginScreen.size.height * 0.04,
-                ),
-                Center(
-                  child: (progress != verifTime)
-                      ? Text(
-                    'Remaining time: ${verifTime - progress}s',
-                    style: kBodyTextStyle.copyWith(fontSize: 16),
-                  )
-                      : Text(
-                    'Code was Expired',
-                    style: kBodyTextStyle.copyWith(
-                        fontSize: 16, color: Colors.grey),
-                  ),
-                ),
-                SizedBox(
-                  height: LoginScreen.size.height * 0.03,
-                ),
-                (progress != verifTime)
-                    ? Theme(
-                  data: ThemeData(
-                    accentColor: Colors.red,
-                  ),
-                  child: Container(
-                    child: Center(
-                      child: SizedBox(
-                        height: 200,
-                        width: 200,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 10,
-                          value: animation.value,
-                          backgroundColor: Colors.grey,
+              ),
+              SizedBox(
+                height: LoginScreen.size.height * 0.03,
+              ),
+              MyTestField(
+                color: color,
+                controller: verificationController,
+                isPassword: false,
+                isLast: true,
+                node: node,
+                hint: 'Verification Code',
+              ),
+              SizedBox(
+                height: LoginScreen.size.height * 0.03,
+              ),
+              MyConfirmButton(
+                color: (progress != verifTime)
+                    ? Colors.red
+                    : Colors.redAccent[100],
+                onPressed: () {
+                  typedCode = verificationController.text;
+                  if (typedCode.length == 0) {
+                    StaticMethods.showErrorDialog(
+                        context, 'Please type the code first');
+                    return;
+                  }
+                  if (typedCode != SignUpScreen.theCode.toString()) {
+                    StaticMethods.showErrorDialog(
+                        context, 'Wrong verification code');
+                    return;
+                  }
+                  showSpinner = true;
+                  setState(() {});
+                  uploadInfo();
+                },
+                text: 'Continue',
+              ),
+              SizedBox(
+                height: LoginScreen.size.height * 0.04,
+              ),
+              Center(
+                child: (progress != verifTime)
+                    ? Text(
+                        'Remaining time: ${verifTime - progress}s',
+                        style: kBodyTextStyle.copyWith(fontSize: 16),
+                      )
+                    : Text(
+                        'Code was Expired',
+                        style: kBodyTextStyle.copyWith(
+                            fontSize: 16, color: Colors.grey),
+                      ),
+              ),
+              SizedBox(
+                height: LoginScreen.size.height * 0.03,
+              ),
+              (progress != verifTime)
+                  ? Theme(
+                      data: ThemeData(
+                        accentColor: Colors.red,
+                      ),
+                      child: Container(
+                        child: Center(
+                          child: SizedBox(
+                            height: 200,
+                            width: 200,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 10,
+                              value: animation.value,
+                              backgroundColor: Colors.grey,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                )
-                    : Center(
-                  child: Icon(
-                    Icons.timer_off_outlined,
-                    color: Colors.redAccent[100],
-                    size: 200,
-                  ),
-                ),
-                SizedBox(
-                  height: LoginScreen.size.height * 0.04,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: MyConfirmButton(
-                        onPressed: () {
-                          onResetPressed();
-                        },
-                        text: 'Reset',
-                        color: (progress != verifTime)? Colors.grey : Colors.red,
+                    )
+                  : Center(
+                      child: Icon(
+                        Icons.timer_off_outlined,
+                        color: Colors.redAccent[100],
+                        size: 200,
                       ),
                     ),
-                    Expanded(
-                      child: MyConfirmButton(
-                        onPressed: () {
-                          onCancelPressed();
-                        },
-                        text: 'Cancel',
-                        color: Colors.red,
-                      ),
+              SizedBox(
+                height: LoginScreen.size.height * 0.04,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: MyConfirmButton(
+                      onPressed: () {
+                        onResetPressed();
+                      },
+                      text: 'Reset',
+                      color: (progress != verifTime) ? Colors.grey : Colors.red,
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                  Expanded(
+                    child: MyConfirmButton(
+                      onPressed: () {
+                        onCancelPressed();
+                      },
+                      text: 'Cancel',
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
-      )
-    );
+      ),
+    ));
   }
 
   void onCancelPressed() {
@@ -218,10 +219,9 @@ class _VerificationScreenState extends State<VerificationScreen>
   }
 
   void onResetPressed() {
-    if(progress != verifTime){
+    if (progress != verifTime) {
       // pass
-    }
-    else{
+    } else {
       showSpinner = true;
       setState(() {});
       SignUpScreen.theCode = null;
