@@ -263,7 +263,7 @@ class _VerificationScreenState extends State<VerificationScreen>
     Navigator.pushNamedAndRemoveUntil(
       context,
       HomeScreen.id,
-      (route) => false,
+          (route) => false,
       arguments: {
         'user': user,
       },

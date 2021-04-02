@@ -148,6 +148,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+
   bool isValidated() {
     String firstName = firstNameController.text;
     String lastName = lastNameController.text;
@@ -185,7 +186,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
     return true;
   }
-
   void onContinuePressed() {
     if (isValidated()) {
       showSpinner = true;

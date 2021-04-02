@@ -4,6 +4,7 @@ import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/screens/authentication/components/my_textfield.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/profile/personalInformation.dart';
+import 'package:loctio_booker/screens/profile/termsAggrements.dart';
 
 
 class Settings extends StatefulWidget {
@@ -137,6 +138,7 @@ class _SettingsState extends State<Settings> {
               title: Text('Terms & Aggrements' ,
                 style: kBodyTextStyle,
               ),
+              onTap: (){Navigator.popAndPushNamed(context, termsAggrements.id);},
               trailing: Icon(Icons.more_vert),
               leading: Icon(Icons.laptop_windows),
             ),
