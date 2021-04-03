@@ -14,7 +14,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class LoginScreen extends StatefulWidget {
-  static Size size;
   static String id = 'login_screen';
 
   @override
@@ -29,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   User user;
   String url = '$mainUrl/api/account/login';
   String checkExistenceUrl = '$mainUrl/api/account/check-existence';
-
+  Size size;
   getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('token')) {
@@ -67,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     node = FocusScope.of(context);
-    LoginScreen.size = MediaQuery.of(context).size;
+    size = MediaQuery.of(context).size;
     return Scaffold(
       body: ModalProgressHUD(
         progressIndicator: kMyProgressIndicator,
@@ -77,11 +76,11 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: LoginScreen.size.height * 0.1,
+                height: size.height * 0.1,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: LoginScreen.size.width * 0.06,
+                  horizontal: size.width * 0.06,
                 ),
                 child: Text(
                   'Log in or Sign up to Locatio',
@@ -91,9 +90,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(
-                height: LoginScreen.size.height * 0.03,
+                height: size.height * 0.03,
               ),
               MyTestField(
+                size: size,
                 node: node,
                 hint: 'Email',
                 color: Colors.black,
@@ -102,11 +102,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 isPassword: false,
               ),
               SizedBox(
-                height: LoginScreen.size.height * 0.012,
+                height: size.height * 0.012,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: LoginScreen.size.width * 0.07,
+                  horizontal: size.width * 0.07,
                 ),
                 child: Text(
                   'Enter your email and then your password, If you don\'t have any account it will automatically register your email',
@@ -118,16 +118,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(
-                height: LoginScreen.size.height * 0.016,
+                height: size.height * 0.016,
               ),
               MyConfirmButton(
+                size: size,
                 text: 'Continue',
                 onPressed: () {
                   onContinuePressed();
                 },
               ),
               SizedBox(
-                height: LoginScreen.size.height * 0.015,
+                height: size.height * 0.015,
               ),
               Center(
                 child: Text(
@@ -139,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(
-                height: LoginScreen.size.height * 0.015,
+                height: size.height * 0.015,
               ),
               LoginCard(
                 color: Colors.white,
@@ -149,6 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onTapped: () {
                   onContinuePressed();
                 },
+                size: size,
               ),
             ],
           ),
@@ -283,6 +285,7 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               MyTestFieldWithoutNode(
+                size: size,
                 hint: 'Password',
                 isPassword: true,
                 isLast: true,
@@ -290,9 +293,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.black,
               ),
               SizedBox(
-                height: LoginScreen.size.height * 0.05,
+                height: size.height * 0.05,
               ),
               MyConfirmButton(
+                size: size,
                 color: Colors.red,
                 text: 'Submit',
                 onPressed: () {

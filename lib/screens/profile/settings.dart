@@ -2,22 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
-import 'package:loctio_booker/screens/authentication/components/my_textfield.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/profile/personal_information_screen.dart';
 import 'package:loctio_booker/screens/profile/terms_aggrements_screen.dart';
 
 import '../../static_methods.dart';
 
-
 class Settings extends StatefulWidget {
   static String id = 'setting_page';
   User user;
+  Size size;
 
   Settings();
-  Settings.user(User user){ this.user = user; }
 
-
+  Settings.user(User user, Size size) {
+    this.user = user;
+    this.size = size;
+  }
 
   @override
   _SettingsState createState() => _SettingsState();
@@ -27,8 +28,7 @@ class _SettingsState extends State<Settings> {
   FocusNode node;
   Color color = Colors.black;
 
-  String firstName , lastName;
-
+  String firstName, lastName;
 
   TextEditingController firstNameController;
   TextEditingController lastNameController;
@@ -42,7 +42,8 @@ class _SettingsState extends State<Settings> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit personal information' ,
+        title: Text(
+          'Edit personal information',
           style: kHeaderTextStyle,
         ),
       ),
@@ -50,109 +51,129 @@ class _SettingsState extends State<Settings> {
         child: Column(
           children: [
             SizedBox(
-              height : LoginScreen.size.height * 0.01,
-              width: LoginScreen.size.width * 0.01,
+              height: widget.size.height * 0.01,
+              width: widget.size.width * 0.01,
             ),
             Row(
               children: [
-                SizedBox(width: 10,),
+                SizedBox(
+                  width: 10,
+                ),
                 CircleAvatar(),
-                SizedBox(width: 20,) ,
-                Column(
-                    children : [
-                      Text(widget.user.firstName + ' ' + widget.user.lastName , style: kHeaderTextStyle,) ,
-                      TextButton(
-                          onPressed: (){Navigator.popAndPushNamed(context, LoginScreen.id);},
-                          child: Text('View Profile') ,
-
-                      )
-
-                    ]) ,
-
+                SizedBox(
+                  width: 20,
+                ),
+                Column(children: [
+                  Text(
+                    widget.user.firstName + ' ' + widget.user.lastName,
+                    style: kHeaderTextStyle,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.popAndPushNamed(context, LoginScreen.id);
+                    },
+                    child: Text('View Profile'),
+                  )
+                ]),
               ],
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             ListTile(
-             title: Text('Account Settings' ,
-              style: kBodyTextStyle,
-             ),
-             leading: Icon(Icons.person),
+              title: Text(
+                'Account Settings',
+                style: kBodyTextStyle,
+              ),
+              leading: Icon(Icons.person),
               trailing: SizedBox(),
-           ) ,
+            ),
             ListTile(
-              onTap: (){Navigator.pushNamed(context, personalInformation.id);},
-              title: Text('Personal information' ,
+              onTap: () {
+                Navigator.pushNamed(context, personalInformation.id);
+              },
+              title: Text(
+                'Personal information',
                 style: kBodyTextStyle,
               ),
               leading: Icon(Icons.accessibility),
               trailing: SizedBox(),
-
             ),
             ListTile(
-              title: Text('Hosting' ,
+              title: Text(
+                'Hosting',
                 style: kBodyTextStyle,
               ),
               trailing: Icon(Icons.more_vert),
               leading: Icon(Icons.home),
             ),
             ListTile(
-              title: Text('Payment' ,
+              title: Text(
+                'Payment',
                 style: kBodyTextStyle,
               ),
               leading: Icon(Icons.money),
               trailing: Icon(Icons.more_vert),
-            ) ,
+            ),
             ListTile(
-              title: Text('List your place' ,
+              title: Text(
+                'List your place',
                 style: kBodyTextStyle,
               ),
               trailing: Icon(Icons.more_vert),
               leading: Icon(Icons.place),
             ),
             ListTile(
-              title: Text('Security' ,
+              title: Text(
+                'Security',
                 style: kBodyTextStyle,
               ),
               trailing: Icon(Icons.more_vert),
               leading: Icon(Icons.security),
             ),
             ListTile(
-              title: Text('Update your password' ,
+              title: Text(
+                'Update your password',
                 style: kBodyTextStyle,
               ),
               trailing: Icon(Icons.more_vert),
               leading: Icon(Icons.history),
             ),
             ListTile(
-              title: Text('Manage Connected Apps' ,
+              title: Text(
+                'Manage Connected Apps',
                 style: kBodyTextStyle,
               ),
               trailing: Icon(Icons.more_vert),
               leading: Icon(Icons.app_blocking),
             ),
             ListTile(
-              title: Text('Help' ,
+              title: Text(
+                'Help',
                 style: kBodyTextStyle,
               ),
               trailing: Icon(Icons.more_vert),
               leading: Icon(Icons.help_center_sharp),
             ),
             ListTile(
-              title: Text('Asked Questions' ,
+              title: Text(
+                'Asked Questions',
                 style: kBodyTextStyle,
               ),
               trailing: Icon(Icons.more_vert),
               leading: Icon(Icons.question_answer),
             ),
             ListTile(
-              title: Text('Terms & Aggrements' ,
+              title: Text(
+                'Terms & Aggrements',
                 style: kBodyTextStyle,
               ),
-              onTap: (){Navigator.popAndPushNamed(context, termsAggrements.id);},
+              onTap: () {
+                Navigator.popAndPushNamed(context, termsAggrements.id);
+              },
               trailing: Icon(Icons.more_vert),
               leading: Icon(Icons.laptop_windows),
             ),
-
           ],
         ),
       ),

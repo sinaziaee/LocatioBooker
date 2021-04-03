@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/verification_screen.dart';
-import 'package:loctio_booker/screens/home/home_screen.dart';
 import 'package:loctio_booker/static_methods.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'dart:convert' as convert;
 import '../../constants.dart';
-import '../../components/custom_dialog.dart';
 import 'components/confirm_button.dart';
 import 'components/my_textfield.dart';
 import 'components/phone_textfield.dart';
-import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   static String id = 'sign_up_screen';
@@ -30,7 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController passwordController;
   TextEditingController rePasswordController;
   TextEditingController phoneController;
-
+  Size size;
   String email, country, token;
   Map args;
   User user;
@@ -62,6 +59,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     node = FocusScope.of(context);
     args = ModalRoute.of(context).settings.arguments;
     email = args['email'];
+    size = MediaQuery.of(context).size;
     print('e: $email');
     return Scaffold(
       body: ModalProgressHUD(
@@ -72,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: LoginScreen.size.height * 0.1,
+                  height: size.height * 0.1,
                 ),
                 Text(
                   (email.length != 0) ? email : 'Email here',
@@ -81,9 +79,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: LoginScreen.size.height * 0.03,
+                  height: size.height * 0.03,
                 ),
                 MyTestField(
+                  size: size,
                   node: node,
                   hint: 'First Name',
                   color: Colors.black,
@@ -92,9 +91,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   isPassword: false,
                 ),
                 SizedBox(
-                  height: LoginScreen.size.height * 0.03,
+                  height: size.height * 0.03,
                 ),
                 MyTestField(
+                  size: size,
                   node: node,
                   hint: 'Last Name',
                   color: Colors.black,
@@ -103,7 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   isPassword: false,
                 ),
                 SizedBox(
-                  height: LoginScreen.size.height * 0.03,
+                  height: size.height * 0.03,
                 ),
                 MyTestField(
                   node: node,
@@ -112,11 +112,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: passwordController,
                   isLast: false,
                   isPassword: false,
+                  size: size,
                 ),
                 SizedBox(
-                  height: LoginScreen.size.height * 0.03,
+                  height: size.height * 0.03,
                 ),
                 MyTestField(
+                  size: size,
                   node: node,
                   hint: 'Re-Password',
                   color: Colors.black,
@@ -125,16 +127,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   isPassword: false,
                 ),
                 SizedBox(
-                  height: LoginScreen.size.height * 0.03,
+                  height: size.height * 0.03,
                 ),
                 PhoneTextField(
+                  size: size,
                   phoneController: phoneController,
                   color: color,
                 ),
                 SizedBox(
-                  height: LoginScreen.size.height * 0.06,
+                  height: size.height * 0.06,
                 ),
                 MyConfirmButton(
+                  size: size,
                   onPressed: () {
                     onContinuePressed();
                   },

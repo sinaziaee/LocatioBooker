@@ -7,8 +7,6 @@ import 'package:loctio_booker/screens/home/search_profile_screen.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../constants.dart';
-
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';
 
@@ -23,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Map args;
   User user;
   String token;
+  Size size;
 
   Widget bodyContainer(int index) {
     if (index == 0) {
@@ -40,37 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       );
-      return Column(
-        children: [
-          Container(
-            height: LoginScreen.size.height * 0.06,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(
-                LoginScreen.size.height * 0.03,
-              ),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.search,
-                  color: Colors.red,
-                ),
-                Text(
-                  'Where are you going?',
-                  style: kBodyTextStyle.copyWith(
-                    color: color,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
     }
     else if(index == 4){
-      return Settings.user(user);
+      return Settings.user(user, size);
     }
     else if(index == 1){
       return AppBar(
@@ -96,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
+    size = MediaQuery.of(context).size;
     args = ModalRoute.of(context).settings.arguments;
     user = args['user'];
     token = user.token;

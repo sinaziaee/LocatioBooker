@@ -43,6 +43,7 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: MyTestFieldWithoutNode(
+          size: size,
           hint: 'search',
           isPassword: false,
           isLast: true,

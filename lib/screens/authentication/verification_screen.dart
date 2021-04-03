@@ -3,7 +3,6 @@ import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/components/confirm_button.dart';
 import 'package:loctio_booker/screens/authentication/components/my_textfield.dart';
-import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/home/home_screen.dart';
 import 'package:http/http.dart' as http;
@@ -33,7 +32,7 @@ class _VerificationScreenState extends State<VerificationScreen>
   User user;
   TextEditingController verificationController;
   Color color = Colors.black;
-
+  Size size;
   bool showSpinner = false;
 
   @override
@@ -76,6 +75,7 @@ class _VerificationScreenState extends State<VerificationScreen>
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     node = FocusScope.of(context);
     args = ModalRoute.of(context).settings.arguments as Map;
     user = args['user'];
@@ -91,11 +91,11 @@ class _VerificationScreenState extends State<VerificationScreen>
             // mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                height: LoginScreen.size.height * 0.1,
+                height: size.height * 0.1,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: LoginScreen.size.width * 0.04,
+                  horizontal: size.width * 0.04,
                 ),
                 child: Text(
                   'Please Enter a verification code',
@@ -103,9 +103,10 @@ class _VerificationScreenState extends State<VerificationScreen>
                 ),
               ),
               SizedBox(
-                height: LoginScreen.size.height * 0.03,
+                height: size.height * 0.03,
               ),
               MyTestField(
+                size: size,
                 color: color,
                 controller: verificationController,
                 isPassword: false,
@@ -114,9 +115,10 @@ class _VerificationScreenState extends State<VerificationScreen>
                 hint: 'Verification Code',
               ),
               SizedBox(
-                height: LoginScreen.size.height * 0.03,
+                height: size.height * 0.03,
               ),
               MyConfirmButton(
+                size: size,
                 color: (progress != verifTime)
                     ? Colors.red
                     : Colors.redAccent[100],
@@ -139,7 +141,7 @@ class _VerificationScreenState extends State<VerificationScreen>
                 text: 'Continue',
               ),
               SizedBox(
-                height: LoginScreen.size.height * 0.04,
+                height: size.height * 0.04,
               ),
               Center(
                 child: (progress != verifTime)
@@ -154,7 +156,7 @@ class _VerificationScreenState extends State<VerificationScreen>
                       ),
               ),
               SizedBox(
-                height: LoginScreen.size.height * 0.03,
+                height: size.height * 0.03,
               ),
               (progress != verifTime)
                   ? Theme(
@@ -183,12 +185,13 @@ class _VerificationScreenState extends State<VerificationScreen>
                       ),
                     ),
               SizedBox(
-                height: LoginScreen.size.height * 0.04,
+                height: size.height * 0.04,
               ),
               Row(
                 children: [
                   Expanded(
                     child: MyConfirmButton(
+                      size: size,
                       onPressed: () {
                         onResetPressed();
                       },
@@ -198,6 +201,7 @@ class _VerificationScreenState extends State<VerificationScreen>
                   ),
                   Expanded(
                     child: MyConfirmButton(
+                      size: size,
                       onPressed: () {
                         onCancelPressed();
                       },

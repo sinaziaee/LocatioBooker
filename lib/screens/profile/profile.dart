@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/static_methods.dart';
 
-class profile extends StatefulWidget {
+class ProfileScreen extends StatefulWidget {
   static String id = 'profile_page';
 
   @override
-  _profileState createState() => _profileState();
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _profileState extends State<profile> {
+class _ProfileScreenState extends State<ProfileScreen> {
 
 
   User user;
