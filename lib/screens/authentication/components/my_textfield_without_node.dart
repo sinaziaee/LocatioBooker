@@ -49,7 +49,8 @@ class MyTestFieldWithoutNode extends StatelessWidget {
           ),
           border: kOutLineInputBorder.copyWith(
             borderSide: BorderSide(
-              color: color ?? Colors.black,
+              color: color ?? Colors.grey,
+
               width: 0.5,
               style: BorderStyle.solid,
             ),

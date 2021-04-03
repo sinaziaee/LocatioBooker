@@ -237,6 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
           'password': user.password,
         },
       );
+
       showSpinner = false;
       setState(() {});
       print(response.statusCode);

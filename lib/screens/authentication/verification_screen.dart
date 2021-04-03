@@ -219,9 +219,11 @@ class _VerificationScreenState extends State<VerificationScreen>
   }
 
   void onResetPressed() {
-    if (progress != verifTime) {
+    if(progress != verifTime){
       // pass
-    } else {
+    }
+    else{
+
       showSpinner = true;
       setState(() {});
       SignUpScreen.theCode = null;
@@ -263,7 +265,8 @@ class _VerificationScreenState extends State<VerificationScreen>
     Navigator.pushNamedAndRemoveUntil(
       context,
       HomeScreen.id,
-      (route) => false,
+          (route) => false,
+
       arguments: {
         'user': user,
       },

@@ -208,7 +208,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       print('statusCode: ${response.statusCode}');
       if (response.statusCode < 400) {
         var jsonResponse =
-            convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+        convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
         print(response.body);
         SignUpScreen.theCode = jsonResponse['vc_code'];
         Navigator.pushNamed(
