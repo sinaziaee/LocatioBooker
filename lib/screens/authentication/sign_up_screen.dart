@@ -13,6 +13,11 @@ import 'components/phone_textfield.dart';
 class SignUpScreen extends StatefulWidget {
   static String id = 'sign_up_screen';
   static int theCode;
+  User user;
+  SignUpScreen();
+  SignUpScreen.user(User user){
+    this.user = user;
+  }
 
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -28,9 +33,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController rePasswordController;
   TextEditingController phoneController;
   Size size;
-  String email, country, token;
+  String country, token;
   Map args;
-  User user;
 
   bool showSpinner = false;
 
@@ -57,10 +61,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     node = FocusScope.of(context);
-    args = ModalRoute.of(context).settings.arguments;
-    email = args['email'];
+    // args = ModalRoute.of(context).settings.arguments;
+    // email = args['email'];
     size = MediaQuery.of(context).size;
-    print('e: $email');
+    print('e: ${widget.user.email}');
     return Scaffold(
       body: ModalProgressHUD(
         progressIndicator: kMyProgressIndicator,
@@ -73,7 +77,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: size.height * 0.1,
                 ),
                 Text(
-                  (email.length != 0) ? email : 'Email here',
+                  (widget.user.email.length != 0) ? widget.user.email : 'Email here',
                   style: kBodyTextStyle.copyWith(
                     color: Colors.grey,
                   ),
@@ -81,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   height: size.height * 0.03,
                 ),
-                MyTestField(
+                MyTextField(
                   size: size,
                   node: node,
                   hint: 'First Name',
@@ -93,7 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   height: size.height * 0.03,
                 ),
-                MyTestField(
+                MyTextField(
                   size: size,
                   node: node,
                   hint: 'Last Name',
@@ -105,7 +109,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   height: size.height * 0.03,
                 ),
-                MyTestField(
+                MyTextField(
                   node: node,
                   hint: 'Password',
                   color: Colors.black,
@@ -117,7 +121,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   height: size.height * 0.03,
                 ),
-                MyTestField(
+                MyTextField(
                   size: size,
                   node: node,
                   hint: 'Re-Password',
@@ -179,11 +183,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           context, 'Password and Re-Password do not match');
       return false;
     }
-    user = User(
+    widget.user = User(
       firstName: firstName,
       lastName: lastName,
       phone: phone,
-      email: email,
+      email: widget.user.email,
       password: password,
       country: country ?? 'US',
     );
@@ -201,11 +205,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   sendVerificationEmail() async {
-    print(user.toJson().toString());
+    print(widget.user.toJson().toString());
     try {
       http.Response response = await StaticMethods.upload(
         sendEmailUrl,
-        user.toJson(),
+        widget.user.toJson(),
       );
       showSpinner = false;
       setState(() {});
@@ -219,7 +223,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           context,
           VerificationScreen.id,
           arguments: {
-            'user': user,
+            'user': widget.user,
           },
         );
       } else {

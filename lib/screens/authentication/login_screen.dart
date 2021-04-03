@@ -29,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String url = '$mainUrl/api/account/login';
   String checkExistenceUrl = '$mainUrl/api/account/check-existence';
   Size size;
+
   getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('token')) {
@@ -92,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: size.height * 0.03,
               ),
-              MyTestField(
+              MyTextField(
                 size: size,
                 node: node,
                 hint: 'Email',
@@ -198,8 +199,14 @@ class _LoginScreenState extends State<LoginScreen> {
         showPasswordDialog();
       } else if (response.statusCode == 404) {
         print(response.body);
-        Navigator.pushNamed(context, SignUpScreen.id,
-            arguments: {'email': email});
+        user.email = email;
+        // Navigator.pushNamed(context, SignUpScreen.id,
+        //     arguments: {'email': email});
+        // Navigator.pushNamed(context, SignUpScreen.user(user).id);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => SignUpScreen.user(user)),
+        );
       } else {
         print(response.statusCode);
         print(response.body);

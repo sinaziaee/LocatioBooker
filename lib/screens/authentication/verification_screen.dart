@@ -105,7 +105,7 @@ class _VerificationScreenState extends State<VerificationScreen>
               SizedBox(
                 height: size.height * 0.03,
               ),
-              MyTestField(
+              MyTextField(
                 size: size,
                 color: color,
                 controller: verificationController,
