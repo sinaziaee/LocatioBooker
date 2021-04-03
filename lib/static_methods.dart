@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -85,7 +87,20 @@ class StaticMethods {
         btnOkColor: Colors.red).show();
   }
 
-  static Future<http.Response> upload(String url, Map map, {String vcCode}) async{
+  static Future<http.Response> upload(String url, Map map, {String vcCode, String token}) async{
+    if(token != null){
+      return await http.post(
+        Uri.parse(url),
+        body: convert.jsonEncode(
+            map
+        ),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          HttpHeaders.authorizationHeader: token,
+        },
+      );
+    }
     if(vcCode == null){
       return await http.post(
         Uri.parse(url),

@@ -4,8 +4,8 @@ import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/components/my_textfield.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
-import 'package:loctio_booker/screens/profile/personalInformation.dart';
-import 'package:loctio_booker/screens/profile/termsAggrements.dart';
+import 'package:loctio_booker/screens/profile/personal_information_screen.dart';
+import 'package:loctio_booker/screens/profile/terms_aggrements_screen.dart';
 
 import '../../static_methods.dart';
 
