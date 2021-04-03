@@ -1,14 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
+import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/components/my_textfield.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/profile/personalInformation.dart';
 import 'package:loctio_booker/screens/profile/termsAggrements.dart';
 
+import '../../static_methods.dart';
+
 
 class Settings extends StatefulWidget {
   static String id = 'setting_page';
+  User user;
+
+  Settings();
+  Settings.user(User user){ this.user = user; }
 
 
 
@@ -19,6 +26,9 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   FocusNode node;
   Color color = Colors.black;
+
+  String firstName , lastName;
+
 
   TextEditingController firstNameController;
   TextEditingController lastNameController;
@@ -50,7 +60,7 @@ class _SettingsState extends State<Settings> {
                 SizedBox(width: 20,) ,
                 Column(
                     children : [
-                      Text('Ahmad' , style: kHeaderTextStyle,) ,
+                      Text(widget.user.firstName + ' ' + widget.user.lastName , style: kHeaderTextStyle,) ,
                       TextButton(
                           onPressed: (){Navigator.popAndPushNamed(context, LoginScreen.id);},
                           child: Text('View Profile') ,
@@ -70,7 +80,7 @@ class _SettingsState extends State<Settings> {
               trailing: SizedBox(),
            ) ,
             ListTile(
-              onTap: (){Navigator.popAndPushNamed(context, personalInformation.id);},
+              onTap: (){Navigator.pushNamed(context, personalInformation.id);},
               title: Text('Personal information' ,
                 style: kBodyTextStyle,
               ),

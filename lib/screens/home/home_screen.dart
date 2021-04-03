@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/profile/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +10,7 @@ import '../../constants.dart';
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';
 
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -16,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
   Color color;
+  User user;
 
   Widget bodyContainer(int index) {
     if (index == 0) {
@@ -63,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
     else if(index == 4){
-      return Settings();
+      return Settings.user(user);
     }
 
     else
@@ -80,6 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Map args = ModalRoute.of(context).settings.arguments;
+    user = args['user'];
+
     return Scaffold(
       body: SafeArea(
         child: bodyContainer(selectedIndex),

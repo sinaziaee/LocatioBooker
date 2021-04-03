@@ -48,6 +48,10 @@ class _personalInformationState extends State<personalInformation> {
     phoneNumber = user.phone;
     country = user.country;
 
+    firstNameController.text = firstName;
+    lastNameController.text = lastName;
+    phoneController.text = phoneNumber;
+
     print("user.firstName : " + firstName);
 
     return user;
@@ -55,10 +59,11 @@ class _personalInformationState extends State<personalInformation> {
 
   @override
   void initState() {
-    _getPreferences();
     firstNameController = TextEditingController();
     lastNameController = TextEditingController();
     phoneController = TextEditingController();
+
+    _getPreferences();
 
     super.initState();
   }
@@ -105,8 +110,9 @@ class _personalInformationState extends State<personalInformation> {
                                           icon: Icon(Icons.arrow_back_ios),
                                           color: Colors.black,
                                           onPressed: () {
-                                            Navigator.popAndPushNamed(
-                                                context, Settings.id);
+                                            /*Navigator.popAndPushNamed(
+                                                context, Settings.id);*/
+                                            Navigator.pop(context);
                                           },
                                         ),
                                         Padding(
@@ -133,7 +139,7 @@ class _personalInformationState extends State<personalInformation> {
                                               shape: BoxShape.circle,
                                               image: new DecorationImage(
                                                 image: new ExactAssetImage(
-                                                    'assets/images/as.png'),
+                                                    'assets/images/as.jpg'),
                                                 fit: BoxFit.cover,
                                               ),
                                             )),
@@ -228,7 +234,7 @@ class _personalInformationState extends State<personalInformation> {
                                            Flexible(
                                             child:  TextField(
                                               decoration: InputDecoration(
-                                                hintText: firstName ,
+                                                hintText: 'firstName' ,
                                               ),
                                               enabled: !_status,
                                               autofocus: !_status,
@@ -266,7 +272,7 @@ class _personalInformationState extends State<personalInformation> {
                                            Flexible(
                                             child:  TextField(
                                               decoration:  InputDecoration(
-                                                  hintText: lastName),
+                                                  hintText: "lastName"),
                                               enabled: !_status,
                                               controller: lastNameController,
                                             ),
@@ -301,8 +307,9 @@ class _personalInformationState extends State<personalInformation> {
                                            Flexible(
                                             child: TextField(
                                               decoration:  InputDecoration(
-                                                  hintText: phoneNumber),
+                                                  hintText: "phoneNumber"),
                                               enabled: !_status,
+                                              controller: phoneController,
                                             ),
                                           ),
                                         ],
@@ -336,7 +343,7 @@ class _personalInformationState extends State<personalInformation> {
                                         Flexible(
                                           child:  TextField(
                                             decoration:  InputDecoration(
-                                                hintText: phoneNumber),
+                                                hintText: "phoneNumber"),
                                             enabled: !_status,
                                           ),
                                         ),
@@ -373,7 +380,7 @@ class _personalInformationState extends State<personalInformation> {
                                         Flexible(
                                           child:  TextField(
                                             decoration:  InputDecoration(
-                                                hintText: email),
+                                                hintText: "email"),
                                             enabled: !_status,
                                           ),
                                         ),
@@ -499,7 +506,9 @@ class _personalInformationState extends State<personalInformation> {
                       setState(() {
                         _status = true;
                         FocusScope.of(context).requestFocus(new FocusNode());
-                        isValidated();
+                        if(isValidated())
+                          uploadInfo();
+
                       });
                     },
                     shape: new RoundedRectangleBorder(
@@ -544,8 +553,8 @@ bool isValidated() {
     } else if (lastName.length < 3) {
       StaticMethods.showErrorDialog(context, 'Bad Last Name Format');
       return false;
-    } else if (phone.length < 3) {
-      StaticMethods.showErrorDialog(context, 'Bad Phone Format');
+    } else if (phoneNumber.length < 3) {
+      StaticMethods.showErrorDialog(context, 'Bad phone Number Format');
       return false;
     }
 
@@ -556,6 +565,7 @@ bool isValidated() {
       email: email,
       country: country ?? 'US',
     );
+    //uploadInfo();
     return true;
   }
 
@@ -569,6 +579,7 @@ bool isValidated() {
       showSpinner = false;
       setState(() {});
       print('statusCode: ${response.statusCode}');
+      print('response.body : ' + response.body.toString());
       if (response.statusCode < 400) {
         var jsonResponse =
         convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
