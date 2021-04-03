@@ -229,7 +229,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   uploadInfo() async {
     print(user.email);
-
     try {
       http.Response response = await StaticMethods.upload(
         url,
@@ -238,6 +237,9 @@ class _LoginScreenState extends State<LoginScreen> {
           'password': user.password,
         },
       );
+
+      showSpinner = false;
+      setState(() {});
       print(response.statusCode);
       if (response.statusCode < 400) {
         Navigator.pop(context);
@@ -295,6 +297,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 text: 'Submit',
                 onPressed: () {
                   if (checkPasswordValidation()) {
+                    showSpinner = true;
+                    setState(() {});
                     uploadInfo();
                   } else {
                     // pass
