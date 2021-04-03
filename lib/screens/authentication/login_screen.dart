@@ -199,6 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
         showPasswordDialog();
       } else if (response.statusCode == 404) {
         print(response.body);
+        user = User();
         user.email = email;
         // Navigator.pushNamed(context, SignUpScreen.id,
         //     arguments: {'email': email});
