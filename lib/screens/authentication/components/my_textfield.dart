@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 import '../login_screen.dart';
 
-class MyTestField extends StatelessWidget {
+class MyTextField extends StatelessWidget {
   final Color color;
   final FocusNode node;
   final bool isLast;
@@ -12,14 +12,14 @@ class MyTestField extends StatelessWidget {
   final TextEditingController controller;
   final Size size;
 
-  MyTestField(
+  MyTextField(
       {this.hint,
       this.isPassword,
       this.color,
       this.node,
       this.controller,
       this.isLast,
-      @required this.size});
+      this.size});
 
   @override
   Widget build(BuildContext context) {

@@ -70,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
     size = MediaQuery.of(context).size;
     args = ModalRoute.of(context).settings.arguments;
     user = args['user'];
+    print('user.token in HomeScreen: ${user.token}');
     token = user.token;
     return Scaffold(
       body: SafeArea(

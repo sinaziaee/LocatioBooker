@@ -35,6 +35,9 @@ class StaticMethods {
     if (user.token != null) {
       preferences.setString("token", user.token);
     }
+    if (user.gender != null) {
+      preferences.setString("gender", user.gender);
+    }
   }
 
   static Future<User> getPreferences() async {

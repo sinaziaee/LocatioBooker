@@ -1,8 +1,8 @@
 class User {
-  String firstName, lastName, phone, email, password, country, token, nationalCode, image;
+  String firstName, lastName, phone, email, password, country, token, nationalCode, image, gender;
 
   User({this.firstName, this.lastName, this.phone, this.email, this.password,
-      this.country, this.token, this.nationalCode, this.image});
+      this.country, this.token, this.nationalCode, this.image, this.gender});
 
   User.fromJson(Map<String, dynamic> json) {
     firstName = json['first_name'];
@@ -12,8 +12,9 @@ class User {
     phone = json['phone_number'];
     email = json['email'];
     password = json['password'];
-    token = json['token'];
+    token = 'Token ${json['token']}';
     image = json['image'];
+    gender = json['gender'];
   }
 
   Map<String, dynamic> toJson() {
@@ -27,6 +28,7 @@ class User {
     data['national_code'] = this.country;
     data['token'] = this.token;
     data['image'] = this.image;
+    data['gender'] = this.gender;
     return data;
   }
 }

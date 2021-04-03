@@ -14,20 +14,20 @@ import '../../static_methods.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-// ignore: camel_case_types
-class personalInformation extends StatefulWidget {
+class PersonalInformationScreen extends StatefulWidget {
   static String id = 'personal_page';
 
   @override
-  _personalInformationState createState() => _personalInformationState();
+  _PersonalInformationScreenState createState() =>
+      _PersonalInformationScreenState();
 }
 
 // ignore: camel_case_types
-class _personalInformationState extends State<personalInformation> {
+class _PersonalInformationScreenState extends State<PersonalInformationScreen> {
   bool showSpinner = false;
   User user;
   String firstName = "", lastName = "", email, phoneNumber, country;
-
+  String token;
   TextEditingController firstNameController,
       lastNameController,
       phoneController,
@@ -35,6 +35,8 @@ class _personalInformationState extends State<personalInformation> {
       bioController,
       birthController,
       emailController;
+
+  String selectedGender;
 
   bool status = true;
   final FocusNode myFocusNode = FocusNode();
@@ -48,15 +50,29 @@ class _personalInformationState extends State<personalInformation> {
     email = user.email;
     phoneNumber = user.phone;
     country = user.country;
+    token = user.token;
+    print(user.gender);
+    if (user.gender == null) {
+      print('here1');
+      selectedGender = allGenders[0];
+    } else if (user.gender == 'male') {
+      print('here2');
+      selectedGender = allGenders[0];
+    } else {
+      selectedGender = allGenders[1];
+    }
 
     firstNameController.text = firstName;
     lastNameController.text = lastName;
     phoneController.text = phoneNumber;
 
-    print("user.firstName : " + firstName);
-
     return user;
   }
+
+  List allGenders = [
+    'Male',
+    'Female',
+  ];
 
   @override
   void initState() {
@@ -168,71 +184,81 @@ class _personalInformationState extends State<personalInformation> {
                                   hintText: 'Email',
                                   isReadOnly: true,
                                 ),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0, top: 25.0),
-                                    child: new Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: Container(
-                                            child: Text(
-                                              'Gender ',
-                                              style: kBodyTextStyle,
-                                            ),
-                                          ),
-                                          flex: 2,
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            child: Text(
-                                              'Date Of Birth',
-                                              style: kBodyTextStyle,
-                                            ),
-                                          ),
-                                          flex: 2,
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 25.0, right: 25.0, top: 2.0),
-                                  child: new Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Flexible(
-                                        child: TextFieldComponent(
-                                          status: status,
-                                          controller: genderController,
-                                          hintText: 'gender',
-                                        ),
-                                        flex: 2,
-                                      ),
-                                      Flexible(
-                                        child: new TextField(
-                                          onTap: () {
-                                            showDateDialog();
-                                          },
-                                          readOnly: true,
-                                          decoration: const InputDecoration(
-                                              hintText: "Enter Birth Date"),
-                                          enabled: !status,
-                                        ),
-                                        flex: 2,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                !status ? ActionButton(
-                                  onCancelPressed: (){
-                                    onCancelPressed();
-                                  },
-                                  onSavedPressed: (){
-                                    onSavedPressed();
-                                  },
-                                ) : new Container(),
+                                // Padding(
+                                //     padding: EdgeInsets.only(
+                                //         left: 25.0, right: 25.0, top: 25.0),
+                                //     child: new Row(
+                                //       mainAxisSize: MainAxisSize.max,
+                                //       mainAxisAlignment:
+                                //           MainAxisAlignment.start,
+                                //       children: <Widget>[
+                                //         Expanded(
+                                //           child: Container(
+                                //             child: Text(
+                                //               'Gender ',
+                                //               style: kBodyTextStyle,
+                                //             ),
+                                //           ),
+                                //           flex: 2,
+                                //         ),
+                                //         Expanded(
+                                //           child: Container(
+                                //             child: Text(
+                                //               'Date Of Birth',
+                                //               style: kBodyTextStyle,
+                                //             ),
+                                //           ),
+                                //           flex: 2,
+                                //         ),
+                                //       ],
+                                //     )),
+                                // Padding(
+                                //   padding: EdgeInsets.only(
+                                //       left: 25.0, right: 25.0, top: 2.0),
+                                //   child: new Row(
+                                //     mainAxisSize: MainAxisSize.max,
+                                //     mainAxisAlignment: MainAxisAlignment.start,
+                                //     children: <Widget>[
+                                //       Expanded(
+                                //         child: Material(
+                                //           child: InkWell(
+                                //             onTap: () {
+                                //               showSelectGenderDialog();
+                                //             },
+                                //             child: Container(
+                                //               child: Text(
+                                //                 (selectedGender == null)
+                                //                     ? 'Tap to select gender'
+                                //                     : selectedGender,
+                                //               ),
+                                //             ),
+                                //           ),
+                                //         ),
+                                //       ),
+                                //       Expanded(
+                                //         child: new TextField(
+                                //           onTap: () {
+                                //             showDateDialog();
+                                //           },
+                                //           readOnly: true,
+                                //           decoration: const InputDecoration(
+                                //               hintText: "Enter Birth Date"),
+                                //           enabled: !status,
+                                //         ),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                !status
+                                    ? ActionButton(
+                                        onCancelPressed: () {
+                                          onCancelPressed();
+                                        },
+                                        onSavedPressed: () {
+                                          onSavedPressed();
+                                        },
+                                      )
+                                    : new Container(),
                               ],
                             ),
                           ),
@@ -292,6 +318,7 @@ class _personalInformationState extends State<personalInformation> {
       phone: phone,
       email: email,
       country: country ?? 'US',
+      gender: selectedGender,
     );
     //uploadInfo();
     return true;
@@ -301,12 +328,11 @@ class _personalInformationState extends State<personalInformation> {
     setState(() {
       showSpinner = true;
     });
-    print(user.token);
     try {
       http.Response response = await StaticMethods.upload(
         url,
         user.toJson(),
-        token: user.token,
+        token: token,
       );
       showSpinner = false;
       setState(() {});
@@ -356,5 +382,50 @@ class _personalInformationState extends State<personalInformation> {
     );
 
     print(selectedDateTime);
+  }
+
+  showSelectGenderDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          title: Text('Select Gender'),
+          content: Container(
+            height: 100,
+            width: 100,
+            child: Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Material(
+                      child: Container(
+                        child: InkWell(
+                          onTap:(){
+                            selectedGender = allGenders[index];
+                            setState(() {
+
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            child: Center(child: Text(allGenders[index], style: kBodyTextStyle,)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                itemCount: allGenders.length,
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
