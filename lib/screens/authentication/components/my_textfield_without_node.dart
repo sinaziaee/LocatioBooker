@@ -9,20 +9,31 @@ class MyTestFieldWithoutNode extends StatelessWidget {
   final String hint;
   final bool isPassword;
   final TextEditingController controller;
+  final Function(String search) onChanged;
 
-  MyTestFieldWithoutNode({this.hint, this.isPassword, this.color, this.controller, this.isLast});
+  MyTestFieldWithoutNode({
+    this.hint,
+    this.isPassword,
+    this.color,
+    this.controller,
+    this.isLast,
+    this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: LoginScreen.size.height * 0.06,
       margin: EdgeInsets.symmetric(
-        // horizontal: LoginScreen.size.width * 0.01,
-        vertical: LoginScreen.size.height * 0.005
-      ),
+          // horizontal: LoginScreen.size.width * 0.01,
+          vertical: LoginScreen.size.height * 0.005),
       child: TextFormField(
+        onChanged: onChanged,
+        cursorColor: color ?? Colors.black,
+        style: TextStyle(color: color ?? Colors.black),
         controller: controller,
         decoration: InputDecoration(
+          hintStyle: TextStyle(color: color ?? Colors.black),
           contentPadding: EdgeInsets.only(
             bottom: LoginScreen.size.height * 0.03,
             left: LoginScreen.size.width * 0.03,
@@ -38,7 +49,7 @@ class MyTestFieldWithoutNode extends StatelessWidget {
           ),
           border: kOutLineInputBorder.copyWith(
             borderSide: BorderSide(
-              color: color ?? Colors.grey,
+              color: color ?? Colors.black,
               width: 0.5,
               style: BorderStyle.solid,
             ),

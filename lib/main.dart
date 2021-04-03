@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/authentication/verification_screen.dart';
+import 'package:loctio_booker/screens/home/search_profile_screen.dart';
 
 import 'screens/authentication/login_screen.dart';
 import 'screens/home/home_screen.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.id: (context) => HomeScreen(),
         SignUpScreen.id: (context) => SignUpScreen(),
         VerificationScreen.id: (context) => VerificationScreen(),
+        SearchProfileScreen.id: (context) => SearchProfileScreen(),
       },
     );
   }
