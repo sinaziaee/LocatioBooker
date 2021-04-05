@@ -130,28 +130,28 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: size.height * 0.015,
               ),
-              Center(
-                child: Text(
-                  'or',
-                  style: kBodyTextStyle.copyWith(
-                    color: color,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.015,
-              ),
-              LoginCard(
-                color: Colors.white,
-                borderColor: Colors.black,
-                text: 'Continue with Google',
-                imageAsset: 'assets/images/logo_google.png',
-                onTapped: () {
-                  onContinuePressed();
-                },
-                size: size,
-              ),
+              // Center(
+              //   child: Text(
+              //     'or',
+              //     style: kBodyTextStyle.copyWith(
+              //       color: color,
+              //       fontWeight: FontWeight.w300,
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: size.height * 0.015,
+              // ),
+              // LoginCard(
+              //   color: Colors.white,
+              //   borderColor: Colors.black,
+              //   text: 'Continue with Google',
+              //   imageAsset: 'assets/images/logo_google.png',
+              //   onTapped: () {
+              //     onContinuePressed();
+              //   },
+              //   size: size,
+              // ),
             ],
           ),
         ),
