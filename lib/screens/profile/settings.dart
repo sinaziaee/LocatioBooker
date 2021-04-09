@@ -169,7 +169,7 @@ class _SettingsState extends State<Settings> {
               style: kBodyTextStyle,
             ),
             onTap: () {
-              Navigator.popAndPushNamed(context, termsAggrements.id);
+              Navigator.pushNamed(context, termsAggrements.id);
             },
             trailing: Icon(Icons.more_vert),
             leading: Icon(Icons.laptop_windows),

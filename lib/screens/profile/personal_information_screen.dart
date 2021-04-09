@@ -359,10 +359,11 @@ class _personalInformationState extends State<personalInformation> {
     } else if (phoneNumber.length < 3) {
       StaticMethods.showErrorDialog(context, 'Bad phone Number Format');
       return false;
-    } else if (bio.length < 3) {
-      StaticMethods.showErrorDialog(context, 'Bad Bio Format');
-      return false;
     }
+    // else if (bio.length < 3) {
+    //   StaticMethods.showErrorDialog(context, 'Bad Bio Format');
+    //   return false;
+    // }
     user = User(
       firstName: firstName,
       lastName: lastName,
