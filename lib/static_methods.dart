@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:loctio_booker/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -130,6 +131,93 @@ class StaticMethods {
 
   static void printError(e){
     print('myError: ${e.toString()}');
+  }
+
+  static AlertDialog myAlertDialog(Function selectFromCamera, Function selectFromGallery) {
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'Select Image',
+                  textDirection: TextDirection.rtl,
+                  style: kHeaderTextStyle.copyWith(color: Colors.grey[800]),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            height: 0.5,
+            width: double.infinity,
+            color: Colors.grey,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          InkWell(
+            onTap: () {
+              selectFromCamera();
+            },
+            child: Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'From Camera‌',
+                    textDirection: TextDirection.rtl,
+                    style: kBodyTextStyle.copyWith(color: Colors.grey[700]),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Icon(
+                    Icons.camera_alt,
+                    color: Colors.grey[700],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          InkWell(
+            onTap: () {
+              selectFromGallery();
+            },
+            child: Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'From Gallery',
+                    textDirection: TextDirection.rtl,
+                    style: kBodyTextStyle.copyWith(color: Colors.grey[700]),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Icon(
+                    Icons.insert_photo,
+                    color: Colors.grey[700],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
 }

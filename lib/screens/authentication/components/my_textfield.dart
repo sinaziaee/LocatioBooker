@@ -29,6 +29,7 @@ class MyTestField extends StatelessWidget {
           horizontal: size.width * 0.05,
           vertical: size.height * 0.005),
       child: TextFormField(
+        cursorColor: Colors.black,
         controller: controller,
         onEditingComplete: () => (isLast == null || isLast == false)
             ? node.nextFocus()

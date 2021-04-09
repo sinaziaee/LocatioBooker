@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl_phone_field/phone_number.dart';
 
 import '../../../constants.dart';
 import '../login_screen.dart';
@@ -8,7 +9,8 @@ class PhoneTextField extends StatelessWidget {
   final TextEditingController phoneController;
   final Color color;
   final Size size;
-  PhoneTextField({this.phoneController, this.color, @required this.size});
+  final void Function(PhoneNumber text) onPhoneChanged;
+  PhoneTextField({this.onPhoneChanged, this.phoneController, this.color, @required this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,8 @@ class PhoneTextField extends StatelessWidget {
           ),
         ),
         onChanged: (phone) {
-          print(phone.completeNumber);
+          onPhoneChanged(phone);
+          // print(phone);
         },
       ),
     );

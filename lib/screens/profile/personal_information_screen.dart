@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/home/home_screen.dart';
@@ -38,8 +42,56 @@ class _personalInformationState extends State<personalInformation> {
 
   bool status = true;
   final FocusNode myFocusNode = FocusNode();
+  File imageFile;
+  String base64Image;
 
   String url = "$mainUrl/api/account/properties/update";
+
+  Future<void> _pickImage(ImageSource source) async {
+    try {
+      final _picker = ImagePicker();
+      PickedFile image = await _picker.getImage(source: source);
+
+      final File selected = File(image.path);
+
+      setState(() {
+        imageFile = selected;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> _cropImage() async {
+    try {
+      File cropped = await ImageCropper.cropImage(
+        cropStyle: CropStyle.circle,
+        sourcePath: imageFile.path,
+      );
+
+      setState(() {
+        imageFile = cropped ?? imageFile;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void _clear() {
+    setState(() {
+      imageFile = null;
+    });
+  }
+
+  selectFromGallery() {
+    _pickImage(ImageSource.gallery);
+    Navigator.pop(context);
+  }
+
+  selectFromCamera() {
+    _pickImage(ImageSource.camera);
+    Navigator.pop(context);
+  }
 
   Future<User> _getPreferences() async {
     user = await StaticMethods.getPreferences();
@@ -52,8 +104,7 @@ class _personalInformationState extends State<personalInformation> {
     firstNameController.text = firstName;
     lastNameController.text = lastName;
     phoneController.text = phoneNumber;
-
-    print("user.firstName : " + firstName);
+    emailController.text = user.email;
 
     return user;
   }
@@ -82,7 +133,6 @@ class _personalInformationState extends State<personalInformation> {
     genderController.dispose();
     bioController.dispose();
     emailController.dispose();
-
     super.dispose();
   }
 
@@ -109,7 +159,28 @@ class _personalInformationState extends State<personalInformation> {
                           child: new Column(
                             children: <Widget>[
                               ProfileHeader(),
-                              CustomAvatar(),
+                              CustomAvatar(
+                                () {
+                                  onImageSelectPressed();
+                                },
+                              ),
+                              if (imageFile != null) ...[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    TextButton(
+                                      onPressed: _cropImage,
+                                      child: Icon(Icons.crop),
+                                    ),
+                                    TextButton(
+                                      onPressed: _clear,
+                                      child: Icon(Icons.refresh),
+                                    ),
+                                  ],
+                                ),
+                              ] else ...[
+                                SizedBox(),
+                              ],
                             ],
                           ),
                         ),
@@ -173,7 +244,8 @@ class _personalInformationState extends State<personalInformation> {
                                         left: 25.0, right: 25.0, top: 25.0),
                                     child: new Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: <Widget>[
                                         Expanded(
                                           child: Container(
@@ -225,14 +297,16 @@ class _personalInformationState extends State<personalInformation> {
                                     ],
                                   ),
                                 ),
-                                !status ? ActionButton(
-                                  onCancelPressed: (){
-                                    onCancelPressed();
-                                  },
-                                  onSavedPressed: (){
-                                    onSavedPressed();
-                                  },
-                                ) : new Container(),
+                                !status
+                                    ? ActionButton(
+                                        onCancelPressed: () {
+                                          onCancelPressed();
+                                        },
+                                        onSavedPressed: () {
+                                          onSavedPressed();
+                                        },
+                                      )
+                                    : new Container(),
                               ],
                             ),
                           ),
@@ -274,6 +348,7 @@ class _personalInformationState extends State<personalInformation> {
     String firstName = firstNameController.text;
     String lastName = lastNameController.text;
     String phone = phoneController.text;
+    String bio = bioController.text;
 
     if (firstName.length < 3) {
       StaticMethods.showErrorDialog(context, 'Bad First Name Format');
@@ -284,8 +359,10 @@ class _personalInformationState extends State<personalInformation> {
     } else if (phoneNumber.length < 3) {
       StaticMethods.showErrorDialog(context, 'Bad phone Number Format');
       return false;
+    } else if (bio.length < 3) {
+      StaticMethods.showErrorDialog(context, 'Bad Bio Format');
+      return false;
     }
-
     user = User(
       firstName: firstName,
       lastName: lastName,
@@ -356,5 +433,14 @@ class _personalInformationState extends State<personalInformation> {
     );
 
     print(selectedDateTime);
+  }
+
+  void onImageSelectPressed() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StaticMethods.myAlertDialog(selectFromCamera, selectFromGallery);
+      },
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/verification_screen.dart';
 import 'package:loctio_booker/static_methods.dart';
@@ -28,7 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController rePasswordController;
   TextEditingController phoneController;
   Size size;
-  String email, country, token;
+  String email, country, token, countryCode;
   Map args;
   User user;
 
@@ -133,6 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   size: size,
                   phoneController: phoneController,
                   color: color,
+                  onPhoneChanged: onPhoneChanged,
                 ),
                 SizedBox(
                   height: size.height * 0.06,
@@ -152,12 +154,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  void onPhoneChanged(PhoneNumber value){
+    // print(value.number);
+    countryCode = value.countryCode;
+    // print(value.countryCode);
+    return;
+  }
+
   bool isValidated() {
     String firstName = firstNameController.text;
     String lastName = lastNameController.text;
     String phone = phoneController.text;
     String password = passwordController.text;
     String rePassword = rePasswordController.text;
+    print(phone);
     if (firstName.length < 3) {
       StaticMethods.showErrorDialog(context, 'Bad First Name Format');
       return false;
@@ -186,6 +196,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       email: email,
       password: password,
       country: country ?? 'US',
+      nationalCode: countryCode,
     );
     return true;
   }
