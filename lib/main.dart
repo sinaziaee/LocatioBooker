@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loctio_booker/screens/addVilla/facility.dart';
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/authentication/verification_screen.dart';
 import 'package:loctio_booker/screens/profile/profile.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         PersonalInformationScreen.id : (context) => PersonalInformationScreen(),
         termsAggrements.id : (context) => termsAggrements(),
         SearchProfileScreen.id: (context) => SearchProfileScreen(),
+        facility_villa.id:(context) => facility_villa(),
       },
     );
   }

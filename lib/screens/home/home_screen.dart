@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/screens/addVilla/facility.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/profile/settings.dart';
 import 'package:loctio_booker/screens/home/search_profile_screen.dart';
@@ -40,6 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       );
     }
+
+    else if(index == 3){
+      return facility_villa();
+    }
+
     else if(index == 4){
       return Settings.user(user, size);
     }
