@@ -114,7 +114,7 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
   onPressed(String villa){
     Navigator.push(context,
       MaterialPageRoute(builder: (context) => ResortDescriptionScreen(
-
+        villa,
       )),
     );
   }

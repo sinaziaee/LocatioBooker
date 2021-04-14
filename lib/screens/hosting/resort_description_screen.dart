@@ -4,6 +4,10 @@ import 'components/my_textfield.dart';
 import '../../static_methods.dart';
 
 class ResortDescriptionScreen extends StatefulWidget {
+  final String resortType;
+
+  ResortDescriptionScreen(this.resortType);
+
   @override
   _ResortDescriptionScreenState createState() =>
       _ResortDescriptionScreenState();
