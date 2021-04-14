@@ -83,6 +83,9 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
                 size: size,
                 controller: nameController,
                 isLast: false,
+                node: node,
+                isPassword: false,
+                inputType: TextInputType.text,
                 hint: 'Exp: Coastal ecoTourism cottage',
               ),
               SizedBox(
