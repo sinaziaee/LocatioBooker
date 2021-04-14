@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
-import '../login_screen.dart';
 
 class MyTextField extends StatelessWidget {
   final Color color;
@@ -11,6 +10,7 @@ class MyTextField extends StatelessWidget {
   final bool isPassword;
   final TextEditingController controller;
   final Size size;
+  final TextInputType inputType;
 
   MyTextField(
       {this.hint,
@@ -19,6 +19,7 @@ class MyTextField extends StatelessWidget {
       this.node,
       this.controller,
       this.isLast,
+      this.inputType,
       @required this.size});
 
   @override
@@ -26,9 +27,9 @@ class MyTextField extends StatelessWidget {
     return Container(
       height: size.height * 0.06,
       margin: EdgeInsets.symmetric(
-          horizontal: size.width * 0.05,
-          vertical: size.height * 0.005),
+          horizontal: size.width * 0.01, vertical: size.height * 0.005),
       child: TextFormField(
+        keyboardType: inputType ?? TextInputType.text,
         cursorColor: Colors.black,
         controller: controller,
         onEditingComplete: () => (isLast == null || isLast == false)

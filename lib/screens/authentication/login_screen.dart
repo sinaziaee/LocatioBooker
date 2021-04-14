@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: size.height * 0.03,
               ),
-              MyTestField(
+              MyTextField(
                 size: size,
                 node: node,
                 hint: 'Email',
@@ -263,7 +263,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   saveInfo() async {
-    user.token = 'Token ${user.token}';
     await StaticMethods.saveToPreferences(
       user,
     );

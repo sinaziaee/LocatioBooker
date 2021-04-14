@@ -31,7 +31,7 @@ class _personalInformationState extends State<personalInformation> {
   bool showSpinner = false;
   User user;
   String firstName = "", lastName = "", email, phoneNumber, country;
-
+  String token;
   TextEditingController firstNameController,
       lastNameController,
       phoneController,
@@ -105,7 +105,7 @@ class _personalInformationState extends State<personalInformation> {
     lastNameController.text = lastName;
     phoneController.text = phoneNumber;
     emailController.text = user.email;
-
+    token = user.token;
     return user;
   }
 
@@ -138,191 +138,182 @@ class _personalInformationState extends State<personalInformation> {
 
   @override
   Widget build(BuildContext context) {
+    print('token is: ${user.token}');
     return Scaffold(
-        body: ModalProgressHUD(
-      progressIndicator: kMyProgressIndicator,
-      inAsyncCall: showSpinner,
-      child: SafeArea(
-        child: FutureBuilder(
-          future: _getPreferences(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return Container(
-                color: Colors.white,
-                child: new ListView(
-                  children: <Widget>[
-                    Column(
+      body: ModalProgressHUD(
+        progressIndicator: kMyProgressIndicator,
+        inAsyncCall: showSpinner,
+        child: SafeArea(
+          child: Container(
+            color: Colors.white,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  new Container(
+                    height: 250.0,
+                    color: Colors.white,
+                    child: new Column(
                       children: <Widget>[
-                        new Container(
-                          height: 250.0,
-                          color: Colors.white,
-                          child: new Column(
-                            children: <Widget>[
-                              ProfileHeader(),
-                              CustomAvatar(
-                                () {
-                                  onImageSelectPressed();
-                                },
+                        ProfileHeader(),
+                        CustomAvatar(
+                          () {
+                            onImageSelectPressed();
+                          },
+                        ),
+                        if (imageFile != null) ...[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                onPressed: _cropImage,
+                                child: Icon(Icons.crop),
                               ),
-                              if (imageFile != null) ...[
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    TextButton(
-                                      onPressed: _cropImage,
-                                      child: Icon(Icons.crop),
-                                    ),
-                                    TextButton(
-                                      onPressed: _clear,
-                                      child: Icon(Icons.refresh),
-                                    ),
-                                  ],
-                                ),
-                              ] else ...[
-                                SizedBox(),
-                              ],
+                              TextButton(
+                                onPressed: _clear,
+                                child: Icon(Icons.refresh),
+                              ),
                             ],
                           ),
-                        ),
-                        new Container(
-                          color: Colors.white,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 25.0),
-                            child: new Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                        ] else ...[
+                          SizedBox(),
+                        ],
+                      ],
+                    ),
+                  ),
+                  new Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 25.0),
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          PersonalInfoEditStateComponent(
+                            onTapped: () {
+                              onEditTapped();
+                            },
+                            status: status,
+                          ),
+                          TitleComponent(
+                            'First Name',
+                          ),
+                          TextFieldComponent(
+                            status: status,
+                            controller: firstNameController,
+                            hintText: 'First Name',
+                          ),
+                          TitleComponent(
+                            'Last Name',
+                          ),
+                          TextFieldComponent(
+                            status: status,
+                            controller: lastNameController,
+                            hintText: 'Last Name',
+                          ),
+                          TitleComponent(
+                            'Phone Name',
+                          ),
+                          TextFieldComponent(
+                            status: status,
+                            controller: phoneController,
+                            hintText: 'Phone Number',
+                          ),
+                          TitleComponent(
+                            'Bio-Graphy',
+                          ),
+                          TextFieldComponent(
+                            status: status,
+                            controller: bioController,
+                            hintText: 'Bio-Graphy',
+                          ),
+                          TitleComponent(
+                            'Email',
+                          ),
+                          TextFieldComponent(
+                            status: status,
+                            controller: emailController,
+                            hintText: 'Email',
+                            isReadOnly: true,
+                          ),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  left: 25.0, right: 25.0, top: 25.0),
+                              child: new Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Container(
+                                      child: Text(
+                                        'Gender ',
+                                        style: kBodyTextStyle,
+                                      ),
+                                    ),
+                                    flex: 2,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      child: Text(
+                                        'Date Of Birth',
+                                        style: kBodyTextStyle,
+                                      ),
+                                    ),
+                                    flex: 2,
+                                  ),
+                                ],
+                              )),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                left: 25.0, right: 25.0, top: 2.0),
+                            child: new Row(
+                              mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                PersonalInfoEditStateComponent(
-                                  onTapped: () {
-                                    onEditTapped();
-                                  },
-                                  status: status,
-                                ),
-                                TitleComponent(
-                                  'First Name',
-                                ),
-                                TextFieldComponent(
-                                  status: status,
-                                  controller: firstNameController,
-                                  hintText: 'First Name',
-                                ),
-                                TitleComponent(
-                                  'Last Name',
-                                ),
-                                TextFieldComponent(
-                                  status: status,
-                                  controller: lastNameController,
-                                  hintText: 'Last Name',
-                                ),
-                                TitleComponent(
-                                  'Phone Name',
-                                ),
-                                TextFieldComponent(
-                                  status: status,
-                                  controller: phoneController,
-                                  hintText: 'Phone Number',
-                                ),
-                                TitleComponent(
-                                  'Bio-Graphy',
-                                ),
-                                TextFieldComponent(
-                                  status: status,
-                                  controller: bioController,
-                                  hintText: 'Bio-Graphy',
-                                ),
-                                TitleComponent(
-                                  'Email',
-                                ),
-                                TextFieldComponent(
-                                  status: status,
-                                  controller: emailController,
-                                  hintText: 'Email',
-                                  isReadOnly: true,
-                                ),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 25.0, right: 25.0, top: 25.0),
-                                    child: new Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Expanded(
-                                          child: Container(
-                                            child: Text(
-                                              'Gender ',
-                                              style: kBodyTextStyle,
-                                            ),
-                                          ),
-                                          flex: 2,
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            child: Text(
-                                              'Date Of Birth',
-                                              style: kBodyTextStyle,
-                                            ),
-                                          ),
-                                          flex: 2,
-                                        ),
-                                      ],
-                                    )),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 25.0, right: 25.0, top: 2.0),
-                                  child: new Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Flexible(
-                                        child: TextFieldComponent(
-                                          status: status,
-                                          controller: genderController,
-                                          hintText: 'gender',
-                                        ),
-                                        flex: 2,
-                                      ),
-                                      Flexible(
-                                        child: new TextField(
-                                          onTap: () {
-                                            showDateDialog();
-                                          },
-                                          readOnly: true,
-                                          decoration: const InputDecoration(
-                                              hintText: "Enter Birth Date"),
-                                          enabled: !status,
-                                        ),
-                                        flex: 2,
-                                      ),
-                                    ],
+                                Flexible(
+                                  child: TextFieldComponent(
+                                    status: status,
+                                    controller: genderController,
+                                    hintText: 'gender',
                                   ),
+                                  flex: 2,
                                 ),
-                                !status
-                                    ? ActionButton(
-                                        onCancelPressed: () {
-                                          onCancelPressed();
-                                        },
-                                        onSavedPressed: () {
-                                          onSavedPressed();
-                                        },
-                                      )
-                                    : new Container(),
+                                Flexible(
+                                  child: new TextField(
+                                    onTap: () {
+                                      showDateDialog();
+                                    },
+                                    controller: birthController,
+                                    readOnly: true,
+                                    decoration: const InputDecoration(
+                                        hintText: "Enter Birth Date"),
+                                    enabled: !status,
+                                  ),
+                                  flex: 2,
+                                ),
                               ],
                             ),
                           ),
-                        )
-                      ],
+                          !status
+                              ? ActionButton(
+                                  onCancelPressed: () {
+                                    onCancelPressed();
+                                  },
+                                  onSavedPressed: () {
+                                    onSavedPressed();
+                                  },
+                                )
+                              : new Container(),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              );
-            }
-
-            return Center(child: CircularProgressIndicator());
-          },
+                  )
+                ],
+              ),
+            ),
+          ),
         ),
       ),
-    ));
+    );
   }
 
   onSavedPressed() {
@@ -360,16 +351,12 @@ class _personalInformationState extends State<personalInformation> {
       StaticMethods.showErrorDialog(context, 'Bad phone Number Format');
       return false;
     }
-    // else if (bio.length < 3) {
-    //   StaticMethods.showErrorDialog(context, 'Bad Bio Format');
-    //   return false;
-    // }
     user = User(
       firstName: firstName,
       lastName: lastName,
       phone: phone,
       email: email,
-      country: country ?? 'US',
+      // country: country ?? 'US',
     );
     //uploadInfo();
     return true;
@@ -432,7 +419,7 @@ class _personalInformationState extends State<personalInformation> {
       firstDate: DateTime(1900, 01, 01),
       lastDate: DateTime(2020, 01, 01),
     );
-
+    birthController.text = selectedDateTime.toString().substring(0, 10);
     print(selectedDateTime);
   }
 

@@ -82,7 +82,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   height: size.height * 0.03,
                 ),
-                MyTestField(
+                MyTextField(
                   size: size,
                   node: node,
                   hint: 'First Name',
@@ -94,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   height: size.height * 0.03,
                 ),
-                MyTestField(
+                MyTextField(
                   size: size,
                   node: node,
                   hint: 'Last Name',
@@ -106,7 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   height: size.height * 0.03,
                 ),
-                MyTestField(
+                MyTextField(
                   node: node,
                   hint: 'Password',
                   color: Colors.black,
@@ -118,7 +118,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   height: size.height * 0.03,
                 ),
-                MyTestField(
+                MyTextField(
                   size: size,
                   node: node,
                   hint: 'Re-Password',
@@ -195,7 +195,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       phone: phone,
       email: email,
       password: password,
-      country: country ?? 'US',
+      // country: country ?? 'US',
       nationalCode: countryCode,
     );
     return true;

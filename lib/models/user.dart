@@ -12,7 +12,7 @@ class User {
     phone = json['phone_number'];
     email = json['email'];
     password = json['password'];
-    token = json['token'];
+    token = 'Token ${json['token']}';
     image = json['image'];
     gender = json['gender'];
   }

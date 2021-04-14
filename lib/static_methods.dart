@@ -9,8 +9,7 @@ import 'dart:convert' as convert;
 import 'models/user.dart';
 
 class StaticMethods {
-  static Future<void> saveToPreferences(
-      User user) async {
+  static Future<void> saveToPreferences(User user) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     if (user.firstName != null) {
       preferences.setString("firstName", user.firstName);
@@ -60,41 +59,42 @@ class StaticMethods {
     return user;
   }
 
-  static void showSuccessDialog(BuildContext context, String message){
+  static void showSuccessDialog(BuildContext context, String message) {
     AwesomeDialog(
-        context: context,
-        dialogType: DialogType.SUCCES,
-        animType: AnimType.RIGHSLIDE,
-        headerAnimationLoop: false,
-        title: 'Successful',
-        btnOkText: 'OK',
-        desc: message,
-        btnOkOnPress: () {},
-        btnOkIcon: Icons.check_circle,
-        btnOkColor: Colors.green).show();
+            context: context,
+            dialogType: DialogType.SUCCES,
+            animType: AnimType.RIGHSLIDE,
+            headerAnimationLoop: false,
+            title: 'Successful',
+            btnOkText: 'OK',
+            desc: message,
+            btnOkOnPress: () {},
+            btnOkIcon: Icons.check_circle,
+            btnOkColor: Colors.green)
+        .show();
   }
 
-  static void showErrorDialog(BuildContext context, String message){
+  static void showErrorDialog(BuildContext context, String message) {
     AwesomeDialog(
-        context: context,
-        dialogType: DialogType.ERROR,
-        animType: AnimType.LEFTSLIDE,
-        headerAnimationLoop: false,
-        title: 'Error',
-        btnOkText: 'OK',
-        desc: message,
-        btnOkOnPress: () {},
-        btnOkIcon: Icons.close,
-        btnOkColor: Colors.red).show();
+            context: context,
+            dialogType: DialogType.ERROR,
+            animType: AnimType.LEFTSLIDE,
+            headerAnimationLoop: false,
+            title: 'Error',
+            btnOkText: 'OK',
+            desc: message,
+            btnOkOnPress: () {},
+            btnOkIcon: Icons.close,
+            btnOkColor: Colors.red)
+        .show();
   }
 
-  static Future<http.Response> upload(String url, Map map, {String vcCode, String token}) async{
-    if(token != null){
+  static Future<http.Response> upload(String url, Map map,
+      {String vcCode, String token}) async {
+    if (token != null) {
       return await http.post(
         Uri.parse(url),
-        body: convert.jsonEncode(
-            map
-        ),
+        body: convert.jsonEncode(map),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json",
@@ -102,25 +102,20 @@ class StaticMethods {
         },
       );
     }
-    if(vcCode == null){
+    if (vcCode == null) {
       return await http.post(
         Uri.parse(url),
-        body: convert.jsonEncode(
-            map
-        ),
+        body: convert.jsonEncode(map),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json"
         },
       );
-    }
-    else{
+    } else {
       map['vc_code'] = vcCode;
       return await http.post(
         Uri.parse(url),
-        body: convert.jsonEncode(
-            map
-        ),
+        body: convert.jsonEncode(map),
         headers: {
           "Accept": "application/json",
           "content-type": "application/json"
@@ -129,11 +124,12 @@ class StaticMethods {
     }
   }
 
-  static void printError(e){
+  static void printError(e) {
     print('myError: ${e.toString()}');
   }
 
-  static AlertDialog myAlertDialog(Function selectFromCamera, Function selectFromGallery) {
+  static AlertDialog myAlertDialog(
+      Function selectFromCamera, Function selectFromGallery) {
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -220,4 +216,48 @@ class StaticMethods {
     );
   }
 
+  static PreferredSize myAppBar(String text, BuildContext context) {
+    return PreferredSize(
+      child: Container(
+        decoration: kCustomAppBarDecoration,
+        child: SafeArea(
+          child: Row(
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.chevron_left,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              Spacer(
+                flex: 2,
+              ),
+              Container(
+                decoration: kCustomAppBarDecoration,
+                child: Center(
+                  child: Text(
+                    text,
+                    style: kHeaderTextStyle.copyWith(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              Spacer(
+                flex: 3,
+              ),
+            ],
+          ),
+        ),
+      ),
+      preferredSize: Size(
+        double.infinity,
+        70,
+      ),
+    );
+  }
 }

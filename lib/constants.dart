@@ -29,3 +29,34 @@ final kMyProgressIndicator = Container(
 );
 
 final String mainUrl = 'https://softcheetahs.herokuapp.com';
+
+final kCustomAppBarDecoration = BoxDecoration(
+  color: Colors.blueAccent,
+  borderRadius: BorderRadius.only(
+      bottomLeft: Radius.circular(30),
+      bottomRight: Radius.circular(30)
+  ),
+);
+
+class AccommodationType{
+  static String villa = 'Villa';
+  static String hotel = 'Hotel';
+  static String suite = 'Suite';
+  static String motel = 'Motel';
+  static String apartment = 'Apartment';
+  static String house = 'House';
+  static String cottage = 'Cottage';
+  static String residentialComplex = 'Residential Complex';
+  static String hostel = 'Hostel';
+  static String ecoTourism = 'EcoTourism';
+  static String traditionalAccommodation = 'Traditional accommodation';
+}
+
+class ResortType{
+  static String coastal = 'Coastal';
+  static String urban = 'Urban';
+  static String rural = 'Rural';
+  static String desert = 'Desert';
+  static String mountainous = 'Mountainous';
+  static String forest = 'Forest';
+}

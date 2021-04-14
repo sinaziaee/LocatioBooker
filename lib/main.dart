@@ -8,6 +8,8 @@ import 'package:loctio_booker/screens/profile/terms_aggrements_screen.dart';
 import 'screens/authentication/login_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/home/search_profile_screen.dart';
+import 'screens/hosting/hosing_screen.dart';
+import 'screens/hosting/category_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,6 +31,8 @@ class MyApp extends StatelessWidget {
         personalInformation.id : (context) => personalInformation(),
         termsAggrements.id : (context) => termsAggrements(),
         SearchProfileScreen.id: (context) => SearchProfileScreen(),
+        HostingScreen.id: (context) => HostingScreen(),
+        CategoryScreen.id: (context) => CategoryScreen(),
       },
     );
   }
