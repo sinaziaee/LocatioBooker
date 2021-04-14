@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
-import 'package:loctio_booker/screens/profile/settings.dart';
+import 'package:loctio_booker/screens/profile/settings_page.dart';
 import 'package:loctio_booker/screens/home/search_profile_screen.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';

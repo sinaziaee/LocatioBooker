@@ -87,7 +87,7 @@ class _SettingsState extends State<Settings> {
               style: kBodyTextStyle,
             ),
             leading: Icon(Icons.person),
-            trailing: SizedBox(),
+            trailing: Icon(Icons.more_vert),
           ),
           ListTile(
             onTap: () {
@@ -98,7 +98,7 @@ class _SettingsState extends State<Settings> {
               style: kBodyTextStyle,
             ),
             leading: Icon(Icons.accessibility),
-            trailing: SizedBox(),
+            trailing: Icon(Icons.more_vert),
           ),
           ListTile(
             title: Text(
