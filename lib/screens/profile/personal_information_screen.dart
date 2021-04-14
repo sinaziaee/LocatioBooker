@@ -105,7 +105,7 @@ class _personalInformationState extends State<personalInformation> {
     lastNameController.text = lastName;
     phoneController.text = phoneNumber;
     emailController.text = user.email;
-    token = user.token;
+    // token = user.token;
     return user;
   }
 
@@ -138,7 +138,7 @@ class _personalInformationState extends State<personalInformation> {
 
   @override
   Widget build(BuildContext context) {
-    print('token is: ${user.token}');
+    // print('token is: ${user.token}');
     return Scaffold(
       body: ModalProgressHUD(
         progressIndicator: kMyProgressIndicator,
