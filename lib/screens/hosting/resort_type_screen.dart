@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 import '../../static_methods.dart';
 import 'components/hosting_resort_type_item.dart';
-import 'resort_description_screen.dart';
+import '02_resort_description_screen.dart';
 
 class ResortTypeScreen extends StatefulWidget {
   @override

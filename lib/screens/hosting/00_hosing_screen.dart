@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/static_methods.dart';
-import 'category_screen.dart';
+import '01_category_screen.dart';
 import 'resort_type_screen.dart';
 import 'components/apartment_not_found_component.dart';
 

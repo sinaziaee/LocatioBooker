@@ -11,24 +11,31 @@ class MyTextField extends StatelessWidget {
   final TextEditingController controller;
   final Size size;
   final TextInputType inputType;
+  final int lines;
+  final double height;
 
   MyTextField(
       {this.hint,
+      this.lines,
       this.isPassword,
       this.color,
       this.node,
       this.controller,
       this.isLast,
+      this.height,
       this.inputType,
       @required this.size});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: size.height * 0.06,
-      margin: EdgeInsets.symmetric(
-          horizontal: size.width * 0.01, vertical: size.height * 0.005),
+      height: height ?? 40,
+      margin: EdgeInsets.symmetric(vertical: size.height * 0.005),
+      // margin: EdgeInsets.symmetric(
+      //     horizontal: size.width * 0.01, vertical: size.height * 0.005),
       child: TextFormField(
+        maxLines: 10,
+        minLines: lines ?? 1,
         keyboardType: inputType ?? TextInputType.text,
         cursorColor: Colors.black,
         controller: controller,

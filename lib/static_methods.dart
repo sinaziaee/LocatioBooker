@@ -256,7 +256,7 @@ class StaticMethods {
       ),
       preferredSize: Size(
         double.infinity,
-        70,
+        60,
       ),
     );
   }
