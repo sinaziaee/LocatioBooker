@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loctio_booker/constants.dart';
 import '../../models/resort_description.dart';
 import '../../static_methods.dart';
 import 'components/bottom_container.dart';
@@ -20,9 +21,14 @@ class ResortIdentificationScreen extends StatefulWidget {
 
 class _ResortIdentificationScreenState
     extends State<ResortIdentificationScreen> {
-
   Size size;
-  int capacity=0, numRoom=0, numSingleBeds=0, numDoubleBeds=0, numDoshaks=0;
+
+  int bCapacity = 1,
+      mCapacity = 1,
+      numRoom = 1,
+      numSingleBeds = 0,
+      numDoubleBeds = 0,
+      numDoshaks = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +39,17 @@ class _ResortIdentificationScreenState
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-              child: Expanded(
-                child: customContainer(),
+              padding: EdgeInsets.only(
+                left: size.width * 0.05,
+                right: size.width * 0.05,
+                top: size.width * 0.05,
               ),
+              child: customContainer(),
             ),
             BottomContainer(
               text: 'Submit & Continue',
               onPressed: () {
-                // isValidated();
+                onPressed();
               },
             ),
           ],
@@ -50,47 +58,190 @@ class _ResortIdentificationScreenState
     );
   }
 
-  onPressed(ResortIdentification rd) {
+  onPressed() {
+    ResortIdentification resortIdentification = ResortIdentification(
+      bCapacity: bCapacity,
+      mCapacity: mCapacity,
+      numDoshak: numDoshaks,
+      numDoubleBeds: numDoubleBeds,
+      numRooms: numRoom,
+      numSingleBeds: numSingleBeds,
+    );
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => FacilitationScreen(
           villa: widget.villa,
           resortDescription: widget.resortDescription,
+          resortIdentification: resortIdentification,
         ),
       ),
     );
   }
 
-  Widget customContainer(){
+  Widget customContainer() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Describe your accommodation space.'),
+        Text(
+          'Describe your accommodation space.',
+          style: kBodyTextStyle.copyWith(),
+        ),
         SizedBox(
           height: size.height * 0.05,
         ),
         FacilitateItem(
-          onIncrease: onIncreasePressed(capacity),
-          onDecrease: onDecreasePressed(capacity),
-          text: 'text',
-          count: capacity,
+          size: size,
+          onIncrease: () {
+            onIncreasePressed("bCapacity");
+          },
+          onDecrease: () {
+            onDecreasePressed("bCapacity");
+          },
+          text: 'Base Capacity',
+          count: bCapacity,
+        ),
+        SizedBox(
+          height: size.height * 0.01,
+        ),
+        FacilitateItem(
+          size: size,
+          onIncrease: () {
+            onIncreasePressed("mCapacity");
+          },
+          onDecrease: () {
+            onDecreasePressed("mCapacity");
+          },
+          text: 'Maximum capacity',
+          count: mCapacity,
+        ),
+        SizedBox(
+          height: size.height * 0.01,
+        ),
+        FacilitateItem(
+          size: size,
+          onIncrease: () {
+            onIncreasePressed("numRoom");
+          },
+          onDecrease: () {
+            onDecreasePressed("numRoom");
+          },
+          text: 'Number of rooms',
+          count: numRoom,
+        ),
+        SizedBox(
+          height: size.height * 0.01,
+        ),
+        FacilitateItem(
+          size: size,
+          onIncrease: () {
+            onIncreasePressed("numSingleBeds");
+          },
+          onDecrease: () {
+            onDecreasePressed("numSingleBeds");
+          },
+          text: 'Number of single beds',
+          count: numSingleBeds,
+        ),
+        SizedBox(
+          height: size.height * 0.01,
+        ),
+        FacilitateItem(
+          size: size,
+          onIncrease: () {
+            onIncreasePressed("numDoubleBeds");
+          },
+          onDecrease: () {
+            onDecreasePressed("numDoubleBeds");
+          },
+          text: 'Number of Double beds',
+          count: numDoubleBeds,
+        ),
+        SizedBox(
+          height: size.height * 0.01,
+        ),
+        FacilitateItem(
+          size: size,
+          onIncrease: () {
+            onIncreasePressed("numDoshaks");
+          },
+          onDecrease: () {
+            onDecreasePressed("numDoshaks");
+          },
+          text: 'Number of Doshaks',
+          count: numDoshaks,
         ),
       ],
     );
   }
 
-  onIncreasePressed(int count){
-    setState(() {
-      count++;
-      print(count);
-    });
+  onIncreasePressed(String which) {
+    switch (which) {
+      case "bCapacity":
+        setState(() {
+          (bCapacity >= 10) ? null : bCapacity++;
+        });
+        break;
+      case "mCapacity":
+        setState(() {
+          (mCapacity >= 10) ? null : mCapacity++;
+        });
+        break;
+      case "numRoom":
+        setState(() {
+          (numRoom >= 10) ? null : numRoom++;
+        });
+        break;
+      case "numSingleBeds":
+        setState(() {
+          (numSingleBeds >= 10) ? null : numSingleBeds++;
+        });
+        break;
+      case "numDoubleBeds":
+        setState(() {
+          (numDoubleBeds >= 10) ? null : numDoubleBeds++;
+        });
+        break;
+      case "numDoshaks":
+        setState(() {
+          (numDoshaks >= 10) ? null : numDoshaks++;
+        });
+        break;
+    }
   }
 
-  onDecreasePressed(int count){
-    setState(() {
-      count--;
-      print(count);
-    });
+  onDecreasePressed(String which) {
+    switch (which) {
+      case "bCapacity":
+        setState(() {
+          (bCapacity <= 1) ? null : bCapacity--;
+        });
+        break;
+      case "mCapacity":
+        setState(() {
+          (mCapacity <= 1) ? null : mCapacity--;
+        });
+        break;
+      case "numRoom":
+        setState(() {
+          (numRoom <= 1) ? null : numRoom--;
+        });
+        break;
+      case "numSingleBeds":
+        setState(() {
+          (numSingleBeds <= 0) ? null : numSingleBeds--;
+        });
+        break;
+      case "numDoubleBeds":
+        setState(() {
+          (numDoubleBeds <= 0) ? null : numDoubleBeds--;
+        });
+        break;
+      case "numDoshaks":
+        setState(() {
+          (numDoshaks <= 0) ? null : numDoshaks--;
+        });
+        break;
+    }
   }
-
 }

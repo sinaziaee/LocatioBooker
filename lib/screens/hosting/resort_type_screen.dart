@@ -51,7 +51,7 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
                   },
                   size: size,
                   title: ResortType.coastal,
-                  assetName: 'assets/images/as.jpg',
+                  assetName: 'assets/images/category/beach.png',
                 ),
                 HostingResortItem(
                   onPressed: (){
@@ -59,7 +59,7 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
                   },
                   size: size,
                   title: ResortType.urban,
-                  assetName: 'assets/images/as.jpg',
+                  assetName: 'assets/images/category/urban.png',
                 ),
               ],
             ),
@@ -72,7 +72,7 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
                   },
                   size: size,
                   title: AccommodationType.motel,
-                  assetName: 'assets/images/as.jpg',
+                  assetName: 'assets/images/category/motel.png',
                 ),
                 HostingResortItem(
                   onPressed: (){
@@ -80,7 +80,7 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
                   },
                   size: size,
                   title: ResortType.mountainous,
-                  assetName: 'assets/images/as.jpg',
+                  assetName: 'assets/images/category/mountainous.png',
                 ),
               ],
             ),
@@ -93,7 +93,7 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
                   },
                   size: size,
                   title: ResortType.desert,
-                  assetName: 'assets/images/as.jpg',
+                  assetName: 'assets/images/category/desert.png',
                 ),
                 HostingResortItem(
                   onPressed: (){
@@ -101,7 +101,28 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
                   },
                   size: size,
                   title: ResortType.rural,
-                  assetName: 'assets/images/as.jpg',
+                  assetName: 'assets/images/category/rural.png',
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                HostingResortItem(
+                  onPressed: (){
+                    onPressed(ResortType.wild);
+                  },
+                  size: size,
+                  title: ResortType.suburban,
+                  assetName: 'assets/images/category/suburban.png',
+                ),
+                HostingResortItem(
+                  onPressed: (){
+                    onPressed(ResortType.wild);
+                  },
+                  size: size,
+                  title: ResortType.wild,
+                  assetName: 'assets/images/category/wild.png',
                 ),
               ],
             ),

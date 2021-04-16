@@ -25,10 +25,14 @@ class HostingResortItem extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                assetName,
-                width: size.width * 0.3,
-                height: size.height * 0.16,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
+                  assetName,
+
+                  width: size.width * 0.3,
+                  height: size.height * 0.16,
+                ),
               ),
               SizedBox(
                 height: size.height * 0.01,

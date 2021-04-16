@@ -5,6 +5,7 @@ import '../../static_methods.dart';
 import 'components/bottom_container.dart';
 import '../../models/resort_description.dart';
 import '03_identification_screen.dart';
+
 class ResortDescriptionScreen extends StatefulWidget {
   final String resortType;
 
@@ -54,9 +55,7 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
-              child: Expanded(
-                child: customContainer(),
-              ),
+              child: customContainer(),
             ),
             BottomContainer(
               text: 'Submit & Continue',
@@ -76,19 +75,23 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
     String infArea = infrastructureAreaController.text;
     String totalArea = totalBuildingAreaController.text;
     if (name.length == 0) {
-      StaticMethods.showErrorDialog(context, 'Enter a name for your accommodation');
+      StaticMethods.showErrorDialog(
+          context, 'Enter a name for your accommodation');
       return;
     }
     if (description.length == 0) {
-      StaticMethods.showErrorDialog(context, 'Enter a description for your accommodation');
+      StaticMethods.showErrorDialog(
+          context, 'Enter a description for your accommodation');
       return;
     }
     if (infArea.length == 0) {
-      StaticMethods.showErrorDialog(context, 'Enter infrastructure area for your accommodation');
+      StaticMethods.showErrorDialog(
+          context, 'Enter infrastructure area for your accommodation');
       return;
     }
     if (totalArea.length == 0) {
-      StaticMethods.showErrorDialog(context, 'Enter total area for your accommodation');
+      StaticMethods.showErrorDialog(
+          context, 'Enter total area for your accommodation');
       return;
     }
     ResortDescription rd = ResortDescription(
@@ -112,7 +115,7 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
     );
   }
 
-  Widget customContainer(){
+  Widget customContainer() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -241,5 +244,4 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
       ],
     );
   }
-
 }
