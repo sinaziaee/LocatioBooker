@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../constants.dart';
 import '../../models/resort_description.dart';
 import '../../static_methods.dart';
@@ -24,18 +25,18 @@ class _FacilitationScreenState extends State<FacilitationScreen> {
       iranianWc = 1,
       wc = 1;
 
-  bool refrigerator,
-      hairDryer,
-      telephone,
-      safeBox,
-      kitchen,
-      television,
-      microwave,
-      coffeeMaker,
-      water,
-      coach,
-      dishWasher,
-      washingMachine;
+  bool hasRefrigerator = false,
+      hasHairDryer = false,
+      hasTelephone = false,
+      hasSafeBox = false,
+      hasKitchen = false,
+      hasTelevision = false,
+      hasMicrowave = false,
+      hasCoffeeMaker = false,
+      hasWater = false,
+      hasCoach = false,
+      hasDishWasher = false,
+      hasWashingMachine = false;
 
   @override
   Widget build(BuildContext context) {
@@ -156,9 +157,38 @@ class _FacilitationScreenState extends State<FacilitationScreen> {
     return Column(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Item(
-              isSelected: false,
+              onTapped: (){
+                setState(() {
+                  hasRefrigerator = !hasRefrigerator;
+                });
+              },
+              isSelected: hasRefrigerator,
+              size: size,
+              asset: 'assets/images/facilitation/i-fridge.png',
+            ),
+            Spacer(),
+            Item(
+              onTapped: (){
+                setState(() {
+                  hasRefrigerator = !hasRefrigerator;
+                });
+              },
+              isSelected: hasRefrigerator,
+              size: size,
+              asset: 'assets/images/facilitation/i-fridge.png',
+            ),
+            Item(
+              onTapped: (){
+                setState(() {
+                  hasRefrigerator = !hasRefrigerator;
+                });
+              },
+              isSelected: hasRefrigerator,
+              size: size,
+              asset: 'assets/images/facilitation/i-fridge.png',
             ),
           ],
         ),
