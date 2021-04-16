@@ -6,6 +6,8 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
 
 import '../../constants.dart';
+import 'dart:async';
+import 'dart:io';
 
 class facility_villa extends StatefulWidget {
   static String id = 'facility_villa';
@@ -24,6 +26,7 @@ class _facility_villaState extends State<facility_villa> {
   TextEditingController doubleBedsController;
   TextEditingController showersController;
   TextEditingController WcController;
+  File _image;
 
   int capacity =0;
   int rooms = 0;
@@ -259,4 +262,6 @@ class _facility_villaState extends State<facility_villa> {
   void onContinuePressed() {
 
   }
+
+
 }
