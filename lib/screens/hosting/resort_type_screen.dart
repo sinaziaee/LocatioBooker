@@ -25,19 +25,16 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
             SizedBox(
               height: size.height * 0.02,
             ),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: size.width * 0.05, right: size.width * 0.05),
-                  child: Text(
-                    'What area is your residence located in?',
-                    style: kHeaderTextStyle.copyWith(
-                      fontWeight: FontWeight.w400,
-                      fontSize: size.width * 0.048,
-                    ),
-                  ),
+            Padding(
+              padding: EdgeInsets.only(left: size.width * 0.05, right: size.width * 0.05),
+              child: Text(
+                'What area is your residence located in?',
+                style: kHeaderTextStyle.copyWith(
+                  fontWeight: FontWeight.w400,
+                  fontSize: size.width * 0.048,
                 ),
-              ],
+                textAlign: TextAlign.start,
+              ),
             ),
             SizedBox(
               height: size.height * 0.02,

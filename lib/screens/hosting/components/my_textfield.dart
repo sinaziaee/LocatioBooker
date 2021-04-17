@@ -29,7 +29,7 @@ class MyTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height ?? 40,
+      height: height ?? 45,
       margin: EdgeInsets.symmetric(vertical: size.height * 0.005),
       // margin: EdgeInsets.symmetric(
       //     horizontal: size.width * 0.01, vertical: size.height * 0.005),
