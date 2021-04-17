@@ -1,19 +1,38 @@
 class Facilitation {
-  int iranianWc,
-      wc,
-      bathroom;
-
   bool refrigerator,
       hairDryer,
       telephone,
       safeBox,
-      kitchen,
+      oven,
       television,
       microwave,
       coffeeMaker,
-      water,
-      coach,
+      airConditioner,
+      hotWater,
+      furniture,
+      cookingBasics,
+      wifi,
+      parking,
+      bathroomEssentials,
       dishWasher,
       washingMachine;
 
+  Facilitation(
+      {this.refrigerator,
+      this.hairDryer,
+      this.telephone,
+      this.safeBox,
+      this.oven,
+      this.television,
+      this.microwave,
+      this.coffeeMaker,
+      this.hotWater,
+      this.furniture,
+      this.airConditioner,
+      this.dishWasher,
+      this.bathroomEssentials,
+      this.cookingBasics,
+      this.parking,
+      this.wifi,
+      this.washingMachine});
 }

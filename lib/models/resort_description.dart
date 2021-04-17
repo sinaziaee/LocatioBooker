@@ -1,7 +1,7 @@
 class ResortDescription{
   String name, about;
-  int infrastructureArea, totalArea;
+  int area, price;
 
-  ResortDescription({this.name, this.about, this.infrastructureArea, this.totalArea});
+  ResortDescription({this.name, this.about, this.price, this.area});
 
 }

@@ -17,10 +17,11 @@ class Item extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         onTap: onTapped,
         child: Container(
-          height: size.height * 0.1,
-          width: size.width * 0.3,
+          // height: size.height * 0.1,
+          height: 90,
+          width: size.width * 0.28,
           decoration: BoxDecoration(
-            color: Colors.grey[100],
+            color: Colors.grey[200],
             border: Border.all(
               width: 1,
               color: Colors.black,
@@ -32,7 +33,8 @@ class Item extends StatelessWidget {
             children: [
               Image.asset(
                 asset,
-                height: size.height * 0.06,
+                // height: size.height * 0.06,
+                height: 50,
                 width: size.width * 0.14,
               ),
               Text(
@@ -41,6 +43,7 @@ class Item extends StatelessWidget {
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                 ),
+                textAlign: TextAlign.center,
               ),
             ],
           ),
@@ -52,8 +55,9 @@ class Item extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         onTap: onTapped,
         child: Container(
-          height: size.height * 0.1,
-          width: size.width * 0.3,
+          // height: size.height * 0.1,
+          height: 90,
+          width: size.width * 0.28,
           decoration: BoxDecoration(
             border: Border.all(
               width: 0.5,
@@ -66,7 +70,8 @@ class Item extends StatelessWidget {
             children: [
               Image.asset(
                 asset,
-                height: size.height * 0.06,
+                // height: size.height * 0.06,
+                height: 50,
                 width: size.width * 0.14,
               ),
               Text(
@@ -75,6 +80,7 @@ class Item extends StatelessWidget {
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                 ),
+                textAlign: TextAlign.center,
               ),
             ],
           ),

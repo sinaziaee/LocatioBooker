@@ -1,9 +1,10 @@
 class ResortIdentification {
-  int bCapacity, mCapacity, numRooms, numSingleBeds, numDoubleBeds, numDoshak;
+  int bCapacity, mCapacity, numRooms, numSingleBeds, numDoubleBeds, numBathrooms, numShowers;
 
   ResortIdentification({
     this.bCapacity,
-    this.numDoshak,
+    this.numShowers,
+    this.numBathrooms,
     this.mCapacity,
     this.numDoubleBeds,
     this.numRooms,

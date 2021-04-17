@@ -28,7 +28,8 @@ class _ResortIdentificationScreenState
       numRoom = 1,
       numSingleBeds = 0,
       numDoubleBeds = 0,
-      numDoshaks = 0;
+      numBathroom = 0,
+      numShowers = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,6 @@ class _ResortIdentificationScreenState
     ResortIdentification resortIdentification = ResortIdentification(
       bCapacity: bCapacity,
       mCapacity: mCapacity,
-      numDoshak: numDoshaks,
       numDoubleBeds: numDoubleBeds,
       numRooms: numRoom,
       numSingleBeds: numSingleBeds,
@@ -160,16 +160,36 @@ class _ResortIdentificationScreenState
         SizedBox(
           height: size.height * 0.01,
         ),
+        SizedBox(
+          height: size.height * 0.01,
+        ),
         FacilitateItem(
           size: size,
           onIncrease: () {
-            onIncreasePressed("numDoshaks");
+            onIncreasePressed("numBathroom");
           },
           onDecrease: () {
-            onDecreasePressed("numDoshaks");
+            onDecreasePressed("numBathroom");
           },
-          text: 'Number of Doshaks',
-          count: numDoshaks,
+          text: 'Number of bathrooms',
+          count: numBathroom,
+        ),
+        SizedBox(
+          height: size.height * 0.01,
+        ),
+        SizedBox(
+          height: size.height * 0.01,
+        ),
+        FacilitateItem(
+          size: size,
+          onIncrease: () {
+            onIncreasePressed("numShowers");
+          },
+          onDecrease: () {
+            onDecreasePressed("numShowers");
+          },
+          text: 'Number of showers',
+          count: numShowers,
         ),
       ],
     );
@@ -202,9 +222,14 @@ class _ResortIdentificationScreenState
           (numDoubleBeds >= 10) ? null : numDoubleBeds++;
         });
         break;
-      case "numDoshaks":
+      case "numShowers":
         setState(() {
-          (numDoshaks >= 10) ? null : numDoshaks++;
+          (numShowers >= 10) ? null : numShowers++;
+        });
+        break;
+      case "numBathrooms":
+        setState(() {
+          (numBathroom >= 10) ? null : numBathroom++;
         });
         break;
     }
@@ -237,9 +262,14 @@ class _ResortIdentificationScreenState
           (numDoubleBeds <= 0) ? null : numDoubleBeds--;
         });
         break;
-      case "numDoshaks":
+      case "numBathrooms":
         setState(() {
-          (numDoshaks <= 0) ? null : numDoshaks--;
+          (numBathroom <= 0) ? null : numBathroom--;
+        });
+        break;
+      case "numShowers":
+        setState(() {
+          (numShowers <= 0) ? null : numShowers--;
         });
         break;
     }

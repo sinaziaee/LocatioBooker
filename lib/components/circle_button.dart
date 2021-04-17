@@ -13,11 +13,11 @@ class MyCircleButton extends StatelessWidget {
     return Material(
       shape: CircleBorder(),
       child: InkWell(
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(20),
         onTap: onPressed,
         child: Container(
-          height: 45,
-          width: 45,
+          height: 40,
+          width: 40,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(

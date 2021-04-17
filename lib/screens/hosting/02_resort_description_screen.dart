@@ -21,16 +21,16 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
   FocusNode node;
   TextEditingController nameController,
       descriptionController,
-      infrastructureAreaController,
-      totalBuildingAreaController,
+      priceController,
+      areaController,
       costController;
 
   @override
   void initState() {
     nameController = TextEditingController();
     descriptionController = TextEditingController();
-    infrastructureAreaController = TextEditingController();
-    totalBuildingAreaController = TextEditingController();
+    priceController = TextEditingController();
+    areaController = TextEditingController();
     super.initState();
   }
 
@@ -38,8 +38,8 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
   void dispose() {
     nameController.dispose();
     descriptionController.dispose();
-    infrastructureAreaController.dispose();
-    totalBuildingAreaController.dispose();
+    priceController.dispose();
+    areaController.dispose();
     super.dispose();
   }
 
@@ -72,8 +72,8 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
   isValidated() {
     String name = nameController.text;
     String description = descriptionController.text;
-    String infArea = infrastructureAreaController.text;
-    String totalArea = totalBuildingAreaController.text;
+    String price = priceController.text;
+    String area = areaController.text;
     if (name.length == 0) {
       StaticMethods.showErrorDialog(
           context, 'Enter a name for your accommodation');
@@ -84,21 +84,21 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           context, 'Enter a description for your accommodation');
       return;
     }
-    if (infArea.length == 0) {
+    if (price.length == 0) {
       StaticMethods.showErrorDialog(
-          context, 'Enter infrastructure area for your accommodation');
+          context, 'Enter Price per day of your accommodation');
       return;
     }
-    if (totalArea.length == 0) {
+    if (area.length == 0) {
       StaticMethods.showErrorDialog(
-          context, 'Enter total area for your accommodation');
+          context, 'Enter area in meters for your accommodation');
       return;
     }
     ResortDescription rd = ResortDescription(
       name: name,
       about: description,
-      infrastructureArea: int.parse(infArea),
-      totalArea: int.parse(totalArea),
+      price: int.parse(price),
+      area: int.parse(area),
     );
     onPressed(rd);
   }
@@ -199,7 +199,7 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           height: size.height * 0.01,
         ),
         Text(
-          'Infrastructure area (meters)',
+          'Price (\$)',
           style: kHeaderTextStyle.copyWith(
             fontWeight: FontWeight.w400,
             fontSize: size.width * 0.04,
@@ -211,18 +211,18 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
         MyTextField(
           lines: 1,
           size: size,
-          controller: infrastructureAreaController,
+          controller: priceController,
           isLast: false,
           node: node,
           isPassword: false,
           inputType: TextInputType.number,
-          hint: 'Ex: 75',
+          hint: 'Ex: 50\$',
         ),
         SizedBox(
           height: size.height * 0.01,
         ),
         Text(
-          'Total area (meters)',
+          'Area (meters)',
           style: kHeaderTextStyle.copyWith(
             fontWeight: FontWeight.w400,
             fontSize: size.width * 0.04,
@@ -234,7 +234,7 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
         MyTextField(
           lines: 1,
           size: size,
-          controller: totalBuildingAreaController,
+          controller: areaController,
           isLast: true,
           node: node,
           isPassword: false,
