@@ -33,7 +33,7 @@ class StaticMethods {
       preferences.setString("phone", user.phone);
     }
     if (user.image != null) {
-      preferences.setString("token", user.image);
+      preferences.setString("image", user.image);
     }
     if (user.bio != null) {
       preferences.setString("bio", user.bio);
@@ -57,7 +57,7 @@ class StaticMethods {
     String country = preferences.getString("country");
     String bio = preferences.getString("bio");
     String image = preferences.getString("image");
-    String nationalCode = preferences.getString("image");
+    String nationalCode = preferences.getString("nationalCode");
     String gender = preferences.getString("gender");
 
     User user = User(

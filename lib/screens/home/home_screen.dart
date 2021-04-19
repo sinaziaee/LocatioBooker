@@ -71,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
     args = ModalRoute.of(context).settings.arguments;
     user = args['user'];
     token = user.token;
+    // user.printUser();
     return Scaffold(
       body: SafeArea(
         child: bodyContainer(selectedIndex),

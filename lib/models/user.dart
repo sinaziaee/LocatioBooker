@@ -38,6 +38,16 @@ class User {
     gender = json['gender'];
   }
 
+  printUser(){
+    print('firstName: $firstName');
+    print('lastName: $lastName');
+    print('email: $email');
+    print('token: $token');
+    print('gender: $gender');
+    print('phone: $phone');
+    print('bio: $bio');
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.firstName != null && this.firstName.length != 0) {

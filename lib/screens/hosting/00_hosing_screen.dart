@@ -25,6 +25,7 @@ class _HostingScreenState extends State<HostingScreen> {
     size = MediaQuery.of(context).size;
     args = ModalRoute.of(context).settings.arguments;
     user = args['user'];
+    // user.printUser();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: StaticMethods.myAppBar('Hosting Screen', context),

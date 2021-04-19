@@ -35,9 +35,9 @@ class _LoginScreenState extends State<LoginScreen> {
       user = User(
         firstName: prefs.getString('firstName'),
         lastName: prefs.getString('lastName'),
-        token: prefs.getString('firstName'),
-        email: prefs.getString('firstName'),
-        password: prefs.getString('firstName'),
+        token: prefs.getString('token'),
+        email: prefs.getString('email'),
+        password: prefs.getString('password'),
         country: prefs.getString('country'),
         phone: prefs.getString('phone'),
       );

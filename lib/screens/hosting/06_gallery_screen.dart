@@ -106,7 +106,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
                     borderRadius: BorderRadius.circular(20),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(20),
-                      onTap: (){
+                      onTap: () {
                         onImageSelectPressed();
                       },
                       child: Container(
@@ -118,7 +118,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
                           // color: Colors.blueGrey[400],
                           border: Border.all(
                             width: 1,
-                              color: Colors.blueGrey[400],
+                            color: Colors.blueGrey[400],
                           ),
                         ),
                         child: Column(
@@ -232,6 +232,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
   }
 
   uploadImage(File file) async {
+    widget.user.printUser();
     // setState(() {
     //   showSpinner = true;
     // });
@@ -263,9 +264,13 @@ class _GalleryScreenState extends State<GalleryScreen> {
         var jsonResponse =
             convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
         print(jsonResponse);
+        counter = 0;
       } else {
-        StaticMethods.showErrorDialog(
-            context, 'An Error happened updating profile');
+        counter++;
+        if (images.length == counter) {
+          StaticMethods.showErrorDialog(
+              context, 'An Error happened updating profile');
+        }
         print(response.body);
       }
     } catch (e) {

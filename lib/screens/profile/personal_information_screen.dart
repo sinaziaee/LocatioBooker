@@ -107,7 +107,8 @@ class _personalInformationState extends State<personalInformation> {
     bioController.text = user.bio;
     genderController.text = user.gender;
     token = user.token;
-    print(token);
+    // print(token);
+    user.printUser();
     return user;
   }
 
