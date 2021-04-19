@@ -243,6 +243,7 @@ class _LoginScreenState extends State<LoginScreen> {
       showSpinner = false;
       setState(() {});
       print(response.statusCode);
+      print(response.body);
       if (response.statusCode < 400) {
         Navigator.pop(context);
         var jsonResponse =

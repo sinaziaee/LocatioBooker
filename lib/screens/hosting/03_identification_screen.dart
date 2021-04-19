@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
+import 'package:loctio_booker/models/user.dart';
 import '../../models/resort_description.dart';
 import '../../static_methods.dart';
 import 'components/bottom_container.dart';
@@ -9,10 +10,11 @@ import 'components/facilitate_item.dart';
 
 class ResortIdentificationScreen extends StatefulWidget {
   final String villa;
+  final User user;
 
   final ResortDescription resortDescription;
 
-  ResortIdentificationScreen({this.villa, this.resortDescription});
+  ResortIdentificationScreen({this.villa, this.resortDescription, this.user});
 
   @override
   _ResortIdentificationScreenState createState() =>
@@ -74,6 +76,7 @@ class _ResortIdentificationScreenState
           villa: widget.villa,
           resortDescription: widget.resortDescription,
           resortIdentification: resortIdentification,
+          user: widget.user,
         ),
       ),
     );

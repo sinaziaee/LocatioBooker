@@ -5,7 +5,7 @@ import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/profile/personal_information_screen.dart';
 import 'package:loctio_booker/screens/profile/terms_aggrements_screen.dart';
-import '../hosting/01_category_screen.dart';
+import '../hosting/category_screen.dart';
 import '../hosting/00_hosing_screen.dart';
 import '../../static_methods.dart';
 

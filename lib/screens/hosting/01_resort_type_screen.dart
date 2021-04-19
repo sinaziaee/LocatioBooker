@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loctio_booker/models/user.dart';
 
 import '../../constants.dart';
 import '../../static_methods.dart';
@@ -7,6 +8,10 @@ import 'components/hosting_resort_type_item.dart';
 import '02_resort_description_screen.dart';
 
 class ResortTypeScreen extends StatefulWidget {
+  final User user;
+
+  ResortTypeScreen(this.user);
+
   @override
   _ResortTypeScreenState createState() => _ResortTypeScreenState();
 }
@@ -23,27 +28,34 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
         child: Column(
           children: [
             SizedBox(
-              height: size.height * 0.02,
+              height: (size.height > size.width)
+                  ? size.height * 0.02
+                  : size.width * 0.04,
             ),
             Padding(
-              padding: EdgeInsets.only(left: size.width * 0.05, right: size.width * 0.05),
+              padding: EdgeInsets.only(
+                  left: size.width * 0.05, right: size.width * 0.05),
               child: Text(
                 'What area is your residence located in?',
                 style: kHeaderTextStyle.copyWith(
                   fontWeight: FontWeight.w400,
-                  fontSize: size.width * 0.048,
+                  fontSize: (size.height > size.width)
+                      ? size.width * 0.042
+                      : size.height * 0.048,
                 ),
                 textAlign: TextAlign.start,
               ),
             ),
             SizedBox(
-              height: size.height * 0.02,
+              height: (size.height > size.width)
+                  ? size.height * 0.02
+                  : size.width * 0.04,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 HostingResortItem(
-                  onPressed: (){
+                  onPressed: () {
                     onPressed(ResortType.coastal);
                   },
                   size: size,
@@ -51,7 +63,7 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
                   assetName: 'assets/images/category/beach.png',
                 ),
                 HostingResortItem(
-                  onPressed: (){
+                  onPressed: () {
                     onPressed(ResortType.urban);
                   },
                   size: size,
@@ -64,7 +76,7 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 HostingResortItem(
-                  onPressed: (){
+                  onPressed: () {
                     onPressed(ResortType.forest);
                   },
                   size: size,
@@ -72,7 +84,7 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
                   assetName: 'assets/images/category/motel.png',
                 ),
                 HostingResortItem(
-                  onPressed: (){
+                  onPressed: () {
                     onPressed(ResortType.mountainous);
                   },
                   size: size,
@@ -85,7 +97,7 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 HostingResortItem(
-                  onPressed: (){
+                  onPressed: () {
                     onPressed(ResortType.desert);
                   },
                   size: size,
@@ -93,7 +105,7 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
                   assetName: 'assets/images/category/desert.png',
                 ),
                 HostingResortItem(
-                  onPressed: (){
+                  onPressed: () {
                     onPressed(ResortType.rural);
                   },
                   size: size,
@@ -106,7 +118,7 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 HostingResortItem(
-                  onPressed: (){
+                  onPressed: () {
                     onPressed(ResortType.wild);
                   },
                   size: size,
@@ -114,7 +126,7 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
                   assetName: 'assets/images/category/suburban.png',
                 ),
                 HostingResortItem(
-                  onPressed: (){
+                  onPressed: () {
                     onPressed(ResortType.wild);
                   },
                   size: size,
@@ -129,11 +141,14 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
     );
   }
 
-  onPressed(String villa){
-    Navigator.push(context,
-      MaterialPageRoute(builder: (context) => ResortDescriptionScreen(
-        villa,
-      )),
+  onPressed(String villa) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ResortDescriptionScreen(
+                villa,
+                widget.user,
+              )),
     );
   }
 }

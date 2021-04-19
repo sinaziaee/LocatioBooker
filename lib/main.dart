@@ -9,7 +9,7 @@ import 'screens/authentication/login_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/home/search_profile_screen.dart';
 import 'screens/hosting/00_hosing_screen.dart';
-import 'screens/hosting/01_category_screen.dart';
+import 'screens/hosting/category_screen.dart';
 
 void main() {
   runApp(MyApp());

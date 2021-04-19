@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:loctio_booker/models/user.dart';
 import '../../constants.dart';
 import '../../models/resort_description.dart';
 import '../../static_methods.dart';
@@ -14,9 +15,13 @@ class FacilitationScreen extends StatefulWidget {
   final String villa;
   final ResortDescription resortDescription;
   final ResortIdentification resortIdentification;
+  final User user;
 
   FacilitationScreen(
-      {this.villa, this.resortDescription, this.resortIdentification});
+      {this.villa,
+      this.resortDescription,
+      this.user,
+      this.resortIdentification});
 
   @override
   _FacilitationScreenState createState() => _FacilitationScreenState();
@@ -98,6 +103,7 @@ class _FacilitationScreenState extends State<FacilitationScreen> {
           resortDescription: widget.resortDescription,
           resortIdentification: widget.resortIdentification,
           facilitation: facilitations,
+          user: widget.user,
         ),
       ),
     );
@@ -370,5 +376,4 @@ class _FacilitationScreenState extends State<FacilitationScreen> {
       ],
     );
   }
-
 }

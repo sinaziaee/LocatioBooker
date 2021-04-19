@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
+import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/static_methods.dart';
-import '01_category_screen.dart';
-import 'resort_type_screen.dart';
+import 'category_screen.dart';
+import '01_resort_type_screen.dart';
 import 'components/apartment_not_found_component.dart';
 
 class HostingScreen extends StatefulWidget {
@@ -15,9 +16,15 @@ class HostingScreen extends StatefulWidget {
 class _HostingScreenState extends State<HostingScreen> {
   Size size;
 
+  Map args;
+
+  User user;
+
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+    args = ModalRoute.of(context).settings.arguments;
+    user = args['user'];
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: StaticMethods.myAppBar('Hosting Screen', context),
@@ -47,7 +54,7 @@ class _HostingScreenState extends State<HostingScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ResortTypeScreen()),
+            MaterialPageRoute(builder: (context) => ResortTypeScreen(user)),
           );
         },
         child: Icon(Icons.add),

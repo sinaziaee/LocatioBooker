@@ -11,44 +11,85 @@ class HostingResortItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      borderRadius: BorderRadius.circular(size.height * 0.05),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: onPressed,
-        child: Container(
-          width: size.width * 0.4,
-          height: size.height * 0.22,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(size.width * 0.5),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  assetName,
-
-                  width: size.width * 0.3,
-                  height: size.height * 0.16,
+    if(size.height > size.width){
+      return Material(
+        child: InkWell(
+          borderRadius: BorderRadius.circular(20),
+          onTap: onPressed,
+          child: Container(
+            width: size.width * 0.45,
+            height: size.height * 0.25,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset(
+                    assetName,
+                    fit: BoxFit.cover,
+                    width: size.width * 0.4,
+                    height: size.height * 0.2,
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              Text(
-                title,
-                style: kBodyTextStyle.copyWith(
-                  fontSize: size.height * 0.02,
-                  fontWeight: FontWeight.w500,
+                SizedBox(
+                  height: size.height * 0.01,
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ],
+                Text(
+                  title,
+                  style: kBodyTextStyle.copyWith(
+                    fontSize: size.height * 0.02,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
+    else{
+      return Material(
+        child: InkWell(
+          borderRadius: BorderRadius.circular(20),
+          onTap: onPressed,
+          child: Container(
+            width: size.width * 0.31,
+            height: size.height * 0.6,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset(
+                    assetName,
+                    fit: BoxFit.cover,
+                    width: size.width * 0.3,
+                    height: size.height * 0.5,
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                Text(
+                  title,
+                  style: kBodyTextStyle.copyWith(
+                    fontSize: size.width * 0.02,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
   }
 }

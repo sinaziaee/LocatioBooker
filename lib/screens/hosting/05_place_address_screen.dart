@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loctio_booker/models/user.dart';
 import '../../constants.dart';
 import '../../models/resort_description.dart';
 import '../../static_methods.dart';
@@ -15,9 +16,11 @@ class PlaceAddressScreen extends StatefulWidget {
   final ResortDescription resortDescription;
   final ResortIdentification resortIdentification;
   final Facilitation facilitation;
+  final User user;
 
   PlaceAddressScreen(
       {this.villa,
+      this.user,
       this.resortDescription,
       this.resortIdentification,
       this.facilitation});
@@ -30,8 +33,7 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
   Size size;
   FocusNode node;
   String countryValue = '', stateValue = '', cityValue = '';
-  TextEditingController postalCodeController,
-      addressController;
+  TextEditingController postalCodeController, addressController;
 
   @override
   void initState() {
@@ -171,33 +173,33 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
     );
   }
 
-  isValid(){
+  isValid() {
     String postalCode = postalCodeController.text;
     String address = addressController.text;
 
-    if(countryValue.length == 0){
+    if (countryValue.length == 0) {
       return StaticMethods.showErrorDialog(context, 'Select a country');
     }
-    if(stateValue.length == 0){
+    if (stateValue.length == 0) {
       return StaticMethods.showErrorDialog(context, 'Select a state');
     }
-    if(cityValue.length == 0){
+    if (cityValue.length == 0) {
       return StaticMethods.showErrorDialog(context, 'Select a city');
     }
-    if(address.length == 0){
+    if (address.length == 0) {
       return StaticMethods.showErrorDialog(context, 'Enter an address');
     }
-    if(postalCode.length != 0 && postalCode.length != 10){
-      return StaticMethods.showErrorDialog(context, 'Enter a correct format of postal code');
+    if (postalCode.length != 0 && postalCode.length != 10) {
+      return StaticMethods.showErrorDialog(
+          context, 'Enter a correct format of postal code');
     }
 
     onPressed(postalCode, address);
-
   }
 
   onPressed(String postalCode, String address) {
     int pCode;
-    if(postalCode.length != 0){
+    if (postalCode.length != 0) {
       pCode = int.parse(postalCode);
     }
 
@@ -218,6 +220,7 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
           resortIdentification: widget.resortIdentification,
           facilitation: widget.facilitation,
           placeAddress: placeAddress,
+          user: widget.user,
         ),
       ),
     );
