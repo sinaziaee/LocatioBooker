@@ -40,7 +40,9 @@ dependencies:
   csc_picker: ^0.2.3
   path_provider: ^2.0.1
   flutter_absolute_path: ^1.0.6
-
+  dio: ^4.0.0
+  dotted_border: ^2.0.0
+  file_picker: ^3.0.1
 
 dev_dependencies:
   flutter_test:

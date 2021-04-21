@@ -50,6 +50,9 @@ class _FacilitationScreenState extends State<FacilitationScreen> {
       hasDishWasher = false,
       hasWashingMachine = false;
 
+  // hasPool = false,
+  // hasFireplace = false;
+
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -93,6 +96,11 @@ class _FacilitationScreenState extends State<FacilitationScreen> {
       telephone: hasTelephone,
       washingMachine: hasWashingMachine,
       hotWater: hasWater,
+      fireplace: hasFireplace,
+      pool: hasPool,
+      cookingBasics: hasChef,
+      parking: hasParking,
+      wifi: hasWifi,
     );
 
     Navigator.push(

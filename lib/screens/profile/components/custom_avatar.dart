@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class CustomAvatar extends StatelessWidget {
-
   final Function onImageSelectPressed;
+  final File imageFile;
+  final String imageUrl;
 
-  CustomAvatar(this.onImageSelectPressed);
+  CustomAvatar({this.onImageSelectPressed, this.imageFile, this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +20,31 @@ class CustomAvatar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Container(
-                width: 140.0,
-                height: 140.0,
-                child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/as.jpg'),
+              if (imageUrl != null && imageUrl.length != 0) ...[
+                new Container(
+                  width: 140.0,
+                  height: 140.0,
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(imageUrl),
+                  ),
                 ),
-              ),
+              ] else if (imageFile != null) ...[
+                new Container(
+                  width: 140.0,
+                  height: 140.0,
+                  child: CircleAvatar(
+                    backgroundImage: FileImage(imageFile),
+                  ),
+                ),
+              ] else ...[
+                new Container(
+                  width: 140.0,
+                  height: 140.0,
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage('assets/images/as.jpg'),
+                  ),
+                ),
+              ],
             ],
           ),
           Padding(

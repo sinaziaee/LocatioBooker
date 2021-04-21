@@ -128,7 +128,8 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           'Describe your accommodation and record its information.',
           style: kHeaderTextStyle.copyWith(
             fontWeight: FontWeight.w400,
-            fontSize: size.width * 0.045,
+            fontSize: 18,
+            // fontSize: size.width * 0.045,
           ),
         ),
         SizedBox(
@@ -138,7 +139,8 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           'Name of accommodation',
           style: kHeaderTextStyle.copyWith(
             fontWeight: FontWeight.w400,
-            fontSize: size.width * 0.04,
+            fontSize: 16,
+            // fontSize: size.width * 0.04,
           ),
         ),
         SizedBox(
@@ -148,7 +150,8 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           'Use short words and appropriate about your accommodation to choose a name.',
           style: kHeaderTextStyle.copyWith(
             fontWeight: FontWeight.w300,
-            fontSize: size.width * 0.032,
+            fontSize: 14,
+            // fontSize: size.width * 0.032,
           ),
         ),
         SizedBox(
@@ -170,7 +173,8 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           'About accommodation',
           style: kHeaderTextStyle.copyWith(
             fontWeight: FontWeight.w400,
-            fontSize: size.width * 0.04,
+            fontSize: 16,
+            // fontSize: size.width * 0.04,
           ),
         ),
         SizedBox(
@@ -180,7 +184,8 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           'Write about features, sightseeing and anything that makes your accommodation spectacular and unique compared to others ',
           style: kHeaderTextStyle.copyWith(
             fontWeight: FontWeight.w300,
-            fontSize: size.width * 0.032,
+            fontSize: 14,
+            // fontSize: size.width * 0.032,
           ),
         ),
         SizedBox(
@@ -204,7 +209,8 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           'Price (\$)',
           style: kHeaderTextStyle.copyWith(
             fontWeight: FontWeight.w400,
-            fontSize: size.width * 0.04,
+            fontSize: 16,
+            // fontSize: size.width * 0.04,
           ),
         ),
         SizedBox(
@@ -227,7 +233,8 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           'Area (meters)',
           style: kHeaderTextStyle.copyWith(
             fontWeight: FontWeight.w400,
-            fontSize: size.width * 0.04,
+            fontSize: 16,
+            // fontSize: size.width * 0.04,
           ),
         ),
         SizedBox(

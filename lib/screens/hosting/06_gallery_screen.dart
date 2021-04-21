@@ -7,6 +7,9 @@ import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/screens/hosting/07_identity_screen.dart';
+import 'package:loctio_booker/screens/hosting/components/image_container.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,12 +51,14 @@ class _GalleryScreenState extends State<GalleryScreen> {
   Size size;
   FocusNode node;
   List<File> images = [];
-
+  List imageIds = [];
   String imageUrl = '$mainUrl/api/villa/user/images/';
   String url = '$mainUrl/api/villa/user/';
   String identityUrl = '$mainUrl/api/villa/user/document/';
+  String checkUserUrl = '$mainUrl/api/account/check-document-existence';
 
   int counter = 0;
+  bool showSpinner = false;
 
   @override
   void initState() {
@@ -67,98 +72,54 @@ class _GalleryScreenState extends State<GalleryScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: StaticMethods.myAppBar('Gallery Screen', context),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (images != null && images.length != 0) ...[
-              AddGalleryItem(
-                size: size,
-                onAddPressed: () {
-                  onImageSelectPressed();
-                },
-              ),
-            ] else ...[
-              SizedBox(
-                height: size.height * 0.2,
-              ),
-            ],
-            Padding(
-              padding: EdgeInsets.only(
-                left: size.width * 0.05,
-                right: size.width * 0.05,
-                top: size.width * 0.05,
-              ),
-              child: customContainer(),
-            ),
-            if (images != null && images.length != 0) ...[
-              BottomContainer(
-                text: 'Submit & Continue',
-                onPressed: () {
-                  onPressed();
-                },
-              ),
-            ] else ...[
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Material(
-                    borderRadius: BorderRadius.circular(20),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(20),
-                      onTap: () {
-                        onImageSelectPressed();
-                      },
-                      child: Container(
-                        // margin: EdgeInsets.all(20),
-                        height: size.height * 0.4,
-                        width: size.height * 0.4,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          // color: Colors.blueGrey[400],
-                          border: Border.all(
-                            width: 1,
-                            color: Colors.blueGrey[400],
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.add_a_photo,
-                              color: Colors.blueGrey[400],
-                              size: size.height * 0.1,
-                            ),
-                            SizedBox(
-                              height: size.height * 0.015,
-                            ),
-                            Text(
-                              'Upload Accommodation pictures',
-                              style: kBodyTextStyle.copyWith(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            SizedBox(
-                              height: size.height * 0.01,
-                            ),
-                            Text(
-                              'Upload At least one picture',
-                              style: kBodyTextStyle.copyWith(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+      body: ModalProgressHUD(
+        progressIndicator: kMyProgressIndicator,
+        inAsyncCall: showSpinner,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (images != null && images.length != 0) ...[
+                AddGalleryItem(
+                  size: size,
+                  onAddPressed: () {
+                    onImageSelectPressed();
+                  },
                 ),
+              ] else ...[
+                SizedBox(
+                  height: size.height * 0.2,
+                ),
+              ],
+              Padding(
+                padding: EdgeInsets.only(
+                  left: size.width * 0.05,
+                  right: size.width * 0.05,
+                  top: size.width * 0.05,
+                ),
+                child: customContainer(),
               ),
+              if (images != null && images.length != 0) ...[
+                BottomContainer(
+                  text: 'Submit & Continue',
+                  onPressed: () {
+                    onPressed();
+                  },
+                ),
+              ] else ...[
+                ImageContainer(
+                  height: size.height * 0.4,
+                  width: size.height * 0.4,
+                  size: size,
+                  bodyText: 'Upload At least one picture',
+                  headerText: 'Upload Accommodation pictures',
+                  onImageSelectPressed: () {
+                    onImageSelectPressed();
+                  },
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -187,22 +148,12 @@ class _GalleryScreenState extends State<GalleryScreen> {
     );
   }
 
-  onPressed() {
+  onPressed() async {
+    counter = 0;
+    imageIds.clear();
     for (File file in images) {
-      // getImageFileFromFiles(file);
-      uploadImage(file);
+      await uploadImage(file);
     }
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => GalleryScreen(
-    //       villa: widget.villa,
-    //       resortDescription: widget.resortDescription,
-    //       resortIdentification: widget.resortIdentification,
-    //       facilitation: widget.facilitation,
-    //     ),
-    //   ),
-    // );
   }
 
   getData(File file) {
@@ -232,11 +183,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
   }
 
   uploadImage(File file) async {
+    setState(() {
+      showSpinner = true;
+    });
     widget.user.printUser();
-    // setState(() {
-    //   showSpinner = true;
-    // });
-    // print(user.token);
     print('in uploading images');
     Map map = Map();
     if (file != null) {
@@ -256,28 +206,66 @@ class _GalleryScreenState extends State<GalleryScreen> {
           "content-type": "application/json",
         },
       );
-      // showSpinner = false;
-      setState(() {});
       print('statusCode: ${response.statusCode}');
       print('response.body : ' + response.body.toString());
       if (response.statusCode < 400) {
         var jsonResponse =
             convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
         print(jsonResponse);
-        counter = 0;
+        imageIds.add(jsonResponse['image_id']);
+        counter++;
+        if (images.length == counter) {
+          setState(() {
+            showSpinner = false;
+          });
+          bool haveUploadedUserIdentity = await checkUploaded();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => IdentityScreen(
+                villa: widget.villa,
+                resortDescription: widget.resortDescription,
+                resortIdentification: widget.resortIdentification,
+                facilitation: widget.facilitation,
+                user: widget.user,
+                imageIds: imageIds,
+                placeAddress: widget.placeAddress,
+                haveUploadedUserIdentity: haveUploadedUserIdentity,
+              ),
+            ),
+          );
+        }
       } else {
         counter++;
         if (images.length == counter) {
+          setState(() {
+            showSpinner = false;
+          });
           StaticMethods.showErrorDialog(
               context, 'An Error happened updating profile');
+          // bool haveUploadedUserIdentity = await checkUploaded();
         }
         print(response.body);
       }
     } catch (e) {
-      // showSpinner = false;
-      setState(() {});
+      setState(() {
+        showSpinner = false;
+      });
       StaticMethods.printError(e.toString());
     }
+  }
+
+  Future<bool> checkUploaded() async {
+    http.Response response = await http.get(
+      Uri.parse(checkUserUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: widget.user.token,
+      },
+    );
+    var jsonResponse = convert.jsonDecode(response.body);
+    print('----------------------------------');
+    print(jsonResponse);
+    return false;
   }
 
   Widget buildGridView() {
@@ -327,6 +315,4 @@ class _GalleryScreenState extends State<GalleryScreen> {
       return SizedBox();
     }
   }
-
-  uploadInfo() {}
 }

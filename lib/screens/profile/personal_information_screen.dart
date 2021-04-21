@@ -43,6 +43,7 @@ class _personalInformationState extends State<personalInformation> {
   bool status = true;
   final FocusNode myFocusNode = FocusNode();
   File imageFile;
+  String imageUrl;
 
   String url = "$mainUrl/api/account/properties/update";
 
@@ -160,9 +161,11 @@ class _personalInformationState extends State<personalInformation> {
                         children: <Widget>[
                           ProfileHeader(),
                           CustomAvatar(
-                            () {
+                            onImageSelectPressed: () {
                               onImageSelectPressed();
                             },
+                            imageFile: imageFile,
+                            imageUrl: imageUrl,
                           ),
                           if (imageFile != null) ...[
                             Row(
