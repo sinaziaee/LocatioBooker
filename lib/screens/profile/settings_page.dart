@@ -40,7 +40,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     node = FocusScope.of(context);
-
+    print('$mainUrl${widget.user.image}');
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -55,7 +55,7 @@ class _SettingsState extends State<Settings> {
               ),
               CircleAvatar(
                 backgroundImage: (widget.user.image != null)
-                    ? NetworkImage(widget.user.image)
+                    ? NetworkImage('$mainUrl${widget.user.image}')
                     : AssetImage(
                         'assets/images/as.jpg',
                       ),

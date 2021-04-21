@@ -59,7 +59,7 @@ class StaticMethods {
     String image = preferences.getString("image");
     String nationalCode = preferences.getString("nationalCode");
     String gender = preferences.getString("gender");
-
+    print('inPref: $image');
     User user = User(
       email: email,
       password: password,

@@ -53,8 +53,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
   List<File> images = [];
   List imageIds = [];
   String imageUrl = '$mainUrl/api/villa/user/images/';
-  String url = '$mainUrl/api/villa/user/';
-  String identityUrl = '$mainUrl/api/villa/user/document/';
+
   String checkUserUrl = '$mainUrl/api/account/check-document-existence';
 
   int counter = 0;
@@ -195,6 +194,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
       map['image_file'] = base64file;
     }
     try {
+      print('******** trying-to-upload...');
       http.Response response = await http.post(
         Uri.parse(imageUrl),
         body: convert.jsonEncode(
@@ -242,7 +242,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
             showSpinner = false;
           });
           StaticMethods.showErrorDialog(
-              context, 'An Error happened updating profile');
+              context, 'An Error happened while uploading gallery');
           // bool haveUploadedUserIdentity = await checkUploaded();
         }
         print(response.body);
@@ -265,7 +265,12 @@ class _GalleryScreenState extends State<GalleryScreen> {
     var jsonResponse = convert.jsonDecode(response.body);
     print('----------------------------------');
     print(jsonResponse);
-    return false;
+    if(jsonResponse.toString() == 'No document exist!'){
+      return false;
+    }
+    else{
+      return true;
+    }
   }
 
   Widget buildGridView() {

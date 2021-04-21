@@ -103,6 +103,12 @@ class _FacilitationScreenState extends State<FacilitationScreen> {
       wifi: hasWifi,
     );
 
+    if(facilitations.getItemsList().length == 0){
+      StaticMethods.showErrorDialog(context, "Select at least one facility");
+      return;
+    }
+
+
     Navigator.push(
       context,
       MaterialPageRoute(

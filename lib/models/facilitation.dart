@@ -98,6 +98,9 @@ class Facilitation {
       else if(this.dishWasher == true){
           items.add("Dish washer");
       }
+
+      return items;
+
   }
 
 }

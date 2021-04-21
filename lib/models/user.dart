@@ -1,3 +1,5 @@
+import 'package:loctio_booker/constants.dart';
+
 class User {
   String firstName,
       lastName,
@@ -9,6 +11,7 @@ class User {
       nationalCode,
       image,
       bio,
+  filename,
       gender;
 
   User(
@@ -16,6 +19,7 @@ class User {
       this.lastName,
       this.phone,
       this.bio,
+        this.filename,
       this.email,
       this.password,
       this.country,
@@ -33,7 +37,9 @@ class User {
     email = json['email'];
     password = json['password'];
     token = 'Token ${json['token']}';
-    image = json['base64'];
+    // image = json['base64'];
+    image = json['image'];
+    filename = json['filename'];
     bio = json['bio'];
     gender = json['gender'];
   }
@@ -81,7 +87,9 @@ class User {
       data['token'] = this.token;
     }
     if (this.image != null && this.image.length != 0) {
-      data['base64'] = this.image;
+      // data['base64'] = this.image;
+      data['image'] = this.image;
+      data['filename'] = this.filename;
     }
     return data;
   }

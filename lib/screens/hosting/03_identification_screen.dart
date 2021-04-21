@@ -68,6 +68,8 @@ class _ResortIdentificationScreenState
       numDoubleBeds: numDoubleBeds,
       numRooms: numRoom,
       numSingleBeds: numSingleBeds,
+      numBathrooms: numBathroom,
+      numShowers: numShowers,
     );
     Navigator.push(
       context,
@@ -87,7 +89,7 @@ class _ResortIdentificationScreenState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Describe your accommodation space.',
+          'Describe your space.',
           style: kBodyTextStyle.copyWith(),
         ),
         SizedBox(

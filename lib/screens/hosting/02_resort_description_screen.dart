@@ -77,22 +77,22 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
     String area = areaController.text;
     if (name.length == 0) {
       StaticMethods.showErrorDialog(
-          context, 'Enter a name for your accommodation');
+          context, 'Enter a name for your place');
       return;
     }
-    if (description.length == 0) {
-      StaticMethods.showErrorDialog(
-          context, 'Enter a description for your accommodation');
-      return;
-    }
+    // if (description.length == 0) {
+    //   StaticMethods.showErrorDialog(
+    //       context, 'Enter a description for your place');
+    //   return;
+    // }
     if (price.length == 0) {
       StaticMethods.showErrorDialog(
-          context, 'Enter Price per day of your accommodation');
+          context, 'Enter Price per day of your place');
       return;
     }
     if (area.length == 0) {
       StaticMethods.showErrorDialog(
-          context, 'Enter area in meters for your accommodation');
+          context, 'Enter area in meters for your place');
       return;
     }
     ResortDescription rd = ResortDescription(
@@ -125,7 +125,7 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           height: size.height * 0.02,
         ),
         Text(
-          'Describe your accommodation and record its information.',
+          'Describe your place and record its information.',
           style: kHeaderTextStyle.copyWith(
             fontWeight: FontWeight.w400,
             fontSize: 18,
@@ -136,7 +136,7 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           height: size.height * 0.04,
         ),
         Text(
-          'Name of accommodation',
+          'Place Name',
           style: kHeaderTextStyle.copyWith(
             fontWeight: FontWeight.w400,
             fontSize: 16,
@@ -147,7 +147,7 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           height: size.height * 0.01,
         ),
         Text(
-          'Use short words and appropriate about your accommodation to choose a name.',
+          'Use short words and appropriate about your place to choose a name.',
           style: kHeaderTextStyle.copyWith(
             fontWeight: FontWeight.w300,
             fontSize: 14,
@@ -169,19 +169,32 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
         SizedBox(
           height: size.height * 0.02,
         ),
-        Text(
-          'About accommodation',
-          style: kHeaderTextStyle.copyWith(
-            fontWeight: FontWeight.w400,
-            fontSize: 16,
-            // fontSize: size.width * 0.04,
-          ),
+        Row(
+          children: [
+            Text(
+              'About place',
+              style: kHeaderTextStyle.copyWith(
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+                // fontSize: size.width * 0.04,
+              ),
+            ),
+            Text(
+              '(optional)',
+              style: kHeaderTextStyle.copyWith(
+                fontWeight: FontWeight.w400,
+                fontSize: 15,
+                color: Colors.grey[600],
+                // fontSize: size.width * 0.04,
+              ),
+            ),
+          ],
         ),
         SizedBox(
           height: size.height * 0.01,
         ),
         Text(
-          'Write about features, sightseeing and anything that makes your accommodation spectacular and unique compared to others ',
+          'Write about features, sightseeing and anything that makes your place spectacular and unique compared to the others. ',
           style: kHeaderTextStyle.copyWith(
             fontWeight: FontWeight.w300,
             fontSize: 14,
@@ -210,6 +223,15 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           style: kHeaderTextStyle.copyWith(
             fontWeight: FontWeight.w400,
             fontSize: 16,
+            // fontSize: size.width * 0.04,
+          ),
+        ),
+        Text(
+          'Enter the price per day in dollars',
+          style: kHeaderTextStyle.copyWith(
+            fontWeight: FontWeight.w400,
+            fontSize: 13,
+            color: Colors.red,
             // fontSize: size.width * 0.04,
           ),
         ),

@@ -84,7 +84,7 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Enter Address and Telephone of your accommodation.',
+          'Enter your place address details here.',
           style: kHeaderTextStyle.copyWith(),
         ),
         SizedBox(
@@ -123,6 +123,13 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
         Text(
           'Address',
           style: kBodyTextStyle.copyWith(),
+        ),
+        Text(
+          'Write your full address including City, state, Street, Alley and ...',
+          style: kBodyTextStyle.copyWith(
+            color: Colors.blueGrey,
+            fontSize: 13,
+          ),
         ),
         SizedBox(
           height: size.height * 0.01,

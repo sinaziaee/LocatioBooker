@@ -11,6 +11,7 @@ class CustomAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('imageUrl: $imageUrl');
     return Padding(
       padding: EdgeInsets.only(top: 20.0),
       child: new Stack(
@@ -20,7 +21,7 @@ class CustomAvatar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              if (imageUrl != null && imageUrl.length != 0) ...[
+              if (imageUrl != null && imageUrl.length != 0 && !imageUrl.contains('null')) ...[
                 new Container(
                   width: 140.0,
                   height: 140.0,

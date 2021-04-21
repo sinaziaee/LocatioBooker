@@ -32,15 +32,16 @@ class _LoginScreenState extends State<LoginScreen> {
   getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('token')) {
-      user = User(
-        firstName: prefs.getString('firstName'),
-        lastName: prefs.getString('lastName'),
-        token: prefs.getString('token'),
-        email: prefs.getString('email'),
-        password: prefs.getString('password'),
-        country: prefs.getString('country'),
-        phone: prefs.getString('phone'),
-      );
+      // user = User(
+      //   firstName: prefs.getString('firstName'),
+      //   lastName: prefs.getString('lastName'),
+      //   token: prefs.getString('token'),
+      //   email: prefs.getString('email'),
+      //   password: prefs.getString('password'),
+      //   country: prefs.getString('country'),
+      //   phone: prefs.getString('phone'),
+      // );
+      user = await StaticMethods.getPreferences();
       Navigator.popAndPushNamed(context, HomeScreen.id, arguments: {
         'user': user,
       });
