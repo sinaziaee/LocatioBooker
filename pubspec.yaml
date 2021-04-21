@@ -43,8 +43,11 @@ dependencies:
   dio: ^4.0.0
   dotted_border: ^2.0.0
   file_picker: ^3.0.1
+#  mockito: ^5.0.5
 
 dev_dependencies:
+  mockito: ^5.0.5
+  build_runner:
   flutter_test:
     sdk: flutter
 
