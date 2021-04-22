@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'dart:convert' as convert;
+
 @GenerateMocks([http.Client])
 void main(){
   group('fetchUser', () {
@@ -30,7 +31,7 @@ void main(){
         'username': 'admin@admin.com',
         'password': 'admin12345',
       }))
-          .thenAnswer((_) async => http.Response('{"userId": 1, "id": 2, "title": "mock"}', 200));
+          .thenAnswer((_) async => http.Response('{"userId": 1, "lastName": "ziaee", "firstnName": "sina"}', 200));
 
       expect(await fetchUser(client), isA<User>());
     });
@@ -39,7 +40,7 @@ void main(){
       User user = User(
         firstName: 'sina',
         lastName: 'ziaee',
-        email: 'sina@gmail.com',
+        email: 'sinaziaee99@gmail.com',
         password: '123456',
       );
       // final client = MockClient((request) async {
@@ -56,7 +57,7 @@ void main(){
       //   'password': 'admin12345',
       // }))
       //     .thenAnswer((_) async => http.Response('{"userId": 1, "id": 2, "title": "mock"}', 200));
-
+      user.firstName;
       // expect(await fetchUser(client), isA<User>());
   });
     // test('throws an exception if the http call completes with an error', () {
