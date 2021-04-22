@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
-import 'package:loctio_booker/screens/profile/settings.dart';
+import 'package:loctio_booker/screens/profile/settings_page.dart';
 import 'package:loctio_booker/screens/home/search_profile_screen.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -71,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
     args = ModalRoute.of(context).settings.arguments;
     user = args['user'];
     token = user.token;
+    // user.printUser();
     return Scaffold(
       body: SafeArea(
         child: bodyContainer(selectedIndex),

@@ -43,9 +43,11 @@ class _personalInformationState extends State<personalInformation> {
   bool status = true;
   final FocusNode myFocusNode = FocusNode();
   File imageFile;
-  String base64Image;
-
+  String getImageUrl = '$mainUrl/api/account/show_account_image';
+  String uploadImageUrl = '$mainUrl/api/account/update_account_image';
   String url = "$mainUrl/api/account/properties/update";
+
+  // String updateProfileUrl = "$mainUrl/api/account/properties/update";
 
   Future<void> _pickImage(ImageSource source) async {
     try {
@@ -100,12 +102,20 @@ class _personalInformationState extends State<personalInformation> {
     email = user.email;
     phoneNumber = user.phone;
     country = user.country;
-
+    print('TOOOOOOOken: ${user.token}');
     firstNameController.text = firstName;
     lastNameController.text = lastName;
     phoneController.text = phoneNumber;
     emailController.text = user.email;
-    // token = user.token;
+    bioController.text = user.bio;
+    genderController.text = user.gender;
+    token = user.token;
+    // print(token);
+    try {
+      user.printUser();
+    } catch (e) {
+      print(e);
+    }
     return user;
   }
 
@@ -150,34 +160,56 @@ class _personalInformationState extends State<personalInformation> {
               child: Column(
                 children: <Widget>[
                   new Container(
-                    height: 250.0,
+                    height: 300.0,
                     color: Colors.white,
-                    child: new Column(
-                      children: <Widget>[
-                        ProfileHeader(),
-                        CustomAvatar(
-                          () {
-                            onImageSelectPressed();
-                          },
-                        ),
-                        if (imageFile != null) ...[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              TextButton(
-                                onPressed: _cropImage,
-                                child: Icon(Icons.crop),
-                              ),
-                              TextButton(
-                                onPressed: _clear,
-                                child: Icon(Icons.refresh),
-                              ),
-                            ],
+                    child: SingleChildScrollView(
+                      child: new Column(
+                        children: <Widget>[
+                          ProfileHeader(),
+                          FutureBuilder(
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData &&
+                                  snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                User user = snapshot.data;
+                                return CustomAvatar(
+                                  onImageSelectPressed: () {
+                                    onImageSelectPressed();
+                                  },
+                                  imageFile: imageFile,
+                                  imageUrl: '$mainUrl${user.image}',
+                                );
+                              } else {
+                                return CustomAvatar(
+                                  onImageSelectPressed: () {
+                                    onImageSelectPressed();
+                                  },
+                                  imageFile: imageFile,
+                                  imageUrl: '',
+                                );
+                              }
+                            },
+                            future: _getPreferences(),
                           ),
-                        ] else ...[
-                          SizedBox(),
+                          if (imageFile != null) ...[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  onPressed: _cropImage,
+                                  child: Icon(Icons.crop),
+                                ),
+                                TextButton(
+                                  onPressed: _clear,
+                                  child: Icon(Icons.refresh),
+                                ),
+                              ],
+                            ),
+                          ] else ...[
+                            SizedBox(),
+                          ],
                         ],
-                      ],
+                      ),
                     ),
                   ),
                   new Container(
@@ -340,6 +372,8 @@ class _personalInformationState extends State<personalInformation> {
     String lastName = lastNameController.text;
     String phone = phoneController.text;
     String bio = bioController.text;
+    String gender = genderController.text;
+    // String bio = bioController.text;
 
     if (firstName.length < 3) {
       StaticMethods.showErrorDialog(context, 'Bad First Name Format');
@@ -356,6 +390,9 @@ class _personalInformationState extends State<personalInformation> {
       lastName: lastName,
       phone: phone,
       email: email,
+      bio: bio,
+      token: token,
+      gender: gender,
       // country: country ?? 'US',
     );
     //uploadInfo();
@@ -366,12 +403,34 @@ class _personalInformationState extends State<personalInformation> {
     setState(() {
       showSpinner = true;
     });
+    print('Token: ');
     print(user.token);
+
+    Map map = Map();
+    Map userMap = user.toJson();
+    for (String key in userMap.keys) {
+      map[key] = userMap[key];
+    }
+    if (imageFile != null) {
+      print(imageFile.path);
+      String base64file = convert.base64Encode(imageFile.readAsBytesSync());
+      map['filename'] = imageFile.path.split('/').last;
+      // map['base64'] = base64file;
+      map['image'] = base64file;
+    }
+
+    print('******************************************************');
+    print('beforeUpload token: $token');
+
     try {
+      // bool result = await uploadImage();
+      // if(result == false){
+      //   return;
+      // }
       http.Response response = await StaticMethods.upload(
         url,
-        user.toJson(),
-        token: user.token,
+        map,
+        token: token,
       );
       showSpinner = false;
       setState(() {});
@@ -382,6 +441,9 @@ class _personalInformationState extends State<personalInformation> {
             convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
         print(jsonResponse);
         user = User.fromJson(jsonResponse);
+        user.token = token;
+
+        // user.image = await getImage();
         saveInfo();
       } else {
         StaticMethods.showErrorDialog(
@@ -431,4 +493,73 @@ class _personalInformationState extends State<personalInformation> {
       },
     );
   }
+
+  // uploadImage() async{
+  //   print(uploadImageUrl);
+  //   try{
+  //     Map map = Map();
+  //     if (imageFile != null) {
+  //       print(imageFile.path);
+  //       String base64file = convert.base64Encode(imageFile.readAsBytesSync());
+  //       // map['filename'] = imageFile.path.split('/').last;
+  //       map['base64'] = base64file;
+  //     }
+  //     http.Response response = await http.post(
+  //       Uri.parse(uploadImageUrl),
+  //       body: convert.json.encode(map),
+  //       headers: {
+  //         HttpHeaders.authorizationHeader: user.token,
+  //         "Accept": "application/json",
+  //         "content-type": "application/json",
+  //       },
+  //     );
+  //     print(response.statusCode);
+  //     print(response.body);
+  //     if(response.statusCode < 400){
+  //       var jasonResponse = convert.jsonDecode(response.body);
+  //       setState(() {
+  //         showSpinner = false;
+  //       });
+  //       return true;
+  //     }
+  //     else{
+  //       print(uploadImageUrl);
+  //       setState(() {
+  //         showSpinner = false;
+  //       });
+  //       return false;
+  //     }
+  //   }
+  //   catch(e){
+  //     print(uploadImageUrl);
+  //     print(e);
+  //     setState(() {
+  //       showSpinner = false;
+  //     });
+  //     return false;
+  //   }
+  // }
+
+  // Future<String> getImage() async {
+  //   print(getImageUrl);
+  //   try {
+  //     http.Response response = await http.get(
+  //       Uri.parse(getImageUrl),
+  //       headers: {
+  //         HttpHeaders.authorizationHeader: user.token,
+  //       },
+  //     );
+  //     print(response.statusCode);
+  //     print(response.body);
+  //     var jsonResponse = convert.jsonDecode(response.body);
+  //     return jsonResponse['base64_url'];
+  //   } catch (e) {
+  //     print(getImageUrl);
+  //     setState(() {
+  //       showSpinner = false;
+  //     });
+  //     print(e);
+  //     return null;
+  //   }
+  // }
 }

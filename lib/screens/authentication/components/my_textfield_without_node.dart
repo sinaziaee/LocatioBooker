@@ -35,7 +35,7 @@ class MyTestFieldWithoutNode extends StatelessWidget {
         style: TextStyle(color: color ?? Colors.black),
         controller: controller,
         decoration: InputDecoration(
-          hintStyle: TextStyle(color: color ?? Colors.black),
+          // hintStyle: TextStyle(color: color ?? Colors.black),
           contentPadding: EdgeInsets.only(
             bottom: size.height * 0.03,
             left: size.width * 0.03,
