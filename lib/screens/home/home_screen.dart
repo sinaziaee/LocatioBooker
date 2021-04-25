@@ -7,6 +7,8 @@ import 'package:loctio_booker/screens/home/search_profile_screen.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'pages/home_page.dart';
+
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';
 
@@ -25,20 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget bodyContainer(int index) {
     if (index == 0) {
-      return CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            actions: [
-              IconButton(
-                icon: Icon(Icons.exit_to_app),
-                onPressed: () {
-                  logOut();
-                },
-              ),
-            ],
-          ),
-        ],
-      );
+       return HomePage(size);
     }
     else if(index == 4){
       return Settings.user(user, size);

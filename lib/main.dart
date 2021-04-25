@@ -10,6 +10,7 @@ import 'screens/home/home_screen.dart';
 import 'screens/home/search_profile_screen.dart';
 import 'screens/hosting/00_hosing_screen.dart';
 import 'screens/hosting/category_screen.dart';
+import 'screens/home/place_search_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         SearchProfileScreen.id: (context) => SearchProfileScreen(),
         HostingScreen.id: (context) => HostingScreen(),
         CategoryScreen.id: (context) => CategoryScreen(),
+        SearchSpaceScreen.id: (context) => SearchSpaceScreen(),
       },
     );
   }
