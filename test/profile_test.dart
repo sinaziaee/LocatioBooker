@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:loctio_booker/models/user.dart';
 
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
-import 'package:loctio_booker/screens/profile/profile.dart';
+import 'package:loctio_booker/screens/profile/profile_screen.dart';
 
 void main() {
   // Define a test. The TestWidgets function also provides a WidgetTester

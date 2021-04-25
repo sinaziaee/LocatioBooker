@@ -32,8 +32,17 @@ class StaticMethods {
     if (user.phone != null) {
       preferences.setString("phone", user.phone);
     }
-    if (user.token != null) {
-      preferences.setString("token", user.token);
+    if (user.image != null) {
+      preferences.setString("image", user.image);
+    }
+    if (user.bio != null) {
+      preferences.setString("bio", user.bio);
+    }
+    if (user.gender != null) {
+      preferences.setString("gender", user.gender);
+    }
+    if (user.nationalCode != null) {
+      preferences.setString("nationalCode", user.nationalCode);
     }
   }
 
@@ -46,15 +55,24 @@ class StaticMethods {
     String phone = preferences.getString("phone");
     String token = preferences.getString("token");
     String country = preferences.getString("country");
-
+    String bio = preferences.getString("bio");
+    String image = preferences.getString("image");
+    String nationalCode = preferences.getString("nationalCode");
+    String gender = preferences.getString("gender");
+    print('inPref: $image');
     User user = User(
-        email: email,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-        token: token,
-        country: country,
-        phone: phone);
+      email: email,
+      password: password,
+      firstName: firstName,
+      lastName: lastName,
+      token: token,
+      country: country,
+      phone: phone,
+      nationalCode: nationalCode,
+      image: image,
+      gender: gender,
+      bio: bio,
+    );
 
     return user;
   }
@@ -256,7 +274,7 @@ class StaticMethods {
       ),
       preferredSize: Size(
         double.infinity,
-        70,
+        60,
       ),
     );
   }

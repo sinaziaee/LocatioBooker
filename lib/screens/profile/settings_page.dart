@@ -6,7 +6,7 @@ import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/profile/personal_information_screen.dart';
 import 'package:loctio_booker/screens/profile/terms_aggrements_screen.dart';
 import '../hosting/category_screen.dart';
-import '../hosting/hosing_screen.dart';
+import '../hosting/00_hosing_screen.dart';
 import '../../static_methods.dart';
 
 class Settings extends StatefulWidget {
@@ -40,7 +40,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     node = FocusScope.of(context);
-
+    print('$mainUrl${widget.user.image}');
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -55,7 +55,7 @@ class _SettingsState extends State<Settings> {
               ),
               CircleAvatar(
                 backgroundImage: (widget.user.image != null)
-                    ? NetworkImage(widget.user.image)
+                    ? NetworkImage('$mainUrl${widget.user.image}')
                     : AssetImage(
                         'assets/images/as.jpg',
                       ),
@@ -87,7 +87,7 @@ class _SettingsState extends State<Settings> {
               style: kBodyTextStyle,
             ),
             leading: Icon(Icons.person),
-            trailing: SizedBox(),
+            trailing: Icon(Icons.more_vert),
           ),
           ListTile(
             onTap: () {
@@ -98,7 +98,7 @@ class _SettingsState extends State<Settings> {
               style: kBodyTextStyle,
             ),
             leading: Icon(Icons.accessibility),
-            trailing: SizedBox(),
+            trailing: Icon(Icons.more_vert),
           ),
           ListTile(
             title: Text(
