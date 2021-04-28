@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
        return HomePage(size);
     }
     else if(index == 4){
-      return Settings.user(user, size);
+      return SettingsPage.user(user, size);
     }
     else if(index == 1){
       return AppBar(

@@ -9,7 +9,6 @@ import 'screens/authentication/login_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/home/search_profile_screen.dart';
 import 'screens/hosting/00_hosing_screen.dart';
-import 'screens/hosting/category_screen.dart';
 import 'screens/home/place_search_screen.dart';
 
 void main() {
@@ -27,13 +26,12 @@ class MyApp extends StatelessWidget {
         HomeScreen.id: (context) => HomeScreen(),
         SignUpScreen.id: (context) => SignUpScreen(),
         VerificationScreen.id: (context) => VerificationScreen(),
-        Settings.id : (context) => Settings(),
+        SettingsPage.id : (context) => SettingsPage(),
         ProfileScreen.id : (context) => ProfileScreen(),
         personalInformation.id : (context) => personalInformation(),
         termsAggrements.id : (context) => termsAggrements(),
         SearchProfileScreen.id: (context) => SearchProfileScreen(),
-        HostingScreen.id: (context) => HostingScreen(),
-        CategoryScreen.id: (context) => CategoryScreen(),
+        // HostingScreen.id: (context) => HostingScreen(),
         SearchSpaceScreen.id: (context) => SearchSpaceScreen(),
       },
     );

@@ -5,27 +5,26 @@ import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/profile/personal_information_screen.dart';
 import 'package:loctio_booker/screens/profile/terms_aggrements_screen.dart';
-import '../hosting/category_screen.dart';
 import '../hosting/00_hosing_screen.dart';
 import '../../static_methods.dart';
 
-class Settings extends StatefulWidget {
+class SettingsPage extends StatefulWidget {
   static String id = 'setting_page';
   User user;
   Size size;
 
-  Settings();
+  SettingsPage();
 
-  Settings.user(User user, Size size) {
+  SettingsPage.user(User user, Size size) {
     this.user = user;
     this.size = size;
   }
 
   @override
-  _SettingsState createState() => _SettingsState();
+  _SettingsPageState createState() => _SettingsPageState();
 }
 
-class _SettingsState extends State<Settings> {
+class _SettingsPageState extends State<SettingsPage> {
   FocusNode node;
   Color color = Colors.black;
 
@@ -108,12 +107,16 @@ class _SettingsState extends State<Settings> {
             trailing: Icon(Icons.more_vert),
             leading: Icon(Icons.home),
             onTap: () {
-              Navigator.pushNamed(
+              // Navigator.pushNamed(
+              //   context,
+              //   HostingScreen.id,
+              //   arguments: {
+              //     'user': widget.user,
+              //   },
+              // );
+              Navigator.push(
                 context,
-                HostingScreen.id,
-                arguments: {
-                  'user': widget.user,
-                },
+                MaterialPageRoute(builder: (context) => HostingScreen(widget.user)),
               );
             },
           ),
