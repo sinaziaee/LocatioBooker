@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loctio_booker/constants.dart';
+import 'components/search_item.dart';
+import '../../models/search_model.dart';
 
 class SearchSpaceScreen extends StatefulWidget {
   static String id = 'search_place_screen';
@@ -12,6 +15,8 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
 
   Size size;
 
+  String url = '$mainUrl/api/villa/search/?number_of_villa=10';
+
   @override
   Widget build(BuildContext context) {
 
@@ -21,8 +26,9 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
       body: SafeArea(
         child: ListView(
           children: [
-            SearchItem(
+            SearchComponent(
               size: size,
+              searchModel: SearchModel(),
             ),
           ],
         ),
@@ -31,68 +37,4 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
   }
 }
 
-class SearchItem extends StatelessWidget {
 
-  final Size size;
-
-  SearchItem({this.size});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 60,
-      margin: EdgeInsets.only(),
-      padding: EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 3,
-      ),
-      child: Row(
-        children: [
-          Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.grey,
-            ),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Spacer(
-                flex: 2,
-              ),
-              SizedBox(
-                width: size.width - 80,
-                child: Text(
-                  'Dual Room apartment in Kish fajfl adfl jdsf ad jfl',
-                  // textWidthBasis: TextWidthBasis.parent,
-                  style: TextStyle(
-                    // color: Colors.grey,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              Spacer(
-                flex: 4,
-              ),
-              Text(
-                'hormozgan, kish',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                ),
-              ),
-              Spacer(
-                flex: 1,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
