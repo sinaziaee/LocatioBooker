@@ -27,23 +27,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget bodyContainer(int index) {
     if (index == 0) {
-       return HomePage(size);
-    }
-    else if(index == 4){
+      return HomePage(size);
+    } else if (index == 4) {
       return SettingsPage.user(user, size);
-    }
-    else if(index == 1){
+    } else if (index == 1) {
       return AppBar(
         actions: [
-          IconButton(icon: Icon(Icons.search), onPressed: (){
-            Navigator.pushNamed(context, SearchProfileScreen.id, arguments: {
-              'user': user,
-            },);
-          },),
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                SearchProfileScreen.id,
+                arguments: {
+                  'user': user,
+                },
+              );
+            },
+          ),
         ],
       );
-    }
-    else {
+    } else {
       return Container();
     }
   }
@@ -130,10 +134,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  logOut() async{
+  logOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     Navigator.popAndPushNamed(context, LoginScreen.id);
   }
-
 }

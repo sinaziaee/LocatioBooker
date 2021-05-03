@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../home/place_search_screen.dart';
 import '../../../constants.dart';
 import "package:latlong/latlong.dart" as latLng;
+import '../components/home_screen_search_bar.dart';
 
 class HomePage extends StatefulWidget {
   final Size size;
@@ -54,62 +55,11 @@ class _HomePageState extends State<HomePage> {
                     ? 1
                     : 1 - (top / fixedHeight),
                 curve: Curves.easeOutQuint,
-                child: Container(
-                  height: 40,
-                  padding: EdgeInsets.only(
-                    right: widget.size.width * 0.1,
-                    left: widget.size.width * 0.1,
-                    top: 0,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      onSearchPressed();
-                    },
-                    child: TextField(
-                      enabled: false,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 1.5,
-                          ),
-                        ),
-                        enabledBorder: kOutLineInputBorder.copyWith(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 1.5,
-                          ),
-                        ),
-                        disabledBorder: kOutLineInputBorder.copyWith(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 1.5,
-                          ),
-                        ),
-                        focusedBorder: kOutLineInputBorder.copyWith(
-                          borderSide: BorderSide(
-                            color: Colors.black,
-                            width: 1.5,
-                          ),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            Icons.search,
-                            color: Colors.black,
-                          ),
-                          onPressed: () {
-                            onSearchPressed();
-                          },
-                        ),
-                        hintText: 'Search',
-                        contentPadding: EdgeInsets.only(
-                          bottom: 20,
-                          left: 10,
-                        ),
-                      ),
-                      cursorColor: Colors.black,
-                    ),
-                  ),
+                child: CustomHomeSearchBar(
+                  size: widget.size,
+                  onSearchPressed: (){
+                    onSearchPressed();
+                  },
                 ),
               ),
               background: Stack(
