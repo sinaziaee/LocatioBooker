@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/components/my_textfield_without_node.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,8 +12,8 @@ import '../components/home_screen_search_bar.dart';
 
 class HomePage extends StatefulWidget {
   final Size size;
-
-  HomePage(this.size);
+  final User user;
+  HomePage(this.size, this.user);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -57,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                 curve: Curves.easeOutQuint,
                 child: CustomHomeSearchBar(
                   size: widget.size,
-                  onSearchPressed: (){
+                  onSearchPressed: () {
                     onSearchPressed();
                   },
                 ),
@@ -128,7 +129,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onSearchPressed() {
-    Navigator.pushNamed(context, SearchSpaceScreen.id);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchSpaceScreen(widget.user),
+      ),
+    );
   }
 
   Widget customMap(BuildContext context) {

@@ -8,6 +8,7 @@ import 'package:loctio_booker/screens/home/search_profile_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'pages/home_page.dart';
+import 'place_search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';
@@ -27,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget bodyContainer(int index) {
     if (index == 0) {
-      return HomePage(size);
+      return HomePage(size, user);
     } else if (index == 4) {
       return SettingsPage.user(user, size);
     } else if (index == 1) {
@@ -36,12 +37,11 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-              Navigator.pushNamed(
+              Navigator.push(
                 context,
-                SearchProfileScreen.id,
-                arguments: {
-                  'user': user,
-                },
+                MaterialPageRoute(
+                  builder: (context) => SearchSpaceScreen(user),
+                ),
               );
             },
           ),

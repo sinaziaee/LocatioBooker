@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         termsAggrements.id : (context) => termsAggrements(),
         SearchProfileScreen.id: (context) => SearchProfileScreen(),
         // HostingScreen.id: (context) => HostingScreen(),
-        SearchSpaceScreen.id: (context) => SearchSpaceScreen(),
+        // SearchSpaceScreen.id: (context) => SearchSpaceScreen(null),
       },
     );
   }

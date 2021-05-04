@@ -1,12 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
+import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/hosting/components/my_textfield.dart';
 import 'components/search_item.dart';
 import '../../models/search_model.dart';
+import 'package:http/http.dart' as http;
 
 class SearchSpaceScreen extends StatefulWidget {
   static String id = 'search_place_screen';
+  final User user;
+
+  SearchSpaceScreen(this.user);
 
   @override
   _SearchSpaceScreenState createState() => _SearchSpaceScreenState();
@@ -67,6 +74,9 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
                     Expanded(
                       child: TextField(
                         controller: searchController,
+                        autofocus: true,
+                        keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.search,
                         cursorWidth: 1,
                         style: TextStyle(),
                         cursorColor: Colors.black,
@@ -101,38 +111,45 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
         decoration: BoxDecoration(
           color: Colors.white,
         ),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
+        child: FutureBuilder(
+          future: http.get(
+            Uri.parse(url),
+            headers: {
+              HttpHeaders.authorizationHeader: widget.user.token,
+            },
           ),
-          child: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.zero,
-                  margin: EdgeInsets.zero,
-                  child: ListView.builder(
-                    itemCount: 20,
-                    itemBuilder: (context, index) {
-                      return SearchComponent(
-                        size: size,
-                        searchModel: SearchModel(
-                          country: 'Iran',
-                          state: 'Tehran',
-                          city: 'Tehran',
-                          name: 'Resort',
-                          pricePerNight: 100,
-                        ),
-                        onPressed: () {
-                          onPressed(SearchModel());
-                        },
-                      );
-                    },
-                  ),
+          builder:
+              (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            if (snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              return Expanded(
+                child: ListView.builder(
+                  itemCount: 20,
+                  itemBuilder: (context, index) {
+                    return SearchComponent(
+                      size: size,
+                      searchModel: SearchModel(
+                        country: 'Iran',
+                        state: 'Tehran',
+                        city: 'Tehran',
+                        name: 'Resort',
+                        pricePerNight: 100,
+                      ),
+                      onPressed: () {
+                        onPressed(SearchModel());
+                      },
+                    );
+                  },
                 ),
-              ),
-            ],
-          ),
+              );
+            } else {
+              return Container(
+                height: size.height,
+                width: size.width,
+                child: Center(child: kMyProgressIndicator),
+              );
+            }
+          },
         ),
       ),
     );
