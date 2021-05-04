@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 class detailVillaScreen extends StatefulWidget {
   static String id = 'detail_Villa_Screen';
@@ -26,8 +28,9 @@ class _detailVillaScreenState extends State<detailVillaScreen> {
 
   ListView _imagesListView(data){
     return ListView.builder(
+        // ignore: missing_return
         itemBuilder:  (context , index){
-          return _tile(data[index].position , data[index].image);
+          //return _tile(data[index].position , data[index].image);
         },
         itemCount: data.length,
 
@@ -38,7 +41,7 @@ class _detailVillaScreenState extends State<detailVillaScreen> {
 
   );
 
-   _fetchImages(int id) async{
+  /* _fetchImages(int id) async{
     final url = 'https://softcheetahs.herokuapp.com/api/villa/user/?villa_id=$id';
     final response = await http.get(url);
 
@@ -51,12 +54,12 @@ class _detailVillaScreenState extends State<detailVillaScreen> {
     }
 
     else{
-      throw exception('Exception');
+      //throw exception('Exception');
     }
 
 
 
-  }
+  }*/
 
 
 }
