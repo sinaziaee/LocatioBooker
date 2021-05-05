@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:loctio_booker/models/user.dart';
-import 'package:loctio_booker/screens/authentication/components/my_textfield_without_node.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../home/place_search_screen.dart';
@@ -14,6 +13,10 @@ import '../components/home_screen_search_bar.dart';
 import '../components/home_item.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import '../../../models/search_model.dart';
+import '../components/home_item_mock.dart';
+import '../components/high_rate_place.dart';
+import '../components/most_reserved_place.dart';
 
 class HomePage extends StatefulWidget {
   final Size size;
@@ -27,9 +30,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   double fixedHeight = 300;
-
-  String highRatePlacesUrl = '';
-  String mostReservedPlacesUrl = '';
 
   visibleSearchBar(double height) {
     return Visibility(
@@ -110,22 +110,11 @@ class _HomePageState extends State<HomePage> {
           stretch: false,
         ),
         SliverFixedExtentList(
-          itemExtent: widget.size.height,
+          itemExtent: widget.size.height * 0.8,
           delegate: SliverChildListDelegate(
             [
-              // Container(color: Colors.white),
-              // Container(
-              //   child: customMap(context),
-              //   height: 300,
-              //   // width: 200,
-              // ),
-              // Container(color: Colors.purple),
-              mostReservedPlaces(),
-              // highRatePlace(),
-              // Container(color: Colors.green),
-              // Container(color: Colors.orange),
-              // Container(color: Colors.yellow),
-              // Container(color: Colors.pink),
+              MostReservedPlace(widget.user),
+              HighRatePlace(widget.user),
             ],
           ),
         ),
@@ -133,177 +122,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget highRatePlace() {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            child: Row(
-              children: [
-                Text(
-                  'High rate places',
-                  style: kBodyTextStyle.copyWith(
-                    fontSize: 16,
-                  ),
-                ),
-                Spacer(),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 5,
-                    vertical: 3,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  child: Text('See All'),
-                ),
-              ],
-            ),
-            padding: EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(
-            child: FutureBuilder(
-              builder: (context, snapshot) {
-                if (snapshot.hasData &&
-                    snapshot.connectionState == ConnectionState.done) {
-                  return SizedBox();
-                } else {
-                  return ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return HomePlaceItem(
-                        cost: 10,
-                        url: '$tempHouseImage',
-                        name: 'single room suite',
-                        city: 'Tehran',
-                        rate: 4.3,
-                        country: 'Iran',
-                        state: 'Tehran',
-                      );
-                    },
-                    itemCount: 5,
-                  );
-                }
-              },
-              future: http.get(
-                Uri.parse(highRatePlacesUrl),
-                headers: {
-                  HttpHeaders.authorizationHeader: widget.user.token,
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget mostReservedPlaces() {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            child: Row(
-              children: [
-                Text(
-                  'High rate places',
-                  style: kBodyTextStyle.copyWith(
-                    fontSize: 16,
-                  ),
-                ),
-                Spacer(),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 5,
-                    vertical: 3,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  child: Text('See All'),
-                ),
-              ],
-            ),
-            padding: EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(
-            child: FutureBuilder(
-              builder: (context, snapshot) {
-                if (snapshot.hasData &&
-                    snapshot.connectionState == ConnectionState.done) {
-                  return SizedBox();
-                } else {
-                  return ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        children: [
-                          HomePlaceItem(
-                            cost: 10,
-                            url: '$tempHouseImage',
-                            name: 'single room suite',
-                            city: 'Tehran',
-                            rate: 4.3,
-                            country: 'Iran',
-                            state: 'Tehran',
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          HomePlaceItem(
-                            cost: 10,
-                            url: '$tempHouseImage',
-                            name: 'single room suite',
-                            city: 'Tehran',
-                            rate: 4.3,
-                            country: 'Iran',
-                            state: 'Tehran',
-                          )
-                        ],
-                      );
-                    },
-                    itemCount: 5,
-                  );
-                }
-              },
-              future: http.get(
-                Uri.parse(mostReservedPlacesUrl),
-                headers: {
-                  HttpHeaders.authorizationHeader: widget.user.token,
-                },
-              ),
-            ),
-          ),
-          Container(
-            height: 100,
-            color: Colors.purple,
-          ),
-        ],
-      ),
-    );
-  }
 
   logOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

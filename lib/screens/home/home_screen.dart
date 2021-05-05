@@ -4,7 +4,7 @@ import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/profile/settings_page.dart';
 import 'package:loctio_booker/screens/home/search_profile_screen.dart';
-
+import 'pages/temp_sliver.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'pages/home_page.dart';
@@ -31,7 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
       return HomePage(size, user);
     } else if (index == 4) {
       return SettingsPage.user(user, size);
-    } else if (index == 1) {
+    }
+    else if(index == 2){
+      return TempSliver();
+    }
+    else if (index == 1) {
       return AppBar(
         actions: [
           IconButton(

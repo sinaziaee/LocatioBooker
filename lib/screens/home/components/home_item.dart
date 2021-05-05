@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
+import 'package:loctio_booker/models/search_model.dart';
 
 class HomePlaceItem extends StatelessWidget {
-  final String url, name, country, state, city;
-  final int cost;
-  final double rate;
+
+  final SearchModel searchModel;
 
   HomePlaceItem({
-    this.city,
-    this.country,
-    this.name,
-    this.state,
-    this.rate,
-    this.url,
-    @required this.cost,
+    this.searchModel,
   });
 
   @override
@@ -33,7 +27,7 @@ class HomePlaceItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             child: FadeInImage(
               placeholder: AssetImage('assets/images/home_def.jpg'),
-              image: NetworkImage(url),
+              image: (searchModel.url != null) ? NetworkImage(searchModel.url) : AssetImage('assets/images/home_def.jpg'),
               fit: BoxFit.cover,
             ),
           ),
@@ -45,7 +39,7 @@ class HomePlaceItem extends StatelessWidget {
               SizedBox(
                 width: 100,
                 child: Text(
-                  '$country, $city',
+                  '${searchModel.country}, ${searchModel.city}',
                   style: kBody3TextStyle.copyWith(),
                 ),
               ),
@@ -53,7 +47,7 @@ class HomePlaceItem extends StatelessWidget {
               SizedBox(
                 width: 20,
                 child: Text(
-                  '${rate.toString()}',
+                  '${searchModel.rate.toString()}',
                   style: kBody3TextStyle.copyWith(),
                 ),
               ),
@@ -65,11 +59,11 @@ class HomePlaceItem extends StatelessWidget {
             ],
           ),
           Text(
-            name ?? 'name',
+            searchModel.name ?? 'name',
             style: kBody2TextStyle.copyWith(),
           ),
           Text(
-            '${cost.toString()}\$',
+            '${searchModel.pricePerNight.toString()}\$',
             style: kBody1TextStyle.copyWith(),
           ),
         ],

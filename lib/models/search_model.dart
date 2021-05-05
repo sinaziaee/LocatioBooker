@@ -1,14 +1,15 @@
 class SearchModel {
-  String name, country, state, city;
+  String name, country, state, city, url;
   int pricePerNight;
-  List<String> images;
+  double rate;
 
   SearchModel({
     this.name,
     this.country,
-    this.images,
     this.state,
     this.city,
+    this.url,
+    this.rate,
     this.pricePerNight,
   });
 
@@ -18,7 +19,8 @@ class SearchModel {
     state = map['state'];
     city = map['city'];
     pricePerNight = map['price_per_night'];
-    images = map['images'];
+    rate = map['rate'];
+    url = map['default_image_url'];
   }
 
   printUser() {
@@ -26,8 +28,9 @@ class SearchModel {
     print('country: $country');
     print('state: $state');
     print('city: $city');
+    print('rate: $rate');
     print('price_per_night: $pricePerNight');
-    print('phone: $images');
+    print('default_image_url: $url');
   }
 
   Map<String, dynamic> toJson() {
@@ -47,11 +50,14 @@ class SearchModel {
     if (this.pricePerNight != null) {
       data['price_per_night'] = this.pricePerNight;
     }
-    if (this.images != null && this.images.length != 0) {
-      data['images'] = this.images;
+    if (this.pricePerNight != null) {
+      data['default_image_url'] = this.url;
     }
     if (this.country != null && this.country.length != 0) {
       data['country'] = this.country;
+    }
+    if (this.country != null && this.country.length != 0) {
+      data['rate'] = this.rate;
     }
     return data;
   }

@@ -42,6 +42,9 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
+      drawer: Drawer(
+        child: Column(),
+      ),
       backgroundColor: Colors.lightBlue,
       appBar: PreferredSize(
         child: Container(
@@ -96,6 +99,15 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
                         },
                       ),
                     ),
+                    IconButton(
+                      icon: Icon(Icons.filter_list),
+                      onPressed: () {
+                        // Scaffold.of(context).openDrawer();
+                        // setState(() {
+                        //
+                        // });
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -118,8 +130,7 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
               HttpHeaders.authorizationHeader: widget.user.token,
             },
           ),
-          builder:
-              (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
               return Expanded(
@@ -158,4 +169,9 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
   onPressed(SearchModel searchModel) {
     print("pressed");
   }
+
+  onSearchPressed(){
+
+  }
+
 }
