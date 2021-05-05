@@ -4,16 +4,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/screens/hosting/components/apartment_not_found_component.dart';
 import 'package:loctio_booker/screens/hosting/components/my_textfield.dart';
 import 'components/search_item.dart';
 import '../../models/search_model.dart';
 import 'package:http/http.dart' as http;
-
+import 'dart:convert' as convert;
 class SearchSpaceScreen extends StatefulWidget {
   static String id = 'search_place_screen';
   final User user;
-
-  SearchSpaceScreen(this.user);
+  final String category;
+  SearchSpaceScreen(this.user, this.category);
 
   @override
   _SearchSpaceScreenState createState() => _SearchSpaceScreenState();
@@ -133,25 +134,36 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
-              return Expanded(
-                child: ListView.builder(
-                  itemCount: 20,
-                  itemBuilder: (context, index) {
-                    return SearchComponent(
-                      size: size,
-                      searchModel: SearchModel(
-                        country: 'Iran',
-                        state: 'Tehran',
-                        city: 'Tehran',
-                        name: 'Resort',
-                        pricePerNight: 100,
-                      ),
-                      onPressed: () {
-                        onPressed(SearchModel());
-                      },
-                    );
-                  },
-                ),
+              http.Response response = snapshot.data;
+              var jsonResponse = convert.jsonDecode(response.body);
+              List<SearchModel> list = [];
+              int count = 0;
+              var data = jsonResponse['data'];
+              for (var each in data) {
+                print(each);
+                count++;
+                list.add(SearchModel.fromMap(each));
+              }
+              if (count == 0) {
+                return Center(
+                  child: ApartmentNotFoundComponent(
+                    size: size,
+                  ),
+                );
+              }
+              return ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemBuilder: (context, index) {
+                  return SearchComponent(
+                    size: size,
+                    searchModel: list[index],
+                    last: (index+1 == count),
+                    onPressed: () {
+                      onPressed(SearchModel());
+                    },
+                  );
+                },
+                itemCount: count,
               );
             } else {
               return Container(
@@ -168,10 +180,6 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
 
   onPressed(SearchModel searchModel) {
     print("pressed");
-  }
-
-  onSearchPressed(){
-
   }
 
 }

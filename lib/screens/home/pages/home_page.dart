@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
           flexibleSpace: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
             double top = constraints.biggest.height;
-            print(top);
+            // print(top);
             // print((1 - (top / fixedHeight) == 0.72) ? 1 : 1 - (top / fixedHeight));
             return FlexibleSpaceBar(
               centerTitle: true,
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                   Positioned(
                     child: CustomSearch(
                       size: widget.size,
-                      onPressed: (){
+                      onPressed: () {
                         onSearchPressed();
                       },
                     ),
@@ -111,8 +111,12 @@ class _HomePageState extends State<HomePage> {
           itemExtent: widget.size.height * 0.7,
           delegate: SliverChildListDelegate(
             [
-              MostReservedPlace(widget.user, widget.size),
-              HighRatePlace(widget.user, widget.size),
+              MostReservedPlace(widget.user, widget.size, () {
+                onMorePressed('');
+              }),
+              HighRatePlace(widget.user, widget.size, () {
+                onMorePressed('');
+              }),
             ],
           ),
         ),
@@ -130,7 +134,17 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SearchSpaceScreen(widget.user),
+        builder: (context) => SearchSpaceScreen(widget.user, null),
+      ),
+    );
+  }
+
+  onMorePressed(String search) {
+    print('more pressed');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchSpaceScreen(widget.user, search),
       ),
     );
   }

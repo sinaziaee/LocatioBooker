@@ -11,7 +11,7 @@ class CustomMap extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: size.height*0.3,
+        maxHeight: size.height*0.32,
       ),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: size.width * 0.05),

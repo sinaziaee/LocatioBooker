@@ -78,11 +78,11 @@ class _HomeScreenState extends State<HomeScreen> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.search,
+              Icons.home_outlined,
               color: Colors.black,
             ),
             title: Text(
-              'Search',
+              'Villa',
               style: TextStyle(color: Colors.black),
             ),
           ),

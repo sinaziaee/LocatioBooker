@@ -5,8 +5,9 @@ class SearchComponent extends StatelessWidget {
   final Size size;
   final SearchModel searchModel;
   final Function onPressed;
+  final bool last;
 
-  SearchComponent({this.size, this.searchModel, this.onPressed});
+  SearchComponent({this.size, this.searchModel, this.onPressed, this.last});
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +30,25 @@ class SearchComponent extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: [
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.grey,
+                        // Container(
+                        //   height: 50,
+                        //   width: 50,
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(10),
+                        //     color: Colors.grey,
+                        //   ),
+                        // ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: FadeInImage(
+                            height: 50,
+                            width: 50,
+                            fit: BoxFit.cover,
+                            placeholder:
+                                AssetImage('assets/images/home_def.jpg'),
+                            image: (searchModel.url != null)
+                                ? NetworkImage(searchModel.url)
+                                : AssetImage('assets/images/home_def.jpg'),
                           ),
                         ),
                         SizedBox(
@@ -49,7 +63,6 @@ class SearchComponent extends StatelessWidget {
                             SizedBox(
                               width: size.width - 100,
                               child: Text(
-                                // 'Dual Room apartment in Kish fajfl adfl jdsf ad jfl',
                                 searchModel.name,
                                 // textWidthBasis: TextWidthBasis.parent,
                                 style: TextStyle(
@@ -85,11 +98,14 @@ class SearchComponent extends StatelessWidget {
         SizedBox(
           height: 5,
         ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 30),
-          height: 0.5,
-          color: Colors.grey,
-          width: size.width,
+        Visibility(
+          visible: !last,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 30),
+            height: 0.5,
+            color: Colors.grey,
+            width: size.width,
+          ),
         ),
         SizedBox(
           height: 5,

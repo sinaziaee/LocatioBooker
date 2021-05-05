@@ -16,8 +16,9 @@ class HighRatePlace extends StatelessWidget {
       '$mainUrl/api/villa/search/?page=1&number_of_villa=10';
   final User user;
   final Size size;
+  final Function onHighRatePressed;
 
-  HighRatePlace(this.user, this.size);
+  HighRatePlace(this.user, this.size, this.onHighRatePressed);
 
   @override
   Widget build(BuildContext context) {
@@ -37,19 +38,26 @@ class HighRatePlace extends StatelessWidget {
                   ),
                 ),
                 Spacer(),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 5,
-                    vertical: 3,
-                  ),
-                  decoration: BoxDecoration(
+                Material(
+                  borderRadius: BorderRadius.circular(5),
+                  child: InkWell(
+                    onTap: onHighRatePressed,
                     borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.grey,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 5,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          width: 1,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      child: Text('See All'),
                     ),
                   ),
-                  child: Text('See All'),
                 ),
               ],
             ),
@@ -66,14 +74,14 @@ class HighRatePlace extends StatelessWidget {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
                   http.Response response = snapshot.data;
-                  print(response.statusCode);
+                  // print(response.statusCode);
                   // print(response.body);
                   var jsonResponse = convert.jsonDecode(response.body);
                   List<SearchModel> list = [];
                   int count = 0;
                   var data = jsonResponse['data'];
                   for (var each in data) {
-                    print(each);
+                    // print(each);
                     count++;
                     list.add(SearchModel.fromMap(each));
                   }
@@ -89,6 +97,7 @@ class HighRatePlace extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return HomePlaceItem(
                         searchModel: list[index],
+                        user: user,
                       );
                     },
                     itemCount: count,
@@ -97,28 +106,9 @@ class HighRatePlace extends StatelessWidget {
                   return ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      // return Container(
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(10),
-                      //     color: Colors.black,
-                      //   ),
-                      //   width: 220,
-                      //   height: 150,
-                      //   margin: EdgeInsets.only(
-                      //     left: 20,
-                      //     right: 5,
-                      //     top: 5,
-                      //     bottom: 5,
-                      //   ),
-                      //   child: Center(
-                      //     child: CircularProgressIndicator(
-                      //       valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
-                      //     ),
-                      //   ),
-                      // );
                       return ConstrainedBox(
                         constraints: BoxConstraints(
-                          maxHeight: 120,
+                          maxHeight: 150,
                           minHeight: 120,
                           maxWidth: 300,
                         ),

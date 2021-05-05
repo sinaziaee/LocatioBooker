@@ -1,9 +1,12 @@
+import 'package:loctio_booker/constants.dart';
+
 class SearchModel {
   String name, country, state, city, url;
-  int pricePerNight;
+  int pricePerNight, villaId;
   double rate;
 
   SearchModel({
+    this.villaId,
     this.name,
     this.country,
     this.state,
@@ -15,15 +18,17 @@ class SearchModel {
 
   SearchModel.fromMap(Map<String, dynamic> map){
     name = map['name'];
+    villaId = map['villa_id'];
     country = map['country'];
     state = map['state'];
     city = map['city'];
     pricePerNight = map['price_per_night'];
     rate = map['rate'];
-    url = map['default_image_url'];
+    url = '$mainUrl${map['default_image_url']}';
   }
 
   printUser() {
+    print('villa_id: $villaId');
     print('name: $name');
     print('country: $country');
     print('state: $state');
@@ -38,6 +43,9 @@ class SearchModel {
     if (this.name != null && this.name.length != 0) {
       data['name'] = this.name;
     }
+    if (this.url != null && this.url.length != 0) {
+      data['default_image_url'] = this.name;
+    }
     if (this.country != null && this.country.length != 0) {
       data['country'] = this.country;
     }
@@ -50,8 +58,8 @@ class SearchModel {
     if (this.pricePerNight != null) {
       data['price_per_night'] = this.pricePerNight;
     }
-    if (this.pricePerNight != null) {
-      data['default_image_url'] = this.url;
+    if (this.villaId != null) {
+      data['villa_id'] = this.villaId;
     }
     if (this.country != null && this.country.length != 0) {
       data['country'] = this.country;

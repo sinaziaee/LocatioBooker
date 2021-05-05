@@ -17,8 +17,9 @@ class MostReservedPlace extends StatelessWidget {
       '$mainUrl/api/villa/search/?page=1&number_of_villa=10';
   final Size size;
   final User user;
+  final Function onMostReservedPressed;
 
-  MostReservedPlace(this.user, this.size);
+  MostReservedPlace(this.user, this.size, this.onMostReservedPressed);
 
   @override
   Widget build(BuildContext context) {
@@ -31,25 +32,32 @@ class MostReservedPlace extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  'High rate places',
+                  'Most reserved places',
                   style: kBodyTextStyle.copyWith(
                     fontSize: 16,
                   ),
                 ),
                 Spacer(),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 5,
-                    vertical: 3,
-                  ),
-                  decoration: BoxDecoration(
+                Material(
+                  borderRadius: BorderRadius.circular(5),
+                  child: InkWell(
+                    onTap: onMostReservedPressed,
                     borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.grey,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 5,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          width: 1,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      child: Text('See All'),
                     ),
                   ),
-                  child: Text('See All'),
                 ),
               ],
             ),
@@ -66,18 +74,23 @@ class MostReservedPlace extends StatelessWidget {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
                   http.Response response = snapshot.data;
-                  print(response.statusCode);
+                  // print(response.statusCode);
                   // print(response.body);
                   var jsonResponse = convert.jsonDecode(response.body);
-                  List<SearchModel> list = [];
+                  List<SearchModel> list1 = [];
+                  List<SearchModel> list2 = [];
                   int count = 0;
                   var data = jsonResponse['data'];
-                  for (var each in data) {
-                    print(each);
+                  for (int i=0;i<data.length;i++) {
                     count++;
-                    list.add(SearchModel.fromMap(each));
+                    if(i % 2 == 0){
+                      list1.add(SearchModel.fromMap(data[i]));
+                    }
+                    else{
+                      list2.add(SearchModel.fromMap(data[i]));
+                    }
                   }
-                  if (count == 0) {
+                  if (list1.length == 0 && list2.length == 0) {
                     return Center(
                       child: ApartmentNotFoundComponent(
                         size: size,
@@ -90,18 +103,20 @@ class MostReservedPlace extends StatelessWidget {
                       return Column(
                         children: [
                           HomePlaceItem(
-                            searchModel: list[index],
+                            searchModel: list1[index],
+                            user: user,
                           ),
                           SizedBox(
                             height: 10,
                           ),
                           HomePlaceItem(
-                            searchModel: list[index],
+                            searchModel: list2[index],
+                            user: user,
                           ),
                         ],
                       );
                     },
-                    itemCount: count,
+                    itemCount: (count / 2).floor(),
                   );
                 } else {
                   return ListView.builder(
@@ -133,4 +148,5 @@ class MostReservedPlace extends StatelessWidget {
       ),
     );
   }
+
 }
