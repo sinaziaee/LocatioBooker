@@ -6,7 +6,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../home/place_search_screen.dart';
+import '../../home/search_place_screen.dart';
 import '../../../constants.dart';
 import "package:latlong/latlong.dart" as latLng;
 import '../components/home_screen_search_bar.dart';

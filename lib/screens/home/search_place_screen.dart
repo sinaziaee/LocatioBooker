@@ -10,10 +10,14 @@ import 'components/search_item.dart';
 import '../../models/search_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'components/custom_drawer.dart';
+
+
 class SearchSpaceScreen extends StatefulWidget {
   static String id = 'search_place_screen';
   final User user;
   final String category;
+
   SearchSpaceScreen(this.user, this.category);
 
   @override
@@ -22,29 +26,36 @@ class SearchSpaceScreen extends StatefulWidget {
 
 class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
   Size size;
-
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   String url = '$mainUrl/api/villa/search/?number_of_villa=10';
-
-  TextEditingController searchController;
-
-  @override
-  void initState() {
-    searchController = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    searchController.dispose();
-    super.dispose();
-  }
+  String country = '', state = '', city = '';
 
   @override
   Widget build(BuildContext context) {
+    print('-----------------------------------------');
+    print(country);
+    print(state);
+    print(city);
+    print('-----------------------------------------');
+    print('$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
+        '${(state != null && state.length != 0) ? '&state=$state' : ''}'
+        '${(city != null && city.length != 0) ? '&city=$city' : ''}');
     size = MediaQuery.of(context).size;
     return Scaffold(
-      drawer: Drawer(
-        child: Column(),
+      key: _drawerKey, // assign key to Scaffold
+      endDrawer: CustomDrawer(
+        cityValue: city,
+        countryValue: country,
+        stateValue: state,
+        onCityChanged: (value){
+          onCityPressed(value);
+        },
+        onStateChanged: (value){
+          onStatePressed(value);
+        },
+        onCountryChanged: (value){
+          onCountryPressed(value);
+        },
       ),
       backgroundColor: Colors.lightBlue,
       appBar: PreferredSize(
@@ -69,45 +80,25 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
                 ),
                 Row(
                   children: [
+                    SizedBox(
+                      width: 10,
+                    ),
                     IconButton(
-                      icon: Icon(Icons.chevron_left),
+                      icon: Icon(Icons.chevron_left, size: 35,),
                       onPressed: () {
                         Navigator.pop(context);
                       },
                     ),
-                    Expanded(
-                      child: TextField(
-                        controller: searchController,
-                        autofocus: true,
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.search,
-                        cursorWidth: 1,
-                        style: TextStyle(),
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration.collapsed(
-                          border: InputBorder.none,
-                          hintText: 'Where are you going?',
-                        ),
-                      ),
-                    ),
-                    Visibility(
-                      visible: searchController.text.isNotEmpty,
-                      child: IconButton(
-                        color: Colors.grey,
-                        icon: Icon(Icons.clear),
-                        onPressed: () {
-                          searchController.clear();
-                        },
-                      ),
-                    ),
+                    Spacer(),
                     IconButton(
-                      icon: Icon(Icons.filter_list),
+                      padding: EdgeInsets.only(top: 5),
+                      icon: Icon(Icons.filter_list, size: 30,),
                       onPressed: () {
-                        // Scaffold.of(context).openDrawer();
-                        // setState(() {
-                        //
-                        // });
+                        _drawerKey.currentState.openEndDrawer();
                       },
+                    ),
+                    SizedBox(
+                      width: 20,
                     ),
                   ],
                 ),
@@ -126,7 +117,9 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
         ),
         child: FutureBuilder(
           future: http.get(
-            Uri.parse(url),
+            Uri.parse('$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
+                '${(state != null && state.length != 0) ? '&state=$state' : ''}'
+                '${(city != null && city.length != 0) ? '&city=$city' : ''}'),
             headers: {
               HttpHeaders.authorizationHeader: widget.user.token,
             },
@@ -140,7 +133,7 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
               int count = 0;
               var data = jsonResponse['data'];
               for (var each in data) {
-                print(each);
+                // print(each);
                 count++;
                 list.add(SearchModel.fromMap(each));
               }
@@ -157,7 +150,7 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
                   return SearchComponent(
                     size: size,
                     searchModel: list[index],
-                    last: (index+1 == count),
+                    last: (index + 1 == count),
                     onPressed: () {
                       onPressed(SearchModel());
                     },
@@ -182,4 +175,39 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
     print("pressed");
   }
 
+  onCountryPressed(String country){
+    setState(() {
+      this.country = country;
+    });
+  }
+
+  onStatePressed(String state){
+    setState(() {
+      this.state = state;
+    });
+  }
+
+  onCityPressed(String city){
+    setState(() {
+      this.city = city;
+    });
+  }
+
+}
+
+class Data extends ChangeNotifier {
+  String text;
+  final User user;
+
+  Data(this.text, this.user);
+
+  void changeText(String newText) {
+    this.text = newText;
+    notifyListeners();
+  }
+
+  void clear() {
+    this.text = null;
+    notifyListeners();
+  }
 }

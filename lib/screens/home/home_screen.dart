@@ -8,7 +8,7 @@ import 'pages/temp_sliver.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'pages/home_page.dart';
-import 'place_search_screen.dart';
+import 'search_place_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';

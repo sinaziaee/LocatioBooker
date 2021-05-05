@@ -22,6 +22,7 @@ class CountryCityPicker extends StatelessWidget {
         color: Colors.white,
         border: Border.all(color: Colors.grey.shade300, width: 1),
       ),
+      layout: Layout.vertical,
       disabledDropdownDecoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           color: Colors.grey.shade300,

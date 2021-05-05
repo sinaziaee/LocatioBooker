@@ -4,7 +4,6 @@ import 'package:loctio_booker/models/search_model.dart';
 import 'package:loctio_booker/models/user.dart';
 
 class HomePlaceItem extends StatelessWidget {
-
   final SearchModel searchModel;
   final User user;
 
@@ -20,7 +19,7 @@ class HomePlaceItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
-        onTap: (){
+        onTap: () {
           onTapped(user, searchModel.villaId);
         },
         child: Container(
@@ -41,7 +40,9 @@ class HomePlaceItem extends StatelessWidget {
                   width: 220,
                   height: 150,
                   placeholder: AssetImage('assets/images/home_def.jpg'),
-                  image: (searchModel.url != null) ? NetworkImage(searchModel.url) : AssetImage('assets/images/home_def.jpg'),
+                  image: (searchModel.url.endsWith('null'))
+                      ? AssetImage('assets/images/home_def.jpg')
+                      : NetworkImage(searchModel.url),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -87,9 +88,8 @@ class HomePlaceItem extends StatelessWidget {
     );
   }
 
-  onTapped(User user, int villaId){
+  onTapped(User user, int villaId) {
     print('pressed');
     // Navigator.pushNamed(context, );
   }
-
 }

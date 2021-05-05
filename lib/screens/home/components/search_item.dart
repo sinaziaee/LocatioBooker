@@ -30,14 +30,6 @@ class SearchComponent extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: [
-                        // Container(
-                        //   height: 50,
-                        //   width: 50,
-                        //   decoration: BoxDecoration(
-                        //     borderRadius: BorderRadius.circular(10),
-                        //     color: Colors.grey,
-                        //   ),
-                        // ),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: FadeInImage(
@@ -46,7 +38,7 @@ class SearchComponent extends StatelessWidget {
                             fit: BoxFit.cover,
                             placeholder:
                                 AssetImage('assets/images/home_def.jpg'),
-                            image: (searchModel.url != null)
+                            image: (!searchModel.url.endsWith('null'))
                                 ? NetworkImage(searchModel.url)
                                 : AssetImage('assets/images/home_def.jpg'),
                           ),
