@@ -40,28 +40,81 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
     args = ModalRoute.of(context).settings.arguments;
     size = MediaQuery.of(context).size;
     user = args['user'];
+    print('$url${(searchController.text.length != 0) ? '?search=${searchController.text}' : ''}');
     return Scaffold(
-      appBar: AppBar(
-        title: MyTestFieldWithoutNode(
-          size: size,
-          hint: 'search',
-          isPassword: false,
-          isLast: true,
-          controller: searchController,
-          color: Colors.white,
-          onChanged: (String sth) {
-            setState(() {});
-          },
-        ),
-        leading: IconButton(
-          icon: Icon(
-            Icons.keyboard_arrow_left_rounded,
-            size: size.height * 0.04,
+      backgroundColor: Colors.lightBlue,
+      appBar: PreferredSize(
+        child: Container(
+          margin: EdgeInsets.only(
+            top: 40,
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          color: Colors.lightBlue,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(20),
+                topLeft: Radius.circular(20),
+              ),
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.chevron_left),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: searchController,
+                        autofocus: true,
+                        keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.search,
+                        cursorWidth: 1,
+                        style: TextStyle(),
+                        cursorColor: Colors.black,
+                        decoration: InputDecoration.collapsed(
+                          border: InputBorder.none,
+                          hintText: 'Where are you going?',
+                        ),
+                      ),
+                    ),
+                    Visibility(
+                      visible: searchController.text.isNotEmpty,
+                      child: IconButton(
+                        color: Colors.grey,
+                        icon: Icon(Icons.clear),
+                        onPressed: () {
+                          searchController.clear();
+                        },
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.filter_list),
+                      onPressed: () {
+                        // Scaffold.of(context).openDrawer();
+                        // setState(() {
+                        //
+                        // });
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
+          ),
         ),
+        preferredSize: Size(size.height, 80),
       ),
       body: FutureBuilder(
         future: http.get(
@@ -86,8 +139,11 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
               mapList.add(user);
             }
             if (count == 0) {
-              return Center(
-                child: Text('No accounts found'),
+              return Container(
+                color: Colors.white,
+                child: Center(
+                  child: Text('No accounts found'),
+                ),
               );
             }
             if (response.statusCode < 400) {
@@ -98,13 +154,19 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
                 itemCount: count,
               );
             } else {
-              return Center(
-                child: Text('An Error happened'),
+              return Container(
+                color: Colors.white,
+                child: Center(
+                  child: Text('An Error happened'),
+                ),
               );
             }
           } else {
-            return Center(
-              child: kMyProgressIndicator,
+            return Container(
+              color: Colors.white,
+              child: Center(
+                child: kMyProgressIndicator,
+              ),
             );
           }
         },

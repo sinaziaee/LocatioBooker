@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:loctio_booker/models/search_model.dart';
 import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/screens/hosting/components/apartment_not_found_component.dart';
 import 'dart:convert' as convert;
 import '../../../constants.dart';
 import 'home_item.dart';
@@ -14,10 +15,10 @@ class MostReservedPlace extends StatelessWidget {
 
   final String mostReservedPlacesUrl =
       '$mainUrl/api/villa/search/?page=1&number_of_villa=10';
-
+  final Size size;
   final User user;
 
-  MostReservedPlace(this.user);
+  MostReservedPlace(this.user, this.size);
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +79,8 @@ class MostReservedPlace extends StatelessWidget {
                   }
                   if (count == 0) {
                     return Center(
-                      child: Text(
-                        'No villa found',
+                      child: ApartmentNotFoundComponent(
+                        size: size,
                       ),
                     );
                   }

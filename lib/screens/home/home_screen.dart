@@ -32,26 +32,27 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (index == 4) {
       return SettingsPage.user(user, size);
     }
-    else if(index == 2){
-      return TempSliver();
-    }
-    else if (index == 1) {
-      return AppBar(
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SearchSpaceScreen(user),
-                ),
-              );
-            },
-          ),
-        ],
-      );
-    } else {
+    // else if(index == 2){
+    //   return TempSliver();
+    // }
+    // else if (index == 1) {
+    //   return AppBar(
+    //     actions: [
+    //       IconButton(
+    //         icon: Icon(Icons.search),
+    //         onPressed: () {
+    //           Navigator.push(
+    //             context,
+    //             MaterialPageRoute(
+    //               builder: (context) => SearchSpaceScreen(user),
+    //             ),
+    //           );
+    //         },
+    //       ),
+    //     ],
+    //   );
+    // }
+    else {
       return Container();
     }
   }

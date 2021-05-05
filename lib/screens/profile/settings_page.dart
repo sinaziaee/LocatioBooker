@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
+import 'package:loctio_booker/screens/home/search_profile_screen.dart';
 import 'package:loctio_booker/screens/profile/personal_information_screen.dart';
 import 'package:loctio_booker/screens/profile/terms_aggrements_screen.dart';
 import '../hosting/00_hosing_screen.dart';
@@ -70,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 TextButton(
                   onPressed: () {
-                    // Navigator.pushNamed(context, LoginScreen.id);
+                    Navigator.pushNamed(context, personalInformation.id);
                   },
                   child: Text('View Profile'),
                 )
@@ -81,6 +82,9 @@ class _SettingsPageState extends State<SettingsPage> {
             height: 10,
           ),
           ListTile(
+            onTap: () {
+              Navigator.pushNamed(context, personalInformation.id);
+            },
             title: Text(
               'Account Settings',
               style: kBodyTextStyle,
@@ -90,10 +94,16 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, personalInformation.id);
+              Navigator.pushNamed(
+                context,
+                SearchProfileScreen.id,
+                arguments: {
+                  'user': widget.user,
+                },
+              );
             },
             title: Text(
-              'Personal information',
+              'Users profiles',
               style: kBodyTextStyle,
             ),
             leading: Icon(Icons.accessibility),
@@ -116,7 +126,8 @@ class _SettingsPageState extends State<SettingsPage> {
               // );
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => HostingScreen(widget.user)),
+                MaterialPageRoute(
+                    builder: (context) => HostingScreen(widget.user)),
               );
             },
           ),

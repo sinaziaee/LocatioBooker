@@ -12,8 +12,10 @@ class HomePlaceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    searchModel.rate = (searchModel.rate == null) ? 5.0 : searchModel.rate;
     return Container(
       width: 220,
+      height: 220,
       margin: EdgeInsets.only(
         left: 20,
         right: 5,
@@ -63,7 +65,7 @@ class HomePlaceItem extends StatelessWidget {
             style: kBody2TextStyle.copyWith(),
           ),
           Text(
-            '${searchModel.pricePerNight.toString()}\$',
+            '${searchModel.pricePerNight.toString()}\$ per night',
             style: kBody1TextStyle.copyWith(),
           ),
         ],

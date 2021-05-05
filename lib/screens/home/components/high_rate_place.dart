@@ -4,17 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:loctio_booker/models/search_model.dart';
 import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/screens/hosting/components/apartment_not_found_component.dart';
 import 'dart:convert' as convert;
 import '../../../constants.dart';
 import 'home_item.dart';
 import 'home_item_mock.dart';
+import '../components/custom_map.dart';
 
 class HighRatePlace extends StatelessWidget {
   final String highRatePlacesUrl =
       '$mainUrl/api/villa/search/?page=1&number_of_villa=10';
   final User user;
+  final Size size;
 
-  HighRatePlace(this.user);
+  HighRatePlace(this.user, this.size);
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +25,7 @@ class HighRatePlace extends StatelessWidget {
       color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             child: Row(
@@ -75,8 +79,8 @@ class HighRatePlace extends StatelessWidget {
                   }
                   if (count == 0) {
                     return Center(
-                      child: Text(
-                        'No villa found',
+                      child: ApartmentNotFoundComponent(
+                        size: size,
                       ),
                     );
                   }
@@ -93,7 +97,50 @@ class HighRatePlace extends StatelessWidget {
                   return ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return HomePlaceItemMock();
+                      // return Container(
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(10),
+                      //     color: Colors.black,
+                      //   ),
+                      //   width: 220,
+                      //   height: 150,
+                      //   margin: EdgeInsets.only(
+                      //     left: 20,
+                      //     right: 5,
+                      //     top: 5,
+                      //     bottom: 5,
+                      //   ),
+                      //   child: Center(
+                      //     child: CircularProgressIndicator(
+                      //       valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+                      //     ),
+                      //   ),
+                      // );
+                      return ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: 120,
+                          minHeight: 120,
+                          maxWidth: 300,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.grey[200],
+                          ),
+                          margin: EdgeInsets.only(
+                            left: 20,
+                            right: 5,
+                            top: 5,
+                            bottom: 5,
+                          ),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.grey),
+                            ),
+                          ),
+                        ),
+                      );
                     },
                     itemCount: 5,
                   );
@@ -107,6 +154,10 @@ class HighRatePlace extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(
+            height: 10,
+          ),
+          CustomMap(size),
         ],
       ),
     );

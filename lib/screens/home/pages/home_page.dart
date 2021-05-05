@@ -17,6 +17,7 @@ import '../../../models/search_model.dart';
 import '../components/home_item_mock.dart';
 import '../components/high_rate_place.dart';
 import '../components/most_reserved_place.dart';
+import '../components/custom_search.dart';
 
 class HomePage extends StatefulWidget {
   final Size size;
@@ -80,22 +81,19 @@ class _HomePageState extends State<HomePage> {
                       bottomRight: Radius.circular(20),
                     ),
                     child: Image.asset(
-                      'assets/images/home.jpg',
-                      fit: BoxFit.cover,
+                      'assets/images/home_image_def.jpg',
+                      fit: BoxFit.fitWidth,
+                      width: widget.size.width,
                     ),
                   ),
                   Positioned(
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.search,
-                        color: Colors.black,
-                      ),
-                      onPressed: () {
+                    child: CustomSearch(
+                      size: widget.size,
+                      onPressed: (){
                         onSearchPressed();
                       },
-                      iconSize: 50,
                     ),
-                    right: 2,
+                    top: 20,
                   ),
                 ],
               ),
@@ -110,18 +108,17 @@ class _HomePageState extends State<HomePage> {
           stretch: false,
         ),
         SliverFixedExtentList(
-          itemExtent: widget.size.height * 0.8,
+          itemExtent: widget.size.height * 0.7,
           delegate: SliverChildListDelegate(
             [
-              MostReservedPlace(widget.user),
-              HighRatePlace(widget.user),
+              MostReservedPlace(widget.user, widget.size),
+              HighRatePlace(widget.user, widget.size),
             ],
           ),
         ),
       ],
     );
   }
-
 
   logOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -135,51 +132,6 @@ class _HomePageState extends State<HomePage> {
       MaterialPageRoute(
         builder: (context) => SearchSpaceScreen(widget.user),
       ),
-    );
-  }
-
-  Widget customMap(BuildContext context) {
-    return FlutterMap(
-      options: MapOptions(
-        // center: LatLng(51.5, -0.09),
-        center: latLng.LatLng(36.314845, 59.555513),
-        zoom: 15.0,
-      ),
-      layers: [
-        TileLayerOptions(
-            urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            subdomains: ['a', 'b', 'c']),
-        MarkerLayerOptions(
-          markers: [
-            Marker(
-              width: 40.0,
-              height: 40.0,
-              point: latLng.LatLng(36.314845, 59.555513),
-              builder: (ctx) => Container(
-                // child: FlutterLogo(
-                //
-                // ),
-                // child: Image.asset('assets/images/marker.png', height: 20, width: 20,),
-                child: Icon(
-                  Icons.account_circle,
-                  color: Colors.red.shade900,
-                ),
-                // child: Container(
-                //   height: 40,
-                //   width: 20,
-                //   decoration: BoxDecoration(
-                //     color: Colors.red,
-                //     borderRadius: BorderRadius.only(
-                //       bottomLeft: Radius.circular(10),
-                //       bottomRight: Radius.circular(10),
-                //     ),
-                //   ),
-                // ),
-              ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 }
