@@ -14,7 +14,7 @@ class HomePlaceItemMock extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         color: Colors.grey[100],
       ),
-      width: 220,
+      width: 160,
       height: 150,
       margin: EdgeInsets.only(
         left: 20,

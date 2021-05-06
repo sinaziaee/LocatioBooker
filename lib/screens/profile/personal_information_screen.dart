@@ -167,7 +167,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                     child: Column(
                       children: [
                         Container(
-                          height: 250.0,
+                          height: 210.0,
                           color: Colors.white,
                           child: Column(
                             children: <Widget>[
@@ -178,13 +178,14 @@ class _PersonalInformationState extends State<PersonalInformation> {
                                           ConnectionState.done) {
                                     User user = snapshot.data;
                                     return CustomAvatar(
-                                      onImageSelectPressed: () {
+                                        onImageSelectPressed: () {
                                         onImageSelectPressed();
                                       },
                                       imageFile: imageFile,
                                       imageUrl: '$mainUrl${user.image}',
                                     );
                                   } else {
+                                    print('here2');
                                     return CustomAvatar(
                                       onImageSelectPressed: () {
                                         onImageSelectPressed();
@@ -482,7 +483,8 @@ class _PersonalInformationState extends State<PersonalInformation> {
       } else {
         StaticMethods.showErrorDialog(
             context, 'An Error happened updating profile');
-        // print(response.body);
+        print(response.statusCode);
+        print(response.body);
       }
     } catch (e) {
       showSpinner = false;

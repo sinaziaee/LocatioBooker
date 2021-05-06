@@ -139,9 +139,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  logOut() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
-    Navigator.popAndPushNamed(context, LoginScreen.id);
-  }
 }

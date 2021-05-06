@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:loctio_booker/screens/authentication/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants.dart';
 
@@ -11,7 +13,10 @@ class ProfileHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           IconButton(
-            icon: Icon(Icons.arrow_back_ios, size: 20,),
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 20,
+            ),
             color: Colors.black,
             onPressed: () {
               Navigator.pop(context);
@@ -23,9 +28,32 @@ class ProfileHeader extends StatelessWidget {
               'my Profile',
               style: kHeaderTextStyle,
             ),
-          )
+          ),
+          Spacer(),
+          IconButton(
+            icon: Icon(
+              Icons.exit_to_app,
+            ),
+            color: Colors.black,
+            onPressed: () {
+              logOut(context);
+            },
+          ),
+          SizedBox(
+            width: 10,
+          ),
         ],
       ),
+    );
+  }
+
+  logOut(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      LoginScreen.id,
+      (route) => false,
     );
   }
 }
