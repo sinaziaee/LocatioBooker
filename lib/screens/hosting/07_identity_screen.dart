@@ -27,6 +27,7 @@ class IdentityScreen extends StatefulWidget {
   final PlaceAddress placeAddress;
   final User user;
   final List imageIds;
+  final Key key = Key('resort_identity_screen_key');
   final bool haveUploadedUserIdentity;
 
   IdentityScreen({
@@ -192,6 +193,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
 
   customContainer() {
     return BottomContainer(
+      key: Key('submit_identity'),
       text: 'Submit & Continue',
       onPressed: () {
         onPressed();

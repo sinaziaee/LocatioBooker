@@ -11,7 +11,7 @@ class User {
       nationalCode,
       image,
       bio,
-  filename,
+      filename,
       gender;
 
   User(
@@ -19,7 +19,7 @@ class User {
       this.lastName,
       this.phone,
       this.bio,
-        this.filename,
+      this.filename,
       this.email,
       this.password,
       this.country,
@@ -44,7 +44,7 @@ class User {
     gender = json['gender'];
   }
 
-  printUser(){
+  printUser() {
     print('firstName: $firstName');
     print('lastName: $lastName');
     print('email: $email');

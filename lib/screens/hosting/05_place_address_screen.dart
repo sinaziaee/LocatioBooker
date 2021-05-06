@@ -16,6 +16,7 @@ class PlaceAddressScreen extends StatefulWidget {
   final ResortDescription resortDescription;
   final ResortIdentification resortIdentification;
   final Facilitation facilitation;
+  final Key key = Key('resort_place_address_screen_key');
   final User user;
 
   PlaceAddressScreen(
@@ -68,6 +69,7 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
               child: customContainer(),
             ),
             BottomContainer(
+              key: Key('submit_place_address'),
               text: 'Submit & Continue',
               onPressed: () {
                 isValid();
@@ -144,6 +146,7 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
           node: node,
           isLast: false,
           isPassword: false,
+          key: Key('place_text_field'),
         ),
         SizedBox(
           height: size.height * 0.01,
@@ -175,6 +178,7 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
           hint: 'Ex: 1234567890',
           isLast: true,
           isPassword: false,
+          key: Key('postal_code_text_field'),
         ),
       ],
     );
