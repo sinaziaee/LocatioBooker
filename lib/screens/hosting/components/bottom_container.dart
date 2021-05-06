@@ -4,8 +4,9 @@ class BottomContainer extends StatelessWidget {
   final String text;
   final Function onPressed;
   final Size size;
+  final Key key;
 
-  BottomContainer({this.text, this.onPressed, this.size});
+  BottomContainer({this.text, this.onPressed, this.size, @required this.key});
 
   @override
   Widget build(BuildContext context) {

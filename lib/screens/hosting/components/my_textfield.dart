@@ -13,9 +13,11 @@ class MyTextField extends StatelessWidget {
   final TextInputType inputType;
   final int lines;
   final double height;
+  final Key key;
 
   MyTextField(
       {this.hint,
+       @required this.key,
       this.lines,
       this.isPassword,
       this.color,

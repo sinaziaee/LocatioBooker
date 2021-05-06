@@ -6,8 +6,9 @@ class HostingResortItem extends StatelessWidget {
   final Size size;
   final String assetName, title;
   final Function onPressed;
+  final Key key;
 
-  HostingResortItem({this.size, this.assetName, this.title, this.onPressed});
+  HostingResortItem({this.size, this.assetName, this.title, this.onPressed,@required this.key});
 
   @override
   Widget build(BuildContext context) {

@@ -33,6 +33,7 @@ class GalleryScreen extends StatefulWidget {
   final ResortIdentification resortIdentification;
   final Facilitation facilitation;
   final PlaceAddress placeAddress;
+  final Key key = Key('resort_gallery_screen_key');
   final User user;
 
   GalleryScreen(
@@ -100,6 +101,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
               ),
               if (images != null && images.length != 0) ...[
                 BottomContainer(
+                  key: Key('submit_gallery'),
                   text: 'Submit & Continue',
                   onPressed: () {
                     onPressed();
