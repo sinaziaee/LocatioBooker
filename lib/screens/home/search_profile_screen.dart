@@ -6,7 +6,8 @@ import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/components/my_textfield_without_node.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-
+import 'components/custom_profile_not_found.dart';
+import 'components/custom_profile_search.dart';
 import '../../constants.dart';
 
 class SearchProfileScreen extends StatefulWidget {
@@ -40,7 +41,9 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
     args = ModalRoute.of(context).settings.arguments;
     size = MediaQuery.of(context).size;
     user = args['user'];
-    print('$url${(searchController.text.length != 0) ? '?search=${searchController.text}' : ''}');
+    // print('$url${(searchController.text.length != 0) ? '?search=${searchController.text}' : ''}');
+    print(
+        '$url?search=${(searchController.text.length != 0) ? searchController.text : null}');
     return Scaffold(
       backgroundColor: Colors.lightBlue,
       appBar: PreferredSize(
@@ -116,60 +119,73 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
         ),
         preferredSize: Size(size.height, 80),
       ),
-      body: FutureBuilder(
-        future: http.get(
-          Uri.parse(
-              '$url${(searchController.text.length != 0) ? '?search=${searchController.text}' : ''}'),
-          headers: {
-            HttpHeaders.authorizationHeader: user.token,
-          },
-        ),
-        builder: (context, snapshot) {
-          if (snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            http.Response response = snapshot.data;
-            print(response.statusCode);
-            print(response.body);
-            var jsonResponse = convert.jsonDecode(response.body);
-            List<User> mapList = [];
-            int count = 0;
-            for (Map map in jsonResponse) {
-              count++;
-              User user = User.fromJson(map);
-              mapList.add(user);
-            }
-            if (count == 0) {
-              return Container(
-                color: Colors.white,
-                child: Center(
-                  child: Text('No accounts found'),
-                ),
-              );
-            }
-            if (response.statusCode < 400) {
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  return itemBuilder(mapList[index], !(index == count - 1));
-                },
-                itemCount: count,
-              );
+      body: Container(
+        color: Colors.white,
+        child: FutureBuilder(
+          future: http.get(
+            Uri.parse(
+                '$url?search=${(searchController.text.length != 0) ? searchController.text : null}'),
+            headers: {
+              HttpHeaders.authorizationHeader: user.token,
+            },
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              http.Response response = snapshot.data;
+              print(response.statusCode);
+              print(response.body);
+              var jsonResponse = convert.jsonDecode(response.body);
+              List<User> mapList = [];
+              int count = 0;
+              for (Map map in jsonResponse) {
+                count++;
+                User user = User.fromJson(map);
+                mapList.add(user);
+              }
+              if (count == 0 &&
+                  '$url?search=${(searchController.text.length != 0) ? searchController.text : null}'
+                      .endsWith('null')) {
+                return Container(
+                  color: Colors.white,
+                  child: Center(
+                    child: CustomProfileSearch(),
+                  ),
+                );
+              }
+              if (count == 0) {
+                return Container(
+                  color: Colors.white,
+                  child: Center(
+                    child: CustomProfileNotFound(),
+                  ),
+                );
+              }
+              if (response.statusCode < 400) {
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    return itemBuilder(mapList[index], !(index == count - 1));
+                  },
+                  itemCount: count,
+                );
+              } else {
+                return Container(
+                  color: Colors.white,
+                  child: Center(
+                    child: Text('An Error happened'),
+                  ),
+                );
+              }
             } else {
               return Container(
                 color: Colors.white,
                 child: Center(
-                  child: Text('An Error happened'),
+                  child: kMyProgressIndicator,
                 ),
               );
             }
-          } else {
-            return Container(
-              color: Colors.white,
-              child: Center(
-                child: kMyProgressIndicator,
-              ),
-            );
-          }
-        },
+          },
+        ),
       ),
     );
   }

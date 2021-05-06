@@ -71,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, personalInformation.id);
+                    Navigator.pushNamed(context, PersonalInformation.id);
                   },
                   child: Text('View Profile'),
                 )
@@ -83,7 +83,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           ListTile(
             onTap: () {
-              Navigator.pushNamed(context, personalInformation.id);
+              Navigator.pushNamed(context, PersonalInformation.id);
             },
             title: Text(
               'Account Settings',

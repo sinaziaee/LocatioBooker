@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         VerificationScreen.id: (context) => VerificationScreen(),
         SettingsPage.id : (context) => SettingsPage(),
         ProfileScreen.id : (context) => ProfileScreen(),
-        personalInformation.id : (context) => personalInformation(),
+        PersonalInformation.id : (context) => PersonalInformation(),
         termsAggrements.id : (context) => termsAggrements(),
         SearchProfileScreen.id: (context) => SearchProfileScreen(),
         // HostingScreen.id: (context) => HostingScreen(),
