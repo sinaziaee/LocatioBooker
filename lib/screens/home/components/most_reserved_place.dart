@@ -111,6 +111,9 @@ class MostReservedPlace extends StatelessWidget {
                       ),
                     );
                   }
+
+                  int newCount = (count / 2).round();
+
                   return ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
@@ -123,14 +126,23 @@ class MostReservedPlace extends StatelessWidget {
                           SizedBox(
                             height: 10,
                           ),
-                          HomePlaceItem(
-                            searchModel: list2[index],
-                            user: user,
-                          ),
+                          if (newCount * 2 == count + 1) ...[
+                            SizedBox(),
+                            // HomePlaceItem(
+                            //   searchModel: list2[index],
+                            //   user: user,
+                            // ),
+                          ] else ...[
+                            // SizedBox(),
+                            HomePlaceItem(
+                              searchModel: list2[index],
+                              user: user,
+                            ),
+                          ],
                         ],
                       );
                     },
-                    itemCount: (count / 2).floor(),
+                    itemCount: newCount,
                   );
                 } else {
                   return ListView.builder(

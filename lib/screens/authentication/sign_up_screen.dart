@@ -32,6 +32,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String email, country, token, countryCode;
   Map args;
   User user;
+  bool isEyeShowed1 = false, isEyeShowed2 = false;
 
   bool showSpinner = false;
 
@@ -112,8 +113,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   color: Colors.black,
                   controller: passwordController,
                   isLast: false,
-                  isPassword: false,
+                  isPassword: true,
                   size: size,
+                  isEyeShowed: isEyeShowed1,
+                  onEyePressed: (){
+                    setState(() {
+                      isEyeShowed1 = !isEyeShowed1;
+                    });
+                  },
                 ),
                 SizedBox(
                   height: size.height * 0.03,
@@ -125,7 +132,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   color: Colors.black,
                   controller: rePasswordController,
                   isLast: true,
-                  isPassword: false,
+                  isPassword: true,
+                  isEyeShowed: isEyeShowed2,
+                  onEyePressed: (){
+                    setState(() {
+                      isEyeShowed2 = !isEyeShowed2;
+                    });
+                  },
                 ),
                 SizedBox(
                   height: size.height * 0.03,
@@ -157,7 +170,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void onPhoneChanged(PhoneNumber value){
     // print(value.number);
     countryCode = value.countryCode;
-    // print(value.countryCode);
+    print(value.countryCode);
     return;
   }
 
@@ -192,12 +205,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     user = User(
       firstName: firstName,
       lastName: lastName,
-      phone: phone,
+      phone: '$countryCode$phone',
       email: email,
       password: password,
-      // country: country ?? 'US',
       nationalCode: countryCode,
     );
+    print(user.phone);
     return true;
   }
 

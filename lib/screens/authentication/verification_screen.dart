@@ -67,7 +67,7 @@ class _VerificationScreenState extends State<VerificationScreen>
         showSpinner = true;
         setState(() {});
         SignUpScreen.theCode = null;
-        sendVerificationCode();
+        // sendVerificationCode();
         print('signUpCode was resat to: ${SignUpScreen.theCode}');
       },
     );
@@ -123,6 +123,9 @@ class _VerificationScreenState extends State<VerificationScreen>
                     ? Colors.red
                     : Colors.redAccent[100],
                 onPressed: () {
+                  if(progress == verifTime){
+                    return;
+                  }
                   typedCode = verificationController.text;
                   if (typedCode.length == 0) {
                     StaticMethods.showErrorDialog(
@@ -227,12 +230,50 @@ class _VerificationScreenState extends State<VerificationScreen>
       // pass
     }
     else{
-
-      showSpinner = true;
-      setState(() {});
       SignUpScreen.theCode = null;
-      sendVerificationCode();
-      print('signUpCode was resat to: ${SignUpScreen.theCode}');
+      sendVerificationEmail();
+      // showSpinner = true;
+      // setState(() {});
+      // SignUpScreen.theCode = null;
+      // sendVerificationCode();
+      // print('signUpCode was resat to: ${SignUpScreen.theCode}');
+    }
+  }
+
+  sendVerificationEmail() async {
+    setState(() {
+      showSpinner = true;
+    });
+    print(user.toJson().toString());
+    try {
+      http.Response response = await StaticMethods.upload(
+        sendEmailUrl,
+        user.toJson(),
+      );
+      showSpinner = false;
+      setState(() {});
+      print('statusCode: ${response.statusCode}');
+      if (response.statusCode < 400) {
+        var jsonResponse =
+        convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+        print(response.body);
+        SignUpScreen.theCode = jsonResponse['vc_code'];
+        Navigator.popAndPushNamed(
+          context,
+          VerificationScreen.id,
+          arguments: {
+            'user': user,
+          },
+        );
+      } else {
+        StaticMethods.showErrorDialog(
+            context, 'An Error happened while signing up');
+        print(response.body);
+      }
+    } catch (e) {
+      showSpinner = false;
+      setState(() {});
+      StaticMethods.printError(e.toString());
     }
   }
 
@@ -275,29 +316,5 @@ class _VerificationScreenState extends State<VerificationScreen>
         'user': user,
       },
     );
-  }
-
-  sendVerificationCode() async {
-    try {
-      http.Response response = await StaticMethods.upload(
-        sendEmailUrl,
-        user.toJson(),
-      );
-      showSpinner = false;
-      setState(() {});
-      print('statusCode: ${response.statusCode}');
-      if (response.statusCode < 400) {
-        var jsonResponse =
-            convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
-        print(jsonResponse);
-        SignUpScreen.theCode = jsonResponse['vc_code'];
-      } else {
-        StaticMethods.showErrorDialog(
-            context, 'An Error happened while signing up');
-        print(response.body);
-      }
-    } catch (e) {
-      StaticMethods.printError(e.toString());
-    }
   }
 }
