@@ -74,8 +74,11 @@ class HighRatePlace extends StatelessWidget {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
                   http.Response response = snapshot.data;
-                  // print(response.statusCode);
-                  // print(response.body);
+                  print(response.statusCode);
+                  if (response.statusCode == 401) {
+                    return invalidTokenWidget();
+                  }
+                  print(response.body);
                   var jsonResponse = convert.jsonDecode(response.body);
                   List<SearchModel> list = [];
                   int count = 0;
@@ -85,6 +88,7 @@ class HighRatePlace extends StatelessWidget {
                     count++;
                     list.add(SearchModel.fromMap(each));
                   }
+                  print(count);
                   if (count == 0) {
                     return Center(
                       child: ApartmentNotFoundComponent(
@@ -152,4 +156,23 @@ class HighRatePlace extends StatelessWidget {
       ),
     );
   }
+
+  Widget invalidTokenWidget(){
+    return Center(
+      child: Column(
+        children: [
+          Icon(
+            Icons.error,
+            color: Colors.red,
+            size: 100,
+          ),
+          Text(
+            'Invalid Token',
+            style: kBody1TextStyle,
+          ),
+        ],
+      ),
+    );
+  }
+
 }

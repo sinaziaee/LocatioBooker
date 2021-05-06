@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/search_model.dart';
 import 'package:loctio_booker/models/user.dart';
+import '../../detailVilla/detailVillaScreen.dart';
 
 class HomePlaceItem extends StatelessWidget {
   final SearchModel searchModel;
@@ -20,7 +21,7 @@ class HomePlaceItem extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
         onTap: () {
-          onTapped(user, searchModel.villaId);
+          onTapped(context, user, searchModel.villaId);
         },
         child: Container(
           width: 220,
@@ -88,8 +89,15 @@ class HomePlaceItem extends StatelessWidget {
     );
   }
 
-  onTapped(User user, int villaId) {
+  onTapped(BuildContext context, User user, int villaId) {
     print('pressed');
-    // Navigator.pushNamed(context, );
+    Navigator.pushNamed(
+      context,
+      detailVillaScreen.id,
+      arguments: {
+        'user': user,
+        'id': villaId,
+      }
+    );
   }
 }

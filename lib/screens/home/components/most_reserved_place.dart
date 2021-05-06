@@ -11,8 +11,6 @@ import 'home_item.dart';
 import 'home_item_mock.dart';
 
 class MostReservedPlace extends StatelessWidget {
-
-
   final String mostReservedPlacesUrl =
       '$mainUrl/api/villa/search/?page=1&number_of_villa=10';
   final Size size;
@@ -76,17 +74,33 @@ class MostReservedPlace extends StatelessWidget {
                   http.Response response = snapshot.data;
                   // print(response.statusCode);
                   // print(response.body);
+                  if (response.statusCode == 401) {
+                    return Center(
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.error,
+                            color: Colors.red,
+                            size: 100,
+                          ),
+                          Text(
+                            'Invalid Token',
+                            style: kBody1TextStyle,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                   var jsonResponse = convert.jsonDecode(response.body);
                   List<SearchModel> list1 = [];
                   List<SearchModel> list2 = [];
                   int count = 0;
                   var data = jsonResponse['data'];
-                  for (int i=0;i<data.length;i++) {
+                  for (int i = 0; i < data.length; i++) {
                     count++;
-                    if(i % 2 == 0){
+                    if (i % 2 == 0) {
                       list1.add(SearchModel.fromMap(data[i]));
-                    }
-                    else{
+                    } else {
                       list2.add(SearchModel.fromMap(data[i]));
                     }
                   }
@@ -149,4 +163,21 @@ class MostReservedPlace extends StatelessWidget {
     );
   }
 
+  Widget invalidTokenWidget() {
+    return Center(
+      child: Column(
+        children: [
+          Icon(
+            Icons.error,
+            color: Colors.red,
+            size: 100,
+          ),
+          Text(
+            'Invalid Token',
+            style: kBody1TextStyle,
+          ),
+        ],
+      ),
+    );
+  }
 }

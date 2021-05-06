@@ -9,7 +9,7 @@ import 'screens/authentication/login_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/home/search_profile_screen.dart';
 import 'screens/home/search_place_screen.dart';
-
+import 'screens/detailVilla/detailVillaScreen.dart';
 void main() {
   runApp(MyApp());
 }
@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
         PersonalInformation.id : (context) => PersonalInformation(),
         termsAggrements.id : (context) => termsAggrements(),
         SearchProfileScreen.id: (context) => SearchProfileScreen(),
+        detailVillaScreen.id: (context) => detailVillaScreen(),
         // HostingScreen.id: (context) => HostingScreen(),
         // SearchSpaceScreen.id: (context) => SearchSpaceScreen(null),
       },
