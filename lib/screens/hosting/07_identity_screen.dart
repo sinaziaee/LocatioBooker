@@ -59,7 +59,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
     size = MediaQuery.of(context).size;
     print(widget.imageIds);
     return Scaffold(
-      appBar: StaticMethods.myAppBar('Identity Screen', context),
+      appBar: StaticMethods.myAppBar('Identity Screen', context, widget.user),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         progressIndicator: kMyProgressIndicator,
@@ -247,6 +247,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
           method: 'POST',
           headers: {
             HttpHeaders.authorizationHeader: widget.user.token,
+            // HttpHeaders.authorizationHeader: 'Token bab330f8321c61a9ba457fab4efc1b223c3f8731',
           },
           responseType: ResponseType.json // or ResponseType.JSON
           ),
@@ -296,6 +297,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
           method: 'POST',
           headers: {
             HttpHeaders.authorizationHeader: widget.user.token,
+            // HttpHeaders.authorizationHeader: 'Token bab330f8321c61a9ba457fab4efc1b223c3f8731',
           },
           responseType: ResponseType.json // or ResponseType.JSON
           ),
@@ -393,6 +395,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
         body: convert.jsonEncode(map),
         headers: {
           HttpHeaders.authorizationHeader: widget.user.token,
+          // HttpHeaders.authorizationHeader: 'Token bab330f8321c61a9ba457fab4efc1b223c3f8731',
           "Accept": "application/json",
           "content-type": "application/json",
         },

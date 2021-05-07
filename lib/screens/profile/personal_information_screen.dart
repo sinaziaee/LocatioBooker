@@ -19,7 +19,7 @@ import '../../static_methods.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'components/gender_alert.dart';
-
+import '../../components/select_image_item.dart';
 
 class PersonalInformation extends StatefulWidget {
   static String id = 'personal_page';
@@ -522,12 +522,72 @@ class _PersonalInformationState extends State<PersonalInformation> {
   }
 
   void onImageSelectPressed() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return StaticMethods.myAlertDialog(selectFromCamera, selectFromGallery);
-      },
-    );
+    print('heeeeee');
+    // showDialog(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return StaticMethods.myAlertDialog(selectFromCamera, selectFromGallery);
+    //   },
+    // );
+    showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'Select Image',
+                    textDirection: TextDirection.rtl,
+                    style: kHeaderTextStyle.copyWith(color: Colors.grey[800]),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 0.5,
+              width: double.infinity,
+              color: Colors.grey,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              onTap: () {
+                selectFromCamera();
+              },
+              borderRadius: BorderRadius.circular(10),
+              child: SelectImageItem(
+                text: 'From Camera',
+                iconData: Icons.camera_alt,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              borderRadius: BorderRadius.circular(10),
+              onTap: () {
+                selectFromGallery();
+              },
+              child: SelectImageItem(
+                text: 'From Gallery',
+                iconData: Icons.insert_photo,
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   void onGenderDialogPressed() {

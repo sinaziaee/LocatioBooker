@@ -7,6 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'models/user.dart';
+import 'components/select_image_item.dart';
+import 'screens/home/home_screen.dart';
+import 'screens/hosting/00_hosing_screen.dart';
 
 class StaticMethods {
   static Future<void> saveToPreferences(User user) async {
@@ -149,6 +152,9 @@ class StaticMethods {
   static AlertDialog myAlertDialog(
       Function selectFromCamera, Function selectFromGallery) {
     return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -180,53 +186,23 @@ class StaticMethods {
             onTap: () {
               selectFromCamera();
             },
-            child: Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'From Camera‌',
-                    textDirection: TextDirection.rtl,
-                    style: kBodyTextStyle.copyWith(color: Colors.grey[700]),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Icon(
-                    Icons.camera_alt,
-                    color: Colors.grey[700],
-                  ),
-                ],
-              ),
+            borderRadius: BorderRadius.circular(10),
+            child: SelectImageItem(
+              text: 'From Camera',
+              iconData: Icons.camera_alt,
             ),
           ),
           SizedBox(
             height: 10,
           ),
           InkWell(
+            borderRadius: BorderRadius.circular(10),
             onTap: () {
               selectFromGallery();
             },
-            child: Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'From Gallery',
-                    textDirection: TextDirection.rtl,
-                    style: kBodyTextStyle.copyWith(color: Colors.grey[700]),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Icon(
-                    Icons.insert_photo,
-                    color: Colors.grey[700],
-                  ),
-                ],
-              ),
+            child: SelectImageItem(
+              text: 'From Gallery',
+              iconData: Icons.insert_photo,
             ),
           ),
         ],
@@ -234,7 +210,7 @@ class StaticMethods {
     );
   }
 
-  static PreferredSize myAppBar(String text, BuildContext context) {
+  static PreferredSize myAppBar(String text, BuildContext context, User user) {
     return PreferredSize(
       child: Container(
         decoration: kCustomAppBarDecoration,
@@ -266,7 +242,37 @@ class StaticMethods {
                 ),
               ),
               Spacer(
-                flex: 3,
+                flex: 2,
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.clear,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                onPressed: () {
+                  // Navigator.pushAndRemoveUntil(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => HostingScreen(user),
+                  //   ),
+                  //       (route) => false,
+                  // );
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    HomeScreen.id,
+                    (route) => false,
+                    arguments: {
+                      'user': user,
+                    },
+                  );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HostingScreen(user),
+                    ),
+                  );
+                },
               ),
             ],
           ),

@@ -99,14 +99,8 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
                         },
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(Icons.filter_list),
-                      onPressed: () {
-                        // Scaffold.of(context).openDrawer();
-                        // setState(() {
-                        //
-                        // });
-                      },
+                    SizedBox(
+                      width: 10,
                     ),
                   ],
                 ),

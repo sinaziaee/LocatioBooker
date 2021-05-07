@@ -55,7 +55,7 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
     size = MediaQuery.of(context).size;
     node = FocusScope.of(context);
     return Scaffold(
-      appBar: StaticMethods.myAppBar('Location Screen', context),
+      appBar: StaticMethods.myAppBar('Location Screen', context, widget.user),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

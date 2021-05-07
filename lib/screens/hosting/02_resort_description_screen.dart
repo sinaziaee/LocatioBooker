@@ -52,7 +52,7 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
     node = FocusScope.of(context);
 
     return Scaffold(
-      appBar: StaticMethods.myAppBar('Resort Description Screen', context),
+      appBar: StaticMethods.myAppBar('Resort Description Screen', context, widget.user),
       body: SingleChildScrollView(
         child: Column(
           children: [

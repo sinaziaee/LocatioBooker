@@ -24,8 +24,8 @@ class HomePlaceItem extends StatelessWidget {
           onTapped(context, user, searchModel.villaId);
         },
         child: Container(
-          width: 220,
-          height: 220,
+          width: 260,
+          height: 250,
           margin: EdgeInsets.only(
             left: 20,
             right: 5,

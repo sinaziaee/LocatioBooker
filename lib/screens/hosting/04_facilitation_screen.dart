@@ -57,7 +57,7 @@ class _FacilitationScreenState extends State<FacilitationScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: StaticMethods.myAppBar('Facilitation Screen', context),
+      appBar: StaticMethods.myAppBar('Facilitation Screen', context, widget.user),
       body: SingleChildScrollView(
         child: Column(
           children: [

@@ -24,7 +24,7 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: StaticMethods.myAppBar('Resort Type Screen', context),
+      appBar: StaticMethods.myAppBar('Resort Type Screen', context, widget.user),
       body: SingleChildScrollView(
         child: Column(
           children: [

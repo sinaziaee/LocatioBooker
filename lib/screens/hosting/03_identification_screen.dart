@@ -37,7 +37,7 @@ class _ResortIdentificationScreenState
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: StaticMethods.myAppBar('Resort Description Screen', context),
+      appBar: StaticMethods.myAppBar('Resort Description Screen', context, widget.user),
       body: SingleChildScrollView(
         child: Column(
           children: [

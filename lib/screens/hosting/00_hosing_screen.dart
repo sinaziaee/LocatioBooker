@@ -32,7 +32,7 @@ class _HostingScreenState extends State<HostingScreen> {
     // user.printUser();
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: StaticMethods.myAppBar('Hosting Screen', context),
+      appBar: StaticMethods.myAppBar('Hosting Screen', context, widget.user),
       body: SingleChildScrollView(
         child: Column(
           children: [
