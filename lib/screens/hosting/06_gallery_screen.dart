@@ -171,6 +171,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
   onPressed() async {
     counter = 0;
     imageIds.clear();
+    if(images.length < 4){
+      StaticMethods.showErrorDialog(context, 'Please select ${4-images.length} more images');
+      return;
+    }
     for (File file in images) {
       await uploadImage(file);
     }

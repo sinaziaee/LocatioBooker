@@ -12,7 +12,7 @@ import 'search_place_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';
-
+  final Key key = Key('home_screen_key');
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -75,14 +75,17 @@ class _HomeScreenState extends State<HomeScreen> {
         child: bodyContainer(selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        key: Key('bottom_navigation'),
         items: [
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home_outlined,
               color: Colors.black,
+              key: Key('bnbi_home'),
             ),
             title: Text(
               'Villa',
+              key: Key('bnbi_villa'),
               style: TextStyle(color: Colors.black),
             ),
           ),
@@ -122,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(
               Icons.person_pin,
               color: Colors.black,
+              key: Key('bnbi_profile'),
             ),
             // label: 'Profile',
             title: Text(

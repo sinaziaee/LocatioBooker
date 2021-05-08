@@ -179,6 +179,9 @@ class _PersonalInformationState extends State<PersonalInformation> {
                                     User user = snapshot.data;
                                     return CustomAvatar(
                                         onImageSelectPressed: () {
+                                          if(status == true){
+                                            return;
+                                          }
                                         onImageSelectPressed();
                                       },
                                       imageFile: imageFile,

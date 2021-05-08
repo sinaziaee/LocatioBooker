@@ -17,6 +17,7 @@ class HomePlaceItem extends StatelessWidget {
   Widget build(BuildContext context) {
     searchModel.rate = (searchModel.rate == null) ? 5.0 : searchModel.rate;
     return Material(
+      color: Colors.white,
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
         borderRadius: BorderRadius.circular(10),
@@ -24,7 +25,7 @@ class HomePlaceItem extends StatelessWidget {
           onTapped(context, user, searchModel.villaId);
         },
         child: Container(
-          width: 260,
+          width: 220,
           height: 250,
           margin: EdgeInsets.only(
             left: 20,

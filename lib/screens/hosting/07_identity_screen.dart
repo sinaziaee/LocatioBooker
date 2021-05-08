@@ -10,6 +10,7 @@ import 'package:loctio_booker/models/place_address.dart';
 import 'package:loctio_booker/models/resort_description.dart';
 import 'package:loctio_booker/models/resort_identification.dart';
 import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/screens/home/home_screen.dart';
 import 'package:loctio_booker/screens/hosting/components/image_container.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:http/http.dart' as http;
@@ -416,12 +417,17 @@ class _IdentityScreenState extends State<IdentityScreen> {
             btnOkOnPress: () {
               Navigator.pushNamedAndRemoveUntil(
                 context,
-                HostingScreen.id,
+                HomeScreen.id,
                     (route) => false,
-
                 arguments: {
                   'user': widget.user,
                 },
+              );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HostingScreen(widget.user),
+                ),
               );
             },
             btnOkIcon: Icons.check_circle,

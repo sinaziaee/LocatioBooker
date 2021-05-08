@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:loctio_booker/models/search_model.dart';
 import 'package:loctio_booker/models/user.dart';
-import 'package:loctio_booker/screens/hosting/components/apartment_not_found_component.dart';
 import 'dart:convert' as convert;
 import '../../../constants.dart';
 import 'home_item.dart';
 import 'home_item_mock.dart';
 import '../components/custom_map.dart';
+import '../../../components/villa_not_found.dart';
+
 
 class HighRatePlace extends StatelessWidget {
   final String highRatePlacesUrl =
@@ -91,7 +92,7 @@ class HighRatePlace extends StatelessWidget {
                   print(count);
                   if (count == 0) {
                     return Center(
-                      child: ApartmentNotFoundComponent(
+                      child: VillaNotFound(
                         size: size,
                       ),
                     );

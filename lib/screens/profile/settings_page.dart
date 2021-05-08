@@ -91,6 +91,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             leading: Icon(Icons.person),
             trailing: Icon(Icons.more_vert),
+            key: Key('key_account_settings'),
           ),
           ListTile(
             onTap: () {

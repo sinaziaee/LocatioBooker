@@ -10,9 +10,13 @@ class termsAggrements extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "SweetHome Terms and Conditions",
+          "Terms and Conditions",
           style: kHeaderTextStyle,
         ),
+        leading: IconButton(icon: Icon(Icons.chevron_left, size: 30,), onPressed: (){
+          Navigator.pop(context);
+        }),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Padding(

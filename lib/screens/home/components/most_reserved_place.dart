@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:loctio_booker/models/search_model.dart';
 import 'package:loctio_booker/models/user.dart';
-import 'package:loctio_booker/screens/hosting/components/apartment_not_found_component.dart';
 import 'dart:convert' as convert;
 import '../../../constants.dart';
 import 'home_item.dart';
 import 'home_item_mock.dart';
+import '../../../components/villa_not_found.dart';
 
 class MostReservedPlace extends StatelessWidget {
   final String mostReservedPlacesUrl =
@@ -106,7 +106,7 @@ class MostReservedPlace extends StatelessWidget {
                   }
                   if (list1.length == 0 && list2.length == 0) {
                     return Center(
-                      child: ApartmentNotFoundComponent(
+                      child: VillaNotFound(
                         size: size,
                       ),
                     );
@@ -128,10 +128,6 @@ class MostReservedPlace extends StatelessWidget {
                           ),
                           if (newCount * 2 == count + 1) ...[
                             SizedBox(),
-                            // HomePlaceItem(
-                            //   searchModel: list2[index],
-                            //   user: user,
-                            // ),
                           ] else ...[
                             // SizedBox(),
                             HomePlaceItem(
