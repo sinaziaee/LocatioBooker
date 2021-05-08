@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/villa.dart';
 
-
 class imagesVilla extends StatefulWidget {
-
   final Villa villa;
 
-   imagesVilla(this.villa) ;
+  imagesVilla(this.villa);
 
   @override
   _imagesVillaState createState() => _imagesVillaState();
@@ -15,6 +13,7 @@ class imagesVilla extends StatefulWidget {
 
 class _imagesVillaState extends State<imagesVilla> {
   int selectedImage = 0;
+
   @override
   Widget build(BuildContext context) {
     print("length : ${widget.villa.images}");
@@ -22,27 +21,28 @@ class _imagesVillaState extends State<imagesVilla> {
     return Column(
       children: [
         SizedBox(
-          width: 238.0,
+          width: 300,
+          height: 200,
           child: AspectRatio(
             aspectRatio: 1,
             child: Hero(
               tag: widget.villa.id.toString(),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                  child : Image.network(
-                      mainUrl + widget.villa.images[selectedImage],
-                      fit: BoxFit.cover,
-                  ) ,
+                child: Image.network(
+                  mainUrl + widget.villa.images[selectedImage],
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
         ),
-        // SizedBox(height: getProportionateScreenWidth(20)),
+        SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ...List.generate(widget.villa.images.length,
-                    (index) => buildSmallProductPreview(index)),
+                (index) => buildSmallProductPreview(index)),
           ],
         )
       ],
@@ -57,7 +57,7 @@ class _imagesVillaState extends State<imagesVilla> {
         });
       },
       child: AnimatedContainer(
-        duration: Duration(seconds: 10),
+        duration: Duration(seconds: 1),
         margin: EdgeInsets.only(right: 15),
         padding: EdgeInsets.all(8),
         height: 48.0,
@@ -66,7 +66,8 @@ class _imagesVillaState extends State<imagesVilla> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-              color: Colors.purple.withOpacity(selectedImage == index ? 1 : 0)),
+            color: Colors.purple.withOpacity(selectedImage == index ? 1 : 0),
+          ),
         ),
         child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
@@ -90,5 +91,3 @@ class SizeConfig {
     orientation = _mediaQueryData.orientation;
   }
 }
-
-

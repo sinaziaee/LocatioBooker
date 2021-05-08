@@ -4,17 +4,17 @@ import 'package:flutter/rendering.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/villa.dart';
 
-class aboutVilla extends StatefulWidget {
+class aboutVilla2 extends StatefulWidget {
   final Villa villa;
 
-  aboutVilla(this.villa);
+  aboutVilla2(this.villa);
 
 
   @override
-  _aboutVillaState createState() => _aboutVillaState();
+  _aboutVillaState2 createState() => _aboutVillaState2();
 }
 
-class _aboutVillaState extends State<aboutVilla> {
+class _aboutVillaState2 extends State<aboutVilla2> {
 
   @override
   Widget build(BuildContext context) {
@@ -227,7 +227,42 @@ class _aboutVillaState extends State<aboutVilla> {
               height: 10,
             ),
 
+            //nothing
 
+            ///*
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Villa Space",
+                  style: kHeaderTextStyle,
+                )
+              ],
+            ),
+
+            SizedBox(
+              height: 10,
+            ),
+
+            Row(
+              children: [
+                Icon(
+                  Icons.home,
+                  color: Colors.green,
+                  size: 30.0,
+                ),
+
+                Text("bedrooms :${widget.villa.number_of_bedrooms}  "
+                    "bathrooms :${widget.villa.number_of_bathrooms}  "
+                    "showers :${widget.villa.number_of_showers} ",
+                  style: kBodyTextStyle,
+                )
+              ],
+            ),
+
+            SizedBox(
+              height: 10,
+            ),
             //*/
 
 
