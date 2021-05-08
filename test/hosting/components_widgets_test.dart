@@ -18,7 +18,7 @@ import 'package:loctio_booker/screens/hosting/components/hosting_resort_type_ite
 import '';
 
 void main() {
-  group('Component testing host screens', () {
+  group('Component testing host screens\n', () {
     testWidgets('hosting screen', (WidgetTester tester) async {
       User user = User(
           firstName: 'sina',
