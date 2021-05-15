@@ -14,6 +14,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import '../../constants.dart';
 import '../../models/resort_description.dart';
 import '../../static_methods.dart';
 import '../../models/resort_identification.dart';
@@ -33,6 +34,7 @@ class GalleryScreen extends StatefulWidget {
   final ResortIdentification resortIdentification;
   final Facilitation facilitation;
   final PlaceAddress placeAddress;
+  final Key key = Key('resort_gallery_screen_key');
   final User user;
 
   GalleryScreen(
@@ -70,7 +72,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
     node = FocusScope.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: StaticMethods.myAppBar('Gallery Screen', context),
+      appBar: StaticMethods.myAppBar('Gallery Screen', context, widget.user),
       body: ModalProgressHUD(
         progressIndicator: kMyProgressIndicator,
         inAsyncCall: showSpinner,
@@ -90,6 +92,21 @@ class _GalleryScreenState extends State<GalleryScreen> {
                   height: size.height * 0.2,
                 ),
               ],
+              Center(
+                child: Text(
+                  (images.length < 8)
+                      ? (images.length == 0)
+                          ? 'Select at least 4 images'
+                          : (images.length < 4)
+                              ? 'Select ${4 - images.length} more images'
+                              : 'You can Select ${8 - images.length} more images'
+                      : 'You can\'t select more images',
+                  style: kHeaderTextStyle.copyWith(
+                    color: Colors.grey[800],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
               Padding(
                 padding: EdgeInsets.only(
                   left: size.width * 0.05,
@@ -100,6 +117,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
               ),
               if (images != null && images.length != 0) ...[
                 BottomContainer(
+                  key: Key('submit_gallery'),
                   text: 'Submit & Continue',
                   onPressed: () {
                     onPressed();
@@ -139,6 +157,9 @@ class _GalleryScreenState extends State<GalleryScreen> {
   }
 
   void onImageSelectPressed() {
+    if(images.length >= 8){
+      return;
+    }
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -150,6 +171,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
   onPressed() async {
     counter = 0;
     imageIds.clear();
+    if(images.length < 4){
+      StaticMethods.showErrorDialog(context, 'Please select ${4-images.length} more images');
+      return;
+    }
     for (File file in images) {
       await uploadImage(file);
     }
@@ -202,6 +227,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
         ),
         headers: {
           HttpHeaders.authorizationHeader: widget.user.token,
+          // HttpHeaders.authorizationHeader: 'Token bab330f8321c61a9ba457fab4efc1b223c3f8731',
           "Accept": "application/json",
           "content-type": "application/json",
         },
@@ -265,10 +291,9 @@ class _GalleryScreenState extends State<GalleryScreen> {
     var jsonResponse = convert.jsonDecode(response.body);
     print('----------------------------------');
     print(jsonResponse);
-    if(jsonResponse.toString() == 'No document exist!'){
+    if (jsonResponse.toString() == 'No document exist!') {
       return false;
-    }
-    else{
+    } else {
       return true;
     }
   }

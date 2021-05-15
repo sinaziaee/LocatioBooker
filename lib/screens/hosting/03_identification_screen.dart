@@ -11,7 +11,7 @@ import 'components/facilitate_item.dart';
 class ResortIdentificationScreen extends StatefulWidget {
   final String villa;
   final User user;
-
+  final Key key = Key('resort_identification_screen_key');
   final ResortDescription resortDescription;
 
   ResortIdentificationScreen({this.villa, this.resortDescription, this.user});
@@ -37,7 +37,7 @@ class _ResortIdentificationScreenState
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: StaticMethods.myAppBar('Resort Description Screen', context),
+      appBar: StaticMethods.myAppBar('Resort Description Screen', context, widget.user),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -53,7 +53,7 @@ class _ResortIdentificationScreenState
               text: 'Submit & Continue',
               onPressed: () {
                 onPressed();
-              },
+              }, key: Key('submit_identification'),
             ),
           ],
         ),

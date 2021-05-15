@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loctio_booker/constants.dart';
@@ -17,17 +18,18 @@ import 'components/action_button.dart';
 import '../../static_methods.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'components/gender_alert.dart';
+import '../../components/select_image_item.dart';
 
-// ignore: camel_case_types
-class personalInformation extends StatefulWidget {
+class PersonalInformation extends StatefulWidget {
   static String id = 'personal_page';
 
   @override
-  _personalInformationState createState() => _personalInformationState();
+  _PersonalInformationState createState() => _PersonalInformationState();
 }
 
 // ignore: camel_case_types
-class _personalInformationState extends State<personalInformation> {
+class _PersonalInformationState extends State<PersonalInformation> {
   bool showSpinner = false;
   User user;
   String firstName = "", lastName = "", email, phoneNumber, country;
@@ -46,6 +48,7 @@ class _personalInformationState extends State<personalInformation> {
   String getImageUrl = '$mainUrl/api/account/show_account_image';
   String uploadImageUrl = '$mainUrl/api/account/update_account_image';
   String url = "$mainUrl/api/account/properties/update";
+  String gender = '';
 
   // String updateProfileUrl = "$mainUrl/api/account/properties/update";
 
@@ -102,7 +105,7 @@ class _personalInformationState extends State<personalInformation> {
     email = user.email;
     phoneNumber = user.phone;
     country = user.country;
-    print('TOOOOOOOken: ${user.token}');
+    // print('TOOOOOOOken: ${user.token}');
     firstNameController.text = firstName;
     lastNameController.text = lastName;
     phoneController.text = phoneNumber;
@@ -112,7 +115,7 @@ class _personalInformationState extends State<personalInformation> {
     token = user.token;
     // print(token);
     try {
-      user.printUser();
+      // user.printUser();
     } catch (e) {
       print(e);
     }
@@ -156,177 +159,210 @@ class _personalInformationState extends State<personalInformation> {
         child: SafeArea(
           child: Container(
             color: Colors.white,
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  new Container(
-                    height: 300.0,
-                    color: Colors.white,
-                    child: SingleChildScrollView(
-                      child: new Column(
-                        children: <Widget>[
-                          ProfileHeader(),
-                          FutureBuilder(
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData &&
-                                  snapshot.connectionState ==
-                                      ConnectionState.done) {
-                                User user = snapshot.data;
-                                return CustomAvatar(
-                                  onImageSelectPressed: () {
-                                    onImageSelectPressed();
-                                  },
-                                  imageFile: imageFile,
-                                  imageUrl: '$mainUrl${user.image}',
-                                );
-                              } else {
-                                return CustomAvatar(
-                                  onImageSelectPressed: () {
-                                    onImageSelectPressed();
-                                  },
-                                  imageFile: imageFile,
-                                  imageUrl: '',
-                                );
-                              }
-                            },
-                            future: _getPreferences(),
-                          ),
-                          if (imageFile != null) ...[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextButton(
-                                  onPressed: _cropImage,
-                                  child: Icon(Icons.crop),
+            child: Column(
+              children: [
+                ProfileHeader(),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 210.0,
+                          color: Colors.white,
+                          child: Column(
+                            children: <Widget>[
+                              FutureBuilder(
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData &&
+                                      snapshot.connectionState ==
+                                          ConnectionState.done) {
+                                    User user = snapshot.data;
+                                    return CustomAvatar(
+                                        onImageSelectPressed: () {
+                                          if(status == true){
+                                            return;
+                                          }
+                                        onImageSelectPressed();
+                                      },
+                                      imageFile: imageFile,
+                                      imageUrl: '$mainUrl${user.image}',
+                                    );
+                                  } else {
+                                    print('here2');
+                                    return CustomAvatar(
+                                      onImageSelectPressed: () {
+                                        onImageSelectPressed();
+                                      },
+                                      imageFile: imageFile,
+                                      imageUrl: '',
+                                    );
+                                  }
+                                },
+                                future: _getPreferences(),
+                              ),
+                              if (imageFile != null) ...[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    TextButton(
+                                      onPressed: _cropImage,
+                                      child: Icon(Icons.crop),
+                                    ),
+                                    TextButton(
+                                      onPressed: _clear,
+                                      child: Icon(Icons.refresh),
+                                    ),
+                                  ],
                                 ),
-                                TextButton(
-                                  onPressed: _clear,
-                                  child: Icon(Icons.refresh),
-                                ),
+                              ] else ...[
+                                SizedBox(),
                               ],
-                            ),
-                          ] else ...[
-                            SizedBox(),
-                          ],
-                        ],
-                      ),
-                    ),
-                  ),
-                  new Container(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 25.0),
-                      child: new Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          PersonalInfoEditStateComponent(
-                            onTapped: () {
-                              onEditTapped();
-                            },
-                            status: status,
+                            ],
                           ),
-                          TitleComponent(
-                            'First Name',
-                          ),
-                          TextFieldComponent(
-                            status: status,
-                            controller: firstNameController,
-                            hintText: 'First Name',
-                          ),
-                          TitleComponent(
-                            'Last Name',
-                          ),
-                          TextFieldComponent(
-                            status: status,
-                            controller: lastNameController,
-                            hintText: 'Last Name',
-                          ),
-                          TitleComponent(
-                            'Phone Name',
-                          ),
-                          TextFieldComponent(
-                            status: status,
-                            controller: phoneController,
-                            hintText: 'Phone Number',
-                          ),
-                          TitleComponent(
-                            'Bio-Graphy',
-                          ),
-                          TextFieldComponent(
-                            status: status,
-                            controller: bioController,
-                            hintText: 'Bio-Graphy',
-                          ),
-                          TitleComponent(
-                            'Email',
-                          ),
-                          TextFieldComponent(
-                            status: status,
-                            controller: emailController,
-                            hintText: 'Email',
-                            isReadOnly: true,
-                          ),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 25.0, right: 25.0, top: 25.0),
-                              child: new Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Container(
-                                      child: Text(
-                                        'Gender ',
-                                        style: kBodyTextStyle,
-                                      ),
-                                    ),
-                                    flex: 2,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      child: Text(
-                                        'Date Of Birth',
-                                        style: kBodyTextStyle,
-                                      ),
-                                    ),
-                                    flex: 2,
-                                  ),
-                                ],
-                              )),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 25.0, right: 25.0, top: 2.0),
-                            child: new Row(
-                              mainAxisSize: MainAxisSize.max,
+                        ),
+                        Container(
+                          color: Colors.white,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 25.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                Flexible(
-                                  child: TextFieldComponent(
-                                    status: status,
-                                    controller: genderController,
-                                    hintText: 'gender',
-                                  ),
-                                  flex: 2,
+                                PersonalInfoEditStateComponent(
+                                  onTapped: () {
+                                    onEditTapped();
+                                  },
+                                  status: status,
                                 ),
-                                Flexible(
-                                  child: new TextField(
-                                    onTap: () {
-                                      showDateDialog();
-                                    },
-                                    controller: birthController,
-                                    readOnly: true,
-                                    decoration: const InputDecoration(
-                                        hintText: "Enter Birth Date"),
-                                    enabled: !status,
-                                  ),
-                                  flex: 2,
+                                TitleComponent(
+                                  'First Name',
                                 ),
-                              ],
-                            ),
-                          ),
-                          !status
-                              ? ActionButton(
+                                TextFieldComponent(
+                                  status: status,
+                                  controller: firstNameController,
+                                  hintText: 'First Name',
+                                ),
+                                TitleComponent(
+                                  'Last Name',
+                                ),
+                                TextFieldComponent(
+                                  status: status,
+                                  controller: lastNameController,
+                                  hintText: 'Last Name',
+                                ),
+                                TitleComponent(
+                                  'Phone Name',
+                                ),
+                                TextFieldComponent(
+                                  status: status,
+                                  controller: phoneController,
+                                  hintText: 'Phone Number',
+                                ),
+                                TitleComponent(
+                                  'Bio-Graphy',
+                                ),
+                                TextFieldComponent(
+                                  status: status,
+                                  controller: bioController,
+                                  hintText: 'Bio-Graphy',
+                                ),
+                                TitleComponent(
+                                  'Email',
+                                ),
+                                TextFieldComponent(
+                                  status: status,
+                                  controller: emailController,
+                                  hintText: 'Email',
+                                  isReadOnly: true,
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 25.0, right: 25.0, top: 25.0),
+                                    child: new Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Container(
+                                            child: Text(
+                                              'Gender ',
+                                              style: kBodyTextStyle,
+                                            ),
+                                          ),
+                                          flex: 2,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            child: Text(
+                                              'Date Of Birth',
+                                              style: kBodyTextStyle,
+                                            ),
+                                          ),
+                                          flex: 2,
+                                        ),
+                                      ],
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 25.0, right: 25.0, top: 2.0),
+                                  child: new Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Material(
+                                          child: InkWell(
+                                            child: Container(
+                                              height: 50,
+                                              width: 150,
+                                              child: Center(
+                                                child: Text(
+                                                  (gender != null &&
+                                                      gender.length != 0)
+                                                      ? gender
+                                                      : 'N/A',
+                                                  style: kBody2TextStyle.copyWith(),
+                                                ),
+                                              ),
+                                              margin: EdgeInsets.only(
+                                                right: 10,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                border: Border(
+                                                  bottom: BorderSide(
+                                                    color: Colors.grey[400],
+                                                    width: 1.5,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            onTap: () {
+                                              if(!status == true){
+                                                onGenderDialogPressed();
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                        flex: 2,
+                                      ),
+                                      Expanded(
+                                        child: new TextField(
+                                          onTap: () {
+                                            showDateDialog();
+                                          },
+                                          controller: birthController,
+                                          readOnly: true,
+                                          decoration: const InputDecoration(
+                                              hintText: "Enter Birth Date"),
+                                          enabled: !status,
+                                        ),
+                                        flex: 2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                !status
+                                    ? ActionButton(
                                   onCancelPressed: () {
                                     onCancelPressed();
                                   },
@@ -334,13 +370,16 @@ class _personalInformationState extends State<personalInformation> {
                                     onSavedPressed();
                                   },
                                 )
-                              : new Container(),
-                        ],
-                      ),
+                                    : new Container(),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -372,7 +411,6 @@ class _personalInformationState extends State<personalInformation> {
     String lastName = lastNameController.text;
     String phone = phoneController.text;
     String bio = bioController.text;
-    String gender = genderController.text;
     // String bio = bioController.text;
 
     if (firstName.length < 3) {
@@ -403,8 +441,8 @@ class _personalInformationState extends State<personalInformation> {
     setState(() {
       showSpinner = true;
     });
-    print('Token: ');
-    print(user.token);
+    // print('Token: ');
+    // print(user.token);
 
     Map map = Map();
     Map userMap = user.toJson();
@@ -412,15 +450,15 @@ class _personalInformationState extends State<personalInformation> {
       map[key] = userMap[key];
     }
     if (imageFile != null) {
-      print(imageFile.path);
+      // print(imageFile.path);
       String base64file = convert.base64Encode(imageFile.readAsBytesSync());
       map['filename'] = imageFile.path.split('/').last;
       // map['base64'] = base64file;
       map['image'] = base64file;
     }
 
-    print('******************************************************');
-    print('beforeUpload token: $token');
+    // print('******************************************************');
+    // print('beforeUpload token: $token');
 
     try {
       // bool result = await uploadImage();
@@ -434,12 +472,12 @@ class _personalInformationState extends State<personalInformation> {
       );
       showSpinner = false;
       setState(() {});
-      print('statusCode: ${response.statusCode}');
-      print('response.body : ' + response.body.toString());
+      // print('statusCode: ${response.statusCode}');
+      // print('response.body : ' + response.body.toString());
       if (response.statusCode < 400) {
         var jsonResponse =
             convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
-        print(jsonResponse);
+        // print(jsonResponse);
         user = User.fromJson(jsonResponse);
         user.token = token;
 
@@ -448,6 +486,7 @@ class _personalInformationState extends State<personalInformation> {
       } else {
         StaticMethods.showErrorDialog(
             context, 'An Error happened updating profile');
+        print(response.statusCode);
         print(response.body);
       }
     } catch (e) {
@@ -482,84 +521,99 @@ class _personalInformationState extends State<personalInformation> {
       lastDate: DateTime(2020, 01, 01),
     );
     birthController.text = selectedDateTime.toString().substring(0, 10);
-    print(selectedDateTime);
+    // print(selectedDateTime);
   }
 
   void onImageSelectPressed() {
+    print('heeeeee');
+    // showDialog(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return StaticMethods.myAlertDialog(selectFromCamera, selectFromGallery);
+    //   },
+    // );
+    showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'Select Image',
+                    textDirection: TextDirection.rtl,
+                    style: kHeaderTextStyle.copyWith(color: Colors.grey[800]),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 0.5,
+              width: double.infinity,
+              color: Colors.grey,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              onTap: () {
+                selectFromCamera();
+              },
+              borderRadius: BorderRadius.circular(10),
+              child: SelectImageItem(
+                text: 'From Camera',
+                iconData: Icons.camera_alt,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              borderRadius: BorderRadius.circular(10),
+              onTap: () {
+                selectFromGallery();
+              },
+              child: SelectImageItem(
+                text: 'From Gallery',
+                iconData: Icons.insert_photo,
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  void onGenderDialogPressed() {
+    print('==================');
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return StaticMethods.myAlertDialog(selectFromCamera, selectFromGallery);
+      builder: (context) {
+        return GenderAlertDialog(
+          gender: gender,
+          femalePressed: () {
+            setState(() {
+              gender = 'Female';
+            });
+            Navigator.pop(context);
+          },
+          malePressed: () {
+            setState(() {
+              gender = 'Male';
+            });
+            Navigator.pop(context);
+          },
+        );
       },
     );
   }
-
-  // uploadImage() async{
-  //   print(uploadImageUrl);
-  //   try{
-  //     Map map = Map();
-  //     if (imageFile != null) {
-  //       print(imageFile.path);
-  //       String base64file = convert.base64Encode(imageFile.readAsBytesSync());
-  //       // map['filename'] = imageFile.path.split('/').last;
-  //       map['base64'] = base64file;
-  //     }
-  //     http.Response response = await http.post(
-  //       Uri.parse(uploadImageUrl),
-  //       body: convert.json.encode(map),
-  //       headers: {
-  //         HttpHeaders.authorizationHeader: user.token,
-  //         "Accept": "application/json",
-  //         "content-type": "application/json",
-  //       },
-  //     );
-  //     print(response.statusCode);
-  //     print(response.body);
-  //     if(response.statusCode < 400){
-  //       var jasonResponse = convert.jsonDecode(response.body);
-  //       setState(() {
-  //         showSpinner = false;
-  //       });
-  //       return true;
-  //     }
-  //     else{
-  //       print(uploadImageUrl);
-  //       setState(() {
-  //         showSpinner = false;
-  //       });
-  //       return false;
-  //     }
-  //   }
-  //   catch(e){
-  //     print(uploadImageUrl);
-  //     print(e);
-  //     setState(() {
-  //       showSpinner = false;
-  //     });
-  //     return false;
-  //   }
-  // }
-
-  // Future<String> getImage() async {
-  //   print(getImageUrl);
-  //   try {
-  //     http.Response response = await http.get(
-  //       Uri.parse(getImageUrl),
-  //       headers: {
-  //         HttpHeaders.authorizationHeader: user.token,
-  //       },
-  //     );
-  //     print(response.statusCode);
-  //     print(response.body);
-  //     var jsonResponse = convert.jsonDecode(response.body);
-  //     return jsonResponse['base64_url'];
-  //   } catch (e) {
-  //     print(getImageUrl);
-  //     setState(() {
-  //       showSpinner = false;
-  //     });
-  //     print(e);
-  //     return null;
-  //   }
-  // }
 }

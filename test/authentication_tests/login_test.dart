@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:http/testing.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:mockito/annotations.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_test/flutter_test.dart';
@@ -10,56 +12,69 @@ import 'dart:convert' as convert;
 @GenerateMocks([http.Client])
 void main(){
   group('fetchUser', () {
-    print('test1:\n');
-    test('returns a User if the http call completes successfully', () async {
-      // MockClientHandler handler = MockClientHandler();
+    testWidgets('login screen', (WidgetTester tester) async {
       User user = User(
-        firstName: 'sina',
-        lastName: 'ziaee',
-        email: 'sina@gmail.com',
-        password: '123456',
-      );
-      final client = MockClient((request) async {
-        final jsonMap = user.toJson();
-        return http.Response(convert.json.encode(jsonMap), 200);
-      });
+          firstName: 'sina',
+          lastName: 'ziaee',
+          email: 'sina@gmail.com',
+          token: 'Token 624ce015857f931f52be05c0925cdcab47ebbf0b');
 
-      // Use Mockito to return a successful response when it calls the
-      // provided http.Client.
+      await tester.pumpWidget(MaterialApp(
+        home: LoginScreen(),
+      ));
 
-      when(client.post(Uri.https('softcheetahs.herokuapp.com', 'api/account/login'), body: {
-        'username': 'admin@admin.com',
-        'password': 'admin12345',
-      }))
-          .thenAnswer((_) async => http.Response('{"userId": 1, "lastName": "ziaee", "firstnName": "sina"}', 200));
+      expect(find.byKey(Key('login_screen_key')), findsOneWidget);
 
-      expect(await fetchUser(client), isA<User>());
     });
-    test('returns a User if the http call completes successfully', () async {
-      // MockClientHandler handler = MockClientHandler();
-      User user = User(
-        firstName: 'sina',
-        lastName: 'ziaee',
-        email: 'sinaziaee99@gmail.com',
-        password: '123456',
-      );
-      // final client = MockClient((request) async {
-      //   final jsonMap = user.toJson();
-      //   return http.Response(convert.json.encode(jsonMap), 200);
-      // });
-
-      // Use Mockito to return a successful response when it calls the
-      // provided http.Client.
-      http.Response('{first_name: sina, last_name: ziaee, email: sina@gmail.com}', 200);
-      print('test2:\n success');
-      // when(client.post(Uri.https('softcheetahs.herokuapp.com', 'api/account/login'), body: {
-      //   'username': 'admin@admin.com',
-      //   'password': 'admin12345',
-      // }))
-      //     .thenAnswer((_) async => http.Response('{"userId": 1, "id": 2, "title": "mock"}', 200));
-      user.firstName;
-      // expect(await fetchUser(client), isA<User>());
-  });
+  //   test('component testing login', () async {
+  //     // MockClientHandler handler = MockClientHandler();
+  //     User user = User(
+  //       firstName: 'sina',
+  //       lastName: 'ziaee',
+  //       email: 'sina@gmail.com',
+  //       password: '123456',
+  //     );
+  //     final client = MockClient((request) async {
+  //       final jsonMap = user.toJson();
+  //       return http.Response(convert.json.encode(jsonMap), 200);
+  //     });
+  //
+  //     // Use Mockito to return a successful response when it calls the
+  //     // provided http.Client.
+  //
+  //     when(client.post(Uri.https('softcheetahs.herokuapp.com', 'api/account/login'), body: {
+  //       'username': 'admin@admin.com',
+  //       'password': 'admin12345',
+  //     }))
+  //         .thenAnswer((_) async => http.Response('{"userId": 1, "lastName": "ziaee", "firstnName": "sina"}', 200));
+  //
+  //     expect(await fetchUser(client), isA<User>());
+  //   });
+  //   test('returns a User if the http call completes successfully', () async {
+  //     // MockClientHandler handler = MockClientHandler();
+  //     User user = User(
+  //       firstName: 'sina',
+  //       lastName: 'ziaee',
+  //       email: 'sinaziaee99@gmail.com',
+  //       password: '123456',
+  //     );
+  //     // final client = MockClient((request) async {
+  //     //   final jsonMap = user.toJson();
+  //     //   return http.Response(convert.json.encode(jsonMap), 200);
+  //     // });
+  //
+  //     // Use Mockito to return a successful response when it calls the
+  //     // provided http.Client.
+  //     http.Response('{first_name: sina, last_name: ziaee, email: sina@gmail.com}', 200);
+  //     print('test2:\n success');
+  //     // when(client.post(Uri.https('softcheetahs.herokuapp.com', 'api/account/login'), body: {
+  //     //   'username': 'admin@admin.com',
+  //     //   'password': 'admin12345',
+  //     // }))
+  //     //     .thenAnswer((_) async => http.Response('{"userId": 1, "id": 2, "title": "mock"}', 200));
+  //     user.firstName;
+  //     // expect(await fetchUser(client), isA<User>());
+  // });
     // test('throws an exception if the http call completes with an error', () {
     //   final client = MockClient();
     //

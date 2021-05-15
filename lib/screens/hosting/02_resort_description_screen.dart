@@ -10,6 +10,8 @@ import '03_identification_screen.dart';
 class ResortDescriptionScreen extends StatefulWidget {
   final String resortType;
   final User user;
+  final Key key = Key('resort_description_screen_key');
+
   ResortDescriptionScreen(this.resortType, this.user);
 
   @override
@@ -50,7 +52,7 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
     node = FocusScope.of(context);
 
     return Scaffold(
-      appBar: StaticMethods.myAppBar('Resort Description Screen', context),
+      appBar: StaticMethods.myAppBar('Resort Description Screen', context, widget.user),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -63,6 +65,7 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
               onPressed: () {
                 isValidated();
               },
+              key: Key('resort_description_submit'),
             ),
           ],
         ),
@@ -75,16 +78,18 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
     String description = descriptionController.text;
     String price = priceController.text;
     String area = areaController.text;
+
+    // assert(nameController.text.isNotEmpty);
+    // assert(descriptionController.text.isNotEmpty);
+    // // assert(priceController.text.isNotEmpty);
+    // assert(areaController.text.isNotEmpty);
+
     if (name.length == 0) {
-      StaticMethods.showErrorDialog(
-          context, 'Enter a name for your place');
+      // throw AssertionError('specify a name');
+      // assert(nameController.text.isEmpty);
+      StaticMethods.showErrorDialog(context, 'Enter a name for your place');
       return;
     }
-    // if (description.length == 0) {
-    //   StaticMethods.showErrorDialog(
-    //       context, 'Enter a description for your place');
-    //   return;
-    // }
     if (price.length == 0) {
       StaticMethods.showErrorDialog(
           context, 'Enter Price per day of your place');
@@ -158,6 +163,7 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           height: size.height * 0.01,
         ),
         MyTextField(
+          key: Key('resort_name'),
           size: size,
           controller: nameController,
           isLast: false,
@@ -205,6 +211,7 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           height: size.height * 0.01,
         ),
         MyTextField(
+          key: Key('resort_description'),
           lines: 4,
           height: 120,
           size: size,
@@ -239,6 +246,7 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           height: size.height * 0.01,
         ),
         MyTextField(
+          key: Key('resort_price'),
           lines: 1,
           size: size,
           controller: priceController,
@@ -263,6 +271,7 @@ class _ResortDescriptionScreenState extends State<ResortDescriptionScreen> {
           height: size.height * 0.01,
         ),
         MyTextField(
+          key: Key('resort_area'),
           lines: 1,
           size: size,
           controller: areaController,

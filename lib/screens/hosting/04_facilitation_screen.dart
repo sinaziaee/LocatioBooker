@@ -16,7 +16,7 @@ class FacilitationScreen extends StatefulWidget {
   final ResortDescription resortDescription;
   final ResortIdentification resortIdentification;
   final User user;
-
+  final Key key = Key('resort_facilitation_screen_key');
   FacilitationScreen(
       {this.villa,
       this.resortDescription,
@@ -57,7 +57,7 @@ class _FacilitationScreenState extends State<FacilitationScreen> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: StaticMethods.myAppBar('Facilitation Screen', context),
+      appBar: StaticMethods.myAppBar('Facilitation Screen', context, widget.user),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -70,6 +70,7 @@ class _FacilitationScreenState extends State<FacilitationScreen> {
               child: customContainer(),
             ),
             BottomContainer(
+              key: Key('submit_facilitation'),
               text: 'Submit & Continue',
               onPressed: () {
                 onPressed();

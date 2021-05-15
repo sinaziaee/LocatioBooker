@@ -10,6 +10,7 @@ import 'package:loctio_booker/models/place_address.dart';
 import 'package:loctio_booker/models/resort_description.dart';
 import 'package:loctio_booker/models/resort_identification.dart';
 import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/screens/home/home_screen.dart';
 import 'package:loctio_booker/screens/hosting/components/image_container.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:http/http.dart' as http;
@@ -27,6 +28,7 @@ class IdentityScreen extends StatefulWidget {
   final PlaceAddress placeAddress;
   final User user;
   final List imageIds;
+  final Key key = Key('resort_identity_screen_key');
   final bool haveUploadedUserIdentity;
 
   IdentityScreen({
@@ -58,7 +60,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
     size = MediaQuery.of(context).size;
     print(widget.imageIds);
     return Scaffold(
-      appBar: StaticMethods.myAppBar('Identity Screen', context),
+      appBar: StaticMethods.myAppBar('Identity Screen', context, widget.user),
       body: ModalProgressHUD(
         inAsyncCall: showSpinner,
         progressIndicator: kMyProgressIndicator,
@@ -192,6 +194,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
 
   customContainer() {
     return BottomContainer(
+      key: Key('submit_identity'),
       text: 'Submit & Continue',
       onPressed: () {
         onPressed();
@@ -245,6 +248,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
           method: 'POST',
           headers: {
             HttpHeaders.authorizationHeader: widget.user.token,
+            // HttpHeaders.authorizationHeader: 'Token bab330f8321c61a9ba457fab4efc1b223c3f8731',
           },
           responseType: ResponseType.json // or ResponseType.JSON
           ),
@@ -294,6 +298,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
           method: 'POST',
           headers: {
             HttpHeaders.authorizationHeader: widget.user.token,
+            // HttpHeaders.authorizationHeader: 'Token bab330f8321c61a9ba457fab4efc1b223c3f8731',
           },
           responseType: ResponseType.json // or ResponseType.JSON
           ),
@@ -391,6 +396,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
         body: convert.jsonEncode(map),
         headers: {
           HttpHeaders.authorizationHeader: widget.user.token,
+          // HttpHeaders.authorizationHeader: 'Token bab330f8321c61a9ba457fab4efc1b223c3f8731',
           "Accept": "application/json",
           "content-type": "application/json",
         },
@@ -411,12 +417,17 @@ class _IdentityScreenState extends State<IdentityScreen> {
             btnOkOnPress: () {
               Navigator.pushNamedAndRemoveUntil(
                 context,
-                HostingScreen.id,
+                HomeScreen.id,
                     (route) => false,
-
                 arguments: {
                   'user': widget.user,
                 },
+              );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HostingScreen(widget.user),
+                ),
               );
             },
             btnOkIcon: Icons.check_circle,

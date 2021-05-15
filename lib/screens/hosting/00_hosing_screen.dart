@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/static_methods.dart';
-import 'category_screen.dart';
 import '01_resort_type_screen.dart';
 import 'components/apartment_not_found_component.dart';
 
 class HostingScreen extends StatefulWidget {
   static String id = 'hosting_screen';
+
+  final User user;
+  final Key key = Key('hosting_screen_key');
+
+  HostingScreen(this.user);
 
   @override
   _HostingScreenState createState() => _HostingScreenState();
@@ -16,19 +20,19 @@ class HostingScreen extends StatefulWidget {
 class _HostingScreenState extends State<HostingScreen> {
   Size size;
 
-  Map args;
+  // Map args;
 
-  User user;
+  // User user;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    args = ModalRoute.of(context).settings.arguments;
-    user = args['user'];
+    // args = ModalRoute.of(context).settings.arguments;
+    // user = args['user'];
     // user.printUser();
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: StaticMethods.myAppBar('Hosting Screen', context),
+      appBar: StaticMethods.myAppBar('Hosting Screen', context, widget.user),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -55,7 +59,7 @@ class _HostingScreenState extends State<HostingScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ResortTypeScreen(user)),
+            MaterialPageRoute(builder: (context) => ResortTypeScreen(widget.user)),
           );
         },
         child: Icon(Icons.add),

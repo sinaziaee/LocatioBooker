@@ -15,7 +15,7 @@ import 'dart:convert' as convert;
 
 class LoginScreen extends StatefulWidget {
   static String id = 'login_screen';
-
+  final Key key = Key('login_screen_key');
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }

@@ -9,6 +9,21 @@ final kHeaderTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+final kBody1TextStyle = TextStyle(
+  fontSize: 15,
+  color: Colors.black,
+);
+
+final kBody2TextStyle = TextStyle(
+  fontSize: 15,
+  color: Colors.grey[800],
+);
+
+final kBody3TextStyle = TextStyle(
+  fontSize: 13,
+  color: Colors.grey[700],
+);
+
 final kBodyTextStyle = TextStyle(
   fontSize: 18,
   fontWeight: FontWeight.w500,
@@ -30,6 +45,14 @@ final kMyProgressIndicator = Container(
 
 final String mainUrl = 'https://softcheetahs.herokuapp.com';
 // final String mainUrl = 'http://192.168.43.126:8000';
+
+final tempHouseImage = 'https://www.google.com/search'
+    '?q=home+image&tbm=isch&ved=2ahUKEwj-momlkbHwAhUb'
+    'qHIEHQTsBQgQ2-cCegQIABAA&oq=home+image&gs_lcp=Cg'
+    'NpbWcQA1DXAVjeB2C0CWgAcAB4AIABAIgBAJIBAJgBAKABAa'
+    'oBC2d3cy13aXotaW1nwAEB&sclient=img&ei=qNKRYP6mGZ'
+    'vQytMPhNiXQA&rlz=1C1GCEA_enIR887IR887#imgrc=xMUT'
+    'i5g8jurAmM';
 
 final kCustomAppBarDecoration = BoxDecoration(
   color: Colors.blueAccent,

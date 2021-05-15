@@ -4,12 +4,15 @@ import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/profile/settings_page.dart';
 import 'package:loctio_booker/screens/home/search_profile_screen.dart';
-
+import 'pages/temp_sliver.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'pages/home_page.dart';
+import 'search_place_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';
-
+  final Key key = Key('home_screen_key');
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -25,35 +28,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget bodyContainer(int index) {
     if (index == 0) {
-      return CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            actions: [
-              IconButton(
-                icon: Icon(Icons.exit_to_app),
-                onPressed: () {
-                  logOut();
-                },
-              ),
-            ],
-          ),
-        ],
-      );
+      return HomePage(size, user);
+    } else if (index == 4) {
+      return SettingsPage.user(user, size);
     }
-    else if(index == 4){
-      return Settings.user(user, size);
-    }
-    else if(index == 1){
-      return AppBar(
-        actions: [
-          IconButton(icon: Icon(Icons.search), onPressed: (){
-            Navigator.pushNamed(context, SearchProfileScreen.id, arguments: {
-              'user': user,
-            },);
-          },),
-        ],
-      );
-    }
+    // else if(index == 2){
+    //   return TempSliver();
+    // }
+    // else if (index == 1) {
+    //   return AppBar(
+    //     actions: [
+    //       IconButton(
+    //         icon: Icon(Icons.search),
+    //         onPressed: () {
+    //           Navigator.push(
+    //             context,
+    //             MaterialPageRoute(
+    //               builder: (context) => SearchSpaceScreen(user),
+    //             ),
+    //           );
+    //         },
+    //       ),
+    //     ],
+    //   );
+    // }
     else {
       return Container();
     }
@@ -77,14 +75,17 @@ class _HomeScreenState extends State<HomeScreen> {
         child: bodyContainer(selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        key: Key('bottom_navigation'),
         items: [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.search,
+              Icons.home_outlined,
               color: Colors.black,
+              key: Key('bnbi_home'),
             ),
             title: Text(
-              'Search',
+              'Villa',
+              key: Key('bnbi_villa'),
               style: TextStyle(color: Colors.black),
             ),
           ),
@@ -124,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(
               Icons.person_pin,
               color: Colors.black,
+              key: Key('bnbi_profile'),
             ),
             // label: 'Profile',
             title: Text(
@@ -139,12 +141,6 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: selectedIndex,
       ),
     );
-  }
-
-  logOut() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
-    Navigator.popAndPushNamed(context, LoginScreen.id);
   }
 
 }
