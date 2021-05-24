@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loctio_booker/models/facilitation.dart';
+import 'package:loctio_booker/models/laws.dart';
 import 'package:loctio_booker/models/place_address.dart';
 import 'package:loctio_booker/models/resort_description.dart';
 import 'package:loctio_booker/models/resort_identification.dart';
@@ -19,6 +20,8 @@ import '../../constants.dart';
 import '../../static_methods.dart';
 import '00_hosing_screen.dart';
 import 'components/bottom_container.dart';
+import "package:latlong/latlong.dart" as latLng;
+
 
 class IdentityScreen extends StatefulWidget {
   final String villa;
@@ -30,6 +33,8 @@ class IdentityScreen extends StatefulWidget {
   final List imageIds;
   final Key key = Key('resort_identity_screen_key');
   final bool haveUploadedUserIdentity;
+  final latLng.LatLng location;
+  final Laws laws;
 
   IdentityScreen({
     this.villa,
@@ -40,6 +45,8 @@ class IdentityScreen extends StatefulWidget {
     this.placeAddress,
     this.imageIds,
     @required this.haveUploadedUserIdentity,
+    this.laws,
+    this.location,
   });
 
   @override

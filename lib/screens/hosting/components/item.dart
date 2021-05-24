@@ -8,11 +8,12 @@ class Item extends StatelessWidget {
   final Size size;
   final String text;
   final Function onTapped;
+
   Item({this.isSelected, this.onTapped, this.text, this.asset, this.size});
 
   @override
   Widget build(BuildContext context) {
-    if(isSelected == true){
+    if (isSelected == true) {
       return InkWell(
         borderRadius: BorderRadius.circular(10),
         onTap: onTapped,
@@ -28,29 +29,41 @@ class Item extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
             children: [
-              Image.asset(
-                asset,
-                // height: size.height * 0.06,
-                height: 50,
-                width: size.width * 0.14,
-              ),
-              Text(
-                text ?? 'text',
-                style: kHeaderTextStyle.copyWith(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
+              Positioned(
+                right: 2,
+                top: 2,
+                child: Icon(
+                  Icons.clear,
                 ),
-                textAlign: TextAlign.center,
+              ),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      asset,
+                      // height: size.height * 0.06,
+                      height: 50,
+                      width: size.width * 0.14,
+                    ),
+                    Text(
+                      text ?? 'text',
+                      style: kHeaderTextStyle.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         ),
       );
-    }
-    else{
+    } else {
       return InkWell(
         borderRadius: BorderRadius.circular(10),
         onTap: onTapped,

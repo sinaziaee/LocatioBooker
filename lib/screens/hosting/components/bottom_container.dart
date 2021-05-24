@@ -5,67 +5,62 @@ class BottomContainer extends StatelessWidget {
   final Function onPressed;
   final Size size;
   final Key key;
+  bool isActivated;
 
-  BottomContainer({this.text, this.onPressed, this.size, @required this.key});
+  BottomContainer(
+      {this.text,
+      this.onPressed,
+      this.size,
+      this.isActivated,
+      @required this.key});
 
   @override
   Widget build(BuildContext context) {
+    if(this.isActivated == null){
+      this.isActivated = true;
+    }
     return Padding(
       padding: EdgeInsets.symmetric(
           vertical: (size != null) ? size.height * 0.02 : 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          ElevatedButton(
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+          if (this.isActivated) ...[
+            ElevatedButton(
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+              onPressed: onPressed,
+              child: Text(text),
+            ),
+          ] else ...[
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.lightBlue[200],
+              ),
+              padding: EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 10,
+              ),
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    color: Colors.white
+                  ),
                 ),
               ),
             ),
-            onPressed: onPressed,
-            child: Text(text),
-          ),
+          ],
           SizedBox(
             width: 20,
           ),
         ],
-      ),
-    );
-    return Container(
-      margin: EdgeInsets.only(top: 30),
-      child: Container(
-        height: 60,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              height: 0.5,
-              color: Colors.grey,
-              margin: EdgeInsets.only(bottom: 3),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
-                  onPressed: onPressed,
-                  child: Text(text),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

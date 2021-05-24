@@ -8,8 +8,9 @@ class FacilitateItem extends StatelessWidget {
   final int count;
   final Function onIncrease, onDecrease;
   final Size size;
+  final bool isActivated;
 
-  FacilitateItem({this.size, this.text, this.count, this.onDecrease, this.onIncrease});
+  FacilitateItem({this.size, this.text, this.count, this.onDecrease, this.onIncrease, this.isActivated});
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +49,7 @@ class FacilitateItem extends StatelessWidget {
                 MyCircleButton(
                   onPressed: onDecrease,
                   iconData: FontAwesomeIcons.minus,
+                  isActivated: this.isActivated,
                 ),
               ],
             ),
