@@ -94,10 +94,12 @@ class MostReservedPlace extends StatelessWidget {
                   var jsonResponse = convert.jsonDecode(response.body);
                   List<SearchModel> list1 = [];
                   List<SearchModel> list2 = [];
+                  List<SearchModel> list = [];
                   int count = 0;
                   var data = jsonResponse['data'];
                   for (int i = 0; i < data.length; i++) {
                     count++;
+                    list.add(SearchModel.fromMap(data[i]));
                     if (i % 2 == 0) {
                       list1.add(SearchModel.fromMap(data[i]));
                     } else {
@@ -126,15 +128,15 @@ class MostReservedPlace extends StatelessWidget {
                           SizedBox(
                             height: 10,
                           ),
-                          if (newCount * 2 == count + 1) ...[
-                            SizedBox(),
-                          ] else ...[
-                            // SizedBox(),
+                          if (index <  list2.length) ...[
                             HomePlaceItem(
                               searchModel: list2[index],
                               user: user,
                             ),
-                          ],
+                          ] else
+                            ...[
+                              SizedBox(),
+                            ],
                         ],
                       );
                     },

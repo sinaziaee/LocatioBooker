@@ -372,6 +372,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
 
     Map map = Map();
     map['type'] = widget.villa;
+    // map['type'] = 'Coastal';
     map['country'] = widget.placeAddress.country;
     map['state'] = widget.placeAddress.state;
     map['city'] = widget.placeAddress.city;
@@ -382,8 +383,8 @@ class _IdentityScreenState extends State<IdentityScreen> {
     map['area'] = widget.resortDescription.area;
     map['price_per_night'] = widget.resortDescription.price;
     map['address'] = widget.placeAddress.address;
-    map['latitude'] = 0.0;
-    map['longitude'] = 0.0;
+    map['latitude'] = widget.location.latitude.toString();
+    map['longitude'] = widget.location.longitude.toString();
     map['capacity'] = widget.resortIdentification.bCapacity;
     map['max_capacity'] = widget.resortIdentification.mCapacity;
     map['number_of_bathrooms'] = widget.resortIdentification.numBathrooms;
@@ -395,7 +396,8 @@ class _IdentityScreenState extends State<IdentityScreen> {
     map['image_id_list'] = widget.imageIds;
     map['facilities_list'] = widget.facilitation.getItemsList();
     map["doc_id_list"] = fileList;
-
+    // todo: upload laws too
+    map['rules'] = widget.laws.lawsList;
     try {
       print(url);
       http.Response response = await http.post(

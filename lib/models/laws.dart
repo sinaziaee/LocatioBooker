@@ -1,4 +1,3 @@
 class Laws{
-  List lawsList;
-  Laws({this.lawsList});
+  List<int> lawsList;
 }

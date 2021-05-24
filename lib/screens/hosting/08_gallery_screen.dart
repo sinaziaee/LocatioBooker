@@ -267,6 +267,8 @@ class _GalleryScreenState extends State<GalleryScreen> {
                 imageIds: imageIds,
                 placeAddress: widget.placeAddress,
                 haveUploadedUserIdentity: haveUploadedUserIdentity,
+                laws: widget.laws,
+                location: widget.location,
               ),
             ),
           );
