@@ -210,6 +210,56 @@ class StaticMethods {
     );
   }
 
+  static PreferredSize resultAppBar(BuildContext context, String resultText, Size size){
+    return PreferredSize(
+      child: SafeArea(
+        child: Container(
+          margin: EdgeInsets.only(
+            top: 15,
+            bottom: 15,
+          ),
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.chevron_left_outlined),
+                iconSize: 35,
+              ),
+              Expanded(
+                child: Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: BorderSide(
+                      color: Colors.grey,
+                      width: 0.5,
+                    ),
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      resultText,
+                      style: kBody2TextStyle.copyWith(),
+                    ),
+                    trailing: Icon(
+                      Icons.search,
+                      size: 40,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: size.width * 0.05,
+              ),
+            ],
+          ),
+        ),
+      ),
+      preferredSize: Size(size.width, 100),
+    );
+  }
+
   static PreferredSize myAppBar(String text, BuildContext context, User user) {
     return PreferredSize(
       child: Container(

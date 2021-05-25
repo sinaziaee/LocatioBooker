@@ -104,11 +104,12 @@ class _HomePageState extends State<HomePage> {
           snap: true,
           elevation: 0.0,
           collapsedHeight: 75,
-          expandedHeight: fixedHeight,
+          expandedHeight: (widget.size.height > widget.size.width) ? fixedHeight : 200,
           stretch: false,
         ),
         SliverFixedExtentList(
-          itemExtent: widget.size.height * 0.73,
+          // itemExtent: widget.size.height * 0.73,
+          itemExtent: 580,
           delegate: SliverChildListDelegate(
             [
               MostReservedPlace(widget.user, widget.size, () {

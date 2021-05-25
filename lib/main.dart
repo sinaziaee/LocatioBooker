@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/authentication/verification_screen.dart';
+import 'package:loctio_booker/screens/home/result_screen.dart';
 import 'package:loctio_booker/screens/profile/profile_screen.dart';
 import 'package:loctio_booker/screens/profile/settings_page.dart';
 import 'package:loctio_booker/screens/profile/personal_information_screen.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: LoginScreen.id,
+      initialRoute: ResultScreen.id,
       routes: {
         LoginScreen.id: (context) => LoginScreen(),
         HomeScreen.id: (context) => HomeScreen(),
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         termsAggrements.id : (context) => termsAggrements(),
         SearchProfileScreen.id: (context) => SearchProfileScreen(),
         detailVillaScreen.id: (context) => detailVillaScreen(),
+        ResultScreen.id: (context) => ResultScreen(),
         // HostingScreen.id: (context) => HostingScreen(),
         // SearchSpaceScreen.id: (context) => SearchSpaceScreen(null),
       },
