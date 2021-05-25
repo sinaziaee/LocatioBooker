@@ -80,12 +80,12 @@ class _ResortTypeScreenState extends State<ResortTypeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 HostingResortItem(
-                  key: Key(ResortType.forest),
+                  key: Key(ResortType.motel),
                   onPressed: () {
-                    onPressed(ResortType.forest);
+                    onPressed(ResortType.motel);
                   },
                   size: size,
-                  title: AccommodationType.motel,
+                  title: ResortType.motel,
                   assetName: 'assets/images/category/motel.png',
                 ),
                 HostingResortItem(

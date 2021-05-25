@@ -43,8 +43,8 @@ final kMyProgressIndicator = Container(
   ),
 );
 
-final String mainUrl = 'https://softcheetahs.herokuapp.com';
-// final String mainUrl = 'http://192.168.43.126:8000';
+// final String mainUrl = 'https://softcheetahs.herokuapp.com';
+final String mainUrl = 'http://192.168.43.126:8000';
 
 final tempHouseImage = 'https://www.google.com/search'
     '?q=home+image&tbm=isch&ved=2ahUKEwj-momlkbHwAhUb'
@@ -80,6 +80,7 @@ class ResortType{
   static String coastal = 'Coastal';
   static String urban = 'Urban';
   static String rural = 'Rural';
+  static String motel = 'Motel';
   static String desert = 'Desert';
   static String mountainous = 'Mountainous';
   static String forest = 'Forest';

@@ -47,7 +47,7 @@ class _detailVillaScreenState extends State<detailVillaScreen> {
       child: FutureBuilder(
         future: http.get(
             Uri.parse(
-                "https://softcheetahs.herokuapp.com/api/villa/user/?villa_id=$id"),
+                "$mainUrl/api/villa/user/?villa_id=$id"),
             headers: {
               HttpHeaders.authorizationHeader: user.token,
             }),

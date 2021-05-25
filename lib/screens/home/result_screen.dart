@@ -18,8 +18,8 @@ class ResultScreen extends StatefulWidget {
   static String id = 'result_screen';
   final User user;
   final Key key = Key('result_screen');
-
-  ResultScreen({this.user});
+  final Map map;
+  ResultScreen({@required this.user, @required this.map});
 
   @override
   _ResultScreenState createState() => _ResultScreenState();
@@ -32,10 +32,16 @@ class _ResultScreenState extends State<ResultScreen> {
   String city = 'N/A';
   int accNo = 154;
   String allPlacesUrl = '';
+  List<Map> mapList = [];
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+    print('==========================================');
+    // print(widget.map);
+
+    getAllPlaces(widget.map);
+
     return Scaffold(
       appBar: StaticMethods.resultAppBar(context, resultText, size),
       body: Column(
@@ -43,6 +49,7 @@ class _ResultScreenState extends State<ResultScreen> {
         children: [
           CustomResultMap(
             size: size,
+            mapList: mapList,
           ),
           Padding(
             padding: EdgeInsets.only(
@@ -120,4 +127,28 @@ class _ResultScreenState extends State<ResultScreen> {
       },
     );
   }
+
+  getAllPlaces(Map map){
+    // print(map['data']);
+    for (Map each in map['data']){
+      mapList.add(each);
+      print(each);
+    }
+
+  }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

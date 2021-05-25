@@ -5,11 +5,14 @@ import 'package:latlong/latlong.dart' as latLng;
 class CustomResultMap extends StatelessWidget {
 
   final Size size;
+  final mapList;
 
-  CustomResultMap({this.size});
+  CustomResultMap({this.size, this.mapList});
 
   @override
   Widget build(BuildContext context) {
+    print('******************');
+    print(mapList);
     return Stack(
       children: [
         ConstrainedBox(
@@ -23,8 +26,9 @@ class CustomResultMap extends StatelessWidget {
             ),
             child: FlutterMap(
               options: MapOptions(
-                center: latLng.LatLng(36.314845, 59.555513),
-                zoom: 15.0,
+                center: latLng.LatLng(
+                    mapList[0]['latitude'], mapList[0]['longitude']),
+                zoom: 12.0,
               ),
               layers: [
                 TileLayerOptions(
@@ -32,19 +36,20 @@ class CustomResultMap extends StatelessWidget {
                     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                     subdomains: ['a', 'b', 'c']),
                 MarkerLayerOptions(
-                  markers: [
-                    Marker(
-                      width: 40.0,
-                      height: 40.0,
-                      point: latLng.LatLng(36.314845, 59.555513),
-                      builder: (ctx) => Container(
-                        child: Icon(
-                          Icons.account_circle,
-                          color: Colors.red.shade900,
-                        ),
-                      ),
-                    ),
-                  ],
+                  // markers: [
+                  //   // Marker(
+                  //   //   width: 40.0,
+                  //   //   height: 40.0,
+                  //   //   point: latLng.LatLng(36.314845, 59.555513),
+                  //   //   builder: (ctx) => Container(
+                  //   //     child: Icon(
+                  //   //       Icons.account_circle,
+                  //   //       color: Colors.red.shade900,
+                  //   //     ),
+                  //   //   ),
+                  //   // ),
+                  // ],
+                    markers: getAllLocations(),
                 ),
               ],
             ),
@@ -75,4 +80,28 @@ class CustomResultMap extends StatelessWidget {
       ],
     );
   }
+
+  List<Marker> getAllLocations() {
+    List locList = [];
+    List<Marker> markerList = [];
+    for (Map each in mapList) {
+      latLng.LatLng loc = latLng.LatLng(each['latitude'], each['longitude']);
+      locList.add(loc);
+      markerList.add(Marker(
+        width: 40.0,
+        height: 40.0,
+        point: loc,
+        builder: (ctx) => Container(
+          child: Icon(
+            Icons.location_pin,
+            color: Colors.red.shade700,
+            size: 30,
+          ),
+        ),
+      ));
+    }
+    print(markerList);
+    return markerList;
+  }
+
 }

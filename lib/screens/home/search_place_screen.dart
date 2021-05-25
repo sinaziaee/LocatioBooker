@@ -27,7 +27,7 @@ class SearchSpaceScreen extends StatefulWidget {
 class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
   Size size;
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-  String url = '$mainUrl/api/villa/search/?number_of_villa=10';
+  String url = '$mainUrl/api/villa/search/?number_of_villa=10&page=1';
   String country = '', state = '', city = '';
 
   @override
@@ -56,6 +56,7 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
         onCountryChanged: (value){
           onCountryPressed(value);
         },
+        user: widget.user,
       ),
       backgroundColor: Colors.lightBlue,
       appBar: PreferredSize(
@@ -109,7 +110,7 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
             ),
           ),
         ),
-        preferredSize: Size(size.height, 80),
+        preferredSize: Size(size.height, 110),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -193,21 +194,4 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
     });
   }
 
-}
-
-class Data extends ChangeNotifier {
-  String text;
-  final User user;
-
-  Data(this.text, this.user);
-
-  void changeText(String newText) {
-    this.text = newText;
-    notifyListeners();
-  }
-
-  void clear() {
-    this.text = null;
-    notifyListeners();
-  }
 }
