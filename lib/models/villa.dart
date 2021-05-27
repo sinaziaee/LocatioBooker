@@ -11,6 +11,7 @@ class Villa{
   final String type;
   final String description;
   final int price;
+  final String owner;
   final List<String> images;
   final List<String> facilities;
   final double latitude;
@@ -30,7 +31,7 @@ class Villa{
     this.number_of_bedrooms, this.number_of_single_beds,
     this.number_of_double_beds, this.number_of_showers, this.id , this.country, this.state,
     this.city, this.address,
-    this.postalCode,  this.name,
+    this.postalCode,  this.name,this.owner ,
     this.type, this.description,
     this.price,  this.images,
     this.facilities,  this.latitude,
@@ -59,6 +60,7 @@ class Villa{
 
         capacity: json['capacity'],
         maxCapacity: json['maxCapacity'],
+
 
         country : json['country'],
         state : json['state'],
