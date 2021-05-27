@@ -6,15 +6,18 @@ import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/home/result_screen.dart';
 import 'package:loctio_booker/static_methods.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:opencage_geocoder/opencage_geocoder.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'package:latlong/latlong.dart' as latLng;
 
 class DatePickerScreen extends StatefulWidget {
   final User user;
   final Key key = Key('date_picker_screen');
+  final String city;
 
-  DatePickerScreen({this.user});
+  DatePickerScreen({this.user, this.city});
 
   @override
   _DatePickerScreenState createState() => _DatePickerScreenState();
@@ -23,9 +26,11 @@ class DatePickerScreen extends StatefulWidget {
 class _DatePickerScreenState extends State<DatePickerScreen> {
   bool showSpinner = false;
   String url = '$mainUrl/api/villa/search/?number_of_villa=10&page=1';
+  latLng.LatLng location;
 
   @override
   Widget build(BuildContext context) {
+    url = '$url&city=${widget.city}';
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -105,6 +110,10 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                           return ResultScreen(
                             user: widget.user,
                             map: map,
+                            location: location,
+                            city: widget.city,
+                            startDate: dateList[0],
+                            endDate: dateList[1],
                           );
                         },
                       ),
@@ -127,7 +136,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
     List<String> start = stringList[0].split(': ');
     List<String> end = stringList[1].split(': ');
     String startDate = start[1].substring(0, 10);
-    String endDate = start[1].substring(0, 10);
+    String endDate = end[1].substring(0, 10);
     print(startDate);
     print(endDate);
     return [startDate, endDate];
@@ -137,6 +146,10 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
     setState(() {
       showSpinner = true;
     });
+
+    Coordinates response =
+        await StaticMethods.getLocation(context, widget.city, null, null);
+    location = latLng.LatLng(response.latitude, response.longitude);
     if (dateList == null) {
       try {
         http.Response response = await http.get(
@@ -145,7 +158,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
             HttpHeaders.authorizationHeader: widget.user.token,
           },
         );
-        if(response.statusCode >= 400){
+        if (response.statusCode >= 400) {
           setState(() {
             showSpinner = false;
           });
@@ -173,13 +186,13 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
         },
       );
       // print(response.body);
-      if(response.statusCode >= 400){
+      if (response.statusCode >= 400) {
         setState(() {
           showSpinner = false;
         });
         return null;
       }
-      Map jsonResponse = convert.json.decode(response.body);
+      Map jsonResponse = convert.json.decode(convert.utf8.decode(response.bodyBytes));
       setState(() {
         showSpinner = false;
       });

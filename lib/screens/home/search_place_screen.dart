@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/screens/detailVilla/detailVillaScreen.dart';
+import 'package:loctio_booker/screens/home/date_picker_screen.dart';
 import 'package:loctio_booker/screens/hosting/components/apartment_not_found_component.dart';
 import 'package:loctio_booker/screens/hosting/components/my_textfield.dart';
 import 'components/search_item.dart';
@@ -11,7 +14,7 @@ import '../../models/search_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'components/custom_drawer.dart';
-
+import 'components/search_site_component.dart';
 
 class SearchSpaceScreen extends StatefulWidget {
   static String id = 'search_place_screen';
@@ -27,7 +30,10 @@ class SearchSpaceScreen extends StatefulWidget {
 class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
   Size size;
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-  String url = '$mainUrl/api/villa/search/?number_of_villa=10&page=1';
+
+  // String url = '$mainUrl/api/villa/search/?number_of_villa=10&page=1';
+  String url = '$mainUrl/api/villa/most_popular_city/show/?number_of_city=10';
+
   String country = '', state = '', city = '';
 
   @override
@@ -37,23 +43,25 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
     print(state);
     print(city);
     print('-----------------------------------------');
-    print('$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
+    print(
+        '$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
         '${(state != null && state.length != 0) ? '&state=$state' : ''}'
         '${(city != null && city.length != 0) ? '&city=$city' : ''}');
     size = MediaQuery.of(context).size;
     return Scaffold(
-      key: _drawerKey, // assign key to Scaffold
+      key: _drawerKey,
+      // assign key to Scaffold
       endDrawer: CustomDrawer(
         cityValue: city,
         countryValue: country,
         stateValue: state,
-        onCityChanged: (value){
+        onCityChanged: (value) {
           onCityPressed(value);
         },
-        onStateChanged: (value){
+        onStateChanged: (value) {
           onStatePressed(value);
         },
-        onCountryChanged: (value){
+        onCountryChanged: (value) {
           onCountryPressed(value);
         },
         user: widget.user,
@@ -85,7 +93,10 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
                       width: 10,
                     ),
                     IconButton(
-                      icon: Icon(Icons.chevron_left, size: 35,),
+                      icon: Icon(
+                        Icons.chevron_left,
+                        size: 35,
+                      ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -93,7 +104,10 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
                     Spacer(),
                     IconButton(
                       padding: EdgeInsets.only(top: 5),
-                      icon: Icon(Icons.filter_list, size: 30,),
+                      icon: Icon(
+                        Icons.filter_list,
+                        size: 30,
+                      ),
                       onPressed: () {
                         _drawerKey.currentState.openEndDrawer();
                       },
@@ -117,19 +131,13 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
           color: Colors.white,
         ),
         child: FutureBuilder(
-          future: http.get(
-            Uri.parse('$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
-                '${(state != null && state.length != 0) ? '&state=$state' : ''}'
-                '${(city != null && city.length != 0) ? '&city=$city' : ''}'),
-            headers: {
-              HttpHeaders.authorizationHeader: widget.user.token,
-            },
-          ),
+          future: getPlaces(),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
               http.Response response = snapshot.data;
-              var jsonResponse = convert.jsonDecode(response.body);
+              var jsonResponse =
+                  convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
               List<SearchModel> list = [];
               int count = 0;
               var data = jsonResponse['data'];
@@ -140,23 +148,44 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
               }
               if (count == 0) {
                 return Center(
-                  child: ApartmentNotFoundComponent(
-                    size: size,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/images/img-not-found.png'),
+                      Text(
+                        'Place not found',
+                        style: kBody1TextStyle.copyWith(
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 2
+                        ),
+                      ),
+                    ],
                   ),
                 );
               }
               return ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  return SearchComponent(
-                    size: size,
-                    searchModel: list[index],
-                    last: (index + 1 == count),
-                    onPressed: () {
-                      onPressed(SearchModel());
+                  return SiteComponent(
+                    city: list[index].city ?? 'city',
+                    onTapped: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return DatePickerScreen(
+                              user: widget.user,
+                              city: list[index].city,
+                            );
+                          },
+                        ),
+                      );
                     },
+                    placesNum: 5,
+                    last: index != count - 1,
                   );
-                },
+                  },
                 itemCount: count,
               );
             } else {
@@ -172,26 +201,46 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
     );
   }
 
-  onPressed(SearchModel searchModel) {
-    print("pressed");
+  getPlaces() async {
+    http.Response response = await http.get(
+      Uri.parse(
+          '$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
+          '${(state != null && state.length != 0) ? '&state=$state' : ''}'
+          '${(city != null && city.length != 0) ? '&city=$city' : ''}'),
+      headers: {
+        HttpHeaders.authorizationHeader: widget.user.token,
+      },
+    );
+    return response;
   }
 
-  onCountryPressed(String country){
+  onPressed(SearchModel searchModel) {
+    // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+    //   return detailVillaScreen(
+    //
+    //   );
+    // }));
+    Navigator.pushNamed(context, detailVillaScreen.id, arguments: {
+      'user': widget.user,
+      'id': searchModel.villaId,
+    });
+  }
+
+  onCountryPressed(String country) {
     setState(() {
       this.country = country;
     });
   }
 
-  onStatePressed(String state){
+  onStatePressed(String state) {
     setState(() {
       this.state = state;
     });
   }
 
-  onCityPressed(String city){
+  onCityPressed(String city) {
     setState(() {
       this.city = city;
     });
   }
-
 }

@@ -397,7 +397,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
     map['facilities_list'] = widget.facilitation.getItemsList();
     map["doc_id_list"] = fileList;
     // todo: upload laws too
-    map['rules'] = widget.laws.lawsList;
+    map['rules_id_list'] = widget.laws.lawsList;
     try {
       print(url);
       http.Response response = await http.post(

@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/place.dart';
+import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/screens/detailVilla/detailVillaScreen.dart';
 
 class CustomPlaceItem extends StatefulWidget {
   final Place place;
   final Size size;
   bool isFavorite;
+  final User user;
 
-  CustomPlaceItem({this.place, this.size, this.isFavorite});
+  CustomPlaceItem({
+    this.place,
+    this.size,
+    this.isFavorite,
+    this.user,
+  });
 
   @override
   _CustomPlaceItemState createState() => _CustomPlaceItemState();
@@ -22,8 +30,25 @@ class _CustomPlaceItemState extends State<CustomPlaceItem> {
     print('$mainUrl${widget.place.images[0]}');
     return InkWell(
       borderRadius: BorderRadius.circular(10),
-      onTap: (){
-
+      onTap: () {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) {
+        //       return detailVillaScreen(
+        //
+        //       );
+        //     },
+        //   ),
+        // );
+        Navigator.pushNamed(
+          context,
+          detailVillaScreen.id,
+          arguments: {
+            'user': widget.user,
+            'id': widget.place.id,
+          },
+        );
       },
       child: Container(
         height: 350,
@@ -39,10 +64,10 @@ class _CustomPlaceItemState extends State<CustomPlaceItem> {
                     borderRadius: BorderRadius.circular(10),
                     child: FadeInImage(
                       placeholder: AssetImage('assets/images/home_def.jpg'),
-                      // image: NetworkImage(
-                      //   '$mainUrl${place.images[0]}',
-                      // ),
-                      image: AssetImage('assets/images/home_def.jpg'),
+                      image: NetworkImage(
+                        '$mainUrl${widget.place.images[0]}',
+                      ),
+                      // image: AssetImage('assets/images/home_def.jpg'),
                       width: widget.size.width * 0.9,
                       height: widget.size.width * 0.6,
                       fit: BoxFit.cover,

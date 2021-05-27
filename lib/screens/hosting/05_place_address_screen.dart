@@ -116,6 +116,7 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
             setState(() {
               cityValue = value;
             });
+            print(cityValue);
           },
           onStateChanged: (value) {
             setState(() {
@@ -257,31 +258,12 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
     setState(() {
       showSpinner = true;
     });
-    var geocoder = new Geocoder("7efb20c96c1a4cd594654de3842cd476");
-    var response;
-    try{
-      if(cityValue == null && stateValue == null){
-        response = await geocoder.geocode(countryValue);
-      }
-      else if(cityValue == null){
-        response = await geocoder.geocode(countryValue);
-      }
-      else{
-        response = await geocoder.geocode(cityValue);
-      }
-      setState(() {
-        showSpinner = false;
-      });
-    }
-    catch(e){
-      setState(() {
-        showSpinner = false;
-      });
-      StaticMethods.showErrorDialog(context, 'Couldn\'t find geolocation of your city');
-      print(e);
-      return null;
-    }
-    return response.results[0].geometry;
+    Coordinates response = await StaticMethods.getLocation(context, cityValue, stateValue, countryValue);
+    print(response);
+    setState(() {
+      showSpinner = true;
+    });
+    return response;
   }
 
 }
