@@ -12,6 +12,7 @@ import 'package:loctio_booker/screens/hosting/02_resort_description_screen.dart'
 import 'package:loctio_booker/screens/hosting/03_identification_screen.dart';
 import 'package:loctio_booker/screens/hosting/04_facilitation_screen.dart';
 import 'package:loctio_booker/screens/hosting/05_place_address_screen.dart';
+import 'package:loctio_booker/screens/hosting/06_map_screen.dart';
 import 'package:loctio_booker/screens/hosting/08_gallery_screen.dart';
 import 'package:loctio_booker/screens/hosting/09_identity_screen.dart';
 import 'package:loctio_booker/screens/hosting/components/hosting_resort_type_item.dart';
@@ -203,7 +204,8 @@ void main() {
         ),
       ));
 
-      expect(find.byKey(Key('resort_place_address_screen_key')), findsOneWidget);
+      expect(
+          find.byKey(Key('resort_place_address_screen_key')), findsOneWidget);
     });
 
     testWidgets('resort gallery screen', (WidgetTester tester) async {
@@ -316,5 +318,28 @@ void main() {
       expect(find.byKey(Key('resort_identity_screen_key')), findsOneWidget);
     });
 
+    // testWidgets('map screen', (WidgetTester tester) async {
+    //   User user = User(
+    //       firstName: 'sina',
+    //       lastName: 'ziaee',
+    //       email: 'sina@gmail.com',
+    //       token: 'Token 624ce015857f931f52be05c0925cdcab47ebbf0b');
+    //
+    //   await tester.pumpWidget(MaterialApp(
+    //     home: MapScreen(
+    //       user: user,
+    //       location: null,
+    //       facilitation: null,
+    //       placeAddress: null,
+    //       resortDescription: null,
+    //       resortIdentification: null,
+    //       villa: 'villa',
+    //     ),
+    //   ));
+    //
+    //   expect(find.byKey(Key('map_screen_key')), findsOneWidget);
+    //
+    //   await tester.pumpAndSettle();
+    // });
   });
 }

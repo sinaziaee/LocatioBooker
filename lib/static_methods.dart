@@ -290,7 +290,10 @@ class StaticMethods {
     return response.results[0].geometry;
   }
 
-  static PreferredSize myAppBar(String text, BuildContext context, User user) {
+  static PreferredSize myAppBar(String text, BuildContext context, User user, {bool isVisible}) {
+    if(isVisible == null){
+      isVisible = true;
+    }
     return PreferredSize(
       child: Container(
         decoration: kCustomAppBarDecoration,
@@ -324,35 +327,38 @@ class StaticMethods {
               Spacer(
                 flex: 2,
               ),
-              IconButton(
-                icon: Icon(
-                  Icons.clear,
-                  color: Colors.white,
-                  size: 30,
+              Visibility(
+                visible: isVisible,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.clear,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    // Navigator.pushAndRemoveUntil(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => HostingScreen(user),
+                    //   ),
+                    //       (route) => false,
+                    // );
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      HomeScreen.id,
+                      (route) => false,
+                      arguments: {
+                        'user': user,
+                      },
+                    );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HostingScreen(user),
+                      ),
+                    );
+                  },
                 ),
-                onPressed: () {
-                  // Navigator.pushAndRemoveUntil(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => HostingScreen(user),
-                  //   ),
-                  //       (route) => false,
-                  // );
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    HomeScreen.id,
-                    (route) => false,
-                    arguments: {
-                      'user': user,
-                    },
-                  );
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HostingScreen(user),
-                    ),
-                  );
-                },
               ),
             ],
           ),

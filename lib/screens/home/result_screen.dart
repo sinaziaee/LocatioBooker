@@ -72,7 +72,12 @@ class _ResultScreenState extends State<ResultScreen> {
               expandedHeight: size.height * 0.22,
               flexibleSpace: Expanded(
                 child: CustomResultMap(
-                    size: size, mapList: mapList, location: widget.location),
+                  size: size,
+                  mapListLocations: mapList,
+                  location: widget.location,
+                  count: mapList.length,
+                  user: widget.user,
+                ),
               ),
             ),
           ];
@@ -188,7 +193,7 @@ class _ResultScreenState extends State<ResultScreen> {
     print('---------------------');
     for (Map each in map['data']) {
       mapList.add(each);
-      print(each);
+      // print(each);
     }
   }
 }
