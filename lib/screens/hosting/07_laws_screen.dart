@@ -144,6 +144,7 @@ class LawsScreen extends StatelessWidget {
   }
 
   Future<http.Response> getLaws() async {
+    print(lawsUrl);
     return await http.get(
       Uri.parse(lawsUrl),
       headers: {

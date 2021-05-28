@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
+import 'package:loctio_booker/screens/home/search_more_place_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../home/search_place_screen.dart';
+import '../../home/search_city_screen.dart';
 import '../../../constants.dart';
 import "package:latlong/latlong.dart" as latLng;
 import '../components/home_screen_search_bar.dart';
@@ -113,10 +114,10 @@ class _HomePageState extends State<HomePage> {
           delegate: SliverChildListDelegate(
             [
               MostReservedPlace(widget.user, widget.size, () {
-                onMorePressed('');
+                onMorePressed('most-registered');
               }),
               HighRatePlace(widget.user, widget.size, () {
-                onMorePressed('');
+                onMorePressed('most-rated');
               }),
             ],
           ),
@@ -135,7 +136,7 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SearchSpaceScreen(widget.user, null),
+        builder: (context) => SearchCityScreen(widget.user, null),
       ),
     );
   }
@@ -145,7 +146,7 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SearchSpaceScreen(widget.user, search),
+        builder: (context) => SearchMorePlaceScreen(widget.user, search),
       ),
     );
   }

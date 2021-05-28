@@ -184,6 +184,7 @@ class _ResultScreenState extends State<ResultScreen> {
   }
 
   getAllPlaces(Map map) {
+    mapList.clear();
     print('---------------------');
     for (Map each in map['data']) {
       mapList.add(each);

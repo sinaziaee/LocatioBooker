@@ -2,11 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/detailVilla/detailVillaScreen.dart';
-import 'package:loctio_booker/screens/home/date_picker_screen.dart';
 import 'package:loctio_booker/screens/hosting/components/apartment_not_found_component.dart';
 import 'package:loctio_booker/screens/hosting/components/my_textfield.dart';
 import 'components/search_item.dart';
@@ -14,26 +12,22 @@ import '../../models/search_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'components/custom_drawer.dart';
-import 'components/search_site_component.dart';
 
-class SearchSpaceScreen extends StatefulWidget {
+class SearchMorePlaceScreen extends StatefulWidget {
   static String id = 'search_place_screen';
   final User user;
   final String category;
 
-  SearchSpaceScreen(this.user, this.category);
+  SearchMorePlaceScreen(this.user, this.category);
 
   @override
-  _SearchSpaceScreenState createState() => _SearchSpaceScreenState();
+  _SearchMorePlaceScreenState createState() => _SearchMorePlaceScreenState();
 }
 
-class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
+class _SearchMorePlaceScreenState extends State<SearchMorePlaceScreen> {
   Size size;
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-
-  // String url = '$mainUrl/api/villa/search/?number_of_villa=10&page=1';
-  String url = '$mainUrl/api/villa/most_popular_city/show/?number_of_city=10';
-
+  String url = '$mainUrl/api/villa/search/?number_of_villa=10';
   String country = '', state = '', city = '';
 
   @override
@@ -85,21 +79,23 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 Row(
                   children: [
                     SizedBox(
                       width: 10,
                     ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.chevron_left,
-                        size: 35,
+                    Material(
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.chevron_left,
+                          size: 25,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
                     ),
                     Spacer(),
                     IconButton(
@@ -124,20 +120,27 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
             ),
           ),
         ),
-        preferredSize: Size(size.height, 110),
+        preferredSize: Size(size.height, 100),
       ),
       body: Container(
         decoration: BoxDecoration(
           color: Colors.white,
         ),
         child: FutureBuilder(
-          future: getPlaces(),
+          future: http.get(
+            Uri.parse(
+                '$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
+                '${(state != null && state.length != 0) ? '&state=$state' : ''}'
+                '${(city != null && city.length != 0) ? '&city=$city' : ''}'),
+            headers: {
+              HttpHeaders.authorizationHeader: widget.user.token,
+            },
+          ),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
               http.Response response = snapshot.data;
-              var jsonResponse =
-                  convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+              var jsonResponse = convert.jsonDecode(response.body);
               List<SearchModel> list = [];
               int count = 0;
               var data = jsonResponse['data'];
@@ -148,44 +151,32 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
               }
               if (count == 0) {
                 return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/images/img-not-found.png'),
-                      Text(
-                        'Place not found',
-                        style: kBody1TextStyle.copyWith(
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: 2
-                        ),
-                      ),
-                    ],
+                  child: ApartmentNotFoundComponent(
+                    size: size,
                   ),
                 );
               }
               return ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  return SiteComponent(
-                    city: list[index].city ?? 'city',
-                    onTapped: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return DatePickerScreen(
-                              user: widget.user,
-                              city: list[index].city,
-                            );
-                          },
-                        ),
-                      );
+                  return SearchComponent(
+                    size: size,
+                    searchModel: list[index],
+                    last: (index + 1 == count),
+                    onPressed: () {
+                      onPressed(SearchModel(
+                        url: list[index].url,
+                        villaId: list[index].villaId,
+                        pricePerNight: list[index].pricePerNight,
+                        name: list[index].name,
+                        city: list[index].city,
+                        rate: list[index].rate,
+                        state: list[index].state,
+                        country: list[index].country,
+                      ));
                     },
-                    placesNum: 5,
-                    last: index != count - 1,
                   );
-                  },
+                },
                 itemCount: count,
               );
             } else {
@@ -201,29 +192,24 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
     );
   }
 
-  getPlaces() async {
-    http.Response response = await http.get(
-      Uri.parse(
-          '$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
-          '${(state != null && state.length != 0) ? '&state=$state' : ''}'
-          '${(city != null && city.length != 0) ? '&city=$city' : ''}'),
-      headers: {
-        HttpHeaders.authorizationHeader: widget.user.token,
+  onPressed(SearchModel searchModel) {
+    // print("pressed");
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) {
+    //       return detailVillaScreen();
+    //     },
+    //   ),
+    // );
+    Navigator.pushNamed(
+      context,
+      detailVillaScreen.id,
+      arguments: {
+        'user': widget.user,
+        'id': searchModel.villaId,
       },
     );
-    return response;
-  }
-
-  onPressed(SearchModel searchModel) {
-    // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    //   return detailVillaScreen(
-    //
-    //   );
-    // }));
-    Navigator.pushNamed(context, detailVillaScreen.id, arguments: {
-      'user': widget.user,
-      'id': searchModel.villaId,
-    });
   }
 
   onCountryPressed(String country) {
@@ -242,5 +228,22 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
     setState(() {
       this.city = city;
     });
+  }
+}
+
+class Data extends ChangeNotifier {
+  String text;
+  final User user;
+
+  Data(this.text, this.user);
+
+  void changeText(String newText) {
+    this.text = newText;
+    notifyListeners();
+  }
+
+  void clear() {
+    this.text = null;
+    notifyListeners();
   }
 }

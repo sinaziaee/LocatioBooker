@@ -9,7 +9,7 @@ import 'package:loctio_booker/screens/profile/terms_aggrements_screen.dart';
 import 'screens/authentication/login_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/home/search_profile_screen.dart';
-import 'screens/home/search_place_screen.dart';
+import 'screens/home/search_city_screen.dart';
 import 'screens/detailVilla/detailVillaScreen.dart';
 void main() {
   runApp(MyApp());

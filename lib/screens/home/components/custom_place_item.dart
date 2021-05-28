@@ -51,7 +51,7 @@ class _CustomPlaceItemState extends State<CustomPlaceItem> {
         );
       },
       child: Container(
-        height: 350,
+        height: 380,
         width: 300,
         margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
         child: Column(

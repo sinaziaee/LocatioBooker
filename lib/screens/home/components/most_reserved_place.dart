@@ -12,7 +12,7 @@ import '../../../components/villa_not_found.dart';
 
 class MostReservedPlace extends StatelessWidget {
   final String mostReservedPlacesUrl =
-      '$mainUrl/api/villa/search/?page=1&number_of_villa=10';
+      '$mainUrl/api/villa/most-registered/show/?page=1&number_of_villa=10';
   final Size size;
   final User user;
   final Function onMostReservedPressed;
