@@ -38,11 +38,6 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('-----------------------------------------');
-    print(country);
-    print(state);
-    print(city);
-    print('-----------------------------------------');
     print(
         '$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
         '${(state != null && state.length != 0) ? '&state=$state' : ''}'
@@ -136,7 +131,6 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
             if (snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
               http.Response response = snapshot.data;
-              print(response.body);
               var jsonResponse =
                   convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
               // List<SearchModel> list = [];
@@ -144,11 +138,8 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
               int count = 0;
               var data = jsonResponse['data'];
               for (var each in data) {
-                // print(each);
                 count++;
-                print(each);
                 list.add(each);
-                // list.add(SearchModel.fromMap(each));
               }
               if (count == 0) {
                 return Center(

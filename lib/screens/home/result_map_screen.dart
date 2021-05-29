@@ -74,7 +74,6 @@ class _ResultMapScreenState extends State<ResultMapScreen>
 
   @override
   Widget build(BuildContext context) {
-    print(widget.mapListVilla);
     size = MediaQuery
         .of(context)
         .size;
@@ -182,8 +181,9 @@ class _ResultMapScreenState extends State<ResultMapScreen>
   List<Marker> getAllLocations() {
     List locList = [];
     List<Marker> markerList = [];
+    print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
     for (int index = 0; index < widget.count; index++) {
-      // for (Map each in widget.mapListLocations) {
+      print(widget.mapListVilla[index].url);
       latLng.LatLng loc = latLng.LatLng(
           widget.mapListLocations[index]['latitude'],
           widget.mapListLocations[index]['longitude']);
@@ -228,7 +228,6 @@ class _ResultMapScreenState extends State<ResultMapScreen>
         ),
       );
     }
-    // print(markerList);
     return markerList;
   }
 }

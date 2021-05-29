@@ -40,14 +40,6 @@ class _CustomPlaceItemState extends State<CustomPlaceItem> {
             },
           ),
         );
-        // Navigator.pushNamed(
-        //   context,
-        //   DetailVillaScreen.id,
-        //   arguments: {
-        //     'user': widget.user,
-        //     'id': widget.place.id,
-        //   },
-        // );
       },
       child: Container(
         height: 380,

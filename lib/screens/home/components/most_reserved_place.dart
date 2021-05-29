@@ -72,8 +72,6 @@ class MostReservedPlace extends StatelessWidget {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
                   http.Response response = snapshot.data;
-                  // print(response.statusCode);
-                  // print(response.body);
                   if (response.statusCode == 401) {
                     return Center(
                       child: Column(

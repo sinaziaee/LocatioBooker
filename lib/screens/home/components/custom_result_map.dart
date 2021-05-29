@@ -24,8 +24,6 @@ class CustomResultMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print('******************');
-    // print(mapListLocations);
     return Stack(
       children: [
         ConstrainedBox(
@@ -110,7 +108,6 @@ class CustomResultMap extends StatelessWidget {
   }
 
   List getVillas(){
-    print('*****************************************************************************************');
     List<SearchModel> list = [];
     for (Map each in mapListLocations){
       SearchModel searchModel = SearchModel(
@@ -124,7 +121,6 @@ class CustomResultMap extends StatelessWidget {
         villaId: each['villa_id'],
       );
       list.add(searchModel);
-      print(each);
     }
     return list;
   }
@@ -164,7 +160,6 @@ class CustomResultMap extends StatelessWidget {
         ),
       ));
     }
-    // print(markerList);
     return markerList;
   }
 }

@@ -91,7 +91,6 @@ class HomePlaceItem extends StatelessWidget {
   }
 
   onTapped(BuildContext context, User user, int villaId) {
-    print('pressed');
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -101,13 +100,5 @@ class HomePlaceItem extends StatelessWidget {
         },
       ),
     );
-    // Navigator.pushNamed(
-    //   context,
-    //   DetailVillaScreen.id,
-    //   arguments: {
-    //     'user': user,
-    //     'id': villaId,
-    //   }
-    // );
   }
 }

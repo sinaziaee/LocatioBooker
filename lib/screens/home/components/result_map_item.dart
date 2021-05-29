@@ -32,15 +32,6 @@ class ResultMapItem extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(10),
               onTap: () {
-                print(villa.villaId.toString());
-                // Navigator.pushNamed(
-                //   context,
-                //   DetailVillaScreen.id,
-                //   arguments: {
-                //     'user': user,
-                //     'id': villa.villaId,
-                //   },
-                // );
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -123,15 +114,6 @@ class ResultMapItem extends StatelessWidget {
             right: 1,
             top: 15,
             child: IconButton(
-              // onPressed: () {
-              //   print('=============================');
-              //   // latLng.LatLng loc = latLng.LatLng(
-              //   //     loc['latitude'],
-              //   //     widget.mapListLocations[index]['longitude']);
-              //   print(loc);
-              //   print('=============================');
-              //   animatedMapMove(loc, 14);
-              // },
               onPressed: onPressed,
               icon: Icon(
                 Icons.location_on_outlined,

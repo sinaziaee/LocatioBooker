@@ -95,7 +95,6 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   selectionMode: DateRangePickerSelectionMode.range,
                   onSelectionChanged:
                       (DateRangePickerSelectionChangedArgs date) {
-                    print(date.value);
                   },
                   onSubmit: (dateR) async {
                     String dateRange = dateR.toString();
@@ -134,14 +133,11 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
   List<String> datePickerSplitter(String dateRange) {
     int startIndex = dateRange.indexOf('startDate');
     dateRange = dateRange.substring(startIndex);
-    // print(dateRange);
     List<String> stringList = dateRange.split(',');
     List<String> start = stringList[0].split(': ');
     List<String> end = stringList[1].split(': ');
     String startDate = start[1].substring(0, 10);
     String endDate = end[1].substring(0, 10);
-    print(startDate);
-    print(endDate);
     return [startDate, endDate];
   }
 
@@ -167,7 +163,6 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
           });
           return null;
         }
-        // print(response.body);
         Map jsonResponse = convert.json.decode(response.body);
         setState(() {
           showSpinner = false;
@@ -188,7 +183,6 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
           HttpHeaders.authorizationHeader: widget.user.token,
         },
       );
-      // print(response.body);
       if (response.statusCode >= 400) {
         setState(() {
           showSpinner = false;

@@ -32,11 +32,6 @@ class _SearchMorePlaceScreenState extends State<SearchMorePlaceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('-----------------------------------------');
-    print(country);
-    print(state);
-    print(city);
-    print('-----------------------------------------');
     print(
         '$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
         '${(state != null && state.length != 0) ? '&state=$state' : ''}'
@@ -145,7 +140,6 @@ class _SearchMorePlaceScreenState extends State<SearchMorePlaceScreen> {
               int count = 0;
               var data = jsonResponse['data'];
               for (var each in data) {
-                // print(each);
                 count++;
                 list.add(SearchModel.fromMap(each));
               }

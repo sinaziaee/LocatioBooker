@@ -22,7 +22,6 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(this.countryValue);
     return Drawer(
       child: Column(
         children: [

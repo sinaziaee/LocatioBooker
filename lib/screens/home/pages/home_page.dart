@@ -57,8 +57,6 @@ class _HomePageState extends State<HomePage> {
           flexibleSpace: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
             double top = constraints.biggest.height;
-            // print(top);
-            // print((1 - (top / fixedHeight) == 0.72) ? 1 : 1 - (top / fixedHeight));
             return FlexibleSpaceBar(
               centerTitle: true,
               title: AnimatedOpacity(
@@ -142,7 +140,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   onMorePressed(String search) {
-    print('more pressed');
     Navigator.push(
       context,
       MaterialPageRoute(
