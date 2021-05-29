@@ -83,7 +83,7 @@ class ResortType{
   static String motel = 'Motel';
   static String desert = 'Desert';
   static String mountainous = 'Mountainous';
-  static String forest = 'Forest';
+  // static String forest = 'Forest';
   static String wild = 'Wild';
   static String suburban = 'Suburban';
 }

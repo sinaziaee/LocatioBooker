@@ -110,6 +110,7 @@ class CustomResultMap extends StatelessWidget {
   }
 
   List getVillas(){
+    print('*****************************************************************************************');
     List<SearchModel> list = [];
     for (Map each in mapListLocations){
       SearchModel searchModel = SearchModel(
@@ -120,10 +121,10 @@ class CustomResultMap extends StatelessWidget {
         name: each['name'],
         pricePerNight: each['price_per_night'],
         rate: each['rate'],
-        villaId: each['villaId'],
+        villaId: each['villa_id'],
       );
       list.add(searchModel);
-      // print(each);
+      print(each);
     }
     return list;
   }
