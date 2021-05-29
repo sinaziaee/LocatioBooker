@@ -164,13 +164,6 @@ class _ResultMapScreenState extends State<ResultMapScreen>
                   ),
                 ),
               ),
-              // child: IconButton(
-              //   color: Colors.black,
-              //   onPressed: () {
-              //     Navigator.pop(context);
-              //   },
-              //   icon: Icon(Icons.keyboard_arrow_left),
-              // ),
             ),
           ),
         ],

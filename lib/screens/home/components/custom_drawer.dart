@@ -38,24 +38,24 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return DatePickerScreen(
-                      user: user,
-                    );
-                  },
-                ),
-              );
-            },
-            child: Text('Date Picker'),
-          ),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) {
+          //           return DatePickerScreen(
+          //             user: user,
+          //           );
+          //         },
+          //       ),
+          //     );
+          //   },
+          //   child: Text('Date Picker'),
+          // ),
         ],
       ),
     );

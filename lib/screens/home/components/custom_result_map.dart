@@ -110,11 +110,12 @@ class CustomResultMap extends StatelessWidget {
   List getVillas(){
     List<SearchModel> list = [];
     for (Map each in mapListLocations){
+      print(each);
       SearchModel searchModel = SearchModel(
         country: each['country'],
         state: each['state'],
         city: each['city'],
-        url: each['url'],
+        url: each['default_image_url'],
         name: each['name'],
         pricePerNight: each['price_per_night'],
         rate: each['rate'],

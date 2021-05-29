@@ -58,7 +58,7 @@ class ResultMapItem extends StatelessWidget {
                         placeholder: AssetImage('assets/images/home_def.jpg'),
                         image: (villa.url != null &&
                                 villa.url.length != 0)
-                            ? NetworkImage(villa.url)
+                            ? NetworkImage('$mainUrl${villa.url}')
                             : AssetImage('assets/images/home_def.jpg'),
                         fit: BoxFit.cover,
                         height: 60,
@@ -112,7 +112,7 @@ class ResultMapItem extends StatelessWidget {
           ),
           Positioned(
             right: 1,
-            top: 15,
+            top: 7,
             child: IconButton(
               onPressed: onPressed,
               icon: Icon(

@@ -48,7 +48,9 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
         ),
         title: Text(
           'You can select start and end dates',
-          style: kBody1TextStyle.copyWith(),
+          style: kBody2TextStyle.copyWith(
+            fontWeight: FontWeight.w400,
+          ),
         ),
       ),
       body: ModalProgressHUD(
