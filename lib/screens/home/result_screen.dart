@@ -46,12 +46,18 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    resultText =
-        '${widget.city}. ${widget.startDate.substring(8, 10)} to ${widget.endDate.substring(8, 10)} ${StaticMethods.getMonthString(
-      int.parse(
-        widget.startDate.substring(5, 7),
-      ),
-    )}';
+    if(widget.startDate == null || widget.endDate == null || widget.startDate.length ==0 || widget.endDate.length == 0){
+      resultText =
+      'Available places on ${widget.city}';
+    }
+    else{
+      resultText =
+      '${widget.city}. ${widget.startDate.substring(8, 10)} to ${widget.endDate.substring(8, 10)} ${StaticMethods.getMonthString(
+        int.parse(
+          widget.startDate.substring(5, 7),
+        ),
+      )}';
+    }
     size = MediaQuery.of(context).size;
     print('==========================================');
     // print(widget.map);

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
-import 'package:loctio_booker/screens/detailVilla/detailVillaScreen.dart';
+import 'package:loctio_booker/screens/detailVilla/detail_villa_screen.dart';
 import 'package:loctio_booker/screens/home/date_picker_screen.dart';
 import 'package:loctio_booker/screens/hosting/components/apartment_not_found_component.dart';
 import 'package:loctio_booker/screens/hosting/components/my_textfield.dart';
@@ -219,15 +219,19 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
   }
 
   onPressed(SearchModel searchModel) {
-    // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-    //   return detailVillaScreen(
-    //
-    //   );
-    // }));
-    Navigator.pushNamed(context, detailVillaScreen.id, arguments: {
-      'user': widget.user,
-      'id': searchModel.villaId,
-    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return DetailVillaScreen(user: widget.user, villaId: searchModel.villaId,
+          );
+        },
+      ),
+    );
+    // Navigator.pushNamed(context, DetailVillaScreen.id, arguments: {
+    //   'user': widget.user,
+    //   'id': searchModel.villaId,
+    // });
   }
 
   onCountryPressed(String country) {

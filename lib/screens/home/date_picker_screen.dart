@@ -33,6 +33,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
     url = '$url&city=${widget.city}';
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 100,
         elevation: 0,
         backgroundColor: Colors.white,
         leading: IconButton(
@@ -84,6 +85,8 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                           return ResultScreen(
                             user: widget.user,
                             map: map,
+                            location: location,
+                            city: widget.city,
                           );
                         },
                       ),
@@ -150,7 +153,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
     Coordinates response =
         await StaticMethods.getLocation(context, widget.city, null, null);
     location = latLng.LatLng(response.latitude, response.longitude);
-    if (dateList == null) {
+    if (dateList == null || dateList.length == 0) {
       try {
         http.Response response = await http.get(
           Uri.parse('$url'),

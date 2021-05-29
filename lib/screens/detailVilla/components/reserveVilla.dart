@@ -12,24 +12,26 @@ import 'package:loctio_booker/models/villa.dart';
 import 'package:loctio_booker/screens/detailVilla/components/myDivider.dart';
 import 'dart:convert' as convert;
 
+import 'package:loctio_booker/static_methods.dart';
+
 
 DateTime entrySelectedDate = DateTime.now();
 DateTime exitSelectedDate = DateTime.now();
 int numPassengers = 1;
 
-class reserveVilla extends StatefulWidget {
+class ReserveVilla extends StatefulWidget {
 
   Villa myVilla;
   User user;
 
-  reserveVilla(this.myVilla , this.user);
+  ReserveVilla(this.myVilla , this.user);
 
 
   @override
-  _reserveVillaState createState() => _reserveVillaState();
+  _ReserveVillaState createState() => _ReserveVillaState();
 }
 
-class _reserveVillaState extends State<reserveVilla> {
+class _ReserveVillaState extends State<ReserveVilla> {
 
   @override
   Widget build(BuildContext context) {
@@ -183,21 +185,21 @@ class _reserveVillaState extends State<reserveVilla> {
 
   void onContinue(){
     if(ValidationReserve())
-      PostReserve();
+      postReserve();
   }
 
 
 
-  Future PostReserve() async{
+  Future postReserve() async{
     Map map = Map();
 
     map['villa'] = widget.myVilla.id;
-    map['start_date'] = entrySelectedDate.toString();
-    map['end_date'] = exitSelectedDate.toString();
+    map['start_date'] = entrySelectedDate.toString().substring(0,10);
+    map['end_date'] = exitSelectedDate.toString().substring(0,10);
     map['num_of_passengers'] = numPassengers;
     map['total_cost'] = (widget.myVilla.price * (exitSelectedDate.difference(entrySelectedDate).inDays)).toString();
 
-
+    print(map);
 
     final response = await http.post(
       Uri.parse('$mainUrl/api/villa/user/register/'),
@@ -213,10 +215,15 @@ class _reserveVillaState extends State<reserveVilla> {
     if (response.statusCode == 201) {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
-      return Villa.fromJson(jsonDecode(response.body));
+      print(response.body);
+      StaticMethods.showSuccessDialog(context, 'Successful Reserve');
+      // return Villa.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
+      print(response.statusCode);
+      print(response.body);
+      StaticMethods.showErrorDialog(context, "Failed to Reserve");
       throw Exception('Failed to create album.');
     }
   }

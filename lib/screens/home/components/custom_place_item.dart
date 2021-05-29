@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/place.dart';
 import 'package:loctio_booker/models/user.dart';
-import 'package:loctio_booker/screens/detailVilla/detailVillaScreen.dart';
+import 'package:loctio_booker/screens/detailVilla/detail_villa_screen.dart';
 
 class CustomPlaceItem extends StatefulWidget {
   final Place place;
@@ -31,24 +31,23 @@ class _CustomPlaceItemState extends State<CustomPlaceItem> {
     return InkWell(
       borderRadius: BorderRadius.circular(10),
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) {
-        //       return detailVillaScreen(
-        //
-        //       );
-        //     },
-        //   ),
-        // );
-        Navigator.pushNamed(
+        Navigator.push(
           context,
-          detailVillaScreen.id,
-          arguments: {
-            'user': widget.user,
-            'id': widget.place.id,
-          },
+          MaterialPageRoute(
+            builder: (context) {
+              return DetailVillaScreen(user: widget.user, villaId: widget.place.id,
+              );
+            },
+          ),
         );
+        // Navigator.pushNamed(
+        //   context,
+        //   DetailVillaScreen.id,
+        //   arguments: {
+        //     'user': widget.user,
+        //     'id': widget.place.id,
+        //   },
+        // );
       },
       child: Container(
         height: 380,

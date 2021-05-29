@@ -14,44 +14,27 @@ import '../../constants.dart';
 import '../detailVilla/components/aboutVilla.dart';
 
 import '../detailVilla/components/imagesVilla.dart';
-//String token = 'Token bab330f8321c61a9ba457fab4efc1b223c3f8731';
 
-class detailVillaScreen extends StatefulWidget {
-  static String id = 'detail_Villa_Screen';
-  final url = 'https://softcheetahs.herokuapp.com/api/villa/user/?villa_id=$id';
-
-  final String ownerName;
-  final int price;
-  final String images;
-  final int capacity;
-
-  detailVillaScreen(
-      {Key key, this.ownerName, this.price, this.images, this.capacity})
-      : super(key: key);
+class DetailVillaScreen extends StatefulWidget {
+  final int villaId;
+  final User user;
+  DetailVillaScreen({@required this.villaId,@required this.user});
 
   @override
-  _detailVillaScreenState createState() => _detailVillaScreenState();
+  _DetailVillaScreenState createState() => _DetailVillaScreenState();
 }
 
-class _detailVillaScreenState extends State<detailVillaScreen> {
-  User user;
-  int id;
-  Map args;
-
+class _DetailVillaScreenState extends State<DetailVillaScreen> {
   @override
   Widget build(BuildContext context) {
-    args = ModalRoute.of(context).settings.arguments;
-
-    user = args['user'];
-    id = args['id'];
 
     return Material(
       child: FutureBuilder(
         future: http.get(
             Uri.parse(
-                "$mainUrl/api/villa/user/?villa_id=$id"),
+                "$mainUrl/api/villa/user/?villa_id=${widget.villaId}"),
             headers: {
-              HttpHeaders.authorizationHeader: user.token,
+              HttpHeaders.authorizationHeader: widget.user.token,
             }),
         builder: (context, snapshot) {
           if (snapshot.hasData &&
@@ -59,6 +42,7 @@ class _detailVillaScreenState extends State<detailVillaScreen> {
             http.Response response = snapshot.data;
             print(response.statusCode);
             print(response.body);
+
 
             Villa myVilla = Villa.fromJson(jsonDecode(response.body));
 
@@ -81,7 +65,7 @@ class _detailVillaScreenState extends State<detailVillaScreen> {
                     imagesVilla(myVilla),
                     aboutVilla(myVilla),
                     myDivider(),
-                    reserveVilla(myVilla , user)
+                    ReserveVilla(myVilla , widget.user)
                   ],
                 ),
               ),

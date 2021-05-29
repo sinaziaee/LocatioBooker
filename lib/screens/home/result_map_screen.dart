@@ -4,11 +4,13 @@ import 'package:loctio_booker/models/search_model.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:latlong/latlong.dart' as latLng;
 import 'package:loctio_booker/models/villa.dart';
-import 'package:loctio_booker/screens/detailVilla/detailVillaScreen.dart';
+import 'package:loctio_booker/screens/detailVilla/detail_villa_screen.dart';
 import 'package:loctio_booker/screens/home/components/result_map_item.dart';
 import 'package:loctio_booker/static_methods.dart';
 
 import '../../constants.dart';
+
+ScrollController scrollController = ScrollController();
 
 class ResultMapScreen extends StatefulWidget {
   final User user;
@@ -50,7 +52,7 @@ class _ResultMapScreenState extends State<ResultMapScreen>
     // The animation determines what path the animation will take. You can try different Curves values, although I found
     // fastOutSlowIn to be my favorite.
     Animation<double> animation =
-        CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
+    CurvedAnimation(parent: controller, curve: Curves.fastOutSlowIn);
 
     controller.addListener(() {
       mapController.move(
@@ -73,15 +75,15 @@ class _ResultMapScreenState extends State<ResultMapScreen>
   @override
   Widget build(BuildContext context) {
     print(widget.mapListVilla);
-    size = MediaQuery.of(context).size;
+    size = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
-      appBar: StaticMethods.myAppBar('Map Selection', context, widget.user,
-          isVisible: false),
       body: Stack(
         children: [
           ConstrainedBox(
             constraints: BoxConstraints(
-              maxHeight: size.height - 60,
+              maxHeight: size.height,
             ),
             child: Container(
               margin: EdgeInsets.only(
@@ -97,7 +99,7 @@ class _ResultMapScreenState extends State<ResultMapScreen>
                   layers: [
                     TileLayerOptions(
                         urlTemplate:
-                            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                         subdomains: ['a', 'b', 'c']),
                     MarkerLayerOptions(
                       markers: getAllLocations(),
@@ -117,141 +119,59 @@ class _ResultMapScreenState extends State<ResultMapScreen>
               color: Colors.transparent,
               child: ListView.builder(
                 itemCount: widget.count,
+                controller: scrollController,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return ResultMapItem(
-                    onPressed: () {},
+                    onPressed: () {
+                      animatedMapMove(
+                          latLng.LatLng(
+                              widget.mapListLocations[index]['latitude'],
+                              widget.mapListLocations[index]['longitude']),
+                          14);
+                    },
                     user: widget.user,
                     loc: latLng.LatLng(
                         widget.mapListLocations[index]['latitude'],
                         widget.mapListLocations[index]['longitude']),
                     villa: widget.mapListVilla[index],
                   );
-                  // return Padding(
-                  //   padding: EdgeInsets.only(
-                  //     left: 10,
-                  //   ),
-                  //   child: Stack(
-                  //     children: [
-                  //       Material(
-                  //         color: Colors.white,
-                  //         borderRadius: BorderRadius.circular(10),
-                  //         child: InkWell(
-                  //           borderRadius: BorderRadius.circular(10),
-                  //           onTap: () {
-                  //             print(widget.mapListVilla[index].villaId
-                  //                 .toString());
-                  //             Navigator.pushNamed(
-                  //               context,
-                  //               detailVillaScreen.id,
-                  //               arguments: {
-                  //                 'user': widget.user,
-                  //                 'id': widget.mapListVilla[index].villaId,
-                  //               },
-                  //             );
-                  //           },
-                  //           child: Container(
-                  //             margin: EdgeInsets.only(right: 10),
-                  //             padding: EdgeInsets.symmetric(
-                  //               horizontal: 10,
-                  //               vertical: 20,
-                  //             ),
-                  //             decoration: BoxDecoration(
-                  //               borderRadius: BorderRadius.circular(10),
-                  //             ),
-                  //             child: Row(
-                  //               children: [
-                  //                 ClipRRect(
-                  //                   child: FadeInImage(
-                  //                     placeholder: AssetImage(
-                  //                         'assets/images/home_def.jpg'),
-                  //                     image: (widget.mapListVilla[index].url !=
-                  //                                 null &&
-                  //                             widget.mapListVilla[index].url
-                  //                                     .length !=
-                  //                                 0)
-                  //                         ? NetworkImage(
-                  //                             widget.mapListVilla[index].url)
-                  //                         : AssetImage(
-                  //                             'assets/images/home_def.jpg'),
-                  //                     fit: BoxFit.cover,
-                  //                     height: 60,
-                  //                     width: 80,
-                  //                   ),
-                  //                   borderRadius: BorderRadius.circular(5),
-                  //                 ),
-                  //                 SizedBox(
-                  //                   width: 10,
-                  //                 ),
-                  //                 Column(
-                  //                   mainAxisSize: MainAxisSize.min,
-                  //                   crossAxisAlignment:
-                  //                       CrossAxisAlignment.start,
-                  //                   children: [
-                  //                     Row(
-                  //                       children: [
-                  //                         Text(
-                  //                           (widget.mapListVilla[index].rate !=
-                  //                                   null)
-                  //                               ? widget
-                  //                                   .mapListVilla[index].rate
-                  //                                   .toString()
-                  //                               : 3.toString(),
-                  //                           style: kBody1TextStyle.copyWith(),
-                  //                         ),
-                  //                         Icon(
-                  //                           Icons.star,
-                  //                           color: Colors.yellow,
-                  //                         ),
-                  //                       ],
-                  //                     ),
-                  //                     Text(
-                  //                       widget.mapListVilla[index].name,
-                  //                       style: kBody1TextStyle.copyWith(),
-                  //                     ),
-                  //                     Row(
-                  //                       children: [
-                  //                         Text(
-                  //                           '${widget.mapListVilla[index].pricePerNight.toString()}\$',
-                  //                           style: kBody1TextStyle.copyWith(),
-                  //                         ),
-                  //                         Text(
-                  //                           '/per night',
-                  //                           style: kBody2TextStyle.copyWith(
-                  //                               fontSize: 11),
-                  //                         ),
-                  //                       ],
-                  //                     ),
-                  //                   ],
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       Positioned(
-                  //         right: 1,
-                  //         top: 15,
-                  //         child: IconButton(
-                  //           onPressed: () {
-                  //             print('=============================');
-                  //             latLng.LatLng loc = latLng.LatLng(widget.mapListLocations[index]['latitude'], widget.mapListLocations[index]['longitude']);
-                  //             print(loc);
-                  //             print('=============================');
-                  //             animatedMapMove(loc, 14);
-                  //           },
-                  //           icon: Icon(
-                  //             Icons.location_on_outlined,
-                  //             size: 30,
-                  //             color: Colors.grey[700],
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // );
                 },
               ),
+            ),
+          ),
+          Positioned(
+            left: 10,
+            top: 5,
+            child: SafeArea(
+              child: Material(
+                color: Colors.grey[700],
+                shape: CircleBorder(),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.keyboard_arrow_left,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              // child: IconButton(
+              //   color: Colors.black,
+              //   onPressed: () {
+              //     Navigator.pop(context);
+              //   },
+              //   icon: Icon(Icons.keyboard_arrow_left),
+              // ),
             ),
           ),
         ],
@@ -262,46 +182,49 @@ class _ResultMapScreenState extends State<ResultMapScreen>
   List<Marker> getAllLocations() {
     List locList = [];
     List<Marker> markerList = [];
-    for (Map each in widget.mapListLocations) {
-      latLng.LatLng loc = latLng.LatLng(each['latitude'], each['longitude']);
+    for (int index = 0; index < widget.count; index++) {
+      // for (Map each in widget.mapListLocations) {
+      latLng.LatLng loc = latLng.LatLng(
+          widget.mapListLocations[index]['latitude'],
+          widget.mapListLocations[index]['longitude']);
       locList.add(loc);
       markerList.add(
         Marker(
           width: 60.0,
           height: 30.0,
           point: loc,
-          builder: (ctx) => Container(
-            height: 30,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Material(
-              color: Colors.grey[700],
-              borderRadius: BorderRadius.circular(5),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(5),
-                onTap: () {
-                  // setState(() {
-                  //   widget.location = loc;
-                  // });
-                  // mapController.move(loc, 14);
-                  animatedMapMove(loc, 14);
-                  // mapController..value()
-                  // mapController.moveAndRotate(loc, 14, 10);
-                },
-                child: Center(
-                  child: Text(
-                    '${each['price_per_night'].toString()}\$',
-                    textAlign: TextAlign.center,
-                    style: kBody1TextStyle.copyWith(
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
+          builder: (ctx) =>
+              Container(
+                height: 30,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Material(
+                  color: Colors.grey[700],
+                  borderRadius: BorderRadius.circular(5),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(5),
+                    onTap: () {
+                      // todo: animate to specific child index
+                      animatedMapMove(loc, 14);
+                      scrollController.animateTo(150 * index * 1.0,
+                          duration: Duration(microseconds: 1000),
+                          curve: Curves.ease);
+                    },
+                    child: Center(
+                      child: Text(
+                        '${widget.mapListLocations[index]['price_per_night']
+                            .toString()}\$',
+                        textAlign: TextAlign.center,
+                        style: kBody1TextStyle.copyWith(
+                            fontSize: 15,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
         ),
       );
     }

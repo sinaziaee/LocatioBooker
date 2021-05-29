@@ -51,7 +51,7 @@ class Villa{
       facilitiesList.add(item);
     }
     return Villa(
-        id: json['id'],
+        id: json['villa_id'],
         number_of_bathrooms : json['number_of_bathrooms'],
         number_of_bedrooms : json['number_of_bedrooms'],
         number_of_double_beds : json['number_of_double_beds'],
@@ -59,18 +59,18 @@ class Villa{
         number_of_showers: json['number_of_showers'],
 
         capacity: json['capacity'],
-        maxCapacity: json['maxCapacity'],
+        maxCapacity: json['max_capacity'],
 
 
         country : json['country'],
         state : json['state'],
         city: json['city'],
         address : json['address'],
-        postalCode: json['postalCode'],
+        postalCode: json['postal_code'],
         name: json['name'],
         type: json['type'],
         description: json['description'],
-        price: json['price'],
+        price: json['price_per_night'],
         images: imagesList,
         facilities: facilitiesList,
         latitude: json['latitude'],

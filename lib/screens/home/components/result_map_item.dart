@@ -3,7 +3,7 @@ import 'package:loctio_booker/models/search_model.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/models/villa.dart';
 import 'package:latlong/latlong.dart' as latLng;
-import 'package:loctio_booker/screens/detailVilla/detailVillaScreen.dart';
+import 'package:loctio_booker/screens/detailVilla/detail_villa_screen.dart';
 import '../../../constants.dart';
 
 class ResultMapItem extends StatelessWidget {
@@ -33,13 +33,22 @@ class ResultMapItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               onTap: () {
                 print(villa.villaId.toString());
-                Navigator.pushNamed(
+                // Navigator.pushNamed(
+                //   context,
+                //   DetailVillaScreen.id,
+                //   arguments: {
+                //     'user': user,
+                //     'id': villa.villaId,
+                //   },
+                // );
+                Navigator.push(
                   context,
-                  detailVillaScreen.id,
-                  arguments: {
-                    'user': user,
-                    'id': villa.villaId,
-                  },
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return DetailVillaScreen(user: user, villaId: villa.villaId,
+                      );
+                    },
+                  ),
                 );
               },
               child: Container(
