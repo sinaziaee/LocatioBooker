@@ -14,7 +14,7 @@ import '../../../components/villa_not_found.dart';
 
 class HighRatePlace extends StatelessWidget {
   final String highRatePlacesUrl =
-      '$mainUrl/api/villa/search/?page=1&number_of_villa=10';
+      '$mainUrl/api/villa/most-rated/show/?page=1&number_of_villa=10';
   final User user;
   final Size size;
   final Function onHighRatePressed;

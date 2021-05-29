@@ -6,8 +6,9 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loctio_booker/constants.dart';
+import 'package:loctio_booker/models/laws.dart';
 import 'package:loctio_booker/models/user.dart';
-import 'package:loctio_booker/screens/hosting/07_identity_screen.dart';
+import 'package:loctio_booker/screens/hosting/09_identity_screen.dart';
 import 'package:loctio_booker/screens/hosting/components/image_container.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:path_provider/path_provider.dart';
@@ -27,6 +28,8 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'components/add_gallery_item.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import "package:latlong/latlong.dart" as latLng;
+
 
 class GalleryScreen extends StatefulWidget {
   final String villa;
@@ -36,14 +39,19 @@ class GalleryScreen extends StatefulWidget {
   final PlaceAddress placeAddress;
   final Key key = Key('resort_gallery_screen_key');
   final User user;
+  final latLng.LatLng location;
+  final Laws laws;
 
-  GalleryScreen(
-      {this.villa,
-      @required this.user,
-      this.resortDescription,
-      this.resortIdentification,
-      this.facilitation,
-      this.placeAddress});
+  GalleryScreen({
+    this.villa,
+    @required this.user,
+    this.resortDescription,
+    this.resortIdentification,
+    this.facilitation,
+    this.placeAddress,
+    this.laws,
+    this.location,
+  });
 
   @override
   _GalleryScreenState createState() => _GalleryScreenState();
@@ -122,6 +130,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
                   onPressed: () {
                     onPressed();
                   },
+                  isActivated: images.length >= 4,
                 ),
               ] else ...[
                 ImageContainer(
@@ -157,7 +166,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
   }
 
   void onImageSelectPressed() {
-    if(images.length >= 8){
+    if (images.length >= 8) {
       return;
     }
     showDialog(
@@ -171,8 +180,9 @@ class _GalleryScreenState extends State<GalleryScreen> {
   onPressed() async {
     counter = 0;
     imageIds.clear();
-    if(images.length < 4){
-      StaticMethods.showErrorDialog(context, 'Please select ${4-images.length} more images');
+    if (images.length < 4) {
+      StaticMethods.showErrorDialog(
+          context, 'Please select ${4 - images.length} more images');
       return;
     }
     for (File file in images) {
@@ -257,6 +267,8 @@ class _GalleryScreenState extends State<GalleryScreen> {
                 imageIds: imageIds,
                 placeAddress: widget.placeAddress,
                 haveUploadedUserIdentity: haveUploadedUserIdentity,
+                laws: widget.laws,
+                location: widget.location,
               ),
             ),
           );
@@ -315,25 +327,41 @@ class _GalleryScreenState extends State<GalleryScreen> {
               File file = images[index];
               return Material(
                 borderRadius: BorderRadius.circular(20),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(20),
-                  onTap: () {
-                    setState(() {
-                      images.removeAt(index);
-                    });
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(5),
-                    child: ClipRRect(
+                child: Stack(
+                  children: [
+                    InkWell(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image.file(
-                        file,
-                        fit: BoxFit.cover,
-                        width: (size.width * 0.3),
-                        height: (size.width * 0.3),
+                      onTap: () {
+                        showGallery(file);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(5),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.file(
+                            file,
+                            fit: BoxFit.cover,
+                            width: (size.width * 0.3),
+                            height: (size.width * 0.3),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Positioned(
+                      right: 3,
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            images.removeAt(index);
+                          });
+                        },
+                        icon: Icon(
+                          Icons.clear,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               );
             },
@@ -344,5 +372,28 @@ class _GalleryScreenState extends State<GalleryScreen> {
       print('no images');
       return SizedBox();
     }
+  }
+
+  showGallery(File file) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          content: Image.file(
+            file,
+            width: (size.height > size.width)
+                ? size.width * 0.8
+                : size.height * 0.8,
+            height: (size.height > size.width)
+                ? size.width * 0.8
+                : size.height * 0.8,
+            fit: BoxFit.cover,
+          ),
+        );
+      },
+    );
   }
 }

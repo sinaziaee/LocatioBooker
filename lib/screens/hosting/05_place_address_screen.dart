@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/screens/hosting/06_map_screen.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:opencage_geocoder/opencage_geocoder.dart';
 import '../../constants.dart';
 import '../../models/resort_description.dart';
 import '../../static_methods.dart';
@@ -8,7 +11,8 @@ import '../../models/facilitation.dart';
 import 'components/bottom_container.dart';
 import 'components/country_state_city_picker.dart';
 import 'components/my_textfield.dart';
-import '06_gallery_screen.dart';
+import '08_gallery_screen.dart';
+import "package:latlong/latlong.dart" as latLng;
 import '../../models/place_address.dart';
 
 class PlaceAddressScreen extends StatefulWidget {
@@ -35,6 +39,7 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
   FocusNode node;
   String countryValue = '', stateValue = '', cityValue = '';
   TextEditingController postalCodeController, addressController;
+  bool showSpinner = false;
 
   @override
   void initState() {
@@ -56,26 +61,30 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
     node = FocusScope.of(context);
     return Scaffold(
       appBar: StaticMethods.myAppBar('Location Screen', context, widget.user),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                left: size.width * 0.05,
-                right: size.width * 0.05,
-                top: size.width * 0.05,
+      body: ModalProgressHUD(
+        progressIndicator: kMyProgressIndicator,
+        inAsyncCall: showSpinner,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  left: size.width * 0.05,
+                  right: size.width * 0.05,
+                  top: size.width * 0.05,
+                ),
+                child: customContainer(),
               ),
-              child: customContainer(),
-            ),
-            BottomContainer(
-              key: Key('submit_place_address'),
-              text: 'Submit & Continue',
-              onPressed: () {
-                isValid();
-              },
-            ),
-          ],
+              BottomContainer(
+                key: Key('submit_place_address'),
+                text: 'Submit & Continue',
+                onPressed: () {
+                  isValid();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -107,6 +116,7 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
             setState(() {
               cityValue = value;
             });
+            print(cityValue);
           },
           onStateChanged: (value) {
             setState(() {
@@ -208,7 +218,7 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
     onPressed(postalCode, address);
   }
 
-  onPressed(String postalCode, String address) {
+  onPressed(String postalCode, String address) async{
     int pCode;
     if (postalCode.length != 0) {
       pCode = int.parse(postalCode);
@@ -222,18 +232,38 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
       city: cityValue,
     );
 
+    // todo: check null safety
+    var coordinates = await getLocation();
+    if(coordinates == null){
+      return;
+    }
+
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => GalleryScreen(
+        builder: (context) => MapScreen(
           villa: widget.villa,
           resortDescription: widget.resortDescription,
           resortIdentification: widget.resortIdentification,
           facilitation: widget.facilitation,
           placeAddress: placeAddress,
           user: widget.user,
+          location: latLng.LatLng(coordinates.latitude, coordinates.longitude),
         ),
       ),
     );
   }
+
+  Future<Coordinates> getLocation() async{
+    setState(() {
+      showSpinner = true;
+    });
+    Coordinates response = await StaticMethods.getLocation(context, cityValue, stateValue, countryValue);
+    print(response);
+    setState(() {
+      showSpinner = true;
+    });
+    return response;
+  }
+
 }

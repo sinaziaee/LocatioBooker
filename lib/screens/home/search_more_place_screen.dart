@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/screens/detailVilla/detailVillaScreen.dart';
 import 'package:loctio_booker/screens/hosting/components/apartment_not_found_component.dart';
 import 'package:loctio_booker/screens/hosting/components/my_textfield.dart';
 import 'components/search_item.dart';
@@ -12,19 +13,18 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'components/custom_drawer.dart';
 
-
-class SearchSpaceScreen extends StatefulWidget {
+class SearchMorePlaceScreen extends StatefulWidget {
   static String id = 'search_place_screen';
   final User user;
   final String category;
 
-  SearchSpaceScreen(this.user, this.category);
+  SearchMorePlaceScreen(this.user, this.category);
 
   @override
-  _SearchSpaceScreenState createState() => _SearchSpaceScreenState();
+  _SearchMorePlaceScreenState createState() => _SearchMorePlaceScreenState();
 }
 
-class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
+class _SearchMorePlaceScreenState extends State<SearchMorePlaceScreen> {
   Size size;
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   String url = '$mainUrl/api/villa/search/?number_of_villa=10';
@@ -37,25 +37,28 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
     print(state);
     print(city);
     print('-----------------------------------------');
-    print('$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
+    print(
+        '$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
         '${(state != null && state.length != 0) ? '&state=$state' : ''}'
         '${(city != null && city.length != 0) ? '&city=$city' : ''}');
     size = MediaQuery.of(context).size;
     return Scaffold(
-      key: _drawerKey, // assign key to Scaffold
+      key: _drawerKey,
+      // assign key to Scaffold
       endDrawer: CustomDrawer(
         cityValue: city,
         countryValue: country,
         stateValue: state,
-        onCityChanged: (value){
+        onCityChanged: (value) {
           onCityPressed(value);
         },
-        onStateChanged: (value){
+        onStateChanged: (value) {
           onStatePressed(value);
         },
-        onCountryChanged: (value){
+        onCountryChanged: (value) {
           onCountryPressed(value);
         },
+        user: widget.user,
       ),
       backgroundColor: Colors.lightBlue,
       appBar: PreferredSize(
@@ -76,23 +79,31 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 Row(
                   children: [
                     SizedBox(
                       width: 10,
                     ),
-                    IconButton(
-                      icon: Icon(Icons.chevron_left, size: 35,),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                    Material(
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.chevron_left,
+                          size: 25,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
                     ),
                     Spacer(),
                     IconButton(
                       padding: EdgeInsets.only(top: 5),
-                      icon: Icon(Icons.filter_list, size: 30,),
+                      icon: Icon(
+                        Icons.filter_list,
+                        size: 30,
+                      ),
                       onPressed: () {
                         _drawerKey.currentState.openEndDrawer();
                       },
@@ -109,7 +120,7 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
             ),
           ),
         ),
-        preferredSize: Size(size.height, 80),
+        preferredSize: Size(size.height, 100),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -117,7 +128,8 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
         ),
         child: FutureBuilder(
           future: http.get(
-            Uri.parse('$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
+            Uri.parse(
+                '$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
                 '${(state != null && state.length != 0) ? '&state=$state' : ''}'
                 '${(city != null && city.length != 0) ? '&city=$city' : ''}'),
             headers: {
@@ -152,7 +164,16 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
                     searchModel: list[index],
                     last: (index + 1 == count),
                     onPressed: () {
-                      onPressed(SearchModel());
+                      onPressed(SearchModel(
+                        url: list[index].url,
+                        villaId: list[index].villaId,
+                        pricePerNight: list[index].pricePerNight,
+                        name: list[index].name,
+                        city: list[index].city,
+                        rate: list[index].rate,
+                        state: list[index].state,
+                        country: list[index].country,
+                      ));
                     },
                   );
                 },
@@ -172,27 +193,42 @@ class _SearchSpaceScreenState extends State<SearchSpaceScreen> {
   }
 
   onPressed(SearchModel searchModel) {
-    print("pressed");
+    // print("pressed");
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) {
+    //       return detailVillaScreen();
+    //     },
+    //   ),
+    // );
+    Navigator.pushNamed(
+      context,
+      detailVillaScreen.id,
+      arguments: {
+        'user': widget.user,
+        'id': searchModel.villaId,
+      },
+    );
   }
 
-  onCountryPressed(String country){
+  onCountryPressed(String country) {
     setState(() {
       this.country = country;
     });
   }
 
-  onStatePressed(String state){
+  onStatePressed(String state) {
     setState(() {
       this.state = state;
     });
   }
 
-  onCityPressed(String city){
+  onCityPressed(String city) {
     setState(() {
       this.city = city;
     });
   }
-
 }
 
 class Data extends ChangeNotifier {

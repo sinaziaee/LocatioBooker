@@ -23,7 +23,7 @@ class PersonItem extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: Colors.white,
                 backgroundImage: (user.image != null)
-                    ? NetworkImage(user.image)
+                    ? NetworkImage('$mainUrl${user.image}')
                     : AssetImage(assetUrl),
               ),
             ),
