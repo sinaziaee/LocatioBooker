@@ -8,6 +8,8 @@ import 'package:loctio_booker/models/user.dart';
 import 'dart:convert' as convert;
 
 import 'package:loctio_booker/models/villa.dart';
+import 'package:loctio_booker/screens/detailVilla/components/myDivider.dart';
+import 'package:loctio_booker/screens/detailVilla/components/reserveVilla.dart';
 import '../../constants.dart';
 import '../detailVilla/components/aboutVilla.dart';
 
@@ -78,6 +80,8 @@ class _detailVillaScreenState extends State<detailVillaScreen> {
                     ),
                     imagesVilla(myVilla),
                     aboutVilla(myVilla),
+                    myDivider(),
+                    reserveVilla(myVilla , user)
                   ],
                 ),
               ),

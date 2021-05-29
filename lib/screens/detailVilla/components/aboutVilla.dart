@@ -23,216 +23,244 @@ class _aboutVillaState extends State<aboutVilla> {
       child: SingleChildScrollView(
         //scrollDirection: ,
         scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            SizedBox(height: 10,),
-            //rooms(),
-            SizedBox(
-              height: 10,
-            ),
-
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children:[
-                  Text(
-                    "About" ,
-                    style: kHeaderTextStyle,
+        child: Expanded(
+          child: Column(
+            children: [
+              SizedBox(height: 10,),
+              //rooms(),
+              Row(
+                children: [
+                  Icon(
+                    Icons.person,
+                    color: Colors.green,
+                    size: 30.0,
                   ),
-                ]
-            ),
 
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Icon(
-                  Icons.person,
-                  color: Colors.green,
-                  size: 30.0,
-                ),
-
-                Text("${widget.villa.type} Villa with ${widget.villa.number_of_bedrooms} rooms" ,
-                  style: kBodyTextStyle,
-                )
-              ],
-            ),
-
-            SizedBox(
-              height: 10,
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(
-                  Icons.description,
-                  color: Colors.green,
-                  size: 30.0,
-                ),
-
-                Expanded(
-                  child: Text("${widget.villa.description} " ,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.justify,
+                  Text("Hosted by ${widget.villa.owner} Villa with "
+                      "${widget.villa.number_of_bedrooms} rooms" ,
                     style: kBodyTextStyle,
+                  )
+                ],
+              ),
+
+              /*SizedBox(
+                height: 10,
+              ),*/
+              myDivider(),
+
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children:[
+                    Text(
+                      "About" ,
+                      style: kHeaderTextStyle,
+                    ),
+                  ]
+              ),
+
+              /*SizedBox(
+                height: 10,
+              ),*/
+
+              myDivider(),
+              Row(
+                children: [
+                  Icon(
+                    Icons.person,
+                    color: Colors.green,
+                    size: 30.0,
                   ),
-                )
-              ],
-            ),
 
-            SizedBox(
-              height: 10,
-            ),
-
-            //Capacity
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "Capacity",
-                  style: kHeaderTextStyle,
-                )
-              ],
-            ),
-
-            SizedBox(
-              height: 10,
-            ),
-
-            Row(
-              children: [
-                Icon(
-                  Icons.home_repair_service,
-                  color: Colors.green,
-                  size: 30.0,
-                ),
-
-                Text("Normal : ${widget.villa.capacity}  Maximum : ${widget.villa.maxCapacity}" ,
-                  style: kBodyTextStyle,
-                )
-              ],
-            ),
-
-            SizedBox(
-              height: 10,
-            ),
-
-            //Area
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "Area",
-                  style: kHeaderTextStyle,
-                )
-              ],
-            ),
-
-            SizedBox(
-              height: 10,
-            ),
-
-            Row(
-              children: [
-                Icon(
-                  Icons.home_outlined,
-                  color: Colors.green,
-                  size: 30.0,
-                ),
-
-                Text("${widget.villa.area} Meters " ,
-                  style: kBodyTextStyle,
-                )
-              ],
-            ),
-
-            SizedBox(
-              height: 10,
-            ),
+                  Text("${widget.villa.type} Villa with ${widget.villa.number_of_bedrooms} rooms" ,
+                    style: kBodyTextStyle,
+                  )
+                ],
+              ),
 
 
+              myDivider(),
+              /*Divider(
+                  //thickness: 1 ,
+                  endIndent: 1,
+                  indent: 1,
+                  color: Colors.black
+              ),*/
 
+              /*Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.description,
+                    color: Colors.green,
+                    size: 30.0,
+                  ),
 
+                  Expanded(
+                    child: Text("${widget.villa.description} " ,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.justify,
+                      style: kBodyTextStyle,
+                    ),
+                  )
+                ],
+              ),*/
 
-            //villa Space
+              SizedBox(
+                height: 10,
+              ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "Villa Space",
-                  style: kHeaderTextStyle,
-                )
-              ],
-            ),
+              //Capacity
 
-            SizedBox(
-              height: 10,
-            ),
+              myDivider(),
 
-            Row(
-              children: [
-                Icon(
-                  Icons.home,
-                  color: Colors.green,
-                  size: 30.0,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Capacity",
+                    style: kHeaderTextStyle,
+                  )
+                ],
+              ),
 
-                Text("bedrooms :${widget.villa.number_of_bedrooms}  "
-                    "bathrooms :${widget.villa.number_of_bathrooms}  "
-                    "showers :${widget.villa.number_of_showers} ",
-                  style: kBodyTextStyle,
-                )
-              ],
-            ),
+              SizedBox(
+                height: 10,
+              ),
 
-            SizedBox(
-              height: 10,
-            ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.home_repair_service,
+                    color: Colors.green,
+                    size: 30.0,
+                  ),
 
-            //Bed Sets
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "Bed Sets",
-                  style: kHeaderTextStyle,
-                )
-              ],
-            ),
+                  Text("Normal : ${widget.villa.capacity}  Maximum : ${widget.villa.maxCapacity}" ,
+                    style: kBodyTextStyle,
+                  )
+                ],
+              ),
 
-            SizedBox(
-              height: 10,
-            ),
+              SizedBox(
+                height: 10,
+              ),
 
-            Row(
-              children: [
-                Icon(
-                  Icons.home,
-                  color: Colors.green,
-                  size: 30.0,
-                ),
+              //Area
 
-                Text("Single Beds :${widget.villa.number_of_single_beds}  "
-                    "Double Beds :${widget.villa.number_of_double_beds}  ",
-                  style: kBodyTextStyle,
-                )
-              ],
-            ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Area",
+                    style: kHeaderTextStyle,
+                  )
+                ],
+              ),
 
-            SizedBox(
-              height: 10,
-            ),
+              SizedBox(
+                height: 10,
+              ),
 
+              Row(
+                children: [
+                  Icon(
+                    Icons.home_outlined,
+                    color: Colors.green,
+                    size: 30.0,
+                  ),
 
-            //*/
+                  Text("${widget.villa.area} Meters " ,
+                    style: kBodyTextStyle,
+                  )
+                ],
+              ),
+
+              /*SizedBox(
+                height: 10,
+              ),*/
 
 
 
-          ],
+              myDivider(),
+
+              //villa Space
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Villa Space",
+                    style: kHeaderTextStyle,
+                  )
+                ],
+              ),
+
+              /*SizedBox(
+                height: 10,
+              ),*/
+              myDivider(),
+
+              Row(
+                children: [
+                  Icon(
+                    Icons.home,
+                    color: Colors.green,
+                    size: 30.0,
+                  ),
+
+                  Text("bedrooms :${widget.villa.number_of_bedrooms}  "
+                      "bathrooms :${widget.villa.number_of_bathrooms}  "
+                      "showers :${widget.villa.number_of_showers} ",
+                    style: kBodyTextStyle,
+                  )
+                ],
+              ),
+
+              SizedBox(
+                height: 10,
+              ),
+
+              //Bed Sets
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Bed Sets",
+                    style: kHeaderTextStyle,
+                  )
+                ],
+              ),
+
+              SizedBox(
+                height: 10,
+              ),
+
+              Row(
+                children: [
+                  Icon(
+                    Icons.home,
+                    color: Colors.green,
+                    size: 30.0,
+                  ),
+
+                  Text("Single Beds :${widget.villa.number_of_single_beds}  "
+                      "Double Beds :${widget.villa.number_of_double_beds}  ",
+                    style: kBodyTextStyle,
+                  )
+                ],
+              ),
+
+              SizedBox(
+                height: 10,
+              ),
+
+
+              //*/
+
+
+
+            ],
+          ),
         ),
       ),
     );
@@ -319,5 +347,13 @@ class _aboutVillaState extends State<aboutVilla> {
       ),
     );
 
+  }
+
+  myDivider() {
+    return Divider(
+        endIndent: 1,
+        indent: 1,
+        color: Colors.black
+    );
   }
 }
