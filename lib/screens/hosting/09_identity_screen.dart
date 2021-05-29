@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loctio_booker/models/facilitation.dart';
+import 'package:loctio_booker/models/laws.dart';
 import 'package:loctio_booker/models/place_address.dart';
 import 'package:loctio_booker/models/resort_description.dart';
 import 'package:loctio_booker/models/resort_identification.dart';
@@ -19,6 +20,8 @@ import '../../constants.dart';
 import '../../static_methods.dart';
 import '00_hosing_screen.dart';
 import 'components/bottom_container.dart';
+import "package:latlong/latlong.dart" as latLng;
+
 
 class IdentityScreen extends StatefulWidget {
   final String villa;
@@ -30,6 +33,8 @@ class IdentityScreen extends StatefulWidget {
   final List imageIds;
   final Key key = Key('resort_identity_screen_key');
   final bool haveUploadedUserIdentity;
+  final latLng.LatLng location;
+  final Laws laws;
 
   IdentityScreen({
     this.villa,
@@ -40,6 +45,8 @@ class IdentityScreen extends StatefulWidget {
     this.placeAddress,
     this.imageIds,
     @required this.haveUploadedUserIdentity,
+    this.laws,
+    this.location,
   });
 
   @override
@@ -365,6 +372,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
 
     Map map = Map();
     map['type'] = widget.villa;
+    // map['type'] = 'Coastal';
     map['country'] = widget.placeAddress.country;
     map['state'] = widget.placeAddress.state;
     map['city'] = widget.placeAddress.city;
@@ -375,8 +383,8 @@ class _IdentityScreenState extends State<IdentityScreen> {
     map['area'] = widget.resortDescription.area;
     map['price_per_night'] = widget.resortDescription.price;
     map['address'] = widget.placeAddress.address;
-    map['latitude'] = 0.0;
-    map['longitude'] = 0.0;
+    map['latitude'] = widget.location.latitude.toString();
+    map['longitude'] = widget.location.longitude.toString();
     map['capacity'] = widget.resortIdentification.bCapacity;
     map['max_capacity'] = widget.resortIdentification.mCapacity;
     map['number_of_bathrooms'] = widget.resortIdentification.numBathrooms;
@@ -388,7 +396,8 @@ class _IdentityScreenState extends State<IdentityScreen> {
     map['image_id_list'] = widget.imageIds;
     map['facilities_list'] = widget.facilitation.getItemsList();
     map["doc_id_list"] = fileList;
-
+    // todo: upload laws too
+    map['rules_id_list'] = widget.laws.lawsList;
     try {
       print(url);
       http.Response response = await http.post(

@@ -175,6 +175,7 @@ class _VerificationScreenState extends State<VerificationScreen>
                               strokeWidth: 10,
                               value: animation.value,
                               backgroundColor: Colors.grey,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
                             ),
                           ),
                         ),
