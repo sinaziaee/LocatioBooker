@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,19 +7,29 @@ import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/components/circle_button.dart';
 import 'package:loctio_booker/constants.dart';
+import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/models/villa.dart';
 import 'package:loctio_booker/screens/detailVilla/components/myDivider.dart';
+import 'dart:convert' as convert;
+
 
 DateTime entrySelectedDate = DateTime.now();
 DateTime exitSelectedDate = DateTime.now();
 int numPassengers = 1;
 
 class reserveVilla extends StatefulWidget {
+
+  Villa myVilla;
+  User user;
+
+  reserveVilla(this.myVilla , this.user);
+
+
   @override
   _reserveVillaState createState() => _reserveVillaState();
 }
 
 class _reserveVillaState extends State<reserveVilla> {
-
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +54,11 @@ class _reserveVillaState extends State<reserveVilla> {
               height: 10.0,
             ),
             ElevatedButton(
-              onPressed: () => _selectEntryDate(context), // Refer step 3
+              onPressed: () {
+                setState(() {
+                  _selectEntryDate(context);
+                });
+              }, // Refer step 3
               child: Text(
                 'Select Entry date',
                 style:
@@ -58,14 +73,18 @@ class _reserveVillaState extends State<reserveVilla> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
-              "${entrySelectedDate.toLocal()}".split(' ')[0],
+              "${exitSelectedDate.toLocal()}".split(' ')[0],
               style: kHeaderTextStyle,
             ),
             SizedBox(
               height: 10.0,
             ),
             ElevatedButton(
-              onPressed: () => _selectExitDate(context), // Refer step 3
+              onPressed: () {
+                setState(() {
+                  _selectExitDate(context);
+                });
+              }, // Refer step 3
               child: Text(
                 'Select Exit date',
                 style:
@@ -167,21 +186,34 @@ class _reserveVillaState extends State<reserveVilla> {
       PostReserve();
   }
 
+
+
   Future PostReserve() async{
+    Map map = Map();
+
+    map['villa'] = widget.myVilla.id;
+    map['start_date'] = entrySelectedDate.toString();
+    map['end_date'] = exitSelectedDate.toString();
+    map['num_of_passengers'] = numPassengers;
+    map['total_cost'] = (widget.myVilla.price * (exitSelectedDate.difference(entrySelectedDate).inDays)).toString();
+
+
+
     final response = await http.post(
-      Uri.parse('https://jsonplaceholder.typicode.com/albums'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+      Uri.parse('$mainUrl/api/villa/user/register/'),
+      headers: {
+        HttpHeaders.authorizationHeader: widget.user.token,
+        // HttpHeaders.authorizationHeader: 'Token bab330f8321c61a9ba457fab4efc1b223c3f8731',
+        "Accept": "application/json",
+        "content-type": "application/json",
       },
-      body: jsonEncode(<String, String>{
-        'title': title,
-      }),
+      body: convert.jsonEncode(map),
     );
 
     if (response.statusCode == 201) {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
-      return Album.fromJson(jsonDecode(response.body));
+      return Villa.fromJson(jsonDecode(response.body));
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.

@@ -81,7 +81,7 @@ class _detailVillaScreenState extends State<detailVillaScreen> {
                     imagesVilla(myVilla),
                     aboutVilla(myVilla),
                     myDivider(),
-                    reserveVilla()
+                    reserveVilla(myVilla , user)
                   ],
                 ),
               ),
