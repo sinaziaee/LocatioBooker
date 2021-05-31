@@ -85,7 +85,7 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
                         cursorColor: Colors.black,
                         decoration: InputDecoration.collapsed(
                           border: InputBorder.none,
-                          hintText: 'Where are you going?',
+                          hintText: 'Who do you want to search for?',
                         ),
                       ),
                     ),

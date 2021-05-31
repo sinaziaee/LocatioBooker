@@ -11,6 +11,7 @@ class Villa{
   final String type;
   final String description;
   final int price;
+  final String owner;
   final List<String> images;
   final List<String> facilities;
   final double latitude;
@@ -30,7 +31,7 @@ class Villa{
     this.number_of_bedrooms, this.number_of_single_beds,
     this.number_of_double_beds, this.number_of_showers, this.id , this.country, this.state,
     this.city, this.address,
-    this.postalCode,  this.name,
+    this.postalCode,  this.name,this.owner ,
     this.type, this.description,
     this.price,  this.images,
     this.facilities,  this.latitude,
@@ -50,7 +51,7 @@ class Villa{
       facilitiesList.add(item);
     }
     return Villa(
-        id: json['id'],
+        id: json['villa_id'],
         number_of_bathrooms : json['number_of_bathrooms'],
         number_of_bedrooms : json['number_of_bedrooms'],
         number_of_double_beds : json['number_of_double_beds'],
@@ -58,17 +59,18 @@ class Villa{
         number_of_showers: json['number_of_showers'],
 
         capacity: json['capacity'],
-        maxCapacity: json['maxCapacity'],
+        maxCapacity: json['max_capacity'],
+
 
         country : json['country'],
         state : json['state'],
         city: json['city'],
         address : json['address'],
-        postalCode: json['postalCode'],
+        postalCode: json['postal_code'],
         name: json['name'],
         type: json['type'],
         description: json['description'],
-        price: json['price'],
+        price: json['price_per_night'],
         images: imagesList,
         facilities: facilitiesList,
         latitude: json['latitude'],

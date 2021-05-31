@@ -12,8 +12,8 @@ import 'package:loctio_booker/screens/hosting/02_resort_description_screen.dart'
 import 'package:loctio_booker/screens/hosting/03_identification_screen.dart';
 import 'package:loctio_booker/screens/hosting/04_facilitation_screen.dart';
 import 'package:loctio_booker/screens/hosting/05_place_address_screen.dart';
-import 'package:loctio_booker/screens/hosting/06_gallery_screen.dart';
-import 'package:loctio_booker/screens/hosting/07_identity_screen.dart';
+import 'package:loctio_booker/screens/hosting/08_gallery_screen.dart';
+import 'package:loctio_booker/screens/hosting/09_identity_screen.dart';
 import 'package:loctio_booker/screens/hosting/components/hosting_resort_type_item.dart';
 import '';
 

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
+import 'package:opencage_geocoder/opencage_geocoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -210,7 +211,89 @@ class StaticMethods {
     );
   }
 
-  static PreferredSize myAppBar(String text, BuildContext context, User user) {
+  static PreferredSize resultAppBar(BuildContext context, String resultText, Size size){
+    return PreferredSize(
+      child: SafeArea(
+        child: Container(
+          margin: EdgeInsets.only(
+            top: 15,
+            bottom: 15,
+          ),
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.chevron_left_outlined),
+                iconSize: 25,
+              ),
+              Expanded(
+                child: Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: BorderSide(
+                      color: Colors.grey,
+                      width: 0.5,
+                    ),
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      resultText,
+                      style: kBody2TextStyle.copyWith(),
+                    ),
+                    trailing: Icon(
+                      Icons.search,
+                      size: 40,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: size.width * 0.05,
+              ),
+            ],
+          ),
+        ),
+      ),
+      preferredSize: Size(size.width, 100),
+    );
+  }
+
+  static Future<Coordinates> getLocation(BuildContext context, String cityValue, String stateValue, String countryValue) async{
+
+    var geocoder = new Geocoder("7efb20c96c1a4cd594654de3842cd476");
+    var response;
+    try{
+      if(cityValue == null && stateValue == null){
+        response = await geocoder.geocode(countryValue);
+      }
+      else if(cityValue == null){
+        response = await geocoder.geocode(countryValue);
+      }
+      else{
+        response = await geocoder.geocode(cityValue);
+      }
+      // setState(() {
+      //   showSpinner = false;
+      // });
+    }
+    catch(e){
+      // setState(() {
+      //   showSpinner = false;
+      // });
+      StaticMethods.showErrorDialog(context, 'Couldn\'t find geolocation of your city');
+      print(e);
+      return null;
+    }
+    return response.results[0].geometry;
+  }
+
+  static PreferredSize myAppBar(String text, BuildContext context, User user, {bool isVisible}) {
+    if(isVisible == null){
+      isVisible = true;
+    }
     return PreferredSize(
       child: Container(
         decoration: kCustomAppBarDecoration,
@@ -244,35 +327,38 @@ class StaticMethods {
               Spacer(
                 flex: 2,
               ),
-              IconButton(
-                icon: Icon(
-                  Icons.clear,
-                  color: Colors.white,
-                  size: 30,
+              Visibility(
+                visible: isVisible,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.clear,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    // Navigator.pushAndRemoveUntil(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => HostingScreen(user),
+                    //   ),
+                    //       (route) => false,
+                    // );
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      HomeScreen.id,
+                      (route) => false,
+                      arguments: {
+                        'user': user,
+                      },
+                    );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HostingScreen(user),
+                      ),
+                    );
+                  },
                 ),
-                onPressed: () {
-                  // Navigator.pushAndRemoveUntil(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => HostingScreen(user),
-                  //   ),
-                  //       (route) => false,
-                  // );
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    HomeScreen.id,
-                    (route) => false,
-                    arguments: {
-                      'user': user,
-                    },
-                  );
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HostingScreen(user),
-                    ),
-                  );
-                },
               ),
             ],
           ),
@@ -283,5 +369,37 @@ class StaticMethods {
         60,
       ),
     );
+  }
+
+  static String getMonthString(int month){
+    switch(month){
+      case 1:
+        return "January";
+      case 2:
+        return "February";
+      case 3:
+        return "March";
+      case 4:
+        return "April";
+      case 5:
+        return "May";
+      case 6:
+        return "June";
+      case 7:
+        return "July";
+      case 8:
+        return "August";
+      case 9:
+        return "September";
+      case 10:
+        return "October";
+      case 11:
+        return "November";
+      case 12:
+        return "December";
+      default:
+        return "Sth wrong in month";
+
+    }
   }
 }

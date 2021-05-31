@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/search_model.dart';
 import 'package:loctio_booker/models/user.dart';
-import '../../detailVilla/detailVillaScreen.dart';
+import '../../detailVilla/detail_villa_screen.dart';
 
 class HomePlaceItem extends StatelessWidget {
   final SearchModel searchModel;
@@ -91,14 +91,14 @@ class HomePlaceItem extends StatelessWidget {
   }
 
   onTapped(BuildContext context, User user, int villaId) {
-    print('pressed');
-    Navigator.pushNamed(
+    Navigator.push(
       context,
-      detailVillaScreen.id,
-      arguments: {
-        'user': user,
-        'id': villaId,
-      }
+      MaterialPageRoute(
+        builder: (context) {
+          return DetailVillaScreen(user: user, villaId: villaId,
+          );
+        },
+      ),
     );
   }
 }

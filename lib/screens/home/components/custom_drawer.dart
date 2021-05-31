@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/screens/home/date_picker_screen.dart';
 import 'package:loctio_booker/screens/hosting/components/country_state_city_picker.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -6,6 +8,7 @@ class CustomDrawer extends StatelessWidget {
   final Function(String) onCountryChanged;
   final Function(String) onStateChanged;
   final Function(String) onCityChanged;
+  final User user;
 
   CustomDrawer({
     @required this.stateValue,
@@ -14,11 +17,11 @@ class CustomDrawer extends StatelessWidget {
     @required this.onCountryChanged,
     @required this.onStateChanged,
     @required this.onCityChanged,
+    @required this.user,
   });
 
   @override
   Widget build(BuildContext context) {
-    print(this.countryValue);
     return Drawer(
       child: Column(
         children: [
@@ -35,6 +38,24 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
           ),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) {
+          //           return DatePickerScreen(
+          //             user: user,
+          //           );
+          //         },
+          //       ),
+          //     );
+          //   },
+          //   child: Text('Date Picker'),
+          // ),
         ],
       ),
     );

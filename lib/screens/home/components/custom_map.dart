@@ -34,27 +34,6 @@ class CustomMap extends StatelessWidget {
                   width: 40.0,
                   height: 40.0,
                   point: latLng.LatLng(36.314845, 59.555513),
-                  builder: (ctx) => Container(
-                    // child: FlutterLogo(
-                    //
-                    // ),
-                    // child: Image.asset('assets/images/marker.png', height: 20, width: 20,),
-                    child: Icon(
-                      Icons.account_circle,
-                      color: Colors.red.shade900,
-                    ),
-                    // child: Container(
-                    //   height: 40,
-                    //   width: 20,
-                    //   decoration: BoxDecoration(
-                    //     color: Colors.red,
-                    //     borderRadius: BorderRadius.only(
-                    //       bottomLeft: Radius.circular(10),
-                    //       bottomRight: Radius.circular(10),
-                    //     ),
-                    //   ),
-                    // ),
-                  ),
                 ),
               ],
             ),

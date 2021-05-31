@@ -14,7 +14,7 @@ import '../../../components/villa_not_found.dart';
 
 class HighRatePlace extends StatelessWidget {
   final String highRatePlacesUrl =
-      '$mainUrl/api/villa/search/?page=1&number_of_villa=10';
+      '$mainUrl/api/villa/most-rated/show/?page=1&number_of_villa=10';
   final User user;
   final Size size;
   final Function onHighRatePressed;
@@ -75,21 +75,17 @@ class HighRatePlace extends StatelessWidget {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
                   http.Response response = snapshot.data;
-                  print(response.statusCode);
                   if (response.statusCode == 401) {
                     return invalidTokenWidget();
                   }
-                  print(response.body);
                   var jsonResponse = convert.jsonDecode(response.body);
                   List<SearchModel> list = [];
                   int count = 0;
                   var data = jsonResponse['data'];
                   for (var each in data) {
-                    // print(each);
                     count++;
                     list.add(SearchModel.fromMap(each));
                   }
-                  print(count);
                   if (count == 0) {
                     return Center(
                       child: VillaNotFound(

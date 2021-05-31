@@ -12,14 +12,15 @@ import 'package:loctio_booker/screens/hosting/02_resort_description_screen.dart'
 import 'package:loctio_booker/screens/hosting/03_identification_screen.dart';
 import 'package:loctio_booker/screens/hosting/04_facilitation_screen.dart';
 import 'package:loctio_booker/screens/hosting/05_place_address_screen.dart';
+import 'package:loctio_booker/screens/hosting/06_map_screen.dart';
 import 'package:loctio_booker/screens/hosting/08_gallery_screen.dart';
 import 'package:loctio_booker/screens/hosting/09_identity_screen.dart';
 import 'package:loctio_booker/screens/hosting/components/hosting_resort_type_item.dart';
 import '';
 
 void main() {
-  group('Component testing home screen\n', () {
-    testWidgets('hosting screen', (WidgetTester tester) async {
+  group('Component/Unit testing Search & result screens\n', () {
+    testWidgets('Search screen', (WidgetTester tester) async {
       User user = User(
           firstName: 'sina',
           lastName: 'ziaee',
@@ -37,7 +38,7 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('resort type screen', (WidgetTester tester) async {
+    testWidgets('Search screen-valid-filter', (WidgetTester tester) async {
       User user = User(
           firstName: 'sina',
           lastName: 'ziaee',
@@ -52,7 +53,7 @@ void main() {
       expect(find.byType(HostingResortItem), findsNWidgets(8));
     });
 
-    testWidgets('resort description screen', (WidgetTester tester) async {
+    testWidgets('Search screen-inValid-filter', (WidgetTester tester) async {
       User user = User(
           firstName: 'sina',
           lastName: 'ziaee',
@@ -73,7 +74,7 @@ void main() {
       expect(find.byKey(Key('resort_description_screen_key')), findsOneWidget);
     });
 
-    testWidgets('resort identification screen', (WidgetTester tester) async {
+    testWidgets('search city screen', (WidgetTester tester) async {
       User user = User(
           firstName: 'sina',
           lastName: 'ziaee',
@@ -99,7 +100,7 @@ void main() {
           find.byKey(Key('resort_identification_screen_key')), findsOneWidget);
     });
 
-    testWidgets('resort identification screen', (WidgetTester tester) async {
+    testWidgets('result screen', (WidgetTester tester) async {
       User user = User(
           firstName: 'sina',
           lastName: 'ziaee',
@@ -125,7 +126,7 @@ void main() {
           find.byKey(Key('resort_identification_screen_key')), findsOneWidget);
     });
 
-    testWidgets('resort facilitation screen', (WidgetTester tester) async {
+    testWidgets('Map result screen', (WidgetTester tester) async {
       User user = User(
           firstName: 'sina',
           lastName: 'ziaee',
@@ -161,7 +162,7 @@ void main() {
       expect(find.byKey(Key('resort_facilitation_screen_key')), findsOneWidget);
     });
 
-    testWidgets('resort place address screen', (WidgetTester tester) async {
+    testWidgets('result Icon state test', (WidgetTester tester) async {
       User user = User(
           firstName: 'sina',
           lastName: 'ziaee',
@@ -203,10 +204,11 @@ void main() {
         ),
       ));
 
-      expect(find.byKey(Key('resort_place_address_screen_key')), findsOneWidget);
+      expect(
+          find.byKey(Key('resort_place_address_screen_key')), findsOneWidget);
     });
 
-    testWidgets('resort gallery screen', (WidgetTester tester) async {
+    testWidgets('result countries', (WidgetTester tester) async {
       User user = User(
           firstName: 'sina',
           lastName: 'ziaee',
@@ -260,7 +262,7 @@ void main() {
       expect(find.byKey(Key('resort_gallery_screen_key')), findsOneWidget);
     });
 
-    testWidgets('resort identity screen', (WidgetTester tester) async {
+    testWidgets('Resort in result on map', (WidgetTester tester) async {
       User user = User(
           firstName: 'sina',
           lastName: 'ziaee',

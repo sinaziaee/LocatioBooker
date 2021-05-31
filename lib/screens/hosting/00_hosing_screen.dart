@@ -32,7 +32,12 @@ class _HostingScreenState extends State<HostingScreen> {
     // user.printUser();
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: StaticMethods.myAppBar('Hosting Screen', context, widget.user),
+      appBar: StaticMethods.myAppBar(
+        'Hosting Screen',
+        context,
+        widget.user,
+        isVisible: false,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -59,7 +64,8 @@ class _HostingScreenState extends State<HostingScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ResortTypeScreen(widget.user)),
+            MaterialPageRoute(
+                builder: (context) => ResortTypeScreen(widget.user)),
           );
         },
         child: Icon(Icons.add),

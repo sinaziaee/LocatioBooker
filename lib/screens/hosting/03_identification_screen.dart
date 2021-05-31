@@ -105,6 +105,7 @@ class _ResortIdentificationScreenState
           },
           text: 'Base Capacity',
           count: bCapacity,
+          isActivated: bCapacity > 1,
         ),
         SizedBox(
           height: size.height * 0.01,
@@ -119,6 +120,7 @@ class _ResortIdentificationScreenState
           },
           text: 'Maximum capacity',
           count: mCapacity,
+          isActivated: mCapacity > 1,
         ),
         SizedBox(
           height: size.height * 0.01,
@@ -133,6 +135,7 @@ class _ResortIdentificationScreenState
           },
           text: 'Number of rooms',
           count: numRoom,
+          isActivated: numRoom > 1,
         ),
         SizedBox(
           height: size.height * 0.01,
@@ -147,6 +150,7 @@ class _ResortIdentificationScreenState
           },
           text: 'Number of single beds',
           count: numSingleBeds,
+          isActivated: numSingleBeds > 0,
         ),
         SizedBox(
           height: size.height * 0.01,
@@ -161,6 +165,7 @@ class _ResortIdentificationScreenState
           },
           text: 'Number of Double beds',
           count: numDoubleBeds,
+          isActivated: numDoubleBeds > 0,
         ),
         SizedBox(
           height: size.height * 0.01,
@@ -178,6 +183,7 @@ class _ResortIdentificationScreenState
           },
           text: 'Number of bathrooms',
           count: numBathroom,
+          isActivated: numBathroom > 0,
         ),
         SizedBox(
           height: size.height * 0.01,
@@ -195,6 +201,7 @@ class _ResortIdentificationScreenState
           },
           text: 'Number of showers',
           count: numShowers,
+          isActivated: numShowers > 0,
         ),
       ],
     );

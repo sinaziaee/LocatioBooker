@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
+import 'package:loctio_booker/screens/home/search_more_place_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../home/search_place_screen.dart';
+import '../../home/search_city_screen.dart';
 import '../../../constants.dart';
 import "package:latlong/latlong.dart" as latLng;
 import '../components/home_screen_search_bar.dart';
@@ -56,8 +57,6 @@ class _HomePageState extends State<HomePage> {
           flexibleSpace: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
             double top = constraints.biggest.height;
-            // print(top);
-            // print((1 - (top / fixedHeight) == 0.72) ? 1 : 1 - (top / fixedHeight));
             return FlexibleSpaceBar(
               centerTitle: true,
               title: AnimatedOpacity(
@@ -104,18 +103,19 @@ class _HomePageState extends State<HomePage> {
           snap: true,
           elevation: 0.0,
           collapsedHeight: 75,
-          expandedHeight: fixedHeight,
+          expandedHeight: (widget.size.height > widget.size.width) ? fixedHeight : 200,
           stretch: false,
         ),
         SliverFixedExtentList(
-          itemExtent: widget.size.height * 0.73,
+          // itemExtent: widget.size.height * 0.73,
+          itemExtent: 580,
           delegate: SliverChildListDelegate(
             [
               MostReservedPlace(widget.user, widget.size, () {
-                onMorePressed('');
+                onMorePressed('most-registered');
               }),
               HighRatePlace(widget.user, widget.size, () {
-                onMorePressed('');
+                onMorePressed('most-rated');
               }),
             ],
           ),
@@ -134,17 +134,16 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SearchSpaceScreen(widget.user, null),
+        builder: (context) => SearchCityScreen(widget.user, null),
       ),
     );
   }
 
   onMorePressed(String search) {
-    print('more pressed');
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SearchSpaceScreen(widget.user, search),
+        builder: (context) => SearchMorePlaceScreen(widget.user, search),
       ),
     );
   }
