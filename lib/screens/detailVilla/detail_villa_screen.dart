@@ -21,7 +21,6 @@ import 'components2/detail_description.dart';
 import 'components2/detail_divider.dart';
 import 'components2/detail_laws.dart';
 import 'components2/detail_map.dart';
-import 'components2/detail_table_calendar.dart';
 import 'components2/like_button.dart';
 import 'package:latlong/latlong.dart' as latLng;
 
