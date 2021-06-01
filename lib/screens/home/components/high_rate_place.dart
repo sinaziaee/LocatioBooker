@@ -148,7 +148,7 @@ class HighRatePlace extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          CustomMap(size),
+          // CustomMap(size),
         ],
       ),
     );

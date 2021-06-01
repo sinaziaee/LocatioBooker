@@ -399,7 +399,18 @@ class StaticMethods {
         return "December";
       default:
         return "Sth wrong in month";
-
     }
   }
+
+  static List<String> datePickerSplitter(String dateRange) {
+    int startIndex = dateRange.indexOf('startDate');
+    dateRange = dateRange.substring(startIndex);
+    List<String> stringList = dateRange.split(',');
+    List<String> start = stringList[0].split(': ');
+    List<String> end = stringList[1].split(': ');
+    String startDate = start[1].substring(0, 10);
+    String endDate = end[1].substring(0, 10);
+    return [startDate, endDate];
+  }
+
 }

@@ -100,7 +100,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   },
                   onSubmit: (dateR) async {
                     String dateRange = dateR.toString();
-                    List<String> dateList = datePickerSplitter(dateRange);
+                    List<String> dateList = StaticMethods.datePickerSplitter(dateRange);
                     Map map = await getPlacesInfo(dateList);
                     if (map == null) {
                       StaticMethods.showErrorDialog(
@@ -130,17 +130,6 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
         ),
       ),
     );
-  }
-
-  List<String> datePickerSplitter(String dateRange) {
-    int startIndex = dateRange.indexOf('startDate');
-    dateRange = dateRange.substring(startIndex);
-    List<String> stringList = dateRange.split(',');
-    List<String> start = stringList[0].split(': ');
-    List<String> end = stringList[1].split(': ');
-    String startDate = start[1].substring(0, 10);
-    String endDate = end[1].substring(0, 10);
-    return [startDate, endDate];
   }
 
   Future<Map> getPlacesInfo(List<String> dateList) async {

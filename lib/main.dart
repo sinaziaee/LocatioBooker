@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         PersonalInformation.id : (context) => PersonalInformation(),
         termsAggrements.id : (context) => termsAggrements(),
         SearchProfileScreen.id: (context) => SearchProfileScreen(),
-        // DetailVillaScreen.id: (context) => DetailVillaScreen(),
+        // DetailVillaScreen.id: (context) => DetailVillaScreen(villaId: 1, user: null,),
         // ResultScreen.id: (context) => ResultScreen(),
         // HostingScreen.id: (context) => HostingScreen(),
         // SearchSpaceScreen.id: (context) => SearchSpaceScreen(null),

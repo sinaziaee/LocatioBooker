@@ -47,6 +47,8 @@ dependencies:
   provider: ^5.0.0
   opencage_geocoder: ^1.0.1
   syncfusion_flutter_datepicker: ^19.1.65-beta
+  carousel_slider: ^3.0.0
+  flutter_date_pickers: ^0.2.4
 
 
 dev_dependencies:

@@ -61,11 +61,11 @@ class _detailVillaScreenState3 extends State<detailVillaScreen3> {
       area: 1300,
       capacity: 3,
       maxCapacity: 4,
-      number_of_bathrooms: 3,
-      number_of_bedrooms: 3,
-      number_of_single_beds: 3,
-      number_of_double_beds: 3,
-      number_of_showers: 3,
+      numberOfBathrooms: 3,
+      numberOfBedrooms: 3,
+      numberOfSingleBeds: 3,
+      numberOfDoubleBeds: 3,
+      numberOfShowers: 3,
 
       images: [
         "/live-static/villas/images/photo-1582268611958-ebfd161ef9cf.jfif",
