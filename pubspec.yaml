@@ -47,6 +47,8 @@ dependencies:
   provider: ^5.0.0
   opencage_geocoder: ^1.0.1
   syncfusion_flutter_datepicker: ^19.1.65-beta
+  swipe_to: 0.0.1+8
+  web_socket_channel: ^1.1.0
 
 
 dev_dependencies:
