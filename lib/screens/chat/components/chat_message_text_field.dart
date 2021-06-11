@@ -63,7 +63,7 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
                 iconSize: 25,
                 icon: Icon(
                   Icons.send,
-                  color: Colors.blueAccent,
+                  color: Colors.blueGrey,
                 ),
               ),
               SizedBox(

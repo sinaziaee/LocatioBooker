@@ -292,7 +292,7 @@ class StaticMethods {
 
   static AppBar chatAppbar(BuildContext context, String imageUrl, String name) {
     return AppBar(
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: Colors.blueGrey,
       leading: IconButton(
         onPressed: () {
           Navigator.pop(context);

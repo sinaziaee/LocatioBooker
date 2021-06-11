@@ -1,3 +1,4 @@
+import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 
 final kOutLineInputBorder = OutlineInputBorder(
@@ -41,6 +42,29 @@ final kMyProgressIndicator = Container(
       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
     ),
   ),
+);
+
+final kRightColor = Colors.blueGrey[300];
+final kLeftColor = Colors.white;
+
+final styleSomebody = BubbleStyle(
+  nip: BubbleNip.leftCenter,
+  color: Colors.white,
+  borderColor: Colors.blueGrey,
+  borderWidth: 1,
+  elevation: 4,
+  margin: BubbleEdges.only(top: 8, right: 50),
+  alignment: Alignment.topLeft,
+);
+
+final styleMe = BubbleStyle(
+  nip: BubbleNip.rightCenter,
+  color: Color.fromARGB(255, 225, 255, 199),
+  borderColor: Colors.blueGrey,
+  borderWidth: 1,
+  elevation: 4,
+  margin: BubbleEdges.only(top: 8, left: 50),
+  alignment: Alignment.topRight,
 );
 
 // final String mainUrl = 'https://softcheetahs.herokuapp.com';

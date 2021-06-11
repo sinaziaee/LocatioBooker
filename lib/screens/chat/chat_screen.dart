@@ -35,7 +35,7 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          MessageBubbles(),
+          MessageBubbles(size: size,),
           ChatMessageTextField(
             node: focusNode,
           ),
