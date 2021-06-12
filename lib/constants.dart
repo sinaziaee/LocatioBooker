@@ -70,13 +70,7 @@ final styleMe = BubbleStyle(
 // final String mainUrl = 'https://softcheetahs.herokuapp.com';
 final String mainUrl = 'http://192.168.43.126:8000';
 
-final tempHouseImage = 'https://www.google.com/search'
-    '?q=home+image&tbm=isch&ved=2ahUKEwj-momlkbHwAhUb'
-    'qHIEHQTsBQgQ2-cCegQIABAA&oq=home+image&gs_lcp=Cg'
-    'NpbWcQA1DXAVjeB2C0CWgAcAB4AIABAIgBAJIBAJgBAKABAa'
-    'oBC2d3cy13aXotaW1nwAEB&sclient=img&ei=qNKRYP6mGZ'
-    'vQytMPhNiXQA&rlz=1C1GCEA_enIR887IR887#imgrc=xMUT'
-    'i5g8jurAmM';
+final tempHouseImage = 'http://licotab.ir/home/img/clients/sina-ziaee.jpeg';
 
 final kCustomAppBarDecoration = BoxDecoration(
   color: Colors.blueAccent,
