@@ -2,17 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:loctio_booker/screens/chat/components/chat_bubble.dart';
 
 class MessageBubbles extends StatefulWidget {
-
   final Size size;
+  // String repliedUser, repliedText;
+  // int repliedTextId;
+  final Function(int id, String text, String user) onSwipe;
 
-  MessageBubbles({this.size});
+  MessageBubbles({
+    this.size,
+    // this.repliedTextId,
+    // this.repliedText,
+    // this.repliedUser,
+    this.onSwipe,
+  });
 
   @override
   _MessageBubblesState createState() => _MessageBubblesState();
 }
 
 class _MessageBubblesState extends State<MessageBubbles> {
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -40,13 +47,24 @@ class _MessageBubblesState extends State<MessageBubbles> {
                   text: 'Hello from me',
                   isMe: true,
                   size: widget.size,
+                  textId: 1,
+                  onSwipe: () {
+                    widget.onSwipe(1, 'Hello from me', 'sina ziaee');
+                  },
+                  // onSwipe: onSwipe(1, 'Hello frommmmm me', 'sina ziaee'),
                 ),
               ] else ...[
                 ChatBubble(
                   dateTime: DateTime.now().toString(),
-                  text: 'How you doing, this is the best day of your life. if you know who he is',
+                  text:
+                      'How you doing, this is the best day of your life. if you know who he is',
                   isMe: false,
                   size: widget.size,
+                  textId: 2,
+                  onSwipe: () {
+                    widget.onSwipe(2, 'Hello from me', 'sina ziaee');
+                  },
+                  // onSwipe: onSwipe(2, 'Hello from mmmmme', 'sina ziaee'),
                 ),
               ],
             ],

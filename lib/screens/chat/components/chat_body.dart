@@ -15,6 +15,7 @@ class ChatBody extends StatelessWidget {
   String repliedText;
   String repliedUser;
   final Size size;
+  final int textId;
 
   ChatBody({
     this.text,
@@ -25,6 +26,7 @@ class ChatBody extends StatelessWidget {
     this.repliedText,
     this.repliedUser,
     this.size,
+    this.textId,
   });
 
   @override
@@ -42,6 +44,15 @@ class ChatBody extends StatelessWidget {
       url = 'static/temp.jpg';
       fileLast = url.split('/').last;
     }
+
+    // return showChat(context);
+    return Container(
+      child: showChat(context),
+    );
+
+  }
+
+  showChat(BuildContext context){
     // simple message
     if (!isReplied && !isFile) {
       return ChatTextBubble(
@@ -101,4 +112,5 @@ class ChatBody extends StatelessWidget {
       );
     }
   }
+
 }

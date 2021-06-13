@@ -25,6 +25,9 @@ class _ChatScreenState extends State<ChatScreen> {
   String imageUrl = '', name;
   Size size;
 
+  String repliedUser, repliedText;
+  int repliedTextId;
+
   @override
   Widget build(BuildContext context) {
     focusNode = FocusScope.of(context);
@@ -37,9 +40,21 @@ class _ChatScreenState extends State<ChatScreen> {
         children: <Widget>[
           MessageBubbles(
             size: size,
+            // repliedTextId: repliedTextId,
+            // repliedUser: repliedUser,
+            // repliedText: repliedText,
+            onSwipe: (id, text, user) {
+              onSwiped(id, text, user);
+            },
           ),
           ChatMessageTextField(
             node: focusNode,
+            repliedText: repliedText,
+            repliedUser: repliedUser,
+            repliedTextId: repliedTextId,
+            onClearPressed: (){
+              onClearPressed();
+            },
           ),
         ],
       ),
@@ -63,11 +78,27 @@ class _ChatScreenState extends State<ChatScreen> {
     // }
   }
 
+  onSwiped(int textId, String text, String user) {
+    print(textId);
+    repliedTextId = textId;
+    repliedText = text;
+    repliedUser = user;
+    setState(() {});
+  }
+
   @override
   void dispose() {
     _channel.sink.close();
     super.dispose();
   }
+
+  onClearPressed(){
+    repliedTextId = null;
+    repliedText = null;
+    repliedUser = null;
+    setState(() {});
+  }
+
 }
 
 // StreamBuilder(
