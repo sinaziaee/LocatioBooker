@@ -2,30 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:bubble/bubble.dart';
 import 'package:loctio_booker/screens/chat/components/chat_body.dart';
+import 'package:loctio_booker/screens/chat/models/message.dart';
 import 'package:swipe_to/swipe_to.dart';
 
 import '../../../constants.dart';
 import 'chat_alert_dialog.dart';
 
 class ChatBubble extends StatelessWidget {
-  final bool isMe;
-  final String text;
-  final String dateTime;
   final Size size;
-  final int textId;
-  final Function onSwipe;
+  final Message message;
+  final Function onSwipe, onMessageTapped;
   final Function onEditPressed, onDeletePressed, onReplyPressed;
 
   ChatBubble({
-    this.text,
-    this.dateTime,
-    this.isMe,
+    this.message,
     this.size,
-    this.textId,
     this.onSwipe,
     this.onDeletePressed,
     this.onEditPressed,
     this.onReplyPressed,
+    this.onMessageTapped,
   });
 
   @override
@@ -34,22 +30,19 @@ class ChatBubble extends StatelessWidget {
       onLeftSwipe: onSwipe,
       child: Row(
         children: [
-          if (isMe) ...[
+          if (message.isMe) ...[
             Expanded(
               child: Bubble(
                 style: styleMe,
                 child: InkWell(
                   onTap: () {
-                    print(textId);
                     showOnMessageTapped(context);
                   },
                   child: ChatBody(
-                    text: text,
-                    time: dateTime.substring(10, 16),
                     isFile: false,
                     isReplied: false,
                     size: size,
-                    textId: textId,
+                    message: message,
                   ),
                 ),
               ),
@@ -60,15 +53,13 @@ class ChatBubble extends StatelessWidget {
                 style: styleSomebody,
                 child: InkWell(
                   onTap: () {
-                    print(textId);
                     showOnMessageTapped(context);
                   },
                   child: ChatBody(
-                    text: text,
                     isFile: false,
                     isReplied: false,
-                    textId: textId,
-                    time: dateTime.substring(10, 16),
+                    message: message,
+                    size: size,
                   ),
                 ),
               ),
