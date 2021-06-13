@@ -17,7 +17,7 @@ import 'components2/detail_description.dart';
 import 'components2/detail_laws.dart';
 import 'components2/detail_map.dart';
 import 'components2/like_button.dart';
-import 'package:latlong/latlong.dart' as latLng;
+import 'package:latlong2/latlong.dart' as latLng;
 
 class DetailVillaScreen extends StatefulWidget {
   final int villaId;

@@ -9,7 +9,7 @@ import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/static_methods.dart';
 import 'package:http/http.dart' as http;
 import 'package:convert/convert.dart' as convert;
-import 'package:latlong/latlong.dart' as latLng;
+import "package:latlong2/latlong.dart" as latLng;
 
 import 'components/custom_place_item.dart';
 import 'components/custom_result_map.dart';

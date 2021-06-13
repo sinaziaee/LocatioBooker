@@ -28,7 +28,7 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'components/add_gallery_item.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-import "package:latlong/latlong.dart" as latLng;
+import "package:latlong2/latlong.dart" as latLng;
 
 
 class GalleryScreen extends StatefulWidget {

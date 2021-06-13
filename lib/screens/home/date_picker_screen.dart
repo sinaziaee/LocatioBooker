@@ -10,7 +10,7 @@ import 'package:opencage_geocoder/opencage_geocoder.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-import 'package:latlong/latlong.dart' as latLng;
+import "package:latlong2/latlong.dart" as latLng;
 
 class DatePickerScreen extends StatefulWidget {
   final User user;

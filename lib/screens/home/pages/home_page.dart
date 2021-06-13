@@ -9,7 +9,7 @@ import 'package:loctio_booker/screens/home/search_more_place_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../home/search_city_screen.dart';
 import '../../../constants.dart';
-import "package:latlong/latlong.dart" as latLng;
+import "package:latlong2/latlong.dart" as latLng;
 import '../components/home_screen_search_bar.dart';
 import '../components/home_item.dart';
 import 'package:http/http.dart' as http;

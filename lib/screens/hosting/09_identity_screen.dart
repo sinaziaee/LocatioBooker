@@ -20,7 +20,7 @@ import '../../constants.dart';
 import '../../static_methods.dart';
 import '00_hosing_screen.dart';
 import 'components/bottom_container.dart';
-import "package:latlong/latlong.dart" as latLng;
+import "package:latlong2/latlong.dart" as latLng;
 
 
 class IdentityScreen extends StatefulWidget {
