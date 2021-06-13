@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 
@@ -13,7 +15,7 @@ class ChatMessageTextField extends StatefulWidget {
 
 class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
   TextEditingController chatController = TextEditingController();
-  double heightFromBottom = 7;
+  double heightFromBottom = 4;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,7 +30,7 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
                   Icons.attach_file,
                   color: Colors.grey[600],
                 ),
-                iconSize: 25,
+                iconSize: 20,
               ),
               SizedBox(
                 height: heightFromBottom,
@@ -43,13 +45,14 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
                   border: OutlineInputBorder(
                     borderSide: BorderSide.none,
                   ),
+                  hintText: 'Message'
                 ),
                 // focusNode: widget.node,
                 maxLines: 6,
                 minLines: 1,
                 style: kBody1TextStyle.copyWith(
                   color: Colors.black,
-                  fontSize: 16,
+                  fontSize: 15,
                 ),
               ),
             ),
@@ -60,7 +63,7 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
                 onPressed: () {
                   widget.node.unfocus();
                 },
-                iconSize: 25,
+                iconSize: 20,
                 icon: Icon(
                   Icons.send,
                   color: Colors.blueGrey,

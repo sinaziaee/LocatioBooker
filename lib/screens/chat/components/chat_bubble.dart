@@ -29,8 +29,9 @@ class ChatBubble extends StatelessWidget {
               child: ChatBody(
                 text: text,
                 time: dateTime.substring(10, 16),
-                isFile: false,
-                isReplied: false,
+                isFile: true,
+                isReplied: true,
+                size: size,
               ),
             ),
           ),
@@ -40,7 +41,7 @@ class ChatBubble extends StatelessWidget {
               style: styleSomebody,
               child: ChatBody(
                 text: text,
-                isFile: true,
+                isFile: false,
                 isReplied: false,
                 time: dateTime.substring(10, 16),
               ),

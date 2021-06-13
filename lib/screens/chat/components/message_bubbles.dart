@@ -24,7 +24,7 @@ class _MessageBubblesState extends State<MessageBubbles> {
           ),
           color: Colors.grey[400],
         ),
-        padding: EdgeInsets.all(0.0),
+        padding: EdgeInsets.only(bottom: 3),
         // child: ListView.builder(
         //   itemCount: 10,
         //   itemBuilder: (context, index) {

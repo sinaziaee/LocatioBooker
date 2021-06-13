@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:loctio_booker/screens/chat/components/chat_file_bubble.dart';
+import 'package:loctio_booker/screens/chat/components/chat_image_bubble.dart';
+import 'package:loctio_booker/screens/chat/components/chat_text_bubble.dart';
 
 import '../../../constants.dart';
+import 'chat_reply_part.dart';
 
 class ChatBody extends StatelessWidget {
   final String text, time;
   final bool isReplied, isFile;
   String url;
   String fileLast;
+  String repliedText;
+  String repliedUser;
+  final Size size;
 
   ChatBody({
     this.text,
@@ -15,10 +22,21 @@ class ChatBody extends StatelessWidget {
     this.isFile,
     this.isReplied,
     this.url,
+    this.repliedText,
+    this.repliedUser,
+    this.size,
   });
 
   @override
   Widget build(BuildContext context) {
+    if (repliedUser == null || repliedUser.length == 0) {
+      repliedUser = 'Sina Ziaee';
+    }
+    if (repliedText == null || repliedText.length == 0) {
+      repliedText = 'This is the diaria cat So the best thing is like,'
+          ' if this is not sth that we do';
+      // repliedText = 'This is the diaria';
+    }
     if (url == null || url.length == 0) {
       // url = 'static/temp.file';
       url = 'static/temp.jpg';
@@ -26,109 +44,61 @@ class ChatBody extends StatelessWidget {
     }
     // simple message
     if (!isReplied && !isFile) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Text(text),
-          Text(
-            time,
-            style: kBody3TextStyle.copyWith(),
-          ),
-        ],
+      return ChatTextBubble(
+        time: time,
+        text: text,
       );
     }
     // simple file
     else if (!isReplied && isFile) {
-      // image
-      if (url.endsWith('.jpg') ||
-          url.endsWith('.jpeg') ||
-          url.endsWith('.png')) {
-        return showImage(context, url);
-      }
-      // file (not image)
-      else {
-        return fileWidget();
-      }
+      return showImageFile(context);
     }
     // replied message
     else if (isReplied && !isFile) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          ChatReplyPart(
+            repliedText: repliedText,
+            repliedUser: repliedUser,
+          ),
+          ChatTextBubble(
+            text: text,
+            time: time,
+          ),
+        ],
+      );
     }
     // replied file
-    else if (isReplied && isFile) {}
+    else if (isReplied && isFile) {
+      return Column(
+        children: [
+          ChatReplyPart(
+            repliedText: repliedText,
+            repliedUser: repliedUser,
+          ),
+          showImageFile(context),
+        ],
+      );
+    }
   }
 
-  showImage(BuildContext context, String url) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        InkWell(
-          onTap: () {
-            showDialog(
-              builder: (context) {
-                return AlertDialog(
-                  title: Text(fileLast),
-                  content: FadeInImage(
-                    placeholder: AssetImage('assets/images/as.jpg'),
-                    image: NetworkImage(tempHouseImage),
-                    fit: BoxFit.cover,
-                  ),
-                );
-              },
-              context: context,
-            );
-          },
-          child: FadeInImage(
-            placeholder: AssetImage('assets/images/as.jpg'),
-            image: NetworkImage(tempHouseImage),
-            width: 200,
-            height: 200,
-            fit: BoxFit.cover,
-          ),
-        ),
-        Text(
-          fileLast,
-          textAlign: TextAlign.start,
-          style: kBody2TextStyle.copyWith(
-            color: Colors.black,
-          ),
-        ),
-        Text(
-          time,
-          style: kBody3TextStyle.copyWith(),
-        ),
-      ],
-    );
-  }
-
-  fileWidget() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Container(
-          width: 100,
-          height: 90,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-          ),
-          child: Icon(
-            Icons.download_rounded,
-            color: Colors.blueGrey,
-            size: 60,
-          ),
-        ),
-        Text(
-          fileLast,
-          textAlign: TextAlign.start,
-          style: kBody2TextStyle.copyWith(
-            color: Colors.black,
-          ),
-        ),
-        Text(
-          time,
-          style: kBody3TextStyle.copyWith(),
-        ),
-      ],
-    );
+  showImageFile(BuildContext context) {
+    // image
+    if (url.endsWith('.jpg') || url.endsWith('.jpeg') || url.endsWith('.png')) {
+      return ChatImageBubble(
+        time: time,
+        fileLast: fileLast,
+        url: url,
+      );
+    }
+    // file (not image)
+    else {
+      return ChatFileBubble(
+        url: url,
+        fileLast: fileLast,
+        time: time,
+      );
+    }
   }
 }
