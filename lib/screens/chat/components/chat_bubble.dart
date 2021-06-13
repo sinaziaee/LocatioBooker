@@ -6,7 +6,6 @@ import 'package:swipe_to/swipe_to.dart';
 
 import '../../../constants.dart';
 import 'chat_alert_dialog.dart';
-import 'chat_dialog_bubble.dart';
 
 class ChatBubble extends StatelessWidget {
   final bool isMe;
@@ -15,6 +14,7 @@ class ChatBubble extends StatelessWidget {
   final Size size;
   final int textId;
   final Function onSwipe;
+  final Function onEditPressed, onDeletePressed, onReplyPressed;
 
   ChatBubble({
     this.text,
@@ -23,6 +23,9 @@ class ChatBubble extends StatelessWidget {
     this.size,
     this.textId,
     this.onSwipe,
+    this.onDeletePressed,
+    this.onEditPressed,
+    this.onReplyPressed,
   });
 
   @override
@@ -80,7 +83,11 @@ class ChatBubble extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
-        return ChatAlertDialog();
+        return ChatAlertDialog(
+          onDeletePressed: onDeletePressed,
+          onEditPressed: onEditPressed,
+          onReplyPressed: onReplyPressed,
+        );
       },
     );
   }
