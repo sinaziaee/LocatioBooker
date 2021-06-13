@@ -11,7 +11,6 @@ import '../../models/facilitation.dart';
 import 'components/bottom_container.dart';
 import 'components/country_state_city_picker.dart';
 import 'components/my_textfield.dart';
-import '08_gallery_screen.dart';
 import "package:latlong2/latlong.dart" as latLng;
 import '../../models/place_address.dart';
 

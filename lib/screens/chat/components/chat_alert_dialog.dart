@@ -24,17 +24,17 @@ class ChatAlertDialog extends StatelessWidget {
           ChatDialogItem(
             text: 'Reply',
             iconData: Icons.reply,
-            onTapped: () {},
+            onTapped: onReplyPressed,
           ),
           ChatDialogItem(
             text: 'Delete',
             iconData: Icons.delete_outline,
-            onTapped: () {},
+            onTapped: onDeletePressed,
           ),
           ChatDialogItem(
             text: 'Edit',
             iconData: Icons.edit,
-            onTapped: () {},
+            onTapped: onEditPressed,
           ),
         ],
       ),

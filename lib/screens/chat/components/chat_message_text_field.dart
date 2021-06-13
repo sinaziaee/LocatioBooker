@@ -3,12 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/constants.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ChatMessageTextField extends StatefulWidget {
   final FocusNode node;
   final String repliedUser, repliedText;
   final int repliedTextId;
-  final Function onClearPressed;
+  final Function onClearPressed, onFileSelectorPressed;
+  final WebSocketChannel channel;
 
   ChatMessageTextField({
     this.node,
@@ -16,6 +18,8 @@ class ChatMessageTextField extends StatefulWidget {
     this.repliedUser,
     this.repliedTextId,
     this.onClearPressed,
+    this.channel,
+    this.onFileSelectorPressed,
   });
 
   @override
@@ -105,7 +109,7 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
               Column(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: widget.onFileSelectorPressed,
                     icon: Icon(
                       Icons.attach_file,
                       color: Colors.grey[600],

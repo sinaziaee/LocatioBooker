@@ -11,16 +11,13 @@ import 'chat_alert_dialog.dart';
 class ChatBubble extends StatelessWidget {
   final Size size;
   final Message message;
-  final Function onSwipe, onMessageTapped;
-  final Function onEditPressed, onDeletePressed, onReplyPressed;
+  final Function onSwipe;
+  final Function(Message) onMessageTapped;
 
   ChatBubble({
     this.message,
     this.size,
     this.onSwipe,
-    this.onDeletePressed,
-    this.onEditPressed,
-    this.onReplyPressed,
     this.onMessageTapped,
   });
 
@@ -35,9 +32,9 @@ class ChatBubble extends StatelessWidget {
               child: Bubble(
                 style: styleMe,
                 child: InkWell(
-                  onTap: () {
-                    showOnMessageTapped(context);
-                  },
+                    onTap: (){
+                      onMessageTapped(message);
+                    },
                   child: ChatBody(
                     isFile: false,
                     isReplied: false,
@@ -52,8 +49,8 @@ class ChatBubble extends StatelessWidget {
               child: Bubble(
                 style: styleSomebody,
                 child: InkWell(
-                  onTap: () {
-                    showOnMessageTapped(context);
+                  onTap: (){
+                    onMessageTapped(message);
                   },
                   child: ChatBody(
                     isFile: false,
@@ -67,19 +64,6 @@ class ChatBubble extends StatelessWidget {
           ],
         ],
       ),
-    );
-  }
-
-  showOnMessageTapped(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return ChatAlertDialog(
-          onDeletePressed: onDeletePressed,
-          onEditPressed: onEditPressed,
-          onReplyPressed: onReplyPressed,
-        );
-      },
     );
   }
 }

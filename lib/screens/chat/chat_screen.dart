@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:loctio_booker/screens/chat/components/chat_message_text_field.dart';
 import 'package:loctio_booker/static_methods.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -8,7 +11,7 @@ import 'components/message_bubbles.dart';
 
 class ChatScreen extends StatefulWidget {
   static String id = 'chat_screen';
-
+  String socketUrl = 'ws://192.168.43.126:8000/ws/api/chat/1/';
   ChatScreen();
 
   @override
@@ -17,19 +20,21 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
-  final _channel = WebSocketChannel.connect(
-    // Uri.parse('wss://echo.websocket.org'),
-    Uri.parse('ws://192.168.43.126:8000/ws/api/chat/1/'),
-  );
+  WebSocketChannel channel;
   FocusNode focusNode;
   String imageUrl = '', name;
   Size size;
+  File file;
 
   String repliedUser, repliedText;
   int repliedTextId;
 
   @override
   Widget build(BuildContext context) {
+    channel = WebSocketChannel.connect(
+      // Uri.parse('wss://echo.websocket.org'),
+      Uri.parse(widget.socketUrl),
+    );
     focusNode = FocusScope.of(context);
     name = name ?? 'sina ziaee';
     size = MediaQuery.of(context).size;
@@ -40,25 +45,39 @@ class _ChatScreenState extends State<ChatScreen> {
         children: <Widget>[
           MessageBubbles(
             size: size,
-            // repliedTextId: repliedTextId,
-            // repliedUser: repliedUser,
-            // repliedText: repliedText,
             onSwipe: (id, text, user) {
               onSwiped(id, text, user);
             },
+            channel: channel,
           ),
           ChatMessageTextField(
             node: focusNode,
             repliedText: repliedText,
             repliedUser: repliedUser,
             repliedTextId: repliedTextId,
+            channel: channel,
             onClearPressed: (){
               onClearPressed();
+            },
+            onFileSelectorPressed: (){
+              showFileSelector();
             },
           ),
         ],
       ),
     );
+  }
+
+  void showFileSelector() async{
+    FilePickerResult result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      file = File(result.files.single.path);
+      print(result.files.single.path.split('/').last);
+      setState(() {});
+    } else {
+      // User canceled the picker
+    }
   }
 
   void _sendMessage() {
@@ -70,7 +89,7 @@ class _ChatScreenState extends State<ChatScreen> {
     // map['chatroom_id'] = 'test';
     // map['type'] = 'create_message';
     var json = convert.json.encode(map);
-    _channel.sink.add(json);
+    channel.sink.add(json);
     // if (_controller.text.isNotEmpty) {
     //   // _channel.sink.add(_controller.text);
     //   // _channel.sink.add(_controller.text);
@@ -88,7 +107,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void dispose() {
-    _channel.sink.close();
+    channel.sink.close();
     super.dispose();
   }
 
@@ -99,11 +118,9 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {});
   }
 
-}
+  void cleaner(){
+    file = null;
+    onClearPressed();
+  }
 
-// StreamBuilder(
-// stream: _channel.stream,
-// builder: (context, snapshot) {
-// return Text(snapshot.hasData ? '${snapshot.data}' : '');
-// },
-// )
+}
