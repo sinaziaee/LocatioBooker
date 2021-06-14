@@ -1,9 +1,9 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/constants.dart';
+import 'package:loctio_booker/screens/chat/models/message.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'dart:convert' as convert;
 
 class ChatMessageTextField extends StatefulWidget {
   final FocusNode node;
@@ -11,6 +11,10 @@ class ChatMessageTextField extends StatefulWidget {
   final int repliedTextId;
   final Function onClearPressed, onFileSelectorPressed;
   final WebSocketChannel channel;
+  final Function scrollToBottom, fetcher, changeEditingToFalse;
+  final TextEditingController chatController;
+  final bool isEditing;
+  final Message messageToEdit;
 
   ChatMessageTextField({
     this.node,
@@ -20,6 +24,12 @@ class ChatMessageTextField extends StatefulWidget {
     this.onClearPressed,
     this.channel,
     this.onFileSelectorPressed,
+    this.scrollToBottom,
+    this.chatController,
+    this.isEditing,
+    this.fetcher,
+    this.messageToEdit,
+    this.changeEditingToFalse,
   });
 
   @override
@@ -27,7 +37,6 @@ class ChatMessageTextField extends StatefulWidget {
 }
 
 class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
-  TextEditingController chatController = TextEditingController();
   double heightFromBottom = 4;
 
   @override
@@ -75,7 +84,7 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
                               widget.repliedText ?? '',
                               style: kBody2TextStyle.copyWith(
                                 color: Colors.black,
-                                fontSize: 11,
+                                fontSize: 14,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -122,7 +131,7 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
                 child: Container(
                   child: TextField(
                     cursorColor: Colors.blueGrey,
-                    controller: chatController,
+                    controller: widget.chatController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -150,6 +159,7 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
                 children: [
                   IconButton(
                     onPressed: () {
+                      sendMessage();
                       widget.node.unfocus();
                     },
                     iconSize: 20,
@@ -168,5 +178,36 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
         ],
       ),
     );
+  }
+
+  void sendMessage() {
+    // new message
+    if (!widget.isEditing) {
+      Map map = Map();
+      map['type'] = 'create';
+      map['message'] = widget.chatController.text;
+      print(widget.repliedText);
+      print(widget.repliedTextId);
+      if (widget.repliedText != null) {
+        map['parent_message'] = widget.repliedTextId.toString();
+      }
+      var json = convert.json.encode(map);
+      widget.channel.sink.add(json);
+    } // editing message
+    else {
+      widget.channel.sink.add(
+        convert.json.encode(
+          {
+            'type': 'edit',
+            'message': widget.chatController.text,
+            'message_id': widget.messageToEdit.textId,
+          },
+        ),
+      );
+    }
+    widget.changeEditingToFalse();
+    widget.chatController.clear();
+    widget.onClearPressed();
+    widget.fetcher();
   }
 }

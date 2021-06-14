@@ -4,7 +4,6 @@ import 'package:flutter_date_pickers/flutter_date_pickers.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/villa.dart';
 import 'package:loctio_booker/screens/detailVilla/components2/detail_calendar.dart';
-import 'package:loctio_booker/screens/detailVilla/components2/detail_date_range.dart';
 import 'package:loctio_booker/screens/detailVilla/reserve_screen.dart';
 import 'package:loctio_booker/screens/detailVilla/reserver_components/button_select_date.dart';
 import 'package:loctio_booker/screens/detailVilla/reserver_components/start_end_date.dart';
@@ -41,11 +40,11 @@ class _ReserveDateScreenState extends State<ReserveDateScreen> {
   @override
   Widget build(BuildContext context) {
     dates.clear();
-    dates.add(DateTime(2021, 5, 23));
-    dates.add(DateTime(2021, 5, 24));
-    dates.add(DateTime(2021, 5, 25));
-    dates.add(DateTime(2021, 5, 26));
-    dates.add(DateTime(2021, 5, 27));
+    // dates.add(DateTime(2021, 5, 23));
+    // dates.add(DateTime(2021, 5, 24));
+    // dates.add(DateTime(2021, 5, 25));
+    // dates.add(DateTime(2021, 5, 26));
+    // dates.add(DateTime(2021, 5, 27));
     size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -89,7 +88,7 @@ class _ReserveDateScreenState extends State<ReserveDateScreen> {
             ),
             ButtonSelectDate(
               isReady: isReady,
-              onPressed: (){
+              onPressed: () {
                 onPressed();
               },
             ),
@@ -104,24 +103,24 @@ class _ReserveDateScreenState extends State<ReserveDateScreen> {
     endDate = newPeriod.end;
     print('start: $startDate');
     print('end: $endDate');
-    setState(() {
-      this.selectedPeriod = newPeriod;
-      isStart = !isStart;
-      isEnd = !isEnd;
-      count++;
-      if(count % 3 == 0){
-        isReady = true;
-      }
-      else if(count % 3 == 1){
+    setState(
+      () {
+        this.selectedPeriod = newPeriod;
+        isStart = !isStart;
+        isEnd = !isEnd;
         count++;
-        // isReady = false;
-        isReady = true;
-      }
-      else{
-        // isReady = false;
-        isReady = false;
-      }
-    });
+        if (count % 3 == 0) {
+          isReady = true;
+        } else if (count % 3 == 1) {
+          count++;
+          // isReady = false;
+          isReady = true;
+        } else {
+          // isReady = false;
+          isReady = false;
+        }
+      },
+    );
   }
 
   onPressed() {

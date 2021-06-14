@@ -1,12 +1,12 @@
 class Message {
-  String user, text, dateTime, repliedMessageText, repliedMessageUser, url;
-  int textId, repliedMessageId;
+  String currentUsername, text, dateTime, repliedMessageText, repliedMessageUser, url;
+  int textId, repliedMessageId, currentUserId;
   bool isMe;
-  int userId;
+  int chatRoomId;
 
   Message({
     this.text,
-    this.user,
+    this.currentUsername,
     this.textId,
     this.url,
     this.dateTime,
@@ -14,6 +14,7 @@ class Message {
     this.repliedMessageText,
     this.repliedMessageUser,
     this.isMe,
-    this.userId,
+    this.chatRoomId,
+    this.currentUserId,
   });
 }

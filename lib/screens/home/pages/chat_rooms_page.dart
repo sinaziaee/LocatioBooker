@@ -6,6 +6,8 @@ import 'package:loctio_booker/constants.dart';
 import 'dart:convert' as convert;
 
 import 'package:loctio_booker/models/user.dart';
+import 'package:loctio_booker/screens/chat/chat_screen.dart';
+import 'package:loctio_booker/screens/chat/temp_chat.dart';
 import 'package:loctio_booker/screens/home/components/chat_rooms_item.dart';
 
 class ChatRoomsPage extends StatefulWidget {
@@ -19,7 +21,7 @@ class ChatRoomsPage extends StatefulWidget {
 
 class _ChatRoomsPageState extends State<ChatRoomsPage> {
   Size size;
-  String url = '$mainUrl/api/';
+  String url = '$mainUrl/api/chat/show/';
 
   @override
   Widget build(BuildContext context) {
@@ -30,33 +32,46 @@ class _ChatRoomsPageState extends State<ChatRoomsPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {
-            return Expanded(
-              child: ListView.builder(
+            http.Response response = snapshot.data;
+            if (response.statusCode < 400) {
+              var jsonResponse =
+                  convert.json.decode(convert.utf8.decode(response.bodyBytes));
+              Map result = jsonResponse;
+              List list = result['data'];
+              return ListView.builder(
+                itemCount: list.length,
                 itemBuilder: (context, index) {
-                  return itemBuilder();
+                  Map item = list[index];
+                  return ChatRoomItem(
+                    onTapped: () {
+                      onChatRoomPressed(
+                        chatRoomId: item['chat_id'],
+                        otherUser: '${item['first_name']} ${item['last_name']}',
+                        otherUserImageUrl: item['image'],
+                      );
+                    },
+                    imageUrl: item['image'],
+                    chatRoomId: item['chat_id'],
+                    username: '${item['first_name']} ${item['last_name']}',
+                    lastDateTime: item['last_message']['ctime'],
+                    lastText: item['last_message']['text'],
+                    isLast: index == list.length - 1,
+                  );
                 },
-              ),
-            );
+              );
+            } //
+            else {
+              return Center(
+                child: Text('An error getting list of chat rooms'),
+              );
+            }
           } else {
-            return ChatRoomItem();
             return Center(
               child: kMyProgressIndicator,
             );
           }
         },
       ),
-    );
-  }
-
-  Widget itemBuilder(
-      {String imageUrl, String username, int userId, Function onTapped, String lastDateTime, String lastText}) {
-    return ChatRoomItem(
-      onTapped: onTapped,
-      imageUrl: imageUrl,
-      userId: userId,
-      username: username,
-      lastDateTime: lastDateTime,
-      lastText: lastText,
     );
   }
 
@@ -68,5 +83,33 @@ class _ChatRoomsPageState extends State<ChatRoomsPage> {
       },
     );
     return response;
+  }
+
+  void onChatRoomPressed(
+      {int chatRoomId, String otherUser, String otherUserImageUrl}) {
+    // print(chatRoomId);
+    // print(otherUser);
+    // print(otherUserImageUrl);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return ChatScreen(
+            user: widget.user,
+            chatRoomId: chatRoomId,
+            otherUser: otherUser,
+            otherUserImageUrl: otherUserImageUrl,
+          );
+        },
+      ),
+    );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (BuildContext context) {
+    //       return TempChatScreen();
+    //     },
+    //   ),
+    // );
   }
 }

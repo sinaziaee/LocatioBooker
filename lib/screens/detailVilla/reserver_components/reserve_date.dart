@@ -18,7 +18,9 @@ class ReserveDate extends StatelessWidget {
           color: Colors.blueGrey[800],
         ),
         trailing: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: Icon(Icons.chevron_right),
           color: Colors.blueGrey[700],
         ),

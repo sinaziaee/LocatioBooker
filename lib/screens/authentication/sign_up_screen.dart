@@ -211,6 +211,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       nationalCode: countryCode,
     );
     print(user.phone);
+    print('---------------------------------');
+    print(user.userId);
     return true;
   }
 
@@ -225,7 +227,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   sendVerificationEmail() async {
-    print(user.toJson().toString());
+    print('---------------------------------');
+    print(user.userId);
     try {
       http.Response response = await StaticMethods.upload(
         sendEmailUrl,
