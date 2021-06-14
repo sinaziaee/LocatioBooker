@@ -19,7 +19,7 @@ class _CustomMapState extends State<CustomMap> {
         maxHeight: widget.size.height * 0.32,
       ),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: widget.size.width * 0.05),
+        // margin: EdgeInsets.symmetric(horizontal: widget.size.width * 0.05),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -33,19 +33,19 @@ class _CustomMapState extends State<CustomMap> {
                 urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 subdomains: ['a', 'b', 'c']
             ),
-            MarkerLayerOptions(
-              markers: [
-                Marker(
-                  width: 80.0,
-                  height: 80.0,
-                  point: latLng.LatLng(51.5, -0.09),
-                  builder: (ctx) =>
-                      Container(
-                        child: FlutterLogo(),
-                      ),
-                ),
-              ],
-            ),
+            // MarkerLayerOptions(
+            //   markers: [
+            //     Marker(
+            //       width: 80.0,
+            //       height: 80.0,
+            //       point: latLng.LatLng(51.5, -0.09),
+            //       builder: (ctx) =>
+            //           Container(
+            //             child: FlutterLogo(),
+            //           ),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),

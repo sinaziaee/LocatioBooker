@@ -127,7 +127,7 @@ class HighRatePlace extends StatelessWidget {
                           child: Center(
                             child: CircularProgressIndicator(
                               valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.grey),
+                              AlwaysStoppedAnimation<Color>(Colors.grey),
                             ),
                           ),
                         ),

@@ -141,7 +141,7 @@ class _CustomPlaceItemState extends State<CustomPlaceItem> {
                       width: 10,
                     ),
                     Icon(
-                      Icons.bed_outlined,
+                      Icons.bedtime_outlined,
                       color: Colors.grey[700],
                       size: 20,
                     ),

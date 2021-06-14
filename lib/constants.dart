@@ -30,6 +30,28 @@ final kBodyTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
 );
 
+final leftDecoration = BoxDecoration(
+  borderRadius: BorderRadius.only(
+    topLeft: Radius.circular(20),
+    bottomLeft: Radius.circular(20),
+  ),
+  border: Border.all(
+    color: Colors.blueGrey[800],
+    width: 1,
+  ),
+);
+
+final rightDecoration = BoxDecoration(
+  borderRadius: BorderRadius.only(
+    bottomRight: Radius.circular(20),
+    topRight: Radius.circular(20),
+  ),
+  border: Border.all(
+    color: Colors.blueGrey[800],
+    width: 1,
+  ),
+);
+
 final kMyProgressIndicator = Container(
   height: 70,
   width: 70,
