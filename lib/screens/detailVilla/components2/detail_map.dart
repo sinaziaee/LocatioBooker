@@ -23,7 +23,7 @@ class DetailsMap extends StatelessWidget {
             'Accommodation geographic location',
             style: kBody1TextStyle.copyWith(
               fontSize: 18,
-              color: Colors.blueGrey[700],
+              color: Colors.blueGrey[800],
               fontWeight: FontWeight.w700,
             ),
           ),

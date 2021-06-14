@@ -4,17 +4,20 @@ import 'package:loctio_booker/screens/detailVilla/reserve_date_screen.dart';
 
 import '../../../constants.dart';
 
-class ReserveButton extends StatefulWidget {
+class ReserveSendButton extends StatefulWidget {
   final Villa villa;
-  final String imageUrl;
+  final String cost;
 
-  ReserveButton({@required this.villa, @required this.imageUrl});
+  ReserveSendButton({
+    @required this.villa,
+    @required this.cost,
+  });
 
   @override
-  _ReserveButtonState createState() => _ReserveButtonState();
+  _ReserveSendButtonState createState() => _ReserveSendButtonState();
 }
 
-class _ReserveButtonState extends State<ReserveButton> {
+class _ReserveSendButtonState extends State<ReserveSendButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,39 +31,21 @@ class _ReserveButtonState extends State<ReserveButton> {
         children: [
           Column(
             children: [
-              Row(
-                children: [
-                  Text(
-                    '${widget.villa.price.toString()} dollars',
-                    style: kBody2TextStyle.copyWith(
-                      color: Colors.blueGrey[900],
-                      fontSize: 20,
-                    ),
-                  ),
-                  Text(
-                    '/each night',
-                    style: kBody2TextStyle.copyWith(
-                      color: Colors.blueGrey[400],
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
+              Text(
+                '  Total Price',
+                style: kBody2TextStyle.copyWith(
+                  color: Colors.blueGrey[900],
+                  fontWeight: FontWeight.w800,
+                  fontSize: 18,
+                ),
               ),
-              Row(
-                children: [
-                  Icon(
-                    Icons.star,
-                    color: Colors.yellow,
-                  ),
-                  Text(
-                    // '${villa.rate ?? 4.0}',
-                    '${4.0}',
-                    style: kBody2TextStyle.copyWith(
-                      color: Colors.blueGrey[900],
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
+              Text(
+                // '${villa.rate ?? 4.0}',
+                '    ${widget.cost} dollars',
+                style: kBody2TextStyle.copyWith(
+                  color: Colors.blueGrey[900],
+                  fontSize: 16,
+                ),
               ),
             ],
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,16 +84,16 @@ class _ReserveButtonState extends State<ReserveButton> {
   }
 
   onPressed() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return ReserveDateScreen(
-            villa: widget.villa,
-            imageUrl: widget.imageUrl,
-          );
-        },
-      ),
-    );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) {
+    //       return ReserveDateScreen(
+    //         villa: widget.villa,
+    //         imageUrl: widget.cost,
+    //       );
+    //     },
+    //   ),
+    // );
   }
 }

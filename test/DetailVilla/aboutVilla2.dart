@@ -52,7 +52,7 @@ class _aboutVillaState2 extends State<aboutVilla2> {
                   size: 30.0,
                 ),
 
-                Text("${widget.villa.type} Villa with ${widget.villa.number_of_bedrooms} rooms" ,
+                Text("${widget.villa.type} Villa with ${widget.villa.numberOfBedrooms} rooms" ,
                   style: kBodyTextStyle,
                 )
               ],
@@ -181,9 +181,9 @@ class _aboutVillaState2 extends State<aboutVilla2> {
                   size: 30.0,
                 ),
 
-                Text("bedrooms :${widget.villa.number_of_bedrooms}  "
-                    "bathrooms :${widget.villa.number_of_bathrooms}  "
-                    "showers :${widget.villa.number_of_showers} ",
+                Text("bedrooms :${widget.villa.numberOfBedrooms}  "
+                    "bathrooms :${widget.villa.numberOfBathrooms}  "
+                    "showers :${widget.villa.numberOfShowers} ",
                   style: kBodyTextStyle,
                 )
               ],
@@ -216,8 +216,8 @@ class _aboutVillaState2 extends State<aboutVilla2> {
                   size: 30.0,
                 ),
 
-                Text("Single Beds :${widget.villa.number_of_single_beds}  "
-                    "Double Beds :${widget.villa.number_of_double_beds}  ",
+                Text("Single Beds :${widget.villa.numberOfSingleBeds}  "
+                    "Double Beds :${widget.villa.numberOfDoubleBeds}  ",
                   style: kBodyTextStyle,
                 )
               ],
@@ -252,9 +252,9 @@ class _aboutVillaState2 extends State<aboutVilla2> {
                   size: 30.0,
                 ),
 
-                Text("bedrooms :${widget.villa.number_of_bedrooms}  "
-                    "bathrooms :${widget.villa.number_of_bathrooms}  "
-                    "showers :${widget.villa.number_of_showers} ",
+                Text("bedrooms :${widget.villa.numberOfBedrooms}  "
+                    "bathrooms :${widget.villa.numberOfBathrooms}  "
+                    "showers :${widget.villa.numberOfShowers} ",
                   style: kBodyTextStyle,
                 )
               ],
@@ -287,7 +287,7 @@ class _aboutVillaState2 extends State<aboutVilla2> {
                 size: 30.0,
               ),
 
-              Text("This Villa has ${widget.villa.number_of_bedrooms} bedrooms " ,
+              Text("This Villa has ${widget.villa.numberOfBedrooms} bedrooms " ,
                 style: TextStyle(fontSize: 20,
                     fontWeight: FontWeight.w500
                 ),
@@ -302,7 +302,7 @@ class _aboutVillaState2 extends State<aboutVilla2> {
                 size: 30.0,
               ),
 
-              Text("This Villa has ${widget.villa.number_of_bathrooms} bathrooms ",
+              Text("This Villa has ${widget.villa.numberOfBathrooms} bathrooms ",
                 style: TextStyle(fontSize: 20,
                     fontWeight: FontWeight.w500
                 ),)
@@ -316,7 +316,7 @@ class _aboutVillaState2 extends State<aboutVilla2> {
                 size: 30.0,
               ),
 
-              Text("Villa with ${widget.villa.number_of_double_beds} double beds ",
+              Text("Villa with ${widget.villa.numberOfDoubleBeds} double beds ",
                 style: TextStyle(fontSize: 20,
                     fontWeight: FontWeight.w500
                 ),)
@@ -330,7 +330,7 @@ class _aboutVillaState2 extends State<aboutVilla2> {
                 size: 30.0,
               ),
 
-              Text("Villa with ${widget.villa.number_of_single_beds} single beds ",
+              Text("Villa with ${widget.villa.numberOfSingleBeds} single beds ",
                 style: TextStyle(fontSize: 20,
                     fontWeight: FontWeight.w500
                 ),)
@@ -344,7 +344,7 @@ class _aboutVillaState2 extends State<aboutVilla2> {
                 size: 30.0,
               ),
 
-              Text("Villa with ${widget.villa.number_of_showers} showers ",
+              Text("Villa with ${widget.villa.numberOfShowers} showers ",
                 style: TextStyle(fontSize: 20,
                     fontWeight: FontWeight.w500
                 ),)

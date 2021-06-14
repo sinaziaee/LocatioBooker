@@ -16,15 +16,17 @@ class RuleDateItem extends StatelessWidget {
       dashPattern: [8, 2],
       borderType: BorderType.RRect,
       child: Container(
-        height: 80,
+        height: 90,
         width: size.width * 0.4,
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         // decoration: BoxDecoration(),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Icon(
               Icons.lock_clock,
-              color: Colors.grey[300],
+              color: Colors.grey[500],
             ),
             Text(text),
             Text(time),
