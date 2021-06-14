@@ -176,10 +176,10 @@ class _ResortIdentificationScreenState
         FacilitateItem(
           size: size,
           onIncrease: () {
-            onIncreasePressed("numBathroom");
+            onIncreasePressed("numBathrooms");
           },
           onDecrease: () {
-            onDecreasePressed("numBathroom");
+            onDecreasePressed("numBathrooms");
           },
           text: 'Number of bathrooms',
           count: numBathroom,

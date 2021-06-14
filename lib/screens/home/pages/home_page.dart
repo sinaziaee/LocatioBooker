@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
+import 'package:loctio_booker/screens/home/components/most_reserved_and_new_place.dart';
+import 'package:loctio_booker/screens/home/components/search_all_places.dart';
 import 'package:loctio_booker/screens/home/search_more_place_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../home/search_city_screen.dart';
@@ -56,63 +58,68 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.white,
           flexibleSpace: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
-            double top = constraints.biggest.height;
-            return FlexibleSpaceBar(
-              centerTitle: true,
-              title: AnimatedOpacity(
-                duration: Duration(milliseconds: 300),
-                opacity: (1 - (top / fixedHeight) == 0.72)
-                    ? 1
-                    : 1 - (top / fixedHeight),
-                curve: Curves.easeOutQuint,
-                child: CustomHomeSearchBar(
-                  size: widget.size,
-                  onSearchPressed: () {
-                    onSearchPressed();
-                  },
-                ),
-              ),
-              background: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    ),
-                    child: Image.asset(
-                      'assets/images/home_image_def.jpg',
-                      fit: BoxFit.fitWidth,
-                      width: widget.size.width,
-                    ),
-                  ),
-                  Positioned(
-                    child: CustomSearch(
+                double top = constraints.biggest.height;
+                return FlexibleSpaceBar(
+                  centerTitle: true,
+                  title: AnimatedOpacity(
+                    duration: Duration(milliseconds: 300),
+                    opacity: (1 - (top / fixedHeight) == 0.72)
+                        ? 1
+                        : 1 - (top / fixedHeight),
+                    curve: Curves.easeOutQuint,
+                    child: CustomHomeSearchBar(
                       size: widget.size,
-                      onPressed: () {
+                      onSearchPressed: () {
                         onSearchPressed();
                       },
                     ),
-                    top: 20,
                   ),
-                ],
-              ),
-            );
-          }),
+                  background: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                        child: Image.asset(
+                          'assets/images/home_image_def.jpg',
+                          fit: BoxFit.fitWidth,
+                          width: widget.size.width,
+                        ),
+                      ),
+                      Positioned(
+                        child: CustomSearch(
+                          size: widget.size,
+                          onPressed: () {
+                            onSearchPressed();
+                          },
+                        ),
+                        top: 20,
+                      ),
+                    ],
+                  ),
+                );
+              }),
           pinned: true,
           floating: true,
           snap: true,
           elevation: 0.0,
           collapsedHeight: 75,
-          expandedHeight: (widget.size.height > widget.size.width) ? fixedHeight : 200,
+          expandedHeight: (widget.size.height > widget.size.width)
+              ? fixedHeight
+              : 200,
           stretch: false,
         ),
         SliverFixedExtentList(
           // itemExtent: widget.size.height * 0.73,
-          itemExtent: 580,
+          itemExtent: 600,
           delegate: SliverChildListDelegate(
             [
-              MostReservedPlace(widget.user, widget.size, () {
+              MostReservedAndNewPlaces(
+                  user: widget.user, size: widget.size, onMostReservedPressed: () {
                 onMorePressed('most-registered');
+              }, onNewPlacesPressed: () {
+                onNewPressed();
               }),
               HighRatePlace(widget.user, widget.size, () {
                 onMorePressed('most-rated');
@@ -144,6 +151,15 @@ class _HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(
         builder: (context) => SearchMorePlaceScreen(widget.user, search),
+      ),
+    );
+  }
+
+  onNewPressed() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchAllPlacesScreen(widget.user),
       ),
     );
   }

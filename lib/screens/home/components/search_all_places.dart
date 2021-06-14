@@ -3,40 +3,38 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
+import 'package:loctio_booker/models/search_model.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/detailVilla/detail_villa_screen.dart';
+import 'package:loctio_booker/screens/home/components/search_item.dart';
 import 'package:loctio_booker/screens/hosting/components/apartment_not_found_component.dart';
-import 'package:loctio_booker/screens/hosting/components/my_textfield.dart';
-import 'components/search_item.dart';
-import '../../models/search_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-import 'components/custom_drawer.dart';
 
-class SearchMorePlaceScreen extends StatefulWidget {
+import 'custom_drawer.dart';
+
+class SearchAllPlacesScreen extends StatefulWidget {
   static String id = 'search_place_screen';
   final User user;
-  final String category;
 
-  SearchMorePlaceScreen(this.user, this.category);
+  SearchAllPlacesScreen(this.user);
 
   @override
-  _SearchMorePlaceScreenState createState() => _SearchMorePlaceScreenState();
+  _SearchAllPlacesScreenState createState() => _SearchAllPlacesScreenState();
 }
 
-class _SearchMorePlaceScreenState extends State<SearchMorePlaceScreen> {
+class _SearchAllPlacesScreenState extends State<SearchAllPlacesScreen> {
   Size size;
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-  String url = '$mainUrl/api/villa';
+  String url = '$mainUrl/api/villa/search/?number_of_villa=10';
   String country = '', state = '', city = '';
 
   @override
   Widget build(BuildContext context) {
-    url = '$url/${widget.category}/show/?number_of_villa=10';
     print(
         '$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
-        '${(state != null && state.length != 0) ? '&state=$state' : ''}'
-        '${(city != null && city.length != 0) ? '&city=$city' : ''}');
+            '${(state != null && state.length != 0) ? '&state=$state' : ''}'
+            '${(city != null && city.length != 0) ? '&city=$city' : ''}');
     size = MediaQuery.of(context).size;
     return Scaffold(
       key: _drawerKey,
@@ -126,8 +124,8 @@ class _SearchMorePlaceScreenState extends State<SearchMorePlaceScreen> {
           future: http.get(
             Uri.parse(
                 '$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
-                '${(state != null && state.length != 0) ? '&state=$state' : ''}'
-                '${(city != null && city.length != 0) ? '&city=$city' : ''}'),
+                    '${(state != null && state.length != 0) ? '&state=$state' : ''}'
+                    '${(city != null && city.length != 0) ? '&city=$city' : ''}'),
             headers: {
               HttpHeaders.authorizationHeader: widget.user.token,
             },
@@ -197,14 +195,6 @@ class _SearchMorePlaceScreenState extends State<SearchMorePlaceScreen> {
         },
       ),
     );
-    // Navigator.pushNamed(
-    //   context,
-    //   DetailVillaScreen.id,
-    //   arguments: {
-    //     'user': widget.user,
-    //     'id': searchModel.villaId,
-    //   },
-    // );
   }
 
   onCountryPressed(String country) {
