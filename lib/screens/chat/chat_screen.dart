@@ -74,6 +74,12 @@ class _ChatScreenState extends State<ChatScreen> {
             changeEditingToTrue: (){
               changeEditToTrue();
             },
+            onEditPressed: (message){
+              onEditPressed(message);
+            },
+            onRepliedPressed: (id, text, user) {
+              onRepliedInDialogPressed(id, text, user);
+            },
           ),
           ChatMessageTextField(
             node: focusNode,
@@ -123,6 +129,14 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {});
   }
 
+  onRepliedInDialogPressed(int textId, String text, String user) {
+    repliedTextId = textId;
+    repliedText = text;
+    repliedUser = user;
+    Navigator.pop(context);
+    setState(() {});
+  }
+
   @override
   void initState() {
     socketUrl = '$socketUrl/${widget.chatRoomId}/';
@@ -161,6 +175,16 @@ class _ChatScreenState extends State<ChatScreen> {
 
   scrollToBottom() {
     chatScrollController.jumpTo(chatScrollController.position.minScrollExtent);
+  }
+
+  onEditPressed(Message message) {
+    cleaner();
+    changeEditToTrue();
+    chatController.text = message.text;
+    messageToEdit = message;
+    print('============================');
+    print(messageToEdit.textId);
+    Navigator.pop(context);
   }
 
   fetcher(){

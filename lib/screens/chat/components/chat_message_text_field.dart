@@ -195,11 +195,13 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
       widget.channel.sink.add(json);
     } // editing message
     else {
+      print('************************************');
+      print(widget.chatController.text);
       widget.channel.sink.add(
         convert.json.encode(
           {
-            'type': 'edit',
-            'message': widget.chatController.text,
+            'type': 'update',
+            'text': widget.chatController.text,
             'message_id': widget.messageToEdit.textId,
           },
         ),

@@ -6,10 +6,12 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'dart:convert' as convert;
 import '../../../models/user.dart';
 import 'chat_alert_dialog.dart';
+import 'chat_reply_alert_dialog.dart';
 
 class MessageBubbles extends StatefulWidget {
   final Size size;
   final Function(int id, String text, String user) onSwipe;
+  final Function(int id, String text, String user) onRepliedPressed;
   final WebSocketChannel channel;
   final int chatRoomId;
   final String otherUser;
@@ -21,6 +23,7 @@ class MessageBubbles extends StatefulWidget {
   final TextEditingController chatController;
   final bool isEditing;
   Message messageToEdit;
+  final Function(Message message) onEditPressed;
 
   MessageBubbles({
     this.size,
@@ -37,6 +40,8 @@ class MessageBubbles extends StatefulWidget {
     this.isEditing,
     this.messageToEdit,
     this.changeEditingToTrue,
+    this.onEditPressed,
+    this.onRepliedPressed,
   });
 
   @override
@@ -44,7 +49,6 @@ class MessageBubbles extends StatefulWidget {
 }
 
 class _MessageBubblesState extends State<MessageBubbles> {
-
   @override
   Widget build(BuildContext context) {
     // scrollToBottom();
@@ -62,7 +66,7 @@ class _MessageBubblesState extends State<MessageBubbles> {
           stream: widget.channel.stream,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              try{
+              try {
                 var jsonResponse = convert.json.decode(snapshot.data);
                 List mapList = jsonResponse['data'];
                 List<Message> messageList = [];
@@ -72,7 +76,8 @@ class _MessageBubblesState extends State<MessageBubbles> {
                       textId: mapList[i]['message_id'],
                       dateTime: mapList[i]['ctime'],
                       text: mapList[i]['text'],
-                      repliedMessageText: mapList[i]['parent_message'].toString(),
+                      repliedMessageText:
+                          mapList[i]['parent_message'].toString(),
                       url: widget.otherUserImageUrl,
                       chatRoomId: widget.chatRoomId,
                       isMe: mapList[i]['owner'] == widget.user.userId,
@@ -86,8 +91,7 @@ class _MessageBubblesState extends State<MessageBubbles> {
                   return Center();
                 }
                 return listBody(messageList);
-              }
-              catch(e){
+              } catch (e) {
                 return Center(
                   child: kMyProgressIndicator,
                 );
@@ -147,43 +151,47 @@ class _MessageBubblesState extends State<MessageBubbles> {
     Navigator.pop(context);
   }
 
-  onEditPressed(Message message) {
-    widget.changeEditingToTrue();
-    widget.chatController.text = message.text;
-    widget.messageToEdit = message;
-    // widget.channel.sink.add(
-    //   convert.json.encode(
-    //     {
-    //       'type': 'edit',
-    //       'message': message.text,
-    //       'message_id': message.textId,
-    //     },
-    //   ),
-    // );
-    // widget.fetcher();
-    Navigator.pop(context);
-  }
-
-  onReplyPressed(Message message) {
-    Navigator.pop(context);
-  }
-
   showOnMessageTapped(Message message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return ChatAlertDialog(
-          onDeletePressed: () {
-            onDeletePressed(message);
-          },
-          onEditPressed: () {
-            onEditPressed(message);
-          },
-          onReplyPressed: () {
-            onReplyPressed(message);
-          },
-        );
-      },
-    );
+    if (message.isMe) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return ChatAlertDialog(
+            onDeletePressed: () {
+              onDeletePressed(message);
+            },
+            onEditPressed: () {
+              widget.onEditPressed(message);
+            },
+            onReplyPressed: () {
+              widget.onRepliedPressed(
+                message.textId,
+                message.text,
+                message.currentUsername,
+              );
+            },
+          );
+        },
+      );
+    } //
+    else {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return ChatReplyAlertDialog(
+            onDeletePressed: () {
+              onDeletePressed(message);
+            },
+            onReplyPressed: () {
+              widget.onRepliedPressed(
+                message.textId,
+                message.text,
+                message.currentUsername,
+              );
+            },
+          );
+        },
+      );
+    }
   }
 }
