@@ -7,7 +7,7 @@ import 'package:loctio_booker/models/place_address.dart';
 import 'package:loctio_booker/models/resort_description.dart';
 import 'package:loctio_booker/models/resort_identification.dart';
 import 'package:loctio_booker/models/user.dart';
-import "package:latlong/latlong.dart" as latLng;
+import "package:latlong2/latlong.dart" as latLng;
 import 'package:loctio_booker/screens/hosting/components/bottom_container.dart';
 import 'package:loctio_booker/screens/hosting/components/law_item.dart';
 import 'package:loctio_booker/static_methods.dart';

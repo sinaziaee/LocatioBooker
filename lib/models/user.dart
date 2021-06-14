@@ -14,6 +14,8 @@ class User {
       filename,
       gender;
 
+  int userId;
+
   User(
       {this.firstName,
       this.lastName,
@@ -26,7 +28,8 @@ class User {
       this.token,
       this.nationalCode,
       this.image,
-      this.gender});
+        this.userId,
+      this.gender,});
 
   User.fromJson(Map<String, dynamic> json) {
     firstName = json['first_name'];
@@ -41,6 +44,7 @@ class User {
     image = json['image'];
     filename = json['filename'];
     bio = json['bio'];
+    userId = json['user_id'];
     gender = json['gender'];
   }
 
@@ -58,6 +62,9 @@ class User {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.firstName != null && this.firstName.length != 0) {
       data['first_name'] = this.firstName;
+    }
+    if (this.userId != null) {
+      data['user_id'] = this.userId;
     }
     if (this.lastName != null && this.lastName.length != 0) {
       data['last_name'] = this.lastName;

@@ -1,39 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import "package:latlong/latlong.dart" as latLng;
+import "package:latlong2/latlong.dart" as latLng;
 
-class CustomMap extends StatelessWidget {
+class CustomMap extends StatefulWidget {
   final Size size;
 
   CustomMap(this.size);
 
   @override
+  _CustomMapState createState() => _CustomMapState();
+}
+
+class _CustomMapState extends State<CustomMap> {
+  @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: size.height*0.32,
+        maxHeight: widget.size.height * 0.32,
       ),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+        margin: EdgeInsets.symmetric(horizontal: widget.size.width * 0.05),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
         ),
         child: FlutterMap(
           options: MapOptions(
-            // center: LatLng(51.5, -0.09),
-            center: latLng.LatLng(36.314845, 59.555513),
-            zoom: 15.0,
+            center: latLng.LatLng(51.5, -0.09),
+            zoom: 13.0,
           ),
           layers: [
             TileLayerOptions(
                 urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                subdomains: ['a', 'b', 'c']),
+                subdomains: ['a', 'b', 'c']
+            ),
             MarkerLayerOptions(
               markers: [
                 Marker(
-                  width: 40.0,
-                  height: 40.0,
-                  point: latLng.LatLng(36.314845, 59.555513),
+                  width: 80.0,
+                  height: 80.0,
+                  point: latLng.LatLng(51.5, -0.09),
+                  builder: (ctx) =>
+                      Container(
+                        child: FlutterLogo(),
+                      ),
                 ),
               ],
             ),
@@ -41,6 +50,5 @@ class CustomMap extends StatelessWidget {
         ),
       ),
     );
-
   }
 }

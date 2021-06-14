@@ -290,6 +290,39 @@ class StaticMethods {
     return response.results[0].geometry;
   }
 
+  static AppBar chatAppbar(BuildContext context, String imageUrl, String name) {
+    return AppBar(
+      backgroundColor: Colors.blueGrey,
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: Icon(Icons.keyboard_arrow_left),
+      ),
+      title: Row(
+        children: [
+          CircleAvatar(
+            backgroundImage: (imageUrl == null && imageUrl.length != 0)
+                ? NetworkImage(imageUrl)
+                : AssetImage('assets/images/unknown_person.png'),
+            backgroundColor: Colors.transparent,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Column(
+            children: [
+              Text(name),
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   static PreferredSize myAppBar(String text, BuildContext context, User user, {bool isVisible}) {
     if(isVisible == null){
       isVisible = true;
