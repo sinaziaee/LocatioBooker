@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/components/person_item.dart';
 import 'package:loctio_booker/models/user.dart';
-import 'package:loctio_booker/screens/authentication/components/my_textfield_without_node.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'components/custom_profile_not_found.dart';
@@ -185,6 +184,12 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
   }
 
   Widget itemBuilder(User user, bool isVisible) {
-    return PersonItem(user, size, isVisible);
+    return PersonItem(user, size, isVisible, () {
+      onChatPressed(user);
+    });
+  }
+
+  onChatPressed(User user) {
+    // todo: chat rooms
   }
 }

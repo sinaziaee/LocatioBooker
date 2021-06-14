@@ -7,7 +7,9 @@ class PersonItem extends StatelessWidget {
   final User user;
   final Size size;
   final bool isVisible;
-  PersonItem(this.user, this.size, this.isVisible);
+  final Function onChatPressed;
+
+  PersonItem(this.user, this.size, this.isVisible, this.onChatPressed);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class PersonItem extends StatelessWidget {
           child: ListTile(
             leading: CircleAvatar(
               radius: 21,
-              backgroundColor: Colors.red,
+              backgroundColor: Colors.black,
               child: CircleAvatar(
                 backgroundColor: Colors.white,
                 backgroundImage: (user.image != null)
@@ -35,6 +37,13 @@ class PersonItem extends StatelessWidget {
               user.email,
               style: kBodyTextStyle,
             ),
+            trailing: IconButton(
+              onPressed: onChatPressed,
+              icon: Icon(
+                Icons.chat,
+                color: Colors.blueGrey,
+              ),
+            ),
           ),
         ),
         Visibility(
@@ -43,9 +52,7 @@ class PersonItem extends StatelessWidget {
             height: 0.5,
             color: Colors.grey,
             margin: EdgeInsets.only(
-              left: size.width * 0.17,
-              right: size.width * 0.03
-            ),
+                left: size.width * 0.17, right: size.width * 0.03),
           ),
         ),
       ],
