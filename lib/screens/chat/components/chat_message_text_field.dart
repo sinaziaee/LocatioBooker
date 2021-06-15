@@ -197,7 +197,7 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
       print(widget.repliedText);
       print(widget.repliedTextId);
       if (widget.repliedText != null) {
-        map['parent_message'] = widget.repliedTextId.toString();
+        map['parent_message'] = widget.repliedTextId;
       }
       var json = convert.json.encode(map);
       widget.channel.sink.add(json);

@@ -7,7 +7,6 @@ import 'package:loctio_booker/models/villa.dart';
 import 'package:loctio_booker/screens/chat/chat_screen.dart';
 import 'package:loctio_booker/screens/detailVilla/components2/back_icon.dart';
 import 'package:http/http.dart' as http;
-import 'package:loctio_booker/screens/detailVilla/components2/detail_calendar.dart';
 import 'package:loctio_booker/screens/detailVilla/components2/detail_date_range.dart';
 import 'package:loctio_booker/screens/detailVilla/components2/detail_fascilitation.dart';
 import 'package:loctio_booker/screens/detailVilla/components2/detail_header_component.dart';
@@ -40,6 +39,7 @@ class DetailVillaScreen extends StatefulWidget {
 class _DetailVillaScreenState extends State<DetailVillaScreen> {
   String allLawsUrl = '$mainUrl/api/villa/fixed-rules/';
   String villaUrl = "$mainUrl/api/villa/user/?villa_id=";
+  String addChatUrl = '$mainUrl/api/chat/add/';
   Size size;
   Villa villa;
 
@@ -202,7 +202,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
       if (response.statusCode < 400) {
         var jsonResponse =
             convert.json.decode(convert.utf8.decode(response.bodyBytes));
-        // print(jsonResponse);
+        print(jsonResponse);
         this.villa = Villa.fromJson(jsonResponse);
         imagesUrlList.clear();
         defImageUrl = villa.images[0];
@@ -247,22 +247,38 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
     }
   }
 
-  void onChatPressed() {
-    int chatRoomId = -1;
-    String otherUserImageUrl = '';
-    // TODO CHATROOM
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) {
-    //       return ChatScreen(
-    //         user: widget.user,
-    //         chatRoomId: chatRoomId,
-    //         otherUser: villa.owner,
-    //         otherUserImageUrl: otherUserImageUrl,
-    //       );
-    //     },
-    //   ),
-    // );
+  onChatPressed() async {
+    print(addChatUrl);
+    Map userMap = Map();
+    // userMap['contact'] = villa.ow;
+    http.Response response = await http.post(
+      Uri.parse(addChatUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: widget.user.token,
+        "Accept": "application/json",
+        "content-type": "application/json",
+      },
+      body: convert.json.encode(
+        userMap,
+      ),
+    );
+    Map jsonResponse = convert.json.decode(response.body);
+    Map data = jsonResponse['data'];
+    print(data);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return ChatScreen(
+            user: widget.user,
+            chatRoomId: data['chat_id'],
+            otherUser: '${data['first_name']} ${data['last_name']}',
+            otherUserImageUrl: data['image'],
+          );
+        },
+      ),
+    );
   }
+
 }

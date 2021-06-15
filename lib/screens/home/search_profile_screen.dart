@@ -21,13 +21,9 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
   TextEditingController searchController;
   String url = '$mainUrl/api/account/properties/all';
   String addChatUrl = '$mainUrl/api/chat/add/';
-  String getChatUrl = '$mainUrl/api/chat/show/';
   User user;
   Map args;
   Size size;
-
-  List<String> currentUsersList = [];
-  List<Map> currentUsersMapList = [];
 
   @override
   void initState() {
@@ -126,8 +122,6 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
             if (snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
               http.Response response = snapshot.data;
-              // print(response.statusCode);
-              // print(response.body);
               var jsonResponse = convert.jsonDecode(response.body);
               List<User> mapList = [];
               int count = 0;
@@ -184,35 +178,17 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
   }
 
   Widget itemBuilder(User user, bool isVisible) {
-    return PersonItem(
-      user,
-      size,
-      isVisible,
-      () {
-        onChatPressed(user);
-      },
-    );
-  }
-
-  getChats(User user) async {
-    http.Response response = await http.get(
-      Uri.parse(
-        getChatUrl,
+    return Visibility(
+      visible: user.userId != this.user.userId,
+      child: PersonItem(
+        user,
+        size,
+        isVisible,
+        () {
+          onChatPressed(user);
+        },
       ),
-      headers: {
-        HttpHeaders.authorizationHeader: user.token,
-      },
     );
-    print('----------------------------------------------');
-    print(response.statusCode);
-    print(response.body);
-    print('----------------------------------------------');
-    var jsonResponse = convert.json.decode(response.body);
-    List mapList = jsonResponse['data'];
-    for (Map each in mapList) {
-      currentUsersList.add('${each['first_name']} ${each['last_name']}');
-      currentUsersMapList.add(each);
-    }
   }
 
   getUsers() async {
@@ -223,9 +199,6 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
         HttpHeaders.authorizationHeader: user.token,
       },
     );
-    // print(response.body);
-    getChats(user);
-
     return response;
   }
 
@@ -234,34 +207,33 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
     print(user.userId);
     Map userMap = Map();
     userMap['contact'] = user.userId;
-    String currentUsername = '${user.firstName} ${user.lastName}';
-    int index;
-    if (currentUsersList.contains(currentUsername)) {
-      index = currentUsersList.indexOf(currentUsername);
-    } //
-    else {
-      http.Response response = await http.post(
-        Uri.parse(addChatUrl),
-        headers: {
-          HttpHeaders.authorizationHeader: this.user.token,
-          "Accept": "application/json",
-          "content-type": "application/json",
+    http.Response response = await http.post(
+      Uri.parse(addChatUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: this.user.token,
+        "Accept": "application/json",
+        "content-type": "application/json",
+      },
+      body: convert.json.encode(
+        userMap,
+      ),
+    );
+    Map jsonResponse = convert.json.decode(response.body);
+    Map data = jsonResponse['data'];
+    print(data);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return ChatScreen(
+            user: this.user,
+            chatRoomId: data['chat_id'],
+            otherUser: '${data['first_name']} ${data['last_name']}',
+            otherUserImageUrl: data['image'],
+          );
         },
-        body: convert.json.encode(
-          userMap,
-        ),
-      );
-      print(response.body);
-    }
-
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) {
-    //       return ChatScreen(user: user, chatRoomId: chatRoomId, otherUser: otherUser, otherUserImageUrl: otherUserImageUrl)
-    //     },
-    //   ),
-    // );
-
+      ),
+    );
   }
 }

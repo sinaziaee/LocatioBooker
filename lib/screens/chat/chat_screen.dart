@@ -57,13 +57,13 @@ class _ChatScreenState extends State<ChatScreen> {
             onSwipe: (id, text, user) {
               onSwiped(id, text, user);
             },
-            scrollToBottom: (){
+            scrollToBottom: () {
               scrollToBottom();
             },
-            fetcher: (){
+            fetcher: () {
               fetcher();
             },
-            changeEditingToFalse: (){
+            changeEditingToFalse: () {
               changeEditToFalse();
             },
             channel: channel,
@@ -74,10 +74,10 @@ class _ChatScreenState extends State<ChatScreen> {
             chatController: chatController,
             isEditing: isEditing,
             messageToEdit: messageToEdit,
-            changeEditingToTrue: (){
+            changeEditingToTrue: () {
               changeEditToTrue();
             },
-            onEditPressed: (message){
+            onEditPressed: (message) {
               onEditPressed(message);
             },
             onRepliedPressed: (id, text, user) {
@@ -90,7 +90,7 @@ class _ChatScreenState extends State<ChatScreen> {
             repliedUser: repliedUser,
             repliedTextId: repliedTextId,
             channel: channel,
-            scrollToBottom: (){
+            scrollToBottom: () {
               scrollToBottom();
             },
             onClearPressed: () {
@@ -100,10 +100,10 @@ class _ChatScreenState extends State<ChatScreen> {
             onFileSelectorPressed: () {
               showFileSelector();
             },
-            fetcher: (){
+            fetcher: () {
               fetcher();
             },
-            changeEditingToFalse: (){
+            changeEditingToFalse: () {
               changeEditToFalse();
             },
             isEditing: isEditing,
@@ -116,7 +116,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void showFileSelector() async {
     FilePickerResult result = await FilePicker.platform.pickFiles();
-
     if (result != null) {
       file = File(result.files.single.path);
       setState(() {});
@@ -153,6 +152,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   onChatConnected() {
+    print('${widget.user.token.replaceAll('Token ', '')}');
     // trying to authorize user
     channel.sink.add(
       convert.json.encode(
@@ -162,6 +162,7 @@ class _ChatScreenState extends State<ChatScreen> {
         },
       ),
     );
+    print('auth');
     // fetching all messages
     fetcher();
   }
@@ -187,7 +188,7 @@ class _ChatScreenState extends State<ChatScreen> {
     cleaner();
     changeEditToTrue();
     chatController.text = message.text;
-    repliedText = message.text ;
+    repliedText = message.text;
     repliedUser = message.currentUsername;
     messageToEdit = message;
     print('============================');
@@ -195,7 +196,7 @@ class _ChatScreenState extends State<ChatScreen> {
     Navigator.pop(context);
   }
 
-  fetcher(){
+  fetcher() {
     channel.sink.add(
       convert.json.encode(
         {
@@ -205,12 +206,11 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  changeEditToTrue(){
+  changeEditToTrue() {
     isEditing = true;
   }
 
-  changeEditToFalse(){
+  changeEditToFalse() {
     isEditing = false;
   }
-
 }

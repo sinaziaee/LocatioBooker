@@ -22,24 +22,6 @@ class ChatBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // if (message.repliedMessageUser == null ||
-    //     message.repliedMessageUser.length == 0) {
-    //   message.repliedMessageUser = 'Sina Ziaee';
-    // }
-    // if (message.repliedMessageText == null ||
-    //     message.repliedMessageText.length == 0) {
-    //   message.repliedMessageText =
-    //       'This is the diaria cat So the best thing is like,'
-    //       ' if this is not sth that we do';
-    //   // repliedText = 'This is the diaria';
-    // }
-    // if (message.url == null || message.url.length == 0) {
-    //   // url = 'static/temp.file';
-    //   message.url = 'static/temp.jpg';
-    //   fileLast = message.url.split('/').last;
-    // }
-
-    // return showChat(context);
     return Container(
       child: showChat(context),
     );
@@ -65,6 +47,7 @@ class ChatBody extends StatelessWidget {
           ChatReplyPart(
             repliedText: message.repliedMessageText,
             repliedUser: message.repliedMessageUser,
+            isMe: message.isMe,
           ),
           ChatTextBubble(
             text: message.text,
@@ -80,6 +63,7 @@ class ChatBody extends StatelessWidget {
           ChatReplyPart(
             repliedText: message.repliedMessageText,
             repliedUser: message.repliedMessageUser,
+            isMe: message.isMe,
           ),
           showImageFile(context),
         ],

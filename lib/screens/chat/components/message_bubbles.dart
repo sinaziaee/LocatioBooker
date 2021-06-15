@@ -50,6 +50,9 @@ class MessageBubbles extends StatefulWidget {
 }
 
 class _MessageBubblesState extends State<MessageBubbles> {
+
+  List<Message> messageList = [];
+
   @override
   Widget build(BuildContext context) {
     // scrollToBottom();
@@ -66,19 +69,21 @@ class _MessageBubblesState extends State<MessageBubbles> {
         child: StreamBuilder(
           stream: widget.channel.stream,
           builder: (context, snapshot) {
+            print('----------------------------------------');
+            print(snapshot.data);
+            print('----------------------------------------');
             if (snapshot.hasData) {
               try {
                 var jsonResponse = convert.json.decode(snapshot.data);
                 List mapList = jsonResponse['data'];
-                List<Message> messageList = [];
+                messageList = [];
                 for (int i = 0; i < mapList.length; i++) {
                   messageList.add(
                     Message(
                       textId: mapList[i]['message_id'],
                       dateTime: mapList[i]['ctime'],
                       text: mapList[i]['text'],
-                      repliedMessageText:
-                          mapList[i]['parent_message'].toString(),
+                      repliedMessageId: mapList[i]['parent_message'],
                       url: widget.otherUserImageUrl,
                       chatRoomId: widget.chatRoomId,
                       isMe: mapList[i]['owner'] == widget.user.userId,
@@ -88,6 +93,7 @@ class _MessageBubblesState extends State<MessageBubbles> {
                     ),
                   );
                 }
+                searchOnMessages();
                 if (messageList.length == 0) {
                   return Center();
                 }
@@ -113,6 +119,31 @@ class _MessageBubblesState extends State<MessageBubbles> {
         ),
       ),
     );
+  }
+
+  searchOnMessages(){
+    for(int i=0;i<messageList.length;i++){
+      if(messageList[i].repliedMessageId != null){
+        int index = messageList[i].repliedMessageId;
+        print(messageList[i].repliedMessageUser);
+        Message message = getSearchedMessage(index);
+        print('found');
+        messageList[i].repliedMessageText = message.text;
+        messageList[i].repliedMessageId = message.textId;
+        messageList[i].repliedMessageUser = message.currentUsername;
+        print(messageList[i].repliedMessageUser);
+      }
+    }
+  }
+
+  Message getSearchedMessage(int indexToSearch){
+    for(int i=0;i<messageList.length;i++){
+      if(messageList[i].textId == indexToSearch){
+        Message message = messageList[i];
+        return message;
+      }
+    }
+    return null;
   }
 
   listBody(List<Message> list) {
