@@ -11,6 +11,8 @@ class ReserveHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('----------------------');
+    print('$mainUrl$imageUrl');
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: 20,
@@ -24,9 +26,8 @@ class ReserveHeader extends StatelessWidget {
               width: 180,
               height: 120,
               fit: BoxFit.cover,
-              // placeholder: NetworkImage('$mainUrl${villa.images[0]}'),
-              placeholder: NetworkImage('$mainUrl${imageUrl}'),
-              image: AssetImage('assets/images/home_image_def.jpg'),
+              image: NetworkImage('$mainUrl$imageUrl'),
+              placeholder: AssetImage('assets/images/home_image_def.jpg'),
             ),
           ),
           SizedBox(

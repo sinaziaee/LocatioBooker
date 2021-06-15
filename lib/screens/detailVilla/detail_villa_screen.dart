@@ -202,10 +202,11 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
       if (response.statusCode < 400) {
         var jsonResponse =
             convert.json.decode(convert.utf8.decode(response.bodyBytes));
-        print(jsonResponse);
+        // print(jsonResponse);
         this.villa = Villa.fromJson(jsonResponse);
         imagesUrlList.clear();
         defImageUrl = villa.images[0];
+        // print(defImageUrl);
         for (int i = 0; i < villa.images.length; i++) {
           imagesUrlList.add(villa.images[i].toString());
         }
