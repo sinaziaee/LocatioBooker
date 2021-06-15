@@ -7,10 +7,12 @@ import '../../../constants.dart';
 class ReserveSendButton extends StatefulWidget {
   final Villa villa;
   final String cost;
+  final Function onReservePressed;
 
   ReserveSendButton({
     @required this.villa,
     @required this.cost,
+    this.onReservePressed,
   });
 
   @override
@@ -56,9 +58,7 @@ class _ReserveSendButtonState extends State<ReserveSendButton> {
             color: Colors.blueGrey[800],
             child: InkWell(
               borderRadius: BorderRadius.circular(25),
-              onTap: () {
-                onPressed();
-              },
+              onTap: widget.onReservePressed,
               child: Container(
                 child: Text(
                   'Reserve',
@@ -81,19 +81,5 @@ class _ReserveSendButtonState extends State<ReserveSendButton> {
         ],
       ),
     );
-  }
-
-  onPressed() {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) {
-    //       return ReserveDateScreen(
-    //         villa: widget.villa,
-    //         imageUrl: widget.cost,
-    //       );
-    //     },
-    //   ),
-    // );
   }
 }

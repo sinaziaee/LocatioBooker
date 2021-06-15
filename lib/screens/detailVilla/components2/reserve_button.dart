@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/models/villa.dart';
 import 'package:loctio_booker/screens/detailVilla/reserve_date_screen.dart';
@@ -6,21 +8,26 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../../../constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import '../../../models/user.dart';
 
 class ReserveButton extends StatefulWidget {
   final Villa villa;
   final String imageUrl;
+  final User user;
 
-  ReserveButton({@required this.villa, @required this.imageUrl});
+  ReserveButton({
+    @required this.villa,
+    @required this.imageUrl,
+    this.user,
+  });
 
   @override
   _ReserveButtonState createState() => _ReserveButtonState();
 }
 
 class _ReserveButtonState extends State<ReserveButton> {
-
   bool showProgress = false;
-  String calendarUrl = '';
+  String calendarUrl = '$mainUrl/api/villa/calendar/show';
 
   @override
   Widget build(BuildContext context) {
@@ -108,11 +115,47 @@ class _ReserveButtonState extends State<ReserveButton> {
     );
   }
 
-  getOccupiedDates() async{
-    // http.Response response = await http.get(Uri.parse());
+  Future<List<DateTime>> getOccupiedDates() async {
+    print('$calendarUrl/?villa_id=${widget.villa.id}');
+    http.Response response = await http.get(
+      Uri.parse('$calendarUrl/?villa_id=${widget.villa.id}'),
+      headers: {
+        HttpHeaders.authorizationHeader: widget.user.token,
+      },
+    );
+    if (response.statusCode < 400) {
+      Map jsonResponse = convert.json.decode(response.body);
+      List dateStringList = jsonResponse['dates'];
+      List<DateTime> datetimeList = [];
+      for (String each in dateStringList) {
+        List date = each.split('-');
+        datetimeList.add(
+          DateTime(
+            int.parse(date[0]),
+            int.parse(date[1]),
+            int.parse(date[2]),
+          ),
+        );
+      }
+      // print(datetimeList);
+      return datetimeList;
+    } //
+    else {
+      print('Error');
+      // print(response.statusCode);
+      // print(response.body);
+      return null;
+    }
   }
 
-  onPressed() {
+  onPressed() async{
+    List<DateTime> dates = await getOccupiedDates();
+    if(dates == null){
+      print('wrong');
+      return;
+    }
+    print('--- *** ---');
+    print(dates);
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -120,6 +163,8 @@ class _ReserveButtonState extends State<ReserveButton> {
           return ReserveDateScreen(
             villa: widget.villa,
             imageUrl: widget.imageUrl,
+            dates: dates,
+            user: widget.user,
           );
         },
       ),

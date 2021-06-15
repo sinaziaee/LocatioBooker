@@ -31,32 +31,32 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
   @override
   Widget build(BuildContext context) {
     url = '$url&city=${widget.city}';
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 100,
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.keyboard_arrow_left,
-            size: 25,
-            color: Colors.black,
+    return ModalProgressHUD(
+      inAsyncCall: showSpinner,
+      progressIndicator: kMyProgressIndicator,
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 100,
+          elevation: 0,
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.keyboard_arrow_left,
+              size: 25,
+              color: Colors.black,
+            ),
+          ),
+          title: Text(
+            'You can select start and end dates',
+            style: kBody2TextStyle.copyWith(
+              fontWeight: FontWeight.w400,
+            ),
           ),
         ),
-        title: Text(
-          'You can select start and end dates',
-          style: kBody2TextStyle.copyWith(
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-      ),
-      body: ModalProgressHUD(
-        inAsyncCall: showSpinner,
-        progressIndicator: kMyProgressIndicator,
-        child: Container(
+        body: Container(
           child: Column(
             children: [
               Expanded(
@@ -118,6 +118,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                             city: widget.city,
                             startDate: dateList[0],
                             endDate: dateList[1],
+                            // accNo: 0,
                           );
                         },
                       ),

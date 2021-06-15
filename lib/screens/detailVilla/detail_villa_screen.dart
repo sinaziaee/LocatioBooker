@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/models/villa.dart';
+import 'package:loctio_booker/screens/chat/chat_screen.dart';
 import 'package:loctio_booker/screens/detailVilla/components2/back_icon.dart';
 import 'package:http/http.dart' as http;
 import 'package:loctio_booker/screens/detailVilla/components2/detail_calendar.dart';
@@ -92,6 +93,9 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                                     ),
                                     DetailServiceBody(
                                       villa: villa,
+                                      onChatPressed: () {
+                                        onChatPressed();
+                                      },
                                     ),
                                     DetailRowItem(
                                       value:
@@ -160,6 +164,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                             ReserveButton(
                               villa: villa,
                               imageUrl: defImageUrl,
+                              user: widget.user,
                             ),
                           ],
                         ),
@@ -197,7 +202,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
       if (response.statusCode < 400) {
         var jsonResponse =
             convert.json.decode(convert.utf8.decode(response.bodyBytes));
-        print(jsonResponse);
+        // print(jsonResponse);
         this.villa = Villa.fromJson(jsonResponse);
         imagesUrlList.clear();
         defImageUrl = villa.images[0];
@@ -240,5 +245,24 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
       StaticMethods.showErrorDialog(context, 'Error on getting fixed rules');
       return false;
     }
+  }
+
+  void onChatPressed() {
+    int chatRoomId = -1;
+    String otherUserImageUrl = '';
+    // TODO CHATROOM
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) {
+    //       return ChatScreen(
+    //         user: widget.user,
+    //         chatRoomId: chatRoomId,
+    //         otherUser: villa.owner,
+    //         otherUserImageUrl: otherUserImageUrl,
+    //       );
+    //     },
+    //   ),
+    // );
   }
 }

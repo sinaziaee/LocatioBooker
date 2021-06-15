@@ -30,7 +30,7 @@ class DetailHeader extends StatelessWidget {
               ),
               // Text(villa.rate),
               Text(
-                '${0.4} ',
+                '${villa.rate ?? 4.0} ',
                 style: kBody1TextStyle.copyWith(
                   color: Colors.blueGrey[800],
                   fontSize: 18,

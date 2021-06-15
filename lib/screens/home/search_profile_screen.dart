@@ -230,6 +230,10 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
   }
 
   onChatPressed(User user) async {
+    print(addChatUrl);
+    print(user.userId);
+    Map userMap = Map();
+    userMap['contact'] = user.userId;
     String currentUsername = '${user.firstName} ${user.lastName}';
     int index;
     if (currentUsersList.contains(currentUsername)) {
@@ -239,16 +243,15 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
       http.Response response = await http.post(
         Uri.parse(addChatUrl),
         headers: {
-          HttpHeaders.authorizationHeader: user.token,
+          HttpHeaders.authorizationHeader: this.user.token,
           "Accept": "application/json",
           "content-type": "application/json",
         },
         body: convert.json.encode(
-          {
-            // todo
-          },
+          userMap,
         ),
       );
+      print(response.body);
     }
 
     // Navigator.push(

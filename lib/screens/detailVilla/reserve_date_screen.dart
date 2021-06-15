@@ -7,12 +7,20 @@ import 'package:loctio_booker/screens/detailVilla/components2/detail_calendar.da
 import 'package:loctio_booker/screens/detailVilla/reserve_screen.dart';
 import 'package:loctio_booker/screens/detailVilla/reserver_components/button_select_date.dart';
 import 'package:loctio_booker/screens/detailVilla/reserver_components/start_end_date.dart';
+import '../../models/user.dart';
 
 class ReserveDateScreen extends StatefulWidget {
   final Villa villa;
   final String imageUrl;
+  final List<DateTime> dates;
+  final User user;
 
-  ReserveDateScreen({this.villa, this.imageUrl});
+  ReserveDateScreen({
+    this.villa,
+    this.imageUrl,
+    this.dates,
+    this.user,
+  });
 
   @override
   _ReserveDateScreenState createState() => _ReserveDateScreenState();
@@ -25,7 +33,6 @@ class _ReserveDateScreenState extends State<ReserveDateScreen> {
   bool isReady = false;
   DateTime startDate, endDate;
 
-  List<DateTime> dates = [];
   DatePeriod selectedPeriod = DatePeriod(
     DateTime.now().add(
       Duration(days: 1),
@@ -39,12 +46,6 @@ class _ReserveDateScreenState extends State<ReserveDateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    dates.clear();
-    // dates.add(DateTime(2021, 5, 23));
-    // dates.add(DateTime(2021, 5, 24));
-    // dates.add(DateTime(2021, 5, 25));
-    // dates.add(DateTime(2021, 5, 26));
-    // dates.add(DateTime(2021, 5, 27));
     size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -80,7 +81,7 @@ class _ReserveDateScreenState extends State<ReserveDateScreen> {
               ),
             ),
             DetailCalendar(
-              dates: dates,
+              dates: widget.dates,
               onSelectedDateChanged: (selectedPeriod) {
                 onCalendarChanged(selectedPeriod);
               },
@@ -135,6 +136,7 @@ class _ReserveDateScreenState extends State<ReserveDateScreen> {
               startDate: startDate,
               imageUrl: widget.imageUrl,
               totalCost: widget.villa.price,
+              user: widget.user,
             );
           },
         ),
