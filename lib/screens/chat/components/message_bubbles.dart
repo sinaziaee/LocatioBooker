@@ -19,7 +19,7 @@ class MessageBubbles extends StatefulWidget {
   final User user;
   final ScrollController chatScrollController;
   final Function scrollToBottom;
-  final Function fetcher, changeEditingToTrue;
+  final Function fetcher, changeEditingToTrue, changeEditingToFalse;
   final TextEditingController chatController;
   final bool isEditing;
   Message messageToEdit;
@@ -29,6 +29,7 @@ class MessageBubbles extends StatefulWidget {
     this.size,
     this.onSwipe,
     this.channel,
+    this.changeEditingToFalse,
     this.otherUserImageUrl,
     this.otherUser,
     this.chatRoomId,
@@ -147,6 +148,7 @@ class _MessageBubblesState extends State<MessageBubbles> {
         },
       ),
     );
+    widget.changeEditingToFalse();
     widget.fetcher();
     Navigator.pop(context);
   }

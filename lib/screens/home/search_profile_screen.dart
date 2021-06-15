@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:loctio_booker/components/person_item.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:loctio_booker/screens/chat/chat_screen.dart';
 import 'dart:convert' as convert;
 import 'components/custom_profile_not_found.dart';
 import 'components/custom_profile_search.dart';
@@ -19,9 +20,14 @@ class SearchProfileScreen extends StatefulWidget {
 class _SearchProfileScreenState extends State<SearchProfileScreen> {
   TextEditingController searchController;
   String url = '$mainUrl/api/account/properties/all';
+  String addChatUrl = '$mainUrl/api/chat/add/';
+  String getChatUrl = '$mainUrl/api/chat/show/';
   User user;
   Map args;
   Size size;
+
+  List<String> currentUsersList = [];
+  List<Map> currentUsersMapList = [];
 
   @override
   void initState() {
@@ -115,19 +121,13 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
       body: Container(
         color: Colors.white,
         child: FutureBuilder(
-          future: http.get(
-            Uri.parse(
-                '$url?search=${(searchController.text.length != 0) ? searchController.text : null}'),
-            headers: {
-              HttpHeaders.authorizationHeader: user.token,
-            },
-          ),
+          future: getUsers(),
           builder: (context, snapshot) {
             if (snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
               http.Response response = snapshot.data;
-              print(response.statusCode);
-              print(response.body);
+              // print(response.statusCode);
+              // print(response.body);
               var jsonResponse = convert.jsonDecode(response.body);
               List<User> mapList = [];
               int count = 0;
@@ -184,12 +184,81 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
   }
 
   Widget itemBuilder(User user, bool isVisible) {
-    return PersonItem(user, size, isVisible, () {
-      onChatPressed(user);
-    });
+    return PersonItem(
+      user,
+      size,
+      isVisible,
+      () {
+        onChatPressed(user);
+      },
+    );
   }
 
-  onChatPressed(User user) {
-    // todo: chat rooms
+  getChats(User user) async {
+    http.Response response = await http.get(
+      Uri.parse(
+        getChatUrl,
+      ),
+      headers: {
+        HttpHeaders.authorizationHeader: user.token,
+      },
+    );
+    print('----------------------------------------------');
+    print(response.statusCode);
+    print(response.body);
+    print('----------------------------------------------');
+    var jsonResponse = convert.json.decode(response.body);
+    List mapList = jsonResponse['data'];
+    for (Map each in mapList) {
+      currentUsersList.add('${each['first_name']} ${each['last_name']}');
+      currentUsersMapList.add(each);
+    }
+  }
+
+  getUsers() async {
+    http.Response response = await http.get(
+      Uri.parse(
+          '$url?search=${(searchController.text.length != 0) ? searchController.text : null}'),
+      headers: {
+        HttpHeaders.authorizationHeader: user.token,
+      },
+    );
+    // print(response.body);
+    getChats(user);
+
+    return response;
+  }
+
+  onChatPressed(User user) async {
+    String currentUsername = '${user.firstName} ${user.lastName}';
+    int index;
+    if (currentUsersList.contains(currentUsername)) {
+      index = currentUsersList.indexOf(currentUsername);
+    } //
+    else {
+      http.Response response = await http.post(
+        Uri.parse(addChatUrl),
+        headers: {
+          HttpHeaders.authorizationHeader: user.token,
+          "Accept": "application/json",
+          "content-type": "application/json",
+        },
+        body: convert.json.encode(
+          {
+            // todo
+          },
+        ),
+      );
+    }
+
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) {
+    //       return ChatScreen(user: user, chatRoomId: chatRoomId, otherUser: otherUser, otherUserImageUrl: otherUserImageUrl)
+    //     },
+    //   ),
+    // );
+
   }
 }

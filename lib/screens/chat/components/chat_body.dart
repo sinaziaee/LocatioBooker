@@ -5,7 +5,6 @@ import 'package:loctio_booker/screens/chat/components/chat_image_bubble.dart';
 import 'package:loctio_booker/screens/chat/components/chat_text_bubble.dart';
 import 'package:loctio_booker/screens/chat/models/message.dart';
 
-import '../../../constants.dart';
 import 'chat_reply_part.dart';
 
 class ChatBody extends StatelessWidget {
@@ -23,22 +22,22 @@ class ChatBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (message.repliedMessageUser == null ||
-        message.repliedMessageUser.length == 0) {
-      message.repliedMessageUser = 'Sina Ziaee';
-    }
-    if (message.repliedMessageText == null ||
-        message.repliedMessageText.length == 0) {
-      message.repliedMessageText =
-          'This is the diaria cat So the best thing is like,'
-          ' if this is not sth that we do';
-      // repliedText = 'This is the diaria';
-    }
-    if (message.url == null || message.url.length == 0) {
-      // url = 'static/temp.file';
-      message.url = 'static/temp.jpg';
-      fileLast = message.url.split('/').last;
-    }
+    // if (message.repliedMessageUser == null ||
+    //     message.repliedMessageUser.length == 0) {
+    //   message.repliedMessageUser = 'Sina Ziaee';
+    // }
+    // if (message.repliedMessageText == null ||
+    //     message.repliedMessageText.length == 0) {
+    //   message.repliedMessageText =
+    //       'This is the diaria cat So the best thing is like,'
+    //       ' if this is not sth that we do';
+    //   // repliedText = 'This is the diaria';
+    // }
+    // if (message.url == null || message.url.length == 0) {
+    //   // url = 'static/temp.file';
+    //   message.url = 'static/temp.jpg';
+    //   fileLast = message.url.split('/').last;
+    // }
 
     // return showChat(context);
     return Container(

@@ -63,6 +63,9 @@ class _ChatScreenState extends State<ChatScreen> {
             fetcher: (){
               fetcher();
             },
+            changeEditingToFalse: (){
+              changeEditToFalse();
+            },
             channel: channel,
             otherUserImageUrl: widget.otherUserImageUrl,
             otherUser: widget.otherUser,
@@ -126,6 +129,7 @@ class _ChatScreenState extends State<ChatScreen> {
     repliedTextId = textId;
     repliedText = text;
     repliedUser = user;
+    changeEditToFalse();
     setState(() {});
   }
 
@@ -133,6 +137,7 @@ class _ChatScreenState extends State<ChatScreen> {
     repliedTextId = textId;
     repliedText = text;
     repliedUser = user;
+    changeEditToFalse();
     Navigator.pop(context);
     setState(() {});
   }
@@ -165,6 +170,7 @@ class _ChatScreenState extends State<ChatScreen> {
     repliedTextId = null;
     repliedText = null;
     repliedUser = null;
+    changeEditToFalse();
     setState(() {});
   }
 
@@ -181,6 +187,8 @@ class _ChatScreenState extends State<ChatScreen> {
     cleaner();
     changeEditToTrue();
     chatController.text = message.text;
+    repliedText = message.text ;
+    repliedUser = message.currentUsername;
     messageToEdit = message;
     print('============================');
     print(messageToEdit.textId);

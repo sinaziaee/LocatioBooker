@@ -46,9 +46,9 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
         children: [
           Visibility(
             visible:
-                widget.repliedText != null && widget.repliedText.length != 0,
+            (widget.repliedText != null && widget.repliedText.length != 0) || widget.isEditing,
             child: Container(
-              height: 40,
+              height: 50,
               child: Center(
                 child: Row(
                   children: [
@@ -58,7 +58,9 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
                     Transform.rotate(
                       angle: 3.05,
                       child: Icon(
-                        FontAwesomeIcons.reply,
+                        widget.isEditing
+                            ? FontAwesomeIcons.edit
+                            : FontAwesomeIcons.reply,
                         color: Colors.blueGrey[800],
                       ),
                     ),
@@ -69,6 +71,9 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          SizedBox(
+                            height: 5,
+                          ),
                           Text(
                             widget.repliedUser ?? '',
                             style: kBody2TextStyle.copyWith(
@@ -89,6 +94,9 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
+                          ),
+                          SizedBox(
+                            height: 5,
                           ),
                         ],
                       ),
