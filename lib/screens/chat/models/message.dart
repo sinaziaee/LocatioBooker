@@ -1,14 +1,14 @@
 class Message {
-  String currentUsername, text, dateTime, repliedMessageText, repliedMessageUser, url;
+  String currentUsername, text, dateTime, repliedMessageText, repliedMessageUser;
   int textId, repliedMessageId, currentUserId;
   bool isMe;
   int chatRoomId;
+  String file;
 
   Message({
     this.text,
     this.currentUsername,
     this.textId,
-    this.url,
     this.dateTime,
     this.repliedMessageId,
     this.repliedMessageText,
@@ -16,5 +16,6 @@ class Message {
     this.isMe,
     this.chatRoomId,
     this.currentUserId,
+    this.file,
   });
 }

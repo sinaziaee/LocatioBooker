@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/screens/chat/components/chat_bubble.dart';
 import 'package:loctio_booker/screens/chat/models/message.dart';
@@ -50,95 +53,100 @@ class MessageBubbles extends StatefulWidget {
 }
 
 class _MessageBubblesState extends State<MessageBubbles> {
-
   List<Message> messageList = [];
+  ScrollController chatController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    // scrollToBottom();
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/background.jpeg'),
-            fit: BoxFit.cover,
-          ),
-          color: Colors.grey[400],
+    widget.scrollToBottom();
+    // jumpToButton();
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/background.jpeg'),
+          fit: BoxFit.cover,
         ),
-        padding: EdgeInsets.only(bottom: 3),
-        child: StreamBuilder(
-          stream: widget.channel.stream,
-          builder: (context, snapshot) {
-            print('----------------------------------------');
-            print(snapshot.data);
-            print('----------------------------------------');
-            if (snapshot.hasData) {
-              try {
-                var jsonResponse = convert.json.decode(snapshot.data);
-                List mapList = jsonResponse['data'];
-                messageList = [];
-                for (int i = 0; i < mapList.length; i++) {
-                  messageList.add(
-                    Message(
-                      textId: mapList[i]['message_id'],
-                      dateTime: mapList[i]['ctime'],
-                      text: mapList[i]['text'],
-                      repliedMessageId: mapList[i]['parent_message'],
-                      url: widget.otherUserImageUrl,
-                      chatRoomId: widget.chatRoomId,
-                      isMe: mapList[i]['owner'] == widget.user.userId,
-                      currentUsername: mapList[i]['owner'] == widget.user.userId
-                          ? '${widget.user.firstName} ${widget.user.lastName}'
-                          : widget.otherUser,
-                    ),
-                  );
-                }
-                searchOnMessages();
-                if (messageList.length == 0) {
-                  return Center();
-                }
-                return listBody(messageList);
-              } catch (e) {
-                return Center(
-                  child: kMyProgressIndicator,
+        color: Colors.grey[400],
+      ),
+      padding: EdgeInsets.only(bottom: 3),
+      child: StreamBuilder(
+        stream: widget.channel.stream,
+        builder: (context, snapshot) {
+          // print('----------------------------------------');
+          // print(snapshot.data);
+          // print('----------------------------------------');
+          if (snapshot.hasData) {
+            try {
+              var jsonResponse = convert.json.decode(snapshot.data);
+              print('----------------------------------------');
+              print(jsonResponse['type']);
+              print('----------------------------------------');
+              List mapList = jsonResponse['data'];
+              messageList = [];
+              for (int i = 0; i < mapList.length; i++) {
+                messageList.add(
+                  Message(
+                    textId: mapList[i]['message_id'],
+                    dateTime: mapList[i]['ctime'],
+                    text: mapList[i]['text'],
+                    repliedMessageId: mapList[i]['parent_message'],
+                    chatRoomId: widget.chatRoomId,
+                    isMe: mapList[i]['owner'] == widget.user.userId,
+                    currentUsername: mapList[i]['owner'] == widget.user.userId
+                        ? '${widget.user.firstName} ${widget.user.lastName}'
+                        : widget.otherUser,
+                    file: mapList[i]['file'],
+                  ),
                 );
               }
-            } //
-            else if (snapshot.hasError) {
+              searchOnMessages();
+              if (messageList.length == 0) {
+                return Center();
+              }
+              return listBody(messageList);
+            } catch (e) {
+              // print("============================");
+              // print(e);
+              widget.fetcher();
               return Center(
                 child: kMyProgressIndicator,
               );
             }
-            // snapshot without value
-            else {
-              return Center(
-                child: kMyProgressIndicator,
-              );
-            }
-          },
-        ),
+          } //
+          else if (snapshot.hasError) {
+            return Center(
+              child: kMyProgressIndicator,
+            );
+          }
+          // snapshot without value
+          else {
+            return Center(
+              child: kMyProgressIndicator,
+            );
+          }
+        },
       ),
     );
   }
 
-  searchOnMessages(){
-    for(int i=0;i<messageList.length;i++){
-      if(messageList[i].repliedMessageId != null){
+  searchOnMessages() {
+    for (int i = 0; i < messageList.length; i++) {
+      if (messageList[i].repliedMessageId != null) {
         int index = messageList[i].repliedMessageId;
-        print(messageList[i].repliedMessageUser);
+        // print(messageList[i].repliedMessageUser);
         Message message = getSearchedMessage(index);
-        print('found');
+        // print('found');
         messageList[i].repliedMessageText = message.text;
         messageList[i].repliedMessageId = message.textId;
         messageList[i].repliedMessageUser = message.currentUsername;
-        print(messageList[i].repliedMessageUser);
+        // print(messageList[i].repliedMessageUser);
       }
     }
   }
 
-  Message getSearchedMessage(int indexToSearch){
-    for(int i=0;i<messageList.length;i++){
-      if(messageList[i].textId == indexToSearch){
+  Message getSearchedMessage(int indexToSearch) {
+    for (int i = 0; i < messageList.length; i++) {
+      if (messageList[i].textId == indexToSearch) {
         Message message = messageList[i];
         return message;
       }
@@ -147,9 +155,18 @@ class _MessageBubblesState extends State<MessageBubbles> {
   }
 
   listBody(List<Message> list) {
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   print(timeStamp.inMilliseconds);
+    // });
+    // widget.scrollToBottom();
     return ListView.builder(
+      scrollDirection: Axis.vertical,
       controller: widget.chatScrollController,
+      // controller: chatController,
+      // physics: NeverScrollableScrollPhysics(),
       itemCount: list.length,
+      // shrinkWrap: true,
+      // reverse: true,
       itemBuilder: (context, index) {
         return ChatBubble(
           message: list[index],
@@ -180,7 +197,7 @@ class _MessageBubblesState extends State<MessageBubbles> {
       ),
     );
     widget.changeEditingToFalse();
-    widget.fetcher();
+    // widget.fetcher();
     Navigator.pop(context);
   }
 
@@ -226,5 +243,13 @@ class _MessageBubblesState extends State<MessageBubbles> {
         },
       );
     }
+  }
+
+  void jumpToButton() {
+    // widget.chatScrollController.
+    chatController.jumpTo(chatController.position.maxScrollExtent);
+    // Timer(Duration(seconds: 1), () {
+    //   chatController.jumpTo(chatController.position.maxScrollExtent);
+    // });
   }
 }

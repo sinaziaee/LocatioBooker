@@ -395,6 +395,8 @@ class _IdentityScreenState extends State<IdentityScreen> {
     map['number_of_bedrooms'] = widget.resortIdentification.numRooms;
     map['image_id_list'] = widget.imageIds;
     map['facilities_list'] = widget.facilitation.getItemsList();
+    print(widget.facilitation.getItemsList());
+    print(widget.laws.lawsList);
     map["doc_id_list"] = fileList;
     // todo: upload laws too
     map['rules_id_list'] = widget.laws.lawsList;

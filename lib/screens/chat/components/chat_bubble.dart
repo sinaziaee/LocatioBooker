@@ -36,7 +36,7 @@ class ChatBubble extends StatelessWidget {
                       onMessageTapped(message);
                     },
                   child: ChatBody(
-                    isFile: false,
+                    isFile: message.file != null,
                     isReplied: message.repliedMessageId != null,
                     size: size,
                     message: message,
@@ -53,7 +53,7 @@ class ChatBubble extends StatelessWidget {
                     onMessageTapped(message);
                   },
                   child: ChatBody(
-                    isFile: false,
+                    isFile: message.file != null,
                     isReplied: message.repliedMessageId != null,
                     message: message,
                     size: size,

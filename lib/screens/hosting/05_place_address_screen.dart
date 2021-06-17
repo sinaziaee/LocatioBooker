@@ -217,11 +217,13 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
     onPressed(postalCode, address);
   }
 
-  onPressed(String postalCode, String address) async{
+  onPressed(String postalCode, String address) async {
     int pCode;
     if (postalCode.length != 0) {
       pCode = int.parse(postalCode);
     }
+
+    countryValue = countryValue.replaceAll('Province', '').replaceAll(' ', '');
 
     PlaceAddress placeAddress = PlaceAddress(
       postalCode: pCode,
@@ -233,9 +235,11 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
 
     // todo: check null safety
     var coordinates = await getLocation();
-    if(coordinates == null){
+    if (coordinates == null) {
       return;
     }
+
+    print(placeAddress.state);
 
     Navigator.push(
       context,
@@ -253,16 +257,16 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
     );
   }
 
-  Future<Coordinates> getLocation() async{
+  Future<Coordinates> getLocation() async {
     setState(() {
       showSpinner = true;
     });
-    Coordinates response = await StaticMethods.getLocation(context, cityValue, stateValue, countryValue);
+    Coordinates response = await StaticMethods.getLocation(
+        context, cityValue, stateValue, countryValue);
     print(response);
     setState(() {
       showSpinner = true;
     });
     return response;
   }
-
 }

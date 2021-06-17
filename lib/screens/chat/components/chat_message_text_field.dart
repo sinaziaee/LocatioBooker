@@ -6,7 +6,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'dart:convert' as convert;
 
 class ChatMessageTextField extends StatefulWidget {
-  final FocusNode node;
+  // final FocusNode node;
   final String repliedUser, repliedText;
   final int repliedTextId;
   final Function onClearPressed, onFileSelectorPressed;
@@ -17,7 +17,7 @@ class ChatMessageTextField extends StatefulWidget {
   final Message messageToEdit;
 
   ChatMessageTextField({
-    this.node,
+    // this.node,
     this.repliedText,
     this.repliedUser,
     this.repliedTextId,
@@ -41,150 +41,148 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Visibility(
-            visible:
-            (widget.repliedText != null && widget.repliedText.length != 0) || widget.isEditing,
-            child: Container(
-              height: 50,
-              child: Center(
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 15,
+    return Column(
+      children: [
+        Visibility(
+          visible:
+          (widget.repliedText != null && widget.repliedText.length != 0) || widget.isEditing,
+          child: Container(
+            height: 50,
+            child: Center(
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Transform.rotate(
+                    angle: 3.05,
+                    child: Icon(
+                      widget.isEditing
+                          ? FontAwesomeIcons.edit
+                          : FontAwesomeIcons.reply,
+                      color: Colors.blueGrey[800],
                     ),
-                    Transform.rotate(
-                      angle: 3.05,
-                      child: Icon(
-                        widget.isEditing
-                            ? FontAwesomeIcons.edit
-                            : FontAwesomeIcons.reply,
-                        color: Colors.blueGrey[800],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 5,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          widget.repliedUser ?? '',
+                          style: kBody2TextStyle.copyWith(
+                            color: Colors.blueGrey[800],
+                            fontSize: 16,
                           ),
-                          Text(
-                            widget.repliedUser ?? '',
+                        ),
+                        SizedBox(
+                          height: 1,
+                        ),
+                        Container(
+                          child: Text(
+                            widget.repliedText ?? '',
                             style: kBody2TextStyle.copyWith(
-                              color: Colors.blueGrey[800],
-                              fontSize: 16,
+                              color: Colors.black,
+                              fontSize: 14,
                             ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          SizedBox(
-                            height: 1,
-                          ),
-                          Container(
-                            child: Text(
-                              widget.repliedText ?? '',
-                              style: kBody2TextStyle.copyWith(
-                                color: Colors.black,
-                                fontSize: 14,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      onPressed: widget.onClearPressed,
-                      icon: Icon(
-                        Icons.clear,
-                        color: Colors.blueGrey,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Visibility(
-            visible: widget.repliedText != null,
-            child: Container(
-              height: 0.3,
-              color: Colors.black,
-            ),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Column(
-                children: [
+                  ),
                   IconButton(
-                    onPressed: widget.onFileSelectorPressed,
+                    onPressed: widget.onClearPressed,
                     icon: Icon(
-                      Icons.attach_file,
-                      color: Colors.grey[600],
+                      Icons.clear,
+                      color: Colors.blueGrey,
                     ),
-                    iconSize: 20,
                   ),
                 ],
               ),
-              Expanded(
-                child: Container(
-                  child: TextField(
-                    cursorColor: Colors.blueGrey,
-                    controller: widget.chatController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding: EdgeInsets.only(
-                        bottom: 5,
-                        top: 5,
-                      ),
-                      hintText: 'Message',
-                      hintStyle: kBody2TextStyle.copyWith(
-                        color: Colors.grey,
-                      ),
+            ),
+          ),
+        ),
+        Visibility(
+          visible: widget.repliedText != null,
+          child: Container(
+            height: 0.3,
+            color: Colors.black,
+          ),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Column(
+              children: [
+                IconButton(
+                  onPressed: widget.onFileSelectorPressed,
+                  icon: Icon(
+                    Icons.attach_file,
+                    color: Colors.grey[600],
+                  ),
+                  iconSize: 20,
+                ),
+              ],
+            ),
+            Expanded(
+              child: Container(
+                child: TextField(
+                  cursorColor: Colors.blueGrey,
+                  controller: widget.chatController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
                     ),
-                    // focusNode: widget.node,
-                    maxLines: 6,
-                    minLines: 1,
-                    style: kBody1TextStyle.copyWith(
-                      color: Colors.black,
-                      fontSize: 15,
+                    contentPadding: EdgeInsets.only(
+                      bottom: 5,
+                      top: 5,
                     ),
+                    hintText: 'Message',
+                    hintStyle: kBody2TextStyle.copyWith(
+                      color: Colors.grey,
+                    ),
+                  ),
+                  // focusNode: widget.node,
+                  maxLines: 6,
+                  minLines: 1,
+                  style: kBody1TextStyle.copyWith(
+                    color: Colors.black,
+                    fontSize: 15,
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      sendMessage();
-                      widget.node.unfocus();
-                    },
-                    iconSize: 20,
-                    icon: Transform.rotate(
-                      angle: -0.5,
-                      child: Icon(
-                        Icons.send,
-                        color: Colors.blueGrey,
-                      ),
+            ),
+            Column(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    sendMessage();
+                    // widget.node.unfocus();
+                  },
+                  iconSize: 20,
+                  icon: Transform.rotate(
+                    angle: -0.5,
+                    child: Icon(
+                      Icons.send,
+                      color: Colors.blueGrey,
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -194,8 +192,8 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
       Map map = Map();
       map['type'] = 'create';
       map['message'] = widget.chatController.text;
-      print(widget.repliedText);
-      print(widget.repliedTextId);
+      // print(widget.repliedText);
+      // print(widget.repliedTextId);
       if (widget.repliedText != null) {
         map['parent_message'] = widget.repliedTextId;
       }
@@ -203,8 +201,8 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
       widget.channel.sink.add(json);
     } // editing message
     else {
-      print('************************************');
-      print(widget.chatController.text);
+      // print('************************************');
+      // print(widget.chatController.text);
       widget.channel.sink.add(
         convert.json.encode(
           {
@@ -218,6 +216,6 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
     widget.changeEditingToFalse();
     widget.chatController.clear();
     widget.onClearPressed();
-    widget.fetcher();
+    // widget.fetcher();
   }
 }

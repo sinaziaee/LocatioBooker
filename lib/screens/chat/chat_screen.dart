@@ -1,14 +1,19 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/screens/chat/components/chat_message_text_field.dart';
 import 'package:loctio_booker/static_methods.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert' as convert;
 import '../../models/user.dart';
 import 'components/message_bubbles.dart';
 import 'models/message.dart';
+import 'package:http/http.dart' as http;
 
 class ChatScreen extends StatefulWidget {
   static String id = 'chat_screen';
@@ -30,9 +35,12 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   String socketUrl = 'ws://192.168.43.126:8000/ws/api/chat';
+  String uploadFileUrl = '$mainUrl/api/chat/upload/';
+
   final TextEditingController chatController = TextEditingController();
   WebSocketChannel channel;
-  FocusNode focusNode;
+
+  // FocusNode focusNode;
   Size size;
   ScrollController chatScrollController = ScrollController();
   File file;
@@ -40,76 +48,83 @@ class _ChatScreenState extends State<ChatScreen> {
   String repliedUser, repliedText;
   int repliedTextId;
   Message messageToEdit;
+  bool showSpinner = false;
 
   @override
   Widget build(BuildContext context) {
-    focusNode = FocusScope.of(context);
+    // focusNode = FocusScope.of(context);
     size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: StaticMethods.chatAppbar(
           context, widget.otherUserImageUrl, widget.otherUser),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          MessageBubbles(
-            chatScrollController: chatScrollController,
-            size: size,
-            onSwipe: (id, text, user) {
-              onSwiped(id, text, user);
-            },
-            scrollToBottom: () {
-              scrollToBottom();
-            },
-            fetcher: () {
-              fetcher();
-            },
-            changeEditingToFalse: () {
-              changeEditToFalse();
-            },
-            channel: channel,
-            otherUserImageUrl: widget.otherUserImageUrl,
-            otherUser: widget.otherUser,
-            chatRoomId: widget.chatRoomId,
-            user: widget.user,
-            chatController: chatController,
-            isEditing: isEditing,
-            messageToEdit: messageToEdit,
-            changeEditingToTrue: () {
-              changeEditToTrue();
-            },
-            onEditPressed: (message) {
-              onEditPressed(message);
-            },
-            onRepliedPressed: (id, text, user) {
-              onRepliedInDialogPressed(id, text, user);
-            },
-          ),
-          ChatMessageTextField(
-            node: focusNode,
-            repliedText: repliedText,
-            repliedUser: repliedUser,
-            repliedTextId: repliedTextId,
-            channel: channel,
-            scrollToBottom: () {
-              scrollToBottom();
-            },
-            onClearPressed: () {
-              cleaner();
-            },
-            chatController: chatController,
-            onFileSelectorPressed: () {
-              showFileSelector();
-            },
-            fetcher: () {
-              fetcher();
-            },
-            changeEditingToFalse: () {
-              changeEditToFalse();
-            },
-            isEditing: isEditing,
-            messageToEdit: messageToEdit,
-          ),
-        ],
+      body: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+        progressIndicator: kMyProgressIndicator,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+              child: MessageBubbles(
+                chatScrollController: chatScrollController,
+                size: size,
+                onSwipe: (id, text, user) {
+                  onSwiped(id, text, user);
+                },
+                scrollToBottom: () {
+                  scrollToBottom();
+                },
+                fetcher: () {
+                  fetcher();
+                },
+                changeEditingToFalse: () {
+                  changeEditToFalse();
+                },
+                channel: channel,
+                otherUserImageUrl: widget.otherUserImageUrl,
+                otherUser: widget.otherUser,
+                chatRoomId: widget.chatRoomId,
+                user: widget.user,
+                chatController: chatController,
+                isEditing: isEditing,
+                messageToEdit: messageToEdit,
+                changeEditingToTrue: () {
+                  changeEditToTrue();
+                },
+                onEditPressed: (message) {
+                  onEditPressed(message);
+                },
+                onRepliedPressed: (id, text, user) {
+                  onRepliedInDialogPressed(id, text, user);
+                },
+              ),
+            ),
+            ChatMessageTextField(
+              // node: focusNode,
+              repliedText: repliedText,
+              repliedUser: repliedUser,
+              repliedTextId: repliedTextId,
+              channel: channel,
+              scrollToBottom: () {
+                scrollToBottom();
+              },
+              onClearPressed: () {
+                cleaner();
+              },
+              chatController: chatController,
+              onFileSelectorPressed: () {
+                showFileSelector();
+              },
+              fetcher: () {
+                fetcher();
+              },
+              changeEditingToFalse: () {
+                changeEditToFalse();
+              },
+              isEditing: isEditing,
+              messageToEdit: messageToEdit,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -118,7 +133,8 @@ class _ChatScreenState extends State<ChatScreen> {
     FilePickerResult result = await FilePicker.platform.pickFiles();
     if (result != null) {
       file = File(result.files.single.path);
-      setState(() {});
+      // setState(() {});
+      uploadFile();
     } else {
       // User canceled the picker
     }
@@ -152,7 +168,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   onChatConnected() {
-    print('${widget.user.token.replaceAll('Token ', '')}');
+    // print('${widget.user.token.replaceAll('Token ', '')}');
     // trying to authorize user
     channel.sink.add(
       convert.json.encode(
@@ -162,9 +178,9 @@ class _ChatScreenState extends State<ChatScreen> {
         },
       ),
     );
-    print('auth');
+    // print('auth');
     // fetching all messages
-    fetcher();
+    // fetcher();
   }
 
   onClearPressed() {
@@ -181,7 +197,29 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   scrollToBottom() {
-    chatScrollController.jumpTo(chatScrollController.position.minScrollExtent);
+    // chatScrollController.jumpTo(chatScrollController.position.maxScrollExtent);
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   if(chatScrollController.hasClients){
+    //     // chatScrollController.jumpTo(chatScrollController.position.maxScrollExtent);
+    //     chatScrollController.jumpTo(chatScrollController.position.maxScrollExtent);
+    //   }
+    // });
+
+    Timer(Duration(milliseconds: 800), () {
+      chatScrollController.jumpTo(chatScrollController.position.maxScrollExtent);
+    });
+
+    // chatScrollController.jumpTo(chatScrollController.position.maxScrollExtent);
+
+    // if(chatScrollController.hasClients){
+    //   chatScrollController.jumpTo(chatScrollController.position.maxScrollExtent);
+    // }
+
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   print(timeStamp.inMilliseconds);
+    //   chatScrollController.jumpTo(chatScrollController.position.maxScrollExtent);
+    // });
+
   }
 
   onEditPressed(Message message) {
@@ -191,8 +229,8 @@ class _ChatScreenState extends State<ChatScreen> {
     repliedText = message.text;
     repliedUser = message.currentUsername;
     messageToEdit = message;
-    print('============================');
-    print(messageToEdit.textId);
+    // print('============================');
+    // print(messageToEdit.textId);
     Navigator.pop(context);
   }
 
@@ -212,5 +250,54 @@ class _ChatScreenState extends State<ChatScreen> {
 
   changeEditToFalse() {
     isEditing = false;
+  }
+
+  uploadFile() async {
+    // print('-------------------------');
+    setState(() {
+      showSpinner = false;
+    });
+    // print(uploadFileUrl);
+    // print(file.path);
+    Dio dio = new Dio();
+    String lastPart = file.path.split('/').last;
+    FormData formData;
+    formData = FormData.fromMap({
+      "file": await MultipartFile.fromFile(
+        file.path,
+        filename: lastPart,
+      ),
+      'chat_id': widget.chatRoomId,
+    });
+    dio
+        .post(
+      uploadFileUrl,
+      data: formData,
+      options: Options(
+          method: 'POST',
+          headers: {
+            HttpHeaders.authorizationHeader: widget.user.token,
+          },
+          responseType: ResponseType.json),
+    )
+        .then((response) {
+      // uploadAll();
+      // print('----------------------------');
+      // print(response);
+      setState(() {
+        showSpinner = false;
+      });
+      fetcher();
+      // file = null;
+    }).catchError((error) {
+      // print('*****************************');
+      // print(error);
+      fetcher();
+      StaticMethods.showErrorDialog(context, 'An error occured while uploading files');
+      setState(() {
+        showSpinner = false;
+      });
+      // file = null;
+    });
   }
 }

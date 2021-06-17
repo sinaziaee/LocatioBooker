@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 
 class ChatFileBubble extends StatelessWidget {
-  final String fileLast, url, time;
+  final String fileLast, url, time, text;
 
   ChatFileBubble({
     this.url,
     this.fileLast,
     this.time,
+    @required this.text,
   });
 
   @override
@@ -21,16 +22,27 @@ class ChatFileBubble extends StatelessWidget {
           height: 90,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
+            color: Colors.blueGrey,
           ),
           child: Icon(
             Icons.download_rounded,
-            color: Colors.blueGrey,
+            color: Colors.white,
             size: 60,
           ),
         ),
+        SizedBox(
+          height: 5,
+        ),
         Text(
           fileLast,
+          textAlign: TextAlign.start,
+          style: kBody2TextStyle.copyWith(
+            color: Colors.grey[700],
+            fontSize: 13,
+          ),
+        ),
+        Text(
+          text,
           textAlign: TextAlign.start,
           style: kBody2TextStyle.copyWith(
             color: Colors.black,

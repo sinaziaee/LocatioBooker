@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/screens/chat/components/chat_file_bubble.dart';
 import 'package:loctio_booker/screens/chat/components/chat_image_bubble.dart';
 import 'package:loctio_booker/screens/chat/components/chat_text_bubble.dart';
@@ -28,6 +29,12 @@ class ChatBody extends StatelessWidget {
   }
 
   showChat(BuildContext context) {
+    if(isFile){
+      fileLast = message.file.split('/').last;
+    }
+    // print('======================');
+    // print(isFile);
+    // print('======================');
     // simple message
     if (!isReplied && !isFile) {
       return ChatTextBubble(
@@ -72,21 +79,24 @@ class ChatBody extends StatelessWidget {
   }
 
   showImageFile(BuildContext context) {
+    // print('$mainUrl${message.file}');
     // image
-    if (message.url.endsWith('.jpg') ||
-        message.url.endsWith('.jpeg') ||
-        message.url.endsWith('.png')) {
+    if (message.file.endsWith('.jpg') ||
+        message.file.endsWith('.jpeg') ||
+        message.file.endsWith('.png')) {
       return ChatImageBubble(
         time: message.dateTime.substring(10, 16),
         fileLast: fileLast,
-        url: message.url,
+        file: message.file,
+        text: message.text ?? '',
       );
     }
     // file (not image)
     else {
       return ChatFileBubble(
-        url: message.url,
+        url: message.file,
         fileLast: fileLast,
+        text: message.text ?? '',
         time: message.dateTime.substring(10, 16),
       );
     }

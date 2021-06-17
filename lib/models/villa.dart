@@ -24,7 +24,7 @@ class Villa {
   final int numberOfDoubleBeds;
   final double rate;
   final int numberOfShowers;
-  final int area;
+  final int area, ownerId;
   final List rules;
   final ResortIdentification ri;
 
@@ -53,6 +53,7 @@ class Villa {
     this.latitude,
     this.longitude,
     this.area,
+    this.ownerId,
     this.ri,
     this.rules,
   });
@@ -82,6 +83,7 @@ class Villa {
         country: json['country'],
         state: json['state'],
         city: json['city'],
+        ownerId: json['owner_id'],
         address: json['address'],
         postalCode: json['postal_code'],
         name: json['name'],

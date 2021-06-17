@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 
 class ChatImageBubble extends StatelessWidget {
-
   final String fileLast;
   final String time;
-  final String url;
+  final String file, text;
 
-  ChatImageBubble({this.time, this.fileLast, this.url});
+  ChatImageBubble({
+    this.time,
+    this.fileLast,
+    this.file,
+    @required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +29,7 @@ class ChatImageBubble extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     child: FadeInImage(
                       placeholder: AssetImage('assets/images/as.jpg'),
-                      image: NetworkImage(tempHouseImage),
+                      image: NetworkImage('$mainUrl$file'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -38,15 +42,26 @@ class ChatImageBubble extends StatelessWidget {
             borderRadius: BorderRadius.circular(5),
             child: FadeInImage(
               placeholder: AssetImage('assets/images/as.jpg'),
-              image: NetworkImage(tempHouseImage),
+              image: NetworkImage('$mainUrl$file'),
               width: 200,
-              // height: 200,
+              height: 200,
               fit: BoxFit.cover,
             ),
           ),
         ),
+        SizedBox(
+          height: 5,
+        ),
         Text(
           fileLast,
+          textAlign: TextAlign.start,
+          style: kBody2TextStyle.copyWith(
+            color: Colors.grey[700],
+            fontSize: 13,
+          ),
+        ),
+        Text(
+          text,
           textAlign: TextAlign.start,
           style: kBody2TextStyle.copyWith(
             color: Colors.black,

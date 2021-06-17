@@ -7,7 +7,6 @@ import 'dart:convert' as convert;
 
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/chat/chat_screen.dart';
-import 'package:loctio_booker/screens/chat/temp_chat.dart';
 import 'package:loctio_booker/screens/home/components/chat_rooms_item.dart';
 
 class ChatRoomsPage extends StatefulWidget {

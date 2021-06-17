@@ -96,6 +96,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                                       onChatPressed: () {
                                         onChatPressed();
                                       },
+                                      user: widget.user,
                                     ),
                                     DetailRowItem(
                                       value:
@@ -202,6 +203,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
       if (response.statusCode < 400) {
         var jsonResponse =
             convert.json.decode(convert.utf8.decode(response.bodyBytes));
+        // print('--------------------------------');
         // print(jsonResponse);
         this.villa = Villa.fromJson(jsonResponse);
         imagesUrlList.clear();
@@ -251,7 +253,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
   onChatPressed() async {
     print(addChatUrl);
     Map userMap = Map();
-    // userMap['contact'] = villa.ow;
+    userMap['contact'] = villa.ownerId;
     http.Response response = await http.post(
       Uri.parse(addChatUrl),
       headers: {

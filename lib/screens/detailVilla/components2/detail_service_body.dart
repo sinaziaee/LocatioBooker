@@ -3,14 +3,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/models/villa.dart';
 
 import '../../../constants.dart';
+import '../../../models/user.dart';
 
 class DetailServiceBody extends StatelessWidget {
   final Villa villa;
   final Function onChatPressed;
+  final User user;
 
   DetailServiceBody({
     this.villa,
     this.onChatPressed,
+    this.user,
   });
 
   @override
@@ -47,15 +50,18 @@ class DetailServiceBody extends StatelessWidget {
                   ],
                 ),
               ),
-              Positioned(
-                right: 10,
-                child: IconButton(
-                  iconSize: 40,
-                  icon: Icon(
-                    FontAwesomeIcons.telegram,
-                    color: Colors.blue,
+              Visibility(
+                visible: villa.ownerId != user.userId,
+                child: Positioned(
+                  right: 10,
+                  child: IconButton(
+                    iconSize: 40,
+                    icon: Icon(
+                      FontAwesomeIcons.telegram,
+                      color: Colors.blue,
+                    ),
+                    onPressed: onChatPressed,
                   ),
-                  onPressed: onChatPressed,
                 ),
               ),
             ],
