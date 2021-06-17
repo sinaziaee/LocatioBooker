@@ -61,54 +61,56 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
               ),
               color: Colors.white,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.chevron_left),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: searchController,
-                        autofocus: true,
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.search,
-                        cursorWidth: 1,
-                        style: TextStyle(),
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration.collapsed(
-                          border: InputBorder.none,
-                          hintText: 'Who do you want to search for?',
-                        ),
-                      ),
-                    ),
-                    Visibility(
-                      visible: searchController.text.isNotEmpty,
-                      child: IconButton(
-                        color: Colors.grey,
-                        icon: Icon(Icons.clear),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.chevron_left),
                         onPressed: () {
-                          searchController.clear();
+                          Navigator.pop(context);
                         },
                       ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-              ],
+                      Expanded(
+                        child: TextField(
+                          controller: searchController,
+                          autofocus: true,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.search,
+                          cursorWidth: 1,
+                          style: TextStyle(),
+                          cursorColor: Colors.black,
+                          decoration: InputDecoration.collapsed(
+                            border: InputBorder.none,
+                            hintText: 'Who do you want to search for?',
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: searchController.text.isNotEmpty,
+                        child: IconButton(
+                          color: Colors.grey,
+                          icon: Icon(Icons.clear),
+                          onPressed: () {
+                            searchController.clear();
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -47,9 +47,9 @@ class ChatRoomItem extends StatelessWidget {
               username ?? 'username',
               // style: kBody2TextStyle.copyWith(),
             ),
-            subtitle: Text(lastText ?? 'last date'),
+            subtitle: Text((lastText != null && lastText.length != 0) ? lastText : ''),
             trailing: Text(
-              (lastDateTime != null) ? lastDateTime.substring(0, 16) : '2020',
+              (lastDateTime != null && lastDateTime.length != 0) ? lastDateTime.substring(0, 16) : 'N/A',
             ),
           ),
         ),

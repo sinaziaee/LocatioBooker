@@ -26,12 +26,15 @@ class _ChatRoomsPageState extends State<ChatRoomsPage> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Container(
+      color: Colors.white,
       child: FutureBuilder(
         future: getChatRooms(),
         builder: (context, snapshot) {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {
             http.Response response = snapshot.data;
+            print('---------------------------');
+            print(response.body);
             if (response.statusCode < 400) {
               var jsonResponse =
                   convert.json.decode(convert.utf8.decode(response.bodyBytes));
@@ -52,8 +55,8 @@ class _ChatRoomsPageState extends State<ChatRoomsPage> {
                     imageUrl: item['image'],
                     chatRoomId: item['chat_id'],
                     username: '${item['first_name']} ${item['last_name']}',
-                    lastDateTime: item['last_message']['ctime'],
-                    lastText: item['last_message']['text'],
+                    lastDateTime: item['last_message'] != null ? item['last_message']['ctime'] : '',
+                    lastText: item['last_message'] != null ? item['last_message']['text'] : '',
                     isLast: index == list.length - 1,
                   );
                 },
