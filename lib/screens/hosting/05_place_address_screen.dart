@@ -11,8 +11,7 @@ import '../../models/facilitation.dart';
 import 'components/bottom_container.dart';
 import 'components/country_state_city_picker.dart';
 import 'components/my_textfield.dart';
-import '08_gallery_screen.dart';
-import "package:latlong/latlong.dart" as latLng;
+import "package:latlong2/latlong.dart" as latLng;
 import '../../models/place_address.dart';
 
 class PlaceAddressScreen extends StatefulWidget {
@@ -218,11 +217,13 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
     onPressed(postalCode, address);
   }
 
-  onPressed(String postalCode, String address) async{
+  onPressed(String postalCode, String address) async {
     int pCode;
     if (postalCode.length != 0) {
       pCode = int.parse(postalCode);
     }
+
+    countryValue = countryValue.replaceAll('Province', '').replaceAll(' ', '');
 
     PlaceAddress placeAddress = PlaceAddress(
       postalCode: pCode,
@@ -234,9 +235,11 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
 
     // todo: check null safety
     var coordinates = await getLocation();
-    if(coordinates == null){
+    if (coordinates == null) {
       return;
     }
+
+    print(placeAddress.state);
 
     Navigator.push(
       context,
@@ -254,16 +257,16 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
     );
   }
 
-  Future<Coordinates> getLocation() async{
+  Future<Coordinates> getLocation() async {
     setState(() {
       showSpinner = true;
     });
-    Coordinates response = await StaticMethods.getLocation(context, cityValue, stateValue, countryValue);
+    Coordinates response = await StaticMethods.getLocation(
+        context, cityValue, stateValue, countryValue);
     print(response);
     setState(() {
       showSpinner = true;
     });
     return response;
   }
-
 }

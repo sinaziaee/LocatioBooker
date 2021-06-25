@@ -109,6 +109,7 @@ class _FacilitationScreenState extends State<FacilitationScreen> {
       return;
     }
 
+    print(facilitations.getItemsList());
 
     Navigator.push(
       context,

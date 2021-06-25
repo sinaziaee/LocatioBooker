@@ -1,6 +1,6 @@
 import 'package:loctio_booker/models/resort_identification.dart';
 
-class Villa{
+class Villa {
   final int id;
   final String country;
   final String state;
@@ -18,54 +18,73 @@ class Villa{
   final double longitude;
   final int capacity;
   final int maxCapacity;
-  final int number_of_bathrooms;
-  final int number_of_bedrooms;
-  final int number_of_single_beds;
-  final int number_of_double_beds;
-  final int number_of_showers;
-  final int area;
+  final int numberOfBathrooms;
+  final int numberOfBedrooms;
+  final int numberOfSingleBeds;
+  final int numberOfDoubleBeds;
+  final double rate;
+  final int numberOfShowers;
+  final int area, ownerId;
+  final List rules;
   final ResortIdentification ri;
 
-  ///*
-  Villa({this.capacity, this.maxCapacity, this.number_of_bathrooms,
-    this.number_of_bedrooms, this.number_of_single_beds,
-    this.number_of_double_beds, this.number_of_showers, this.id , this.country, this.state,
-    this.city, this.address,
-    this.postalCode,  this.name,this.owner ,
-    this.type, this.description,
-    this.price,  this.images,
-    this.facilities,  this.latitude,
-    this.longitude,  this.area,  this.ri});//*/
+  Villa({
+    this.capacity,
+    this.rate,
+    this.maxCapacity,
+    this.numberOfBathrooms,
+    this.numberOfBedrooms,
+    this.numberOfSingleBeds,
+    this.numberOfDoubleBeds,
+    this.numberOfShowers,
+    this.id,
+    this.country,
+    this.state,
+    this.city,
+    this.address,
+    this.postalCode,
+    this.name,
+    this.owner,
+    this.type,
+    this.description,
+    this.price,
+    this.images,
+    this.facilities,
+    this.latitude,
+    this.longitude,
+    this.area,
+    this.ownerId,
+    this.ri,
+    this.rules,
+  });
 
-  factory Villa.fromJson(Map<String, dynamic> json){
+  factory Villa.fromJson(Map<String, dynamic> json) {
     List<String> imagesList = [];
     List<String> facilitiesList = [];
 
-
-    for(var item in json['images']){
-      //print("item : ${item}");
+    for (var item in json['images']) {
+      // print("item : ${item}");
       imagesList.add(item);
     }
 
-    for(var item in json['facilities']){
+    for (var item in json['facilities']) {
       facilitiesList.add(item);
     }
     return Villa(
         id: json['villa_id'],
-        number_of_bathrooms : json['number_of_bathrooms'],
-        number_of_bedrooms : json['number_of_bedrooms'],
-        number_of_double_beds : json['number_of_double_beds'],
-        number_of_single_beds: json['number_of_single_beds'],
-        number_of_showers: json['number_of_showers'],
-
+        numberOfBathrooms: json['number_of_bathrooms'],
+        numberOfBedrooms: json['number_of_bedrooms'],
+        numberOfDoubleBeds: json['number_of_double_beds'],
+        numberOfSingleBeds: json['number_of_single_beds'],
+        numberOfShowers: json['number_of_showers'],
         capacity: json['capacity'],
         maxCapacity: json['max_capacity'],
-
-
-        country : json['country'],
-        state : json['state'],
+        owner: json['owner'],
+        country: json['country'],
+        state: json['state'],
         city: json['city'],
-        address : json['address'],
+        ownerId: json['owner_id'],
+        address: json['address'],
         postalCode: json['postal_code'],
         name: json['name'],
         type: json['type'],
@@ -76,8 +95,9 @@ class Villa{
         latitude: json['latitude'],
         longitude: json['longitude'],
         area: json['area'],
+        rules: json['rules'],
+        rate: json['rate'],
         ri: json['ri']);
-
   }
 
 }

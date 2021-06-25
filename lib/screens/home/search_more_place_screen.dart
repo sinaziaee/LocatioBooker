@@ -27,11 +27,12 @@ class SearchMorePlaceScreen extends StatefulWidget {
 class _SearchMorePlaceScreenState extends State<SearchMorePlaceScreen> {
   Size size;
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-  String url = '$mainUrl/api/villa/search/?number_of_villa=10';
+  String url = '$mainUrl/api/villa';
   String country = '', state = '', city = '';
 
   @override
   Widget build(BuildContext context) {
+    url = '$url/${widget.category}/show/?number_of_villa=10';
     print(
         '$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
         '${(state != null && state.length != 0) ? '&state=$state' : ''}'

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/login_screen.dart';
+import 'package:loctio_booker/screens/home/pages/chat_rooms_page.dart';
 import 'package:loctio_booker/screens/profile/settings_page.dart';
 import 'package:loctio_booker/screens/home/search_profile_screen.dart';
 import 'pages/temp_sliver.dart';
@@ -13,6 +14,7 @@ import 'search_city_screen.dart';
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';
   final Key key = Key('home_screen_key');
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -29,7 +31,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget bodyContainer(int index) {
     if (index == 0) {
       return HomePage(size, user);
-    } else if (index == 4) {
+    } // 3
+    else if (index == 3){
+      return ChatRoomsPage(
+        user: user,
+      );
+    } // 4
+    else if (index == 4) {
       return SettingsPage.user(user, size);
     }
     // else if(index == 2){
@@ -65,8 +73,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    size = MediaQuery.of(context).size;
-    args = ModalRoute.of(context).settings.arguments;
+    size = MediaQuery
+        .of(context)
+        .size;
+    args = ModalRoute
+        .of(context)
+        .settings
+        .arguments;
     user = args['user'];
     token = user.token;
     // user.printUser();

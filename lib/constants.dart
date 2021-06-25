@@ -1,3 +1,4 @@
+import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 
 final kOutLineInputBorder = OutlineInputBorder(
@@ -29,6 +30,28 @@ final kBodyTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
 );
 
+final leftDecoration = BoxDecoration(
+  borderRadius: BorderRadius.only(
+    topLeft: Radius.circular(20),
+    bottomLeft: Radius.circular(20),
+  ),
+  border: Border.all(
+    color: Colors.blueGrey[800],
+    width: 1,
+  ),
+);
+
+final rightDecoration = BoxDecoration(
+  borderRadius: BorderRadius.only(
+    bottomRight: Radius.circular(20),
+    topRight: Radius.circular(20),
+  ),
+  border: Border.all(
+    color: Colors.blueGrey[800],
+    width: 1,
+  ),
+);
+
 final kMyProgressIndicator = Container(
   height: 70,
   width: 70,
@@ -43,16 +66,33 @@ final kMyProgressIndicator = Container(
   ),
 );
 
+final kRightColor = Colors.blueGrey[300];
+final kLeftColor = Colors.white;
+
+final styleSomebody = BubbleStyle(
+  nip: BubbleNip.leftCenter,
+  color: Colors.white,
+  borderColor: Colors.blueGrey,
+  borderWidth: 1,
+  elevation: 4,
+  margin: BubbleEdges.only(top: 8, right: 50),
+  alignment: Alignment.topLeft,
+);
+
+final styleMe = BubbleStyle(
+  nip: BubbleNip.rightCenter,
+  color: Color.fromARGB(255, 225, 255, 199),
+  borderColor: Colors.blueGrey,
+  borderWidth: 1,
+  elevation: 4,
+  margin: BubbleEdges.only(top: 8, left: 50),
+  alignment: Alignment.topRight,
+);
+
 // final String mainUrl = 'https://softcheetahs.herokuapp.com';
 final String mainUrl = 'http://192.168.43.126:8000';
 
-final tempHouseImage = 'https://www.google.com/search'
-    '?q=home+image&tbm=isch&ved=2ahUKEwj-momlkbHwAhUb'
-    'qHIEHQTsBQgQ2-cCegQIABAA&oq=home+image&gs_lcp=Cg'
-    'NpbWcQA1DXAVjeB2C0CWgAcAB4AIABAIgBAJIBAJgBAKABAa'
-    'oBC2d3cy13aXotaW1nwAEB&sclient=img&ei=qNKRYP6mGZ'
-    'vQytMPhNiXQA&rlz=1C1GCEA_enIR887IR887#imgrc=xMUT'
-    'i5g8jurAmM';
+final tempHouseImage = 'http://licotab.ir/home/img/clients/sina-ziaee.jpeg';
 
 final kCustomAppBarDecoration = BoxDecoration(
   color: Colors.blueAccent,

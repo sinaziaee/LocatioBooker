@@ -10,7 +10,7 @@ import 'package:opencage_geocoder/opencage_geocoder.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-import 'package:latlong/latlong.dart' as latLng;
+import "package:latlong2/latlong.dart" as latLng;
 
 class DatePickerScreen extends StatefulWidget {
   final User user;
@@ -31,32 +31,32 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
   @override
   Widget build(BuildContext context) {
     url = '$url&city=${widget.city}';
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 100,
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.keyboard_arrow_left,
-            size: 25,
-            color: Colors.black,
+    return ModalProgressHUD(
+      inAsyncCall: showSpinner,
+      progressIndicator: kMyProgressIndicator,
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 100,
+          elevation: 0,
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.keyboard_arrow_left,
+              size: 25,
+              color: Colors.black,
+            ),
+          ),
+          title: Text(
+            'You can select start and end dates',
+            style: kBody2TextStyle.copyWith(
+              fontWeight: FontWeight.w400,
+            ),
           ),
         ),
-        title: Text(
-          'You can select start and end dates',
-          style: kBody2TextStyle.copyWith(
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-      ),
-      body: ModalProgressHUD(
-        inAsyncCall: showSpinner,
-        progressIndicator: kMyProgressIndicator,
-        child: Container(
+        body: Container(
           child: Column(
             children: [
               Expanded(
@@ -100,7 +100,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   },
                   onSubmit: (dateR) async {
                     String dateRange = dateR.toString();
-                    List<String> dateList = datePickerSplitter(dateRange);
+                    List<String> dateList = StaticMethods.datePickerSplitter(dateRange);
                     Map map = await getPlacesInfo(dateList);
                     if (map == null) {
                       StaticMethods.showErrorDialog(
@@ -118,6 +118,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                             city: widget.city,
                             startDate: dateList[0],
                             endDate: dateList[1],
+                            // accNo: 0,
                           );
                         },
                       ),
@@ -130,17 +131,6 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
         ),
       ),
     );
-  }
-
-  List<String> datePickerSplitter(String dateRange) {
-    int startIndex = dateRange.indexOf('startDate');
-    dateRange = dateRange.substring(startIndex);
-    List<String> stringList = dateRange.split(',');
-    List<String> start = stringList[0].split(': ');
-    List<String> end = stringList[1].split(': ');
-    String startDate = start[1].substring(0, 10);
-    String endDate = end[1].substring(0, 10);
-    return [startDate, endDate];
   }
 
   Future<Map> getPlacesInfo(List<String> dateList) async {

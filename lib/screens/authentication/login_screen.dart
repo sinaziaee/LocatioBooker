@@ -32,16 +32,9 @@ class _LoginScreenState extends State<LoginScreen> {
   getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('token')) {
-      // user = User(
-      //   firstName: prefs.getString('firstName'),
-      //   lastName: prefs.getString('lastName'),
-      //   token: prefs.getString('token'),
-      //   email: prefs.getString('email'),
-      //   password: prefs.getString('password'),
-      //   country: prefs.getString('country'),
-      //   phone: prefs.getString('phone'),
-      // );
       user = await StaticMethods.getPreferences();
+      print('---------------------------------');
+      print(user.userId);
       Navigator.popAndPushNamed(context, HomeScreen.id, arguments: {
         'user': user,
       });
@@ -84,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   horizontal: size.width * 0.06,
                 ),
                 child: Text(
-                  'Log in or Sign up to Locatio',
+                  'Log in or Sign up to Sweet Home',
                   style: kHeaderTextStyle.copyWith(
                     color: color,
                   ),
@@ -131,28 +124,6 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: size.height * 0.015,
               ),
-              // Center(
-              //   child: Text(
-              //     'or',
-              //     style: kBodyTextStyle.copyWith(
-              //       color: color,
-              //       fontWeight: FontWeight.w300,
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: size.height * 0.015,
-              // ),
-              // LoginCard(
-              //   color: Colors.white,
-              //   borderColor: Colors.black,
-              //   text: 'Continue with Google',
-              //   imageAsset: 'assets/images/logo_google.png',
-              //   onTapped: () {
-              //     onContinuePressed();
-              //   },
-              //   size: size,
-              // ),
             ],
           ),
         ),
@@ -250,6 +221,8 @@ class _LoginScreenState extends State<LoginScreen> {
         var jsonResponse =
             convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
         user = User.fromJson(jsonResponse);
+        print('---------------------------------');
+        print(user.userId);
         saveInfo();
       } else if (response.statusCode == 400) {
         StaticMethods.showErrorDialog(context, 'Wrong Password');
@@ -268,6 +241,8 @@ class _LoginScreenState extends State<LoginScreen> {
     await StaticMethods.saveToPreferences(
       user,
     );
+    print('---------------------------------');
+    print(user.userId);
     Navigator.popAndPushNamed(context, HomeScreen.id, arguments: {
       'user': user,
     });

@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/static_methods.dart';
 import '01_resort_type_screen.dart';
 import 'components/apartment_not_found_component.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 class HostingScreen extends StatefulWidget {
   static String id = 'hosting_screen';
@@ -19,17 +23,12 @@ class HostingScreen extends StatefulWidget {
 
 class _HostingScreenState extends State<HostingScreen> {
   Size size;
-
-  // Map args;
-
-  // User user;
+  String getAllUsersVillasUrl = '$mainUrl/api/villa/user/';
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    // args = ModalRoute.of(context).settings.arguments;
-    // user = args['user'];
-    // user.printUser();
+    getAllUsersVilla();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: StaticMethods.myAppBar(
@@ -71,5 +70,16 @@ class _HostingScreenState extends State<HostingScreen> {
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  getAllUsersVilla() async{
+    http.Response response = await http.get(
+      Uri.parse(getAllUsersVillasUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: widget.user.token,
+      },
+    );
+    var jsonResponse = convert.json.decode(response.body);
+    print(jsonResponse);
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/models/search_model.dart';
 import 'package:loctio_booker/models/user.dart';
-import 'package:loctio_booker/models/villa.dart';
-import 'package:latlong/latlong.dart' as latLng;
+import "package:latlong2/latlong.dart" as latLng;
 import 'package:loctio_booker/screens/detailVilla/detail_villa_screen.dart';
 import '../../../constants.dart';
 

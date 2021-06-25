@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "872929672242",
+    "project_id": "sweet-home-773bb",
+    "storage_bucket": "sweet-home-773bb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872929672242:android:c82e692f957b7675c6d02b",
+        "android_client_info": {
+          "package_name": "com.example.loctio_booker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "872929672242-d66nm7fij5eob95gjjqbsqvosjp3u9nc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.loctio_booker",
+            "certificate_hash": "b985133be975690e17d4151dbd868c7f43212047"
+          }
+        },
+        {
+          "client_id": "872929672242-jvl2727sepbdpdhrh1pcen131hjrejjq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGBIXZgp2q_g_Rz0YQtshTULU4vFj6jo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "872929672242-jvl2727sepbdpdhrh1pcen131hjrejjq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

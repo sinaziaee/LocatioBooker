@@ -9,7 +9,7 @@ import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/static_methods.dart';
 import 'package:http/http.dart' as http;
 import 'package:convert/convert.dart' as convert;
-import 'package:latlong/latlong.dart' as latLng;
+import "package:latlong2/latlong.dart" as latLng;
 
 import 'components/custom_place_item.dart';
 import 'components/custom_result_map.dart';
@@ -22,6 +22,7 @@ class ResultScreen extends StatefulWidget {
   final latLng.LatLng location;
   final String city;
   final String startDate, endDate;
+  // final int accNo;
 
   ResultScreen({
     @required this.user,
@@ -30,6 +31,7 @@ class ResultScreen extends StatefulWidget {
     this.city,
     this.startDate,
     this.endDate,
+    // this.accNo,
   });
 
   @override
@@ -40,9 +42,9 @@ class _ResultScreenState extends State<ResultScreen> {
   String imageUrl = '';
   Size size;
   String resultText;
-  int accNo = 154;
   String allPlacesUrl = '';
   List<Map> mapList = [];
+  int accNo = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +69,6 @@ class _ResultScreenState extends State<ResultScreen> {
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
-            // SliverAppBar(
-            //   title: CustomResultMap(
-            //       size: size, mapList: mapList, location: widget.location),
-            // ),
             SliverAppBar(
               automaticallyImplyLeading: false,
               expandedHeight: size.height * 0.22,
@@ -110,7 +108,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 left: 20,
               ),
               child: Text(
-                '$accNo places',
+                  '$accNo places available',
                 style: kBody2TextStyle.copyWith(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -139,56 +137,17 @@ class _ResultScreenState extends State<ResultScreen> {
                       maxCapacity: mapList[index]['villa_id'],
                       price: mapList[index]['price_per_night'],
                       name: mapList[index]['name'],
-                      rate: mapList[index]['rate'],
+                      rate: mapList[index]['rate'] ?? 4.0,
                       state: mapList[index]['state'],
-                      numberOfBedrooms: mapList[index]['price_per_night'],
-                    ),
-                  );
-                  return CustomPlaceItem(
-                    size: size,
-                    place: Place(
-                      city: 'Hormozgan',
-                      country: 'Iran',
-                      id: 1,
-                      images: [imageUrl],
-                      latitude: 0.0,
-                      longitude: 0.0,
-                      maxCapacity: 3,
-                      price: 900,
-                      name: 'two single bedrooms',
-                      rate: 4.3,
-                      state: 'Hormozgan',
-                      numberOfBedrooms: 3,
+                      numberOfBedrooms: mapList[index]['number_of_bedrooms'] ?? 3,
                     ),
                   );
                 },
               ),
             ),
-            // FutureBuilder(
-            //   future: getPlaces(),
-            //   builder: (context, snapshot) {
-            //     return ListView.builder(
-            //       itemBuilder: (context, index) {
-            //         return CustomPlaceItem(
-            //           size: size,
-            //           place: Place(),
-            //         );
-            //       },
-            //     );
-            //   },
-            // ),
           ],
         ),
       ),
-    );
-  }
-
-  Future<http.Response> getPlaces() async {
-    return await http.get(
-      Uri.parse(allPlacesUrl),
-      headers: {
-        HttpHeaders.authorizationHeader: widget.user.token,
-      },
     );
   }
 
@@ -197,5 +156,6 @@ class _ResultScreenState extends State<ResultScreen> {
     for (Map each in map['data']) {
       mapList.add(each);
     }
+    accNo = mapList.length;
   }
 }

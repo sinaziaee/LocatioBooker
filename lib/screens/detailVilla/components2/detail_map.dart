@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong/latlong.dart' as latLng;
+import "package:latlong2/latlong.dart" as latLng;
 
 import '../../../constants.dart';
 
@@ -23,7 +23,7 @@ class DetailsMap extends StatelessWidget {
             'Accommodation geographic location',
             style: kBody1TextStyle.copyWith(
               fontSize: 18,
-              color: Colors.blueGrey[700],
+              color: Colors.blueGrey[800],
               fontWeight: FontWeight.w700,
             ),
           ),

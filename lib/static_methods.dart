@@ -24,6 +24,9 @@ class StaticMethods {
     if (user.country != null) {
       preferences.setString("country", user.country);
     }
+    if (user.country != null) {
+      preferences.setInt("user_id", user.userId);
+    }
     if (user.token != null) {
       preferences.setString("token", user.token);
     }
@@ -60,6 +63,7 @@ class StaticMethods {
     String token = preferences.getString("token");
     String country = preferences.getString("country");
     String bio = preferences.getString("bio");
+    int userId = preferences.getInt("user_id");
     String image = preferences.getString("image");
     String nationalCode = preferences.getString("nationalCode");
     String gender = preferences.getString("gender");
@@ -76,6 +80,7 @@ class StaticMethods {
       image: image,
       gender: gender,
       bio: bio,
+      userId: userId,
     );
 
     return user;
@@ -211,7 +216,8 @@ class StaticMethods {
     );
   }
 
-  static PreferredSize resultAppBar(BuildContext context, String resultText, Size size){
+  static PreferredSize resultAppBar(
+      BuildContext context, String resultText, Size size) {
     return PreferredSize(
       child: SafeArea(
         child: Container(
@@ -261,37 +267,69 @@ class StaticMethods {
     );
   }
 
-  static Future<Coordinates> getLocation(BuildContext context, String cityValue, String stateValue, String countryValue) async{
-
+  static Future<Coordinates> getLocation(BuildContext context, String cityValue,
+      String stateValue, String countryValue) async {
     var geocoder = new Geocoder("7efb20c96c1a4cd594654de3842cd476");
     var response;
-    try{
-      if(cityValue == null && stateValue == null){
+    try {
+      if (cityValue == null && stateValue == null) {
         response = await geocoder.geocode(countryValue);
-      }
-      else if(cityValue == null){
+      } else if (cityValue == null) {
         response = await geocoder.geocode(countryValue);
-      }
-      else{
+      } else {
         response = await geocoder.geocode(cityValue);
       }
       // setState(() {
       //   showSpinner = false;
       // });
-    }
-    catch(e){
+    } catch (e) {
       // setState(() {
       //   showSpinner = false;
       // });
-      StaticMethods.showErrorDialog(context, 'Couldn\'t find geolocation of your city');
+      StaticMethods.showErrorDialog(
+          context, 'Couldn\'t find geolocation of your city');
       print(e);
       return null;
     }
     return response.results[0].geometry;
   }
 
-  static PreferredSize myAppBar(String text, BuildContext context, User user, {bool isVisible}) {
-    if(isVisible == null){
+  static AppBar chatAppbar(BuildContext context, String imageUrl, String name) {
+    return AppBar(
+      backgroundColor: Colors.blueGrey,
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: Icon(Icons.keyboard_arrow_left),
+      ),
+      title: Row(
+        children: [
+          CircleAvatar(
+            backgroundImage: (imageUrl == null || imageUrl.length != 0)
+                ? AssetImage('assets/images/unknown_person.png')
+                : NetworkImage(imageUrl),
+            backgroundColor: Colors.transparent,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Column(
+            children: [
+              Text(name ?? ''),
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  static PreferredSize myAppBar(String text, BuildContext context, User user,
+      {bool isVisible}) {
+    if (isVisible == null) {
       isVisible = true;
     }
     return PreferredSize(
@@ -371,8 +409,8 @@ class StaticMethods {
     );
   }
 
-  static String getMonthString(int month){
-    switch(month){
+  static String getMonthString(int month) {
+    switch (month) {
       case 1:
         return "January";
       case 2:
@@ -399,7 +437,17 @@ class StaticMethods {
         return "December";
       default:
         return "Sth wrong in month";
-
     }
+  }
+
+  static List<String> datePickerSplitter(String dateRange) {
+    int startIndex = dateRange.indexOf('startDate');
+    dateRange = dateRange.substring(startIndex);
+    List<String> stringList = dateRange.split(',');
+    List<String> start = stringList[0].split(': ');
+    List<String> end = stringList[1].split(': ');
+    String startDate = start[1].substring(0, 10);
+    String endDate = end[1].substring(0, 10);
+    return [startDate, endDate];
   }
 }

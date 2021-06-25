@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/components/person_item.dart';
 import 'package:loctio_booker/models/user.dart';
-import 'package:loctio_booker/screens/authentication/components/my_textfield_without_node.dart';
 import 'package:http/http.dart' as http;
+import 'package:loctio_booker/screens/chat/chat_screen.dart';
 import 'dart:convert' as convert;
 import 'components/custom_profile_not_found.dart';
 import 'components/custom_profile_search.dart';
@@ -20,6 +20,7 @@ class SearchProfileScreen extends StatefulWidget {
 class _SearchProfileScreenState extends State<SearchProfileScreen> {
   TextEditingController searchController;
   String url = '$mainUrl/api/account/properties/all';
+  String addChatUrl = '$mainUrl/api/chat/add/';
   User user;
   Map args;
   Size size;
@@ -60,54 +61,56 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
               ),
               color: Colors.white,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.chevron_left),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: searchController,
-                        autofocus: true,
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.search,
-                        cursorWidth: 1,
-                        style: TextStyle(),
-                        cursorColor: Colors.black,
-                        decoration: InputDecoration.collapsed(
-                          border: InputBorder.none,
-                          hintText: 'Who do you want to search for?',
-                        ),
-                      ),
-                    ),
-                    Visibility(
-                      visible: searchController.text.isNotEmpty,
-                      child: IconButton(
-                        color: Colors.grey,
-                        icon: Icon(Icons.clear),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.chevron_left),
                         onPressed: () {
-                          searchController.clear();
+                          Navigator.pop(context);
                         },
                       ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-              ],
+                      Expanded(
+                        child: TextField(
+                          controller: searchController,
+                          autofocus: true,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.search,
+                          cursorWidth: 1,
+                          style: TextStyle(),
+                          cursorColor: Colors.black,
+                          decoration: InputDecoration.collapsed(
+                            border: InputBorder.none,
+                            hintText: 'Who do you want to search for?',
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: searchController.text.isNotEmpty,
+                        child: IconButton(
+                          color: Colors.grey,
+                          icon: Icon(Icons.clear),
+                          onPressed: () {
+                            searchController.clear();
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -116,19 +119,11 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
       body: Container(
         color: Colors.white,
         child: FutureBuilder(
-          future: http.get(
-            Uri.parse(
-                '$url?search=${(searchController.text.length != 0) ? searchController.text : null}'),
-            headers: {
-              HttpHeaders.authorizationHeader: user.token,
-            },
-          ),
+          future: getUsers(),
           builder: (context, snapshot) {
             if (snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
               http.Response response = snapshot.data;
-              print(response.statusCode);
-              print(response.body);
               var jsonResponse = convert.jsonDecode(response.body);
               List<User> mapList = [];
               int count = 0;
@@ -185,6 +180,62 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
   }
 
   Widget itemBuilder(User user, bool isVisible) {
-    return PersonItem(user, size, isVisible);
+    return Visibility(
+      visible: user.userId != this.user.userId,
+      child: PersonItem(
+        user,
+        size,
+        isVisible,
+        () {
+          onChatPressed(user);
+        },
+      ),
+    );
+  }
+
+  getUsers() async {
+    http.Response response = await http.get(
+      Uri.parse(
+          '$url?search=${(searchController.text.length != 0) ? searchController.text : null}'),
+      headers: {
+        HttpHeaders.authorizationHeader: user.token,
+      },
+    );
+    return response;
+  }
+
+  onChatPressed(User user) async {
+    print(addChatUrl);
+    print(user.userId);
+    Map userMap = Map();
+    userMap['contact'] = user.userId;
+    http.Response response = await http.post(
+      Uri.parse(addChatUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: this.user.token,
+        "Accept": "application/json",
+        "content-type": "application/json",
+      },
+      body: convert.json.encode(
+        userMap,
+      ),
+    );
+    Map jsonResponse = convert.json.decode(response.body);
+    Map data = jsonResponse['data'];
+    print(data);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return ChatScreen(
+            user: this.user,
+            chatRoomId: data['chat_id'],
+            otherUser: '${data['first_name']} ${data['last_name']}',
+            otherUserImageUrl: data['image'],
+          );
+        },
+      ),
+    );
   }
 }
