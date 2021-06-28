@@ -159,16 +159,18 @@ class _SearchMorePlaceScreenState extends State<SearchMorePlaceScreen> {
                     searchModel: list[index],
                     last: (index + 1 == count),
                     onPressed: () {
-                      onPressed(SearchModel(
-                        url: list[index].url,
-                        villaId: list[index].villaId,
-                        pricePerNight: list[index].pricePerNight,
-                        name: list[index].name,
-                        city: list[index].city,
-                        rate: list[index].rate,
-                        state: list[index].state,
-                        country: list[index].country,
-                      ));
+                      onPressed(
+                        SearchModel(
+                          url: list[index].url,
+                          villaId: list[index].villaId,
+                          pricePerNight: list[index].pricePerNight,
+                          name: list[index].name,
+                          city: list[index].city,
+                          rate: list[index].rate,
+                          state: list[index].state,
+                          country: list[index].country,
+                        ),
+                      );
                     },
                   );
                 },
@@ -192,19 +194,13 @@ class _SearchMorePlaceScreenState extends State<SearchMorePlaceScreen> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return DetailVillaScreen(user: widget.user, villaId: searchModel.villaId,
+          return DetailVillaScreen(
+            user: widget.user,
+            villaId: searchModel.villaId,
           );
         },
       ),
     );
-    // Navigator.pushNamed(
-    //   context,
-    //   DetailVillaScreen.id,
-    //   arguments: {
-    //     'user': widget.user,
-    //     'id': searchModel.villaId,
-    //   },
-    // );
   }
 
   onCountryPressed(String country) {

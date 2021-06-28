@@ -55,8 +55,12 @@ class _ChatRoomsPageState extends State<ChatRoomsPage> {
                     imageUrl: item['image'],
                     chatRoomId: item['chat_id'],
                     username: '${item['first_name']} ${item['last_name']}',
-                    lastDateTime: item['last_message'] != null ? item['last_message']['ctime'] : '',
-                    lastText: item['last_message'] != null ? item['last_message']['text'] : '',
+                    lastDateTime: item['last_message'] != null
+                        ? item['last_message']['ctime']
+                        : '',
+                    lastText: item['last_message'] != null
+                        ? item['last_message']['text']
+                        : '',
                     isLast: index == list.length - 1,
                   );
                 },
@@ -89,9 +93,6 @@ class _ChatRoomsPageState extends State<ChatRoomsPage> {
 
   void onChatRoomPressed(
       {int chatRoomId, String otherUser, String otherUserImageUrl}) {
-    // print(chatRoomId);
-    // print(otherUser);
-    // print(otherUserImageUrl);
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -105,13 +106,5 @@ class _ChatRoomsPageState extends State<ChatRoomsPage> {
         },
       ),
     );
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (BuildContext context) {
-    //       return TempChatScreen();
-    //     },
-    //   ),
-    // );
   }
 }

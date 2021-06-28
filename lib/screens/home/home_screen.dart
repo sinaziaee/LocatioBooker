@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/home/pages/chat_rooms_page.dart';
+import 'package:loctio_booker/screens/home/pages/favorite_villas_page.dart';
 import 'package:loctio_booker/screens/profile/settings_page.dart';
 import 'pages/home_page.dart';
 
@@ -27,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return HomePage(size, user);
     } // 1
     else if (index == 1) {
-      return Container();
+      return FavoriteVillasPage(user);
     } // 2
     else if (index == 2) {
       return ChatRoomsPage(
