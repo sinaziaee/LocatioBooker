@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_date_pickers/flutter_date_pickers.dart';
 
 class DetailRange extends StatefulWidget {
+  final List<DateTime> dates;
+  DetailRange({@required this.dates});
+
   @override
   _DetailRangeState createState() => _DetailRangeState();
 }
@@ -11,15 +14,6 @@ class _DetailRangeState extends State<DetailRange> {
 
   // Set<String> unselectableDates = Set();
   DateTime _lastDate = DateTime.now().add(Duration(days: 345));
-  List<DateTime> _dates = [];
-  DatePeriod _selectedPeriod = DatePeriod(
-    DateTime.now().subtract(
-      Duration(days: 10),
-    ),
-    DateTime.now().subtract(
-      Duration(days: 2),
-    ),
-  );
 
   Color selectedPeriodStartColor = Colors.redAccent;
 
@@ -29,18 +23,6 @@ class _DetailRangeState extends State<DetailRange> {
 
   @override
   Widget build(BuildContext context) {
-    // unselectableDates.clear();
-    // // unselectableDates.add(DateTime.now().toString().substring(0, 10));
-    // unselectableDates.add(DateTime(2021, 5, 31).toString());
-    // unselectableDates.add(DateTime(2021, 6, 1).toString());
-    // unselectableDates.add(DateTime(2021, 6, 2).toString());
-    // unselectableDates.add(DateTime(2021, 6, 3).toString());
-    _dates.clear();
-    _dates.add(DateTime(2021, 5, 23));
-    _dates.add(DateTime(2021, 5, 24));
-    _dates.add(DateTime(2021, 5, 25));
-    _dates.add(DateTime(2021, 5, 26));
-    _dates.add(DateTime(2021, 5, 27));
 
     DatePickerRangeStyles styles = DatePickerRangeStyles(
         selectedPeriodLastDecoration: BoxDecoration(
@@ -71,11 +53,7 @@ class _DetailRangeState extends State<DetailRange> {
           lastDate: _lastDate,
           datePickerStyles: styles,
           // selectableDayPredicate: (DateTime val) => !_dates.contains(val),
-          selectableDayPredicate: (DateTime val) => !_dates.contains(val),
-
-          // eventDecorationBuilder: _eventDecorationBuilder,
-          // selectableDayPredicate: _isSelectableCustom,
-          // onSelectionError: _onSelectionError,
+          selectableDayPredicate: (DateTime val) => !widget.dates.contains(val),
         ),
       ),
     );

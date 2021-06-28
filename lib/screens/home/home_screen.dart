@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/models/user.dart';
-import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/home/pages/chat_rooms_page.dart';
 import 'package:loctio_booker/screens/profile/settings_page.dart';
-import 'package:loctio_booker/screens/home/search_profile_screen.dart';
-import 'pages/temp_sliver.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'pages/home_page.dart';
-import 'search_city_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';
@@ -31,13 +25,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget bodyContainer(int index) {
     if (index == 0) {
       return HomePage(size, user);
-    } // 3
-    else if (index == 3){
+    } // 1
+    else if (index == 1) {
+      return Container();
+    } // 2
+    else if (index == 2) {
       return ChatRoomsPage(
         user: user,
       );
     } // 4
-    else if (index == 4) {
+    else if (index == 3) {
       return SettingsPage.user(user, size);
     }
     // else if(index == 2){
@@ -73,16 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    size = MediaQuery
-        .of(context)
-        .size;
-    args = ModalRoute
-        .of(context)
-        .settings
-        .arguments;
+    size = MediaQuery.of(context).size;
+    args = ModalRoute.of(context).settings.arguments;
     user = args['user'];
     token = user.token;
-    // user.printUser();
     return Scaffold(
       body: SafeArea(
         child: bodyContainer(selectedIndex),
@@ -110,17 +101,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             title: Text(
               'Saved',
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              FontAwesomeIcons.info,
-              color: Colors.black,
-              size: 16,
-            ),
-            title: Text(
-              'Tips',
               style: TextStyle(color: Colors.black),
             ),
           ),
@@ -155,5 +135,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 }

@@ -40,11 +40,15 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
   String allLawsUrl = '$mainUrl/api/villa/fixed-rules/';
   String villaUrl = "$mainUrl/api/villa/user/?villa_id=";
   String addChatUrl = '$mainUrl/api/chat/add/';
+  String villaCalendarUrl = '$mainUrl/api/villa/calendar/show';
   Size size;
   Villa villa;
 
   List<String> rulesList = [];
   List<String> imagesUrlList = [];
+
+
+  List<DateTime> datetimeList = [];
 
   String defImageUrl;
 
@@ -100,25 +104,25 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                                     ),
                                     DetailRowItem(
                                       value:
-                                          '${villa.area} base area, ${villa.numberOfBedrooms} rooms',
+                                      '${villa.area} base area, ${villa.numberOfBedrooms} rooms',
                                       type: 'About Accommodation',
                                       iconData: FontAwesomeIcons.home,
                                     ),
                                     DetailRowItem(
                                       value:
-                                          'Up to ${villa.maxCapacity} people ( ${villa.capacity} people + ${villa.maxCapacity - villa.capacity} more people )',
+                                      'Up to ${villa.maxCapacity} people ( ${villa.capacity} people + ${villa.maxCapacity - villa.capacity} more people )',
                                       type: 'Capacity',
                                       iconData: Icons.people,
                                     ),
                                     DetailRowItem(
                                       value:
-                                          '${villa.numberOfSingleBeds} single beds, ${villa.numberOfDoubleBeds} double beds',
+                                      '${villa.numberOfSingleBeds} single beds, ${villa.numberOfDoubleBeds} double beds',
                                       type: 'Bed Services',
                                       iconData: FontAwesomeIcons.bed,
                                     ),
                                     DetailRowItem(
                                       value:
-                                          '${villa.numberOfBathrooms} bathrooms, ${villa.numberOfShowers} showers',
+                                      '${villa.numberOfBathrooms} bathrooms, ${villa.numberOfShowers} showers',
                                       type: 'WC services',
                                       iconData: FontAwesomeIcons.bath,
                                     ),
@@ -146,7 +150,9 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                                     ),
                                     DetailDivider(),
                                     // DetailCalendar(),
-                                    DetailRange(),
+                                    DetailRange(
+                                      dates: datetimeList,
+                                    ),
                                     // DetailTableCalendar(),
                                     SizedBox(
                                       height: 10,
@@ -192,9 +198,41 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
   }
 
   Future<Villa> getVilla() async {
-    print('$villaUrl${widget.villaId}');
+    // print('$villaUrl${widget.villaId}');
     try {
+
       http.Response response = await http.get(
+        Uri.parse('$villaCalendarUrl/?villa_id=${widget.villaId}'),
+        headers: {
+          HttpHeaders.authorizationHeader: widget.user.token,
+        },
+      );
+
+      if(response.statusCode < 400){
+        print('----------------------------------------------------------------------');
+        print(response.body);
+        Map jsonResponse = convert.json.decode(response.body);
+        List dateStringList = jsonResponse['dates'];
+        datetimeList = [];
+        for (String each in dateStringList) {
+          List date = each.split('-');
+          datetimeList.add(
+            DateTime(
+              int.parse(date[0]),
+              int.parse(date[1]),
+              int.parse(date[2]),
+            ),
+          );
+        }
+        print('----------------------------------------------------------------------');
+      }
+      else{
+        print('////////////////////////   error calendar   //////////////////////////');
+        print(response.body);
+        return null;
+      }
+
+      response = await http.get(
         Uri.parse('$villaUrl${widget.villaId}'),
         headers: {
           HttpHeaders.authorizationHeader: widget.user.token,
@@ -202,7 +240,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
       );
       if (response.statusCode < 400) {
         var jsonResponse =
-            convert.json.decode(convert.utf8.decode(response.bodyBytes));
+        convert.json.decode(convert.utf8.decode(response.bodyBytes));
         // print('--------------------------------');
         // print(jsonResponse);
         this.villa = Villa.fromJson(jsonResponse);
@@ -235,7 +273,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
       );
       if (response.statusCode < 400) {
         var jsonResponse =
-            convert.json.decode(convert.utf8.decode(response.bodyBytes));
+        convert.json.decode(convert.utf8.decode(response.bodyBytes));
         for (var each in jsonResponse) {
           rulesList.add(each.toString());
         }
@@ -251,7 +289,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
   }
 
   onChatPressed() async {
-    print(addChatUrl);
+    // print(addChatUrl);
     Map userMap = Map();
     userMap['contact'] = villa.ownerId;
     http.Response response = await http.post(
@@ -267,7 +305,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
     );
     Map jsonResponse = convert.json.decode(response.body);
     Map data = jsonResponse['data'];
-    print(data);
+    // print(data);
 
     Navigator.push(
       context,
