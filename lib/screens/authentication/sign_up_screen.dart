@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/phone_number.dart';
+import 'package:loctio_booker/models/firebase_token.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/verification_screen.dart';
 import 'package:loctio_booker/static_methods.dart';
@@ -229,6 +230,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   sendVerificationEmail() async {
     print('---------------------------------');
     print(user.userId);
+    user.firebaseToken = FirebaseToken.firebaseToken;
     try {
       http.Response response = await StaticMethods.upload(
         sendEmailUrl,

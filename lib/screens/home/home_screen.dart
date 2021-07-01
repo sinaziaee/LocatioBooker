@@ -34,30 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
       return ChatRoomsPage(
         user: user,
       );
-    } // 4
+    } // 3
     else if (index == 3) {
       return SettingsPage.user(user, size);
-    }
-    // else if(index == 2){
-    //   return TempSliver();
-    // }
-    // else if (index == 1) {
-    //   return AppBar(
-    //     actions: [
-    //       IconButton(
-    //         icon: Icon(Icons.search),
-    //         onPressed: () {
-    //           Navigator.push(
-    //             context,
-    //             MaterialPageRoute(
-    //               builder: (context) => SearchSpaceScreen(user),
-    //             ),
-    //           );
-    //         },
-    //       ),
-    //     ],
-    //   );
-    // }
+    } // >= 4
     else {
       return Container();
     }
@@ -75,6 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
     args = ModalRoute.of(context).settings.arguments;
     user = args['user'];
     token = user.token;
+    print('******************* Home Screen *********************');
+    print(user.firebaseToken);
+    print('*****************************************************');
     return Scaffold(
       body: SafeArea(
         child: bodyContainer(selectedIndex),

@@ -12,24 +12,27 @@ class User {
       image,
       bio,
       filename,
+      firebaseToken,
       gender;
 
   int userId;
 
-  User(
-      {this.firstName,
-      this.lastName,
-      this.phone,
-      this.bio,
-      this.filename,
-      this.email,
-      this.password,
-      this.country,
-      this.token,
-      this.nationalCode,
-      this.image,
-        this.userId,
-      this.gender,});
+  User({
+    this.firstName,
+    this.lastName,
+    this.phone,
+    this.firebaseToken,
+    this.bio,
+    this.filename,
+    this.email,
+    this.password,
+    this.country,
+    this.token,
+    this.nationalCode,
+    this.image,
+    this.userId,
+    this.gender,
+  });
 
   User.fromJson(Map<String, dynamic> json) {
     firstName = json['first_name'];
@@ -62,6 +65,9 @@ class User {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.firstName != null && this.firstName.length != 0) {
       data['first_name'] = this.firstName;
+    }
+    if (this.firebaseToken != null) {
+      data['firebase_token'] = this.firebaseToken;
     }
     if (this.userId != null) {
       data['user_id'] = this.userId;

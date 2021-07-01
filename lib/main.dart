@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:loctio_booker/models/firebase_token.dart';
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/authentication/verification_screen.dart';
 import 'package:loctio_booker/screens/chat/chat_screen.dart';
@@ -56,23 +57,37 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
   @override
   void initState() {
     super.initState();
+    messaging.getToken().then(
+      (value) {
+        print('--------------------- main.dart -----------------------');
+        print(value);
+        FirebaseToken.firebaseToken = value;
+        print('-------------------------------------------------------');
+      },
+    );
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
-      if(notification != null && android != null){
-        flutterLocalNotificationsPlugin.show(notification.hashCode, notification.title, notification.body, NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            channel.description,
-            color: Colors.blue,
-            playSound: true,
-            icon: '@mipmap/ic_launcher',
-          ),
-        ));
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channel.description,
+                color: Colors.blue,
+                playSound: true,
+                icon: '@mipmap/ic_launcher',
+              ),
+            ));
       }
     });
   }

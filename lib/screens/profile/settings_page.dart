@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
@@ -7,7 +9,8 @@ import 'package:loctio_booker/screens/home/search_profile_screen.dart';
 import 'package:loctio_booker/screens/profile/personal_information_screen.dart';
 import 'package:loctio_booker/screens/profile/terms_aggrements_screen.dart';
 import '../hosting/00_hosing_screen.dart';
-import '../../static_methods.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 class SettingsPage extends StatefulWidget {
   static String id = 'setting_page';
@@ -28,7 +31,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   FocusNode node;
   Color color = Colors.black;
-
+  String url = '$mainUrl/device/fcms/';
   String firstName, lastName;
 
   TextEditingController firstNameController;
@@ -132,14 +135,14 @@ class _SettingsPageState extends State<SettingsPage> {
               );
             },
           ),
-          ListTile(
-            title: Text(
-              'Payment',
-              style: kBodyTextStyle,
-            ),
-            leading: Icon(Icons.money),
-            trailing: Icon(Icons.more_vert),
-          ),
+          // ListTile(
+          //   title: Text(
+          //     'Payment',
+          //     style: kBodyTextStyle,
+          //   ),
+          //   leading: Icon(Icons.money),
+          //   trailing: Icon(Icons.more_vert),
+          // ),
           ListTile(
             title: Text(
               'List your place',
@@ -187,6 +190,9 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             trailing: Icon(Icons.more_vert),
             leading: Icon(Icons.question_answer),
+            onTap: () {
+              postNotification();
+            },
           ),
           ListTile(
             title: Text(
@@ -200,6 +206,24 @@ class _SettingsPageState extends State<SettingsPage> {
             leading: Icon(Icons.laptop_windows),
           ),
         ],
+      ),
+    );
+  }
+
+  void postNotification() {
+    http.post(
+      Uri.parse(url),
+      headers: {
+        HttpHeaders.authorizationHeader: widget.user.token,
+        "Accept": "application/json",
+        "content-type": "application/json",
+      },
+      body: convert.json.encode(
+        {
+          'token': widget.user.firebaseToken,
+          'message': 'Sina is a new person, it is unfortunate.',
+          'title': 'New Notification',
+        },
       ),
     );
   }

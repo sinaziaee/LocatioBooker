@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loctio_booker/models/firebase_token.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/home/home_screen.dart';
@@ -33,8 +34,9 @@ class _LoginScreenState extends State<LoginScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('token')) {
       user = await StaticMethods.getPreferences();
-      print('---------------------------------');
-      print(user.userId);
+      user.firebaseToken = FirebaseToken.firebaseToken;
+      // print('---------------------------------');
+      // print(user.userId);
       Navigator.popAndPushNamed(context, HomeScreen.id, arguments: {
         'user': user,
       });
@@ -134,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void onContinuePressed() {
     String email = emailController.text.toString();
     if (isValidated(email)) {
-      print(email);
+      // print(email);
       showSpinner = true;
       setState(() {});
       checkEmailExistence(email);
@@ -145,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool isValidated(String email) {
     if (email.length < 3 || !email.contains("@")) {
-      print('wrong');
+      // print('wrong');
       return false;
     }
     return true;
@@ -161,20 +163,20 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       showSpinner = false;
       setState(() {});
-      print(response.statusCode);
+      // print(response.statusCode);
       if (response.statusCode < 400) {
-        print(response.body);
+        // print(response.body);
         var jsonResponse =
             convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
-        print(jsonResponse);
+        // print(jsonResponse);
         showPasswordDialog();
       } else if (response.statusCode == 404) {
-        print(response.body);
+        // print(response.body);
         Navigator.pushNamed(context, SignUpScreen.id,
             arguments: {'email': email});
       } else {
-        print(response.statusCode);
-        print(response.body);
+        // print(response.statusCode);
+        // print(response.body);
       }
     } catch (e) {
       showSpinner = false;
@@ -202,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   uploadInfo() async {
-    print(user.email);
+    // print(user.email);
     try {
       http.Response response = await StaticMethods.upload(
         url,
@@ -214,23 +216,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
       showSpinner = false;
       setState(() {});
-      print(response.statusCode);
-      print(response.body);
+      // print(response.statusCode);
+      // print(response.body);
       if (response.statusCode < 400) {
         Navigator.pop(context);
         var jsonResponse =
             convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
         user = User.fromJson(jsonResponse);
-        print('---------------------------------');
-        print(user.userId);
+        // print('---------------------------------');
+        // print(user.userId);
         saveInfo();
       } else if (response.statusCode == 400) {
         StaticMethods.showErrorDialog(context, 'Wrong Password');
-        print(response.body);
+        // print(response.body);
       } else {
         StaticMethods.showErrorDialog(
             context, 'An Error happened while uploading information');
-        print(response.body);
+        // print(response.body);
       }
     } catch (e) {
       StaticMethods.printError(e.toString());
@@ -238,11 +240,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   saveInfo() async {
+    user.firebaseToken = FirebaseToken.firebaseToken;
     await StaticMethods.saveToPreferences(
       user,
     );
-    print('---------------------------------');
-    print(user.userId);
+    // print('---------------------------------');
+    // print(user.userId);
     Navigator.popAndPushNamed(context, HomeScreen.id, arguments: {
       'user': user,
     });
