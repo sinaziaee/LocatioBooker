@@ -79,9 +79,21 @@ class HomePlaceItem extends StatelessWidget {
                 searchModel.name ?? 'name',
                 style: kBody2TextStyle.copyWith(),
               ),
-              Text(
-                '${searchModel.pricePerNight.toString()}\$ per night',
-                style: kBody1TextStyle.copyWith(),
+              Row(
+                children: [
+                  Text(
+                    '${searchModel.pricePerNight.toString()}\$',
+                    style: kBody3TextStyle.copyWith(
+                      color: Colors.black,
+                    ),
+                  ),
+                  Text(
+                    '/ per night',
+                    style: kBody3TextStyle.copyWith(
+                      fontSize: 10,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -95,7 +107,9 @@ class HomePlaceItem extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return DetailVillaScreen(user: user, villaId: villaId,
+          return DetailVillaScreen(
+            user: user,
+            villaId: villaId,
           );
         },
       ),

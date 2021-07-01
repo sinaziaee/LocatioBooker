@@ -8,6 +8,7 @@ import 'dart:convert' as convert;
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/chat/chat_screen.dart';
 import 'package:loctio_booker/screens/home/components/chat_rooms_item.dart';
+import 'package:loctio_booker/screens/hosting/components/nothing_found.dart';
 
 class ChatRoomsPage extends StatefulWidget {
   final User user;
@@ -40,6 +41,16 @@ class _ChatRoomsPageState extends State<ChatRoomsPage> {
                   convert.json.decode(convert.utf8.decode(response.bodyBytes));
               Map result = jsonResponse;
               List list = result['data'];
+              if (list.length == 0) {
+                return Center(
+                  child: NothingFound(
+                    size: size,
+                    text1: '',
+                    text2: 'No Chat found',
+                    image: 'assets/images/img-not-found.png',
+                  ),
+                );
+              }
               return ListView.builder(
                 itemCount: list.length,
                 itemBuilder: (context, index) {
