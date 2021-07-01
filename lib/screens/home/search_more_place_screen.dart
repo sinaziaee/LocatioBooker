@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/detailVilla/detail_villa_screen.dart';
-import 'package:loctio_booker/screens/hosting/components/apartment_not_found_component.dart';
+import 'package:loctio_booker/screens/hosting/components/nothing_found.dart';
 import 'package:loctio_booker/screens/hosting/components/my_textfield.dart';
 import 'components/search_item.dart';
 import '../../models/search_model.dart';
@@ -84,6 +84,7 @@ class _SearchMorePlaceScreenState extends State<SearchMorePlaceScreen> {
                     ),
                     Material(
                       child: IconButton(
+                        color: Colors.white,
                         icon: Icon(
                           Icons.chevron_left,
                           size: 25,
@@ -146,7 +147,8 @@ class _SearchMorePlaceScreenState extends State<SearchMorePlaceScreen> {
               }
               if (count == 0) {
                 return Center(
-                  child: ApartmentNotFoundComponent(
+                  child: NothingFound(
+                    image: 'assets/images/resort/no_house.jpg',
                     size: size,
                   ),
                 );

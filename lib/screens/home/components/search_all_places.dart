@@ -7,7 +7,7 @@ import 'package:loctio_booker/models/search_model.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/detailVilla/detail_villa_screen.dart';
 import 'package:loctio_booker/screens/home/components/search_item.dart';
-import 'package:loctio_booker/screens/hosting/components/apartment_not_found_component.dart';
+import 'package:loctio_booker/screens/hosting/components/nothing_found.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -33,8 +33,8 @@ class _SearchAllPlacesScreenState extends State<SearchAllPlacesScreen> {
   Widget build(BuildContext context) {
     print(
         '$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
-            '${(state != null && state.length != 0) ? '&state=$state' : ''}'
-            '${(city != null && city.length != 0) ? '&city=$city' : ''}');
+        '${(state != null && state.length != 0) ? '&state=$state' : ''}'
+        '${(city != null && city.length != 0) ? '&city=$city' : ''}');
     size = MediaQuery.of(context).size;
     return Scaffold(
       key: _drawerKey,
@@ -124,8 +124,8 @@ class _SearchAllPlacesScreenState extends State<SearchAllPlacesScreen> {
           future: http.get(
             Uri.parse(
                 '$url${(country != null && country.length != 0) ? '&country=$country' : ''}'
-                    '${(state != null && state.length != 0) ? '&state=$state' : ''}'
-                    '${(city != null && city.length != 0) ? '&city=$city' : ''}'),
+                '${(state != null && state.length != 0) ? '&state=$state' : ''}'
+                '${(city != null && city.length != 0) ? '&city=$city' : ''}'),
             headers: {
               HttpHeaders.authorizationHeader: widget.user.token,
             },
@@ -144,8 +144,9 @@ class _SearchAllPlacesScreenState extends State<SearchAllPlacesScreen> {
               }
               if (count == 0) {
                 return Center(
-                  child: ApartmentNotFoundComponent(
+                  child: NothingFound(
                     size: size,
+                    image: 'assets/images/resort/no_house.jpg',
                   ),
                 );
               }
@@ -190,7 +191,9 @@ class _SearchAllPlacesScreenState extends State<SearchAllPlacesScreen> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return DetailVillaScreen(user: widget.user, villaId: searchModel.villaId,
+          return DetailVillaScreen(
+            user: widget.user,
+            villaId: searchModel.villaId,
           );
         },
       ),

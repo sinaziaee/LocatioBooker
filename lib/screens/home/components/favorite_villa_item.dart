@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/favorite_villa.dart';
 import '../../../models/search_model.dart';
 
@@ -18,98 +19,93 @@ class FavoriteVillaItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Material(
-          color: Colors.white,
-          child: InkWell(
-            onTap: onVillaPressed,
-            child: Container(
-              height: 70,
-              margin: EdgeInsets.only(),
-              padding: EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 3,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: FadeInImage(
-                            height: 50,
-                            width: 50,
-                            fit: BoxFit.cover,
-                            placeholder:
-                                AssetImage('assets/images/home_def.jpg'),
-                            image: (!favoriteVilla.url.endsWith('null'))
-                                ? NetworkImage(favoriteVilla.url)
-                                : AssetImage('assets/images/home_def.jpg'),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Spacer(
-                              flex: 2,
-                            ),
-                            SizedBox(
-                              width: size.width - 100,
-                              child: Text(
-                                favoriteVilla.name,
-                                // textWidthBasis: TextWidthBasis.parent,
-                                style: TextStyle(
-                                  // color: Colors.grey,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            Spacer(
-                              flex: 4,
-                            ),
-                            Text(
-                              // 'hormozgan, kish',
-                              '${favoriteVilla.country} ${favoriteVilla.city}',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                              ),
-                            ),
-                            Spacer(
-                              flex: 1,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+    return Container(
+      height: size.width * 0.6,
+      margin: EdgeInsets.only(
+        left: 10,
+      ),
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        child: InkWell(
+          onTap: () {},
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            padding: EdgeInsets.only(
+              top: 10,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: FadeInImage(
+                    width: size.width * 0.45,
+                    height: size.width * 0.4,
+                    fit: BoxFit.cover,
+                    placeholder: AssetImage('assets/images/home_def.jpg'),
+                    image: (!favoriteVilla.url.endsWith('null'))
+                        ? NetworkImage('$mainUrl${favoriteVilla.url}')
+                        : AssetImage('assets/images/home_def.jpg'),
                   ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  ' ${favoriteVilla.name}',
+                  style: kBody1TextStyle.copyWith(),
+                ),
+                Text(
+                  ' ${favoriteVilla.country}, ${favoriteVilla.city}',
+                  style: kBody3TextStyle.copyWith(),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      ' ${favoriteVilla.pricePerNight}\$ ',
+                      style: kBody3TextStyle.copyWith(),
+                    ),
+                    Text(
+                      '/ per night',
+                      style: kBody3TextStyle.copyWith(
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      ' ${favoriteVilla.rate}',
+                      style: kBody3TextStyle.copyWith(),
+                    ),
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow[800],
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Spacer(),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
-        SizedBox(
-          height: 5,
-        ),
-        Visibility(
-          visible: !last,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 30),
-            height: 0.5,
-            color: Colors.grey,
-            width: size.width,
-          ),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-      ],
+      ),
     );
   }
 }

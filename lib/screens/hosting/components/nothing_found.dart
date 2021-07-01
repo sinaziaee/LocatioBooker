@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
 
-class ApartmentNotFoundComponent extends StatelessWidget {
-
+class NothingFound extends StatelessWidget {
   final Size size;
-  ApartmentNotFoundComponent({@required this.size});
+  final String image;
+  final String text1;
+  final String text2;
+
+  NothingFound({
+    @required this.size,
+    @required this.image,
+    this.text1,
+    this.text2,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +24,15 @@ class ApartmentNotFoundComponent extends StatelessWidget {
       children: [
         Center(
           child: Image.asset(
-            'assets/images/resort/no_house.jpg',
+            // 'assets/images/resort/no_house.jpg',
+            image,
             height: size.height * 0.25,
           ),
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: Text(
-            'Register your accommodation, villa, suite or apartment.',
+            text1 ?? 'Register your accommodation, villa, suite or apartment.',
             style: kBodyTextStyle.copyWith(fontSize: size.width * 0.036),
             textAlign: TextAlign.center,
           ),
@@ -31,7 +40,7 @@ class ApartmentNotFoundComponent extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 22),
           child: Text(
-            'Your registered accommodations will be shown here.',
+            text2 ?? 'Your registered accommodations will be shown here.',
             style: kBodyTextStyle.copyWith(
               fontSize: size.width * 0.033,
               color: Colors.grey[600],

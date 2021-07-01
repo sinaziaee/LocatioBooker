@@ -22,7 +22,6 @@ import '00_hosing_screen.dart';
 import 'components/bottom_container.dart';
 import "package:latlong2/latlong.dart" as latLng;
 
-
 class IdentityScreen extends StatefulWidget {
   final String villa;
   final ResortDescription resortDescription;
@@ -235,7 +234,6 @@ class _IdentityScreenState extends State<IdentityScreen> {
     // );
   }
 
-
   uploadVillaDocumentFile() async {
     print('-------------------------');
     print(villaUrl);
@@ -274,8 +272,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
       fileList.add(response.data['document_id']);
       if (imageFile != null) {
         uploadUserDocumentFile();
-      }
-      else{
+      } else {
         uploadAll();
       }
     }).catchError((error) {
@@ -377,6 +374,7 @@ class _IdentityScreenState extends State<IdentityScreen> {
     map['state'] = widget.placeAddress.state;
     map['city'] = widget.placeAddress.city;
     map['postal_code'] = widget.placeAddress.postalCode.toString();
+    // map['postal_code'] = '1234123456';
     map['name'] = widget.resortDescription.name;
     // todo: check about
     map['description'] = widget.resortDescription.about;
@@ -418,35 +416,37 @@ class _IdentityScreenState extends State<IdentityScreen> {
           showSpinner = false;
         });
         AwesomeDialog(
-            context: context,
-            dialogType: DialogType.SUCCES,
-            animType: AnimType.RIGHSLIDE,
-            headerAnimationLoop: false,
-            title: 'Successful',
-            btnOkText: 'OK',
-            desc: 'Your place is saved successfully',
-            btnOkOnPress: () {
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                HomeScreen.id,
+                context: context,
+                dialogType: DialogType.SUCCES,
+                animType: AnimType.RIGHSLIDE,
+                headerAnimationLoop: false,
+                title: 'Successful',
+                btnOkText: 'OK',
+                desc: 'Your place is saved successfully',
+                btnOkOnPress: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    HomeScreen.id,
                     (route) => false,
-                arguments: {
-                  'user': widget.user,
+                    arguments: {
+                      'user': widget.user,
+                    },
+                  );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HostingScreen(widget.user),
+                    ),
+                  );
                 },
-              );
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HostingScreen(widget.user),
-                ),
-              );
-            },
-            btnOkIcon: Icons.check_circle,
-            btnOkColor: Colors.green)
+                btnOkIcon: Icons.check_circle,
+                btnOkColor: Colors.green)
             .show();
       } else {
         print(response.statusCode);
         print(response.body);
+        StaticMethods.showErrorDialog(
+            context, 'Failed to add(probably the postal code is the same)');
         setState(() {
           showSpinner = false;
         });

@@ -6,6 +6,7 @@ import 'package:loctio_booker/models/favorite_villa.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/detailVilla/detail_villa_screen.dart';
 import 'package:loctio_booker/screens/home/components/favorite_villa_item.dart';
+import 'package:loctio_booker/screens/hosting/components/nothing_found.dart';
 import 'dart:convert' as convert;
 import '../../../constants.dart';
 
@@ -20,6 +21,7 @@ class FavoriteVillasPage extends StatefulWidget {
 
 class _FavoriteVillasPageState extends State<FavoriteVillasPage> {
   Size size;
+
   // todo: change link
   String url = '$mainUrl/api/villa/user/likes/';
 
@@ -28,58 +30,105 @@ class _FavoriteVillasPageState extends State<FavoriteVillasPage> {
     size = MediaQuery.of(context).size;
     return Container(
       color: Colors.white,
-      child: FutureBuilder(
-        future: getFavorites(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            http.Response response = snapshot.data;
-            print(url);
-            print('---------------------------');
-            print(response.statusCode);
-            print(response.body);
-            if (response.statusCode < 400) {
-              var jsonResponse =
-                  convert.json.decode(convert.utf8.decode(response.bodyBytes));
-              Map result = jsonResponse;
-              List list = result['data'];
-              return ListView.builder(
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  return FavoriteVillaItem(
-                    size: size,
-                    favoriteVilla: list[index],
-                    last: (index + 1 == list.length),
-                    onVillaPressed: () {
-                      onVillaPressed(
-                        FavoriteVilla(
-                          url: list[index].url,
-                          villaId: list[index].villaId,
-                          pricePerNight: list[index].pricePerNight,
-                          name: list[index].name,
-                          city: list[index].city,
-                          rate: list[index].rate,
-                          state: list[index].state,
-                          country: list[index].country,
-                          favorite: list[index].favorite,
-                        ),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'Your Favorite Villas',
+            style: kHeaderTextStyle.copyWith(),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: FutureBuilder(
+              future: getFavorites(),
+              builder: (context, snapshot) {
+                try {
+                  if (snapshot.hasData &&
+                      snapshot.connectionState == ConnectionState.done) {
+                    http.Response response = snapshot.data;
+                    print(url);
+                    print('---------------------------');
+                    print(response.statusCode);
+                    print(response.body);
+                    if (response.statusCode < 400) {
+                      var jsonResponse = convert.json
+                          .decode(convert.utf8.decode(response.bodyBytes));
+                      List list = jsonResponse;
+                      // list = null;
+                      if (list == null || list.length == 0) {
+                        return NothingFound(
+                          size: size,
+                          text1: 'You haven\'t added any villa to your favorites',
+                          text2: '',
+                          image: 'assets/images/resort/no_house.jpg',
+                        );
+                      }
+                      return GridView.builder(
+                        itemCount: list.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: (size.height > size.width) ? 2 : 4,
+                            childAspectRatio: 2 / 3),
+                        itemBuilder: (BuildContext context, int index) {
+                          Map result = list[index];
+                          return FavoriteVillaItem(
+                            size: size,
+                            favoriteVilla: FavoriteVilla(
+                              url: result['images'][0],
+                              villaId: result['villa_id'],
+                              pricePerNight: result['price_per_night'],
+                              name: result['name'],
+                              city: result['city'],
+                              rate: result['rate'],
+                              state: result['state'],
+                              country: result['country'],
+                              favorite: result['like'],
+                            ),
+                            last: (index + 1 == list.length),
+                            onVillaPressed: () {
+                              onVillaPressed(
+                                FavoriteVilla(
+                                  url: result['images'][0],
+                                  villaId: result['villa_id'],
+                                  pricePerNight: result['price_per_night'],
+                                  name: result['name'],
+                                  city: result['city'],
+                                  rate: result['rate'],
+                                  state: result['state'],
+                                  country: result['country'],
+                                  favorite: result['like'],
+                                ),
+                              );
+                            },
+                          );
+                        },
                       );
-                    },
+                    } //
+                    else {
+                      return Center(
+                        child: Text('An error getting list of favorite places'),
+                      );
+                    }
+                  } //
+                  else {
+                    return Center(
+                      child: kMyProgressIndicator,
+                    );
+                  }
+                } //
+                catch (e) {
+                  print(e);
+                  return Center(
+                    child: Text('An error getting list of favorite places'),
                   );
-                },
-              );
-            } //
-            else {
-              return Center(
-                child: Text('An error getting list of chat rooms'),
-              );
-            }
-          } else {
-            return Center(
-              child: kMyProgressIndicator,
-            );
-          }
-        },
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

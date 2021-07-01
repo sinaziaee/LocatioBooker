@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/models/user.dart';
@@ -305,8 +304,6 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
     );
     Map jsonResponse = convert.json.decode(response.body);
     Map data = jsonResponse['data'];
-    // print(data);
-
     Navigator.push(
       context,
       MaterialPageRoute(

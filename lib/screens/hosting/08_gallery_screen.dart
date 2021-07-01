@@ -22,7 +22,7 @@ import '../../models/resort_identification.dart';
 import '../../models/facilitation.dart';
 import '../../models/gallery_item.dart';
 import '../../models/place_address.dart';
-import 'components/apartment_not_found_component.dart';
+import 'components/nothing_found.dart';
 import 'components/bottom_container.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'components/add_gallery_item.dart';

@@ -7,7 +7,7 @@ import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/detailVilla/detail_villa_screen.dart';
 import 'package:loctio_booker/screens/home/date_picker_screen.dart';
-import 'package:loctio_booker/screens/hosting/components/apartment_not_found_component.dart';
+import 'package:loctio_booker/screens/hosting/components/nothing_found.dart';
 import 'package:loctio_booker/screens/hosting/components/my_textfield.dart';
 import 'components/search_item.dart';
 import '../../models/search_model.dart';
@@ -88,6 +88,7 @@ class _SearchCityScreenState extends State<SearchCityScreen> {
                       width: 10,
                     ),
                     IconButton(
+                      color: Colors.white,
                       icon: Icon(
                         Icons.chevron_left,
                         size: 25,

@@ -71,6 +71,7 @@ class _SearchProfileScreenState extends State<SearchProfileScreen> {
                   Row(
                     children: [
                       IconButton(
+                        color: Colors.white,
                         icon: Icon(Icons.chevron_left),
                         onPressed: () {
                           Navigator.pop(context);

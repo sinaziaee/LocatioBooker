@@ -5,7 +5,7 @@ import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/static_methods.dart';
 import '01_resort_type_screen.dart';
-import 'components/apartment_not_found_component.dart';
+import 'components/nothing_found.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -53,8 +53,9 @@ class _HostingScreenState extends State<HostingScreen> {
             SizedBox(
               height: size.height * 0.1,
             ),
-            ApartmentNotFoundComponent(
+            NothingFound(
               size: size,
+              image: 'assets/images/resort/no_house.jpg',
             ),
           ],
         ),
