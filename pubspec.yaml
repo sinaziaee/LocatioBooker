@@ -54,6 +54,8 @@ dependencies:
   firebase_messaging: ^10.0.2
   carousel_slider: ^3.0.0
   flutter_date_pickers: ^0.2.4
+  flutter_local_notifications: ^6.0.0
+
 
 
 dev_dependencies:
