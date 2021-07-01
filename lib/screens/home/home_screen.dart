@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/models/user.dart';
-import 'package:loctio_booker/screens/home/pages/chat_rooms_page.dart';
-import 'package:loctio_booker/screens/home/pages/favorite_villas_page.dart';
-import 'package:loctio_booker/screens/profile/settings_page.dart';
-import 'pages/home_page.dart';
+import 'pages/0_home_page.dart';
+import 'pages/1_favorite_villas_page.dart';
+import 'pages/2_chat_rooms_page.dart';
+import 'pages/3_settings_page.dart';
 
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';

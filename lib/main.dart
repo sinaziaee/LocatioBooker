@@ -5,7 +5,7 @@ import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/authentication/verification_screen.dart';
 import 'package:loctio_booker/screens/chat/chat_screen.dart';
 import 'package:loctio_booker/screens/profile/profile_screen.dart';
-import 'package:loctio_booker/screens/profile/settings_page.dart';
+import 'package:loctio_booker/screens/home/pages/3_settings_page.dart';
 import 'package:loctio_booker/screens/profile/personal_information_screen.dart';
 import 'package:loctio_booker/screens/profile/terms_aggrements_screen.dart';
 import 'screens/authentication/login_screen.dart';

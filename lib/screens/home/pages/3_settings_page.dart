@@ -4,11 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/user.dart';
-import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/home/search_profile_screen.dart';
 import 'package:loctio_booker/screens/profile/personal_information_screen.dart';
 import 'package:loctio_booker/screens/profile/terms_aggrements_screen.dart';
-import '../hosting/00_hosing_screen.dart';
+import '../../hosting/00_hosing_screen.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 

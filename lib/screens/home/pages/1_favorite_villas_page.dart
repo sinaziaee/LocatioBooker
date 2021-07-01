@@ -3,11 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:loctio_booker/models/favorite_villa.dart';
-import 'package:loctio_booker/models/search_model.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/detailVilla/detail_villa_screen.dart';
 import 'package:loctio_booker/screens/home/components/favorite_villa_item.dart';
-import 'package:loctio_booker/screens/home/components/search_item.dart';
 import 'dart:convert' as convert;
 import '../../../constants.dart';
 
@@ -23,7 +21,7 @@ class FavoriteVillasPage extends StatefulWidget {
 class _FavoriteVillasPageState extends State<FavoriteVillasPage> {
   Size size;
   // todo: change link
-  String url = '$mainUrl/api/villa/';
+  String url = '$mainUrl/api/villa/user/likes/';
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +34,9 @@ class _FavoriteVillasPageState extends State<FavoriteVillasPage> {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {
             http.Response response = snapshot.data;
+            print(url);
             print('---------------------------');
+            print(response.statusCode);
             print(response.body);
             if (response.statusCode < 400) {
               var jsonResponse =
