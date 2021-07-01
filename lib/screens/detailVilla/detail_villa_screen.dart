@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:loctio_booker/models/favorite_villa.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/models/villa.dart';
 import 'package:loctio_booker/screens/chat/chat_screen.dart';
@@ -46,7 +47,6 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
   List<String> rulesList = [];
   List<String> imagesUrlList = [];
 
-
   List<DateTime> datetimeList = [];
 
   String defImageUrl;
@@ -56,141 +56,140 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
     size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                FutureBuilder(
-                  future: getVilla(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData &&
-                        snapshot.connectionState == ConnectionState.done) {
-                      return Expanded(
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    DetailImages(
-                                      imagesList: imagesUrlList,
-                                      size: size,
-                                    ),
-                                    SizedBox(
-                                      height: 25,
-                                    ),
-                                    DetailHeader(
-                                      villa: villa,
-                                    ),
-                                    Container(
-                                      height: 0.5,
-                                      color: Colors.grey,
-                                      margin: EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                        vertical: 20,
-                                      ),
-                                    ),
-                                    DetailServiceBody(
-                                      villa: villa,
-                                      onChatPressed: () {
-                                        onChatPressed();
-                                      },
-                                      user: widget.user,
-                                    ),
-                                    DetailRowItem(
-                                      value:
-                                      '${villa.area} base area, ${villa.numberOfBedrooms} rooms',
-                                      type: 'About Accommodation',
-                                      iconData: FontAwesomeIcons.home,
-                                    ),
-                                    DetailRowItem(
-                                      value:
-                                      'Up to ${villa.maxCapacity} people ( ${villa.capacity} people + ${villa.maxCapacity - villa.capacity} more people )',
-                                      type: 'Capacity',
-                                      iconData: Icons.people,
-                                    ),
-                                    DetailRowItem(
-                                      value:
-                                      '${villa.numberOfSingleBeds} single beds, ${villa.numberOfDoubleBeds} double beds',
-                                      type: 'Bed Services',
-                                      iconData: FontAwesomeIcons.bed,
-                                    ),
-                                    DetailRowItem(
-                                      value:
-                                      '${villa.numberOfBathrooms} bathrooms, ${villa.numberOfShowers} showers',
-                                      type: 'WC services',
-                                      iconData: FontAwesomeIcons.bath,
-                                    ),
-                                    DetailDivider(),
-                                    DetailDescription(
-                                      description: villa.description,
-                                    ),
-                                    DetailDivider(),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    DetailFacilitation(
-                                      facilitationItems: villa.facilities,
-                                      size: size,
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    DetailDivider(),
-                                    DetailsMap(
-                                      location: latLng.LatLng(
-                                        villa.latitude,
-                                        villa.longitude,
-                                      ),
-                                    ),
-                                    DetailDivider(),
-                                    // DetailCalendar(),
-                                    DetailRange(
-                                      dates: datetimeList,
-                                    ),
-                                    // DetailTableCalendar(),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    DetailDivider(),
-                                    DetailLaws(
-                                      size: size,
-                                      villa: villa,
-                                      fixedRules: rulesList,
-                                    ),
-                                    // DetailDivider(),
-                                  ],
+        child: FutureBuilder(
+          future: getVilla(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              widget.isFavorite = villa.isFavorite;
+              return Stack(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 10,
                                 ),
-                              ),
+                                DetailImages(
+                                  imagesList: imagesUrlList,
+                                  size: size,
+                                ),
+                                SizedBox(
+                                  height: 25,
+                                ),
+                                DetailHeader(
+                                  villa: villa,
+                                ),
+                                Container(
+                                  height: 0.5,
+                                  color: Colors.grey,
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 20,
+                                  ),
+                                ),
+                                DetailServiceBody(
+                                  villa: villa,
+                                  onChatPressed: () {
+                                    onChatPressed();
+                                  },
+                                  user: widget.user,
+                                ),
+                                DetailRowItem(
+                                  value:
+                                  '${villa.area} base area, ${villa.numberOfBedrooms} rooms',
+                                  type: 'About Accommodation',
+                                  iconData: FontAwesomeIcons.home,
+                                ),
+                                DetailRowItem(
+                                  value:
+                                  'Up to ${villa.maxCapacity} people ( ${villa.capacity} people + ${villa.maxCapacity - villa.capacity} more people )',
+                                  type: 'Capacity',
+                                  iconData: Icons.people,
+                                ),
+                                DetailRowItem(
+                                  value:
+                                  '${villa.numberOfSingleBeds} single beds, ${villa.numberOfDoubleBeds} double beds',
+                                  type: 'Bed Services',
+                                  iconData: FontAwesomeIcons.bed,
+                                ),
+                                DetailRowItem(
+                                  value:
+                                  '${villa.numberOfBathrooms} bathrooms, ${villa.numberOfShowers} showers',
+                                  type: 'WC services',
+                                  iconData: FontAwesomeIcons.bath,
+                                ),
+                                DetailDivider(),
+                                DetailDescription(
+                                  description: villa.description,
+                                ),
+                                DetailDivider(),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                DetailFacilitation(
+                                  facilitationItems: villa.facilities,
+                                  size: size,
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                DetailDivider(),
+                                DetailsMap(
+                                  location: latLng.LatLng(
+                                    villa.latitude,
+                                    villa.longitude,
+                                  ),
+                                ),
+                                DetailDivider(),
+                                // DetailCalendar(),
+                                DetailRange(
+                                  dates: datetimeList,
+                                ),
+                                // DetailTableCalendar(),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                DetailDivider(),
+                                DetailLaws(
+                                  size: size,
+                                  villa: villa,
+                                  fixedRules: rulesList,
+                                ),
+                                // DetailDivider(),
+                              ],
                             ),
-                            ReserveButton(
-                              villa: villa,
-                              imageUrl: defImageUrl,
-                              user: widget.user,
-                            ),
-                          ],
+                          ),
                         ),
-                      );
-                    } else {
-                      return Expanded(
-                        child: Center(
-                          child: kMyProgressIndicator,
+                        ReserveButton(
+                          villa: villa,
+                          imageUrl: defImageUrl,
+                          user: widget.user,
                         ),
-                      );
-                    }
-                  },
+                      ],
+                    ),
+                  ),
+                  BackButtonItem(),
+                  LikeButton(
+                    isFavorite: widget.isFavorite,
+                    user: widget.user,
+                    villaId: villa.id,
+                  ),
+                ],
+              );
+            } else {
+              return Expanded(
+                child: Center(
+                  child: kMyProgressIndicator,
                 ),
-              ],
-            ),
-            BackButtonItem(),
-            LikeButton(
-              isFavorite: widget.isFavorite,
-            ),
-          ],
+              );
+            }
+          },
         ),
       ),
     );
@@ -199,7 +198,6 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
   Future<Villa> getVilla() async {
     // print('$villaUrl${widget.villaId}');
     try {
-
       http.Response response = await http.get(
         Uri.parse('$villaCalendarUrl/?villa_id=${widget.villaId}'),
         headers: {
@@ -207,9 +205,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
         },
       );
 
-      if(response.statusCode < 400){
-        print('----------------------------------------------------------------------');
-        print(response.body);
+      if (response.statusCode < 400) {
         Map jsonResponse = convert.json.decode(response.body);
         List dateStringList = jsonResponse['dates'];
         datetimeList = [];
@@ -223,10 +219,8 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
             ),
           );
         }
-        print('----------------------------------------------------------------------');
-      }
-      else{
-        print('////////////////////////   error calendar   //////////////////////////');
+      } //
+      else {
         print(response.body);
         return null;
       }
@@ -239,9 +233,9 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
       );
       if (response.statusCode < 400) {
         var jsonResponse =
-        convert.json.decode(convert.utf8.decode(response.bodyBytes));
-        // print('--------------------------------');
-        // print(jsonResponse);
+            convert.json.decode(convert.utf8.decode(response.bodyBytes));
+        print('--------------------------------');
+        print(jsonResponse);
         this.villa = Villa.fromJson(jsonResponse);
         imagesUrlList.clear();
         defImageUrl = villa.images[0];
@@ -272,7 +266,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
       );
       if (response.statusCode < 400) {
         var jsonResponse =
-        convert.json.decode(convert.utf8.decode(response.bodyBytes));
+            convert.json.decode(convert.utf8.decode(response.bodyBytes));
         for (var each in jsonResponse) {
           rulesList.add(each.toString());
         }
@@ -319,4 +313,15 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
     );
   }
 
+  onFavoritePressed(FavoriteVilla favoriteVilla) async {
+    http.Response response = await StaticMethods.changeFavoriteStatus(
+      villaId: favoriteVilla.villaId,
+      user: widget.user,
+      status: false,
+    );
+    if (response != null) {
+      setState(() {});
+    } //
+    else {}
+  }
 }

@@ -27,9 +27,11 @@ class Villa {
   final int area, ownerId;
   final List rules;
   final ResortIdentification ri;
+  final bool isFavorite;
 
   Villa({
     this.capacity,
+    this.isFavorite,
     this.rate,
     this.maxCapacity,
     this.numberOfBathrooms,
@@ -72,6 +74,7 @@ class Villa {
     }
     return Villa(
         id: json['villa_id'],
+        isFavorite: json['like'],
         numberOfBathrooms: json['number_of_bathrooms'],
         numberOfBedrooms: json['number_of_bedrooms'],
         numberOfDoubleBeds: json['number_of_double_beds'],

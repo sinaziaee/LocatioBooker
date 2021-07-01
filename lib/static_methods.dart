@@ -7,6 +7,7 @@ import 'package:opencage_geocoder/opencage_geocoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'models/favorite_villa.dart';
 import 'models/user.dart';
 import 'components/select_image_item.dart';
 import 'screens/home/home_screen.dart';
@@ -292,6 +293,39 @@ class StaticMethods {
       return null;
     }
     return response.results[0].geometry;
+  }
+
+  static Future<http.Response> changeFavoriteStatus(
+      {int villaId, User user, bool status}) async {
+    String changeFavoriteUrl = '$mainUrl/api/villa/like/';
+    try {
+      http.Response response = await http.post(
+        Uri.parse(changeFavoriteUrl),
+        headers: {
+          HttpHeaders.authorizationHeader: user.token,
+          "Accept": "application/json",
+          "content-type": "application/json",
+        },
+        body: convert.json.encode(
+          {
+            'villa_id': villaId,
+            'like': status.toString(),
+          },
+        ),
+      );
+      print(response.statusCode);
+      print(response.body);
+      if (response.statusCode < 400) {
+        return response;
+      } //
+      else {
+        return null;
+      }
+    } //
+    catch (e) {
+      print(e);
+    }
+    return null;
   }
 
   static AppBar chatAppbar(BuildContext context, String imageUrl, String name) {

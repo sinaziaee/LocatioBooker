@@ -7,6 +7,7 @@ import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/detailVilla/detail_villa_screen.dart';
 import 'package:loctio_booker/screens/home/components/favorite_villa_item.dart';
 import 'package:loctio_booker/screens/hosting/components/nothing_found.dart';
+import 'package:loctio_booker/static_methods.dart';
 import 'dart:convert' as convert;
 import '../../../constants.dart';
 
@@ -50,10 +51,10 @@ class _FavoriteVillasPageState extends State<FavoriteVillasPage> {
                   if (snapshot.hasData &&
                       snapshot.connectionState == ConnectionState.done) {
                     http.Response response = snapshot.data;
-                    print(url);
-                    print('---------------------------');
-                    print(response.statusCode);
-                    print(response.body);
+                    // print(url);
+                    // print('---------------------------');
+                    // print(response.statusCode);
+                    // print(response.body);
                     if (response.statusCode < 400) {
                       var jsonResponse = convert.json
                           .decode(convert.utf8.decode(response.bodyBytes));
@@ -62,7 +63,8 @@ class _FavoriteVillasPageState extends State<FavoriteVillasPage> {
                       if (list == null || list.length == 0) {
                         return NothingFound(
                           size: size,
-                          text1: 'You haven\'t added any villa to your favorites',
+                          text1:
+                              'You haven\'t added any villa to your favorites',
                           text2: '',
                           image: 'assets/images/resort/no_house.jpg',
                         );
@@ -74,34 +76,28 @@ class _FavoriteVillasPageState extends State<FavoriteVillasPage> {
                             childAspectRatio: 2 / 3),
                         itemBuilder: (BuildContext context, int index) {
                           Map result = list[index];
+                          FavoriteVilla item = FavoriteVilla(
+                            url: result['images'][0],
+                            villaId: result['villa_id'],
+                            pricePerNight: result['price_per_night'],
+                            name: result['name'],
+                            city: result['city'],
+                            rate: result['rate'],
+                            state: result['state'],
+                            country: result['country'],
+                            favorite: result['like'],
+                          );
                           return FavoriteVillaItem(
                             size: size,
-                            favoriteVilla: FavoriteVilla(
-                              url: result['images'][0],
-                              villaId: result['villa_id'],
-                              pricePerNight: result['price_per_night'],
-                              name: result['name'],
-                              city: result['city'],
-                              rate: result['rate'],
-                              state: result['state'],
-                              country: result['country'],
-                              favorite: result['like'],
-                            ),
+                            favoriteVilla: item,
                             last: (index + 1 == list.length),
                             onVillaPressed: () {
                               onVillaPressed(
-                                FavoriteVilla(
-                                  url: result['images'][0],
-                                  villaId: result['villa_id'],
-                                  pricePerNight: result['price_per_night'],
-                                  name: result['name'],
-                                  city: result['city'],
-                                  rate: result['rate'],
-                                  state: result['state'],
-                                  country: result['country'],
-                                  favorite: result['like'],
-                                ),
+                                item,
                               );
+                            },
+                            onFavoritePressed: () {
+                              onFavoritePressed(item);
                             },
                           );
                         },
@@ -157,5 +153,15 @@ class _FavoriteVillasPageState extends State<FavoriteVillasPage> {
     );
   }
 
-  onFavoritePressed() {}
+  onFavoritePressed(FavoriteVilla favoriteVilla) async {
+    http.Response response = await StaticMethods.changeFavoriteStatus(
+      villaId: favoriteVilla.villaId,
+      user: widget.user,
+      status: false,
+    );
+    if (response != null) {
+      setState(() {});
+    } //
+    else {}
+  }
 }

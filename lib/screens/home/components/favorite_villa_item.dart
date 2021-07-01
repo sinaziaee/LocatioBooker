@@ -90,7 +90,7 @@ class FavoriteVillaItem extends StatelessWidget {
                     ),
                     Spacer(),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: onFavoritePressed,
                       icon: Icon(
                         Icons.favorite,
                         color: Colors.red,

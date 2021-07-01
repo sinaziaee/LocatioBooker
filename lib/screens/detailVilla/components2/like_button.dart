@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:loctio_booker/models/user.dart';
+import '../../../static_methods.dart';
 
 class LikeButton extends StatefulWidget {
-
   bool isFavorite;
-  LikeButton({this.isFavorite});
+  final User user;
+  final int villaId;
+
+  LikeButton({
+    this.isFavorite,
+    @required this.user,
+    @required this.villaId,
+  });
 
   @override
   _LikeButtonState createState() => _LikeButtonState();
@@ -12,7 +21,7 @@ class LikeButton extends StatefulWidget {
 class _LikeButtonState extends State<LikeButton> {
   @override
   Widget build(BuildContext context) {
-    if(widget.isFavorite == null){
+    if (widget.isFavorite == null) {
       widget.isFavorite = !widget.isFavorite;
     }
     return Positioned(
@@ -24,7 +33,7 @@ class _LikeButtonState extends State<LikeButton> {
         child: InkWell(
           onTap: () {
             setState(() {
-              widget.isFavorite = !widget.isFavorite;
+              onFavoritePressed(widget.villaId);
             });
           },
           borderRadius: BorderRadius.circular(10),
@@ -44,5 +53,18 @@ class _LikeButtonState extends State<LikeButton> {
         ),
       ),
     );
+  }
+
+  onFavoritePressed(int villaId) async {
+    widget.isFavorite = !widget.isFavorite;
+    http.Response response = await StaticMethods.changeFavoriteStatus(
+      villaId: villaId,
+      user: widget.user,
+      status: widget.isFavorite,
+    );
+    if (response != null) {
+      setState(() {});
+    } //
+    else {}
   }
 }
