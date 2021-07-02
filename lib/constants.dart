@@ -95,7 +95,7 @@ final String mainUrl = 'http://192.168.43.126:8000';
 final tempHouseImage = 'http://licotab.ir/home/img/clients/sina-ziaee.jpeg';
 
 final kCustomAppBarDecoration = BoxDecoration(
-  color: Colors.blueAccent,
+  color: Colors.blueGrey,
   borderRadius: BorderRadius.only(
       bottomLeft: Radius.circular(30),
       bottomRight: Radius.circular(30)

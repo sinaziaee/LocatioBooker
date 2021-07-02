@@ -27,7 +27,7 @@ class Villa {
   final int area, ownerId;
   final List rules;
   final ResortIdentification ri;
-  final bool isFavorite;
+  final bool isFavorite, isVisible;
 
   Villa({
     this.capacity,
@@ -58,6 +58,7 @@ class Villa {
     this.ownerId,
     this.ri,
     this.rules,
+    this.isVisible,
   });
 
   factory Villa.fromJson(Map<String, dynamic> json) {
@@ -100,6 +101,7 @@ class Villa {
         area: json['area'],
         rules: json['rules'],
         rate: json['rate'],
+        isVisible: json['visible'],
         ri: json['ri']);
   }
 
