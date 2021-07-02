@@ -67,67 +67,66 @@ class _LoginScreenState extends State<LoginScreen> {
       body: ModalProgressHUD(
         progressIndicator: kMyProgressIndicator,
         inAsyncCall: showSpinner,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: size.height * 0.1,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: size.height * 0.1,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: size.width * 0.06,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: size.width * 0.06,
-                ),
-                child: Text(
-                  'Log in or Sign up to Sweet Home',
-                  style: kHeaderTextStyle.copyWith(
-                    color: color,
-                  ),
+              child: Text(
+                'Log in or Sign up to Sweet Home',
+                style: kHeaderTextStyle.copyWith(
+                  color: color,
                 ),
               ),
-              SizedBox(
-                height: size.height * 0.03,
+            ),
+            SizedBox(
+              height: size.height * 0.03,
+            ),
+            MyTextField(
+              size: size,
+              node: node,
+              hint: 'Email',
+              color: Colors.black,
+              controller: emailController,
+              isLast: true,
+              isPassword: false,
+            ),
+            SizedBox(
+              height: size.height * 0.012,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: size.width * 0.07,
               ),
-              MyTextField(
-                size: size,
-                node: node,
-                hint: 'Email',
-                color: Colors.black,
-                controller: emailController,
-                isLast: true,
-                isPassword: false,
-              ),
-              SizedBox(
-                height: size.height * 0.012,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: size.width * 0.07,
+              child: Text(
+                'Enter your email and then your password, If you don\'t have any account it will automatically register your email',
+                style: kBodyTextStyle.copyWith(
+                  color: color,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w300,
                 ),
-                child: Text(
-                  'Enter your email and then your password, If you don\'t have any account it will automatically register your email',
-                  style: kBodyTextStyle.copyWith(
-                    color: color,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
               ),
-              SizedBox(
-                height: size.height * 0.016,
-              ),
-              MyConfirmButton(
-                size: size,
-                text: 'Continue',
-                onPressed: () {
-                  onContinuePressed();
-                },
-              ),
-              SizedBox(
-                height: size.height * 0.015,
-              ),
-            ],
-          ),
+            ),
+            SizedBox(
+              height: size.height * 0.016,
+            ),
+            Spacer(),
+            MyConfirmButton(
+              size: size,
+              text: 'Continue',
+              onPressed: () {
+                onContinuePressed();
+              },
+            ),
+            SizedBox(
+              height: size.height * 0.1,
+            ),
+          ],
         ),
       ),
     );
@@ -276,7 +275,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               MyConfirmButton(
                 size: size,
-                color: Colors.red,
+                color: Colors.blueGrey,
                 text: 'Submit',
                 onPressed: () {
                   if (checkPasswordValidation()) {

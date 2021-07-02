@@ -70,7 +70,7 @@ class _ReserveButtonState extends State<ReserveButton> {
                     ),
                     Text(
                       // '${villa.rate ?? 4.0}',
-                      '${4.0}',
+                      '${widget.villa.rate.toString()}',
                       style: kBody2TextStyle.copyWith(
                         color: Colors.blueGrey[900],
                         fontSize: 16,

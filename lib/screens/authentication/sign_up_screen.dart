@@ -33,7 +33,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String email, country, token, countryCode;
   Map args;
   User user;
-  bool isEyeShowed1 = false, isEyeShowed2 = false;
+  bool isEyeShowed1 = false;
 
   bool showSpinner = false;
 
@@ -134,10 +134,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: rePasswordController,
                   isLast: true,
                   isPassword: true,
-                  isEyeShowed: isEyeShowed2,
+                  isEyeShowed: isEyeShowed1,
                   onEyePressed: (){
                     setState(() {
-                      isEyeShowed2 = !isEyeShowed2;
+                      isEyeShowed1 = !isEyeShowed1;
                     });
                   },
                 ),

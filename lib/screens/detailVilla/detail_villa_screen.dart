@@ -64,115 +64,113 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
               widget.isFavorite = villa.isFavorite;
               return Stack(
                 children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 10,
+                  Column(
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              DetailImages(
+                                imagesList: imagesUrlList,
+                                size: size,
+                              ),
+                              SizedBox(
+                                height: 25,
+                              ),
+                              DetailHeader(
+                                villa: villa,
+                              ),
+                              Container(
+                                height: 0.5,
+                                color: Colors.grey,
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 20,
                                 ),
-                                DetailImages(
-                                  imagesList: imagesUrlList,
-                                  size: size,
+                              ),
+                              DetailServiceBody(
+                                villa: villa,
+                                onChatPressed: () {
+                                  onChatPressed();
+                                },
+                                user: widget.user,
+                              ),
+                              DetailRowItem(
+                                value:
+                                '${villa.area} base area, ${villa.numberOfBedrooms} rooms',
+                                type: 'About Accommodation',
+                                iconData: FontAwesomeIcons.home,
+                              ),
+                              DetailRowItem(
+                                value:
+                                'Up to ${villa.maxCapacity} people ( ${villa.capacity} people + ${villa.maxCapacity - villa.capacity} more people )',
+                                type: 'Capacity',
+                                iconData: Icons.people,
+                              ),
+                              DetailRowItem(
+                                value:
+                                '${villa.numberOfSingleBeds} single beds, ${villa.numberOfDoubleBeds} double beds',
+                                type: 'Bed Services',
+                                iconData: FontAwesomeIcons.bed,
+                              ),
+                              DetailRowItem(
+                                value:
+                                '${villa.numberOfBathrooms} bathrooms, ${villa.numberOfShowers} showers',
+                                type: 'WC services',
+                                iconData: FontAwesomeIcons.bath,
+                              ),
+                              DetailDivider(),
+                              DetailDescription(
+                                description: villa.description,
+                              ),
+                              DetailDivider(),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              DetailFacilitation(
+                                facilitationItems: villa.facilities,
+                                size: size,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              DetailDivider(),
+                              DetailsMap(
+                                location: latLng.LatLng(
+                                  villa.latitude,
+                                  villa.longitude,
                                 ),
-                                SizedBox(
-                                  height: 25,
-                                ),
-                                DetailHeader(
-                                  villa: villa,
-                                ),
-                                Container(
-                                  height: 0.5,
-                                  color: Colors.grey,
-                                  margin: EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 20,
-                                  ),
-                                ),
-                                DetailServiceBody(
-                                  villa: villa,
-                                  onChatPressed: () {
-                                    onChatPressed();
-                                  },
-                                  user: widget.user,
-                                ),
-                                DetailRowItem(
-                                  value:
-                                  '${villa.area} base area, ${villa.numberOfBedrooms} rooms',
-                                  type: 'About Accommodation',
-                                  iconData: FontAwesomeIcons.home,
-                                ),
-                                DetailRowItem(
-                                  value:
-                                  'Up to ${villa.maxCapacity} people ( ${villa.capacity} people + ${villa.maxCapacity - villa.capacity} more people )',
-                                  type: 'Capacity',
-                                  iconData: Icons.people,
-                                ),
-                                DetailRowItem(
-                                  value:
-                                  '${villa.numberOfSingleBeds} single beds, ${villa.numberOfDoubleBeds} double beds',
-                                  type: 'Bed Services',
-                                  iconData: FontAwesomeIcons.bed,
-                                ),
-                                DetailRowItem(
-                                  value:
-                                  '${villa.numberOfBathrooms} bathrooms, ${villa.numberOfShowers} showers',
-                                  type: 'WC services',
-                                  iconData: FontAwesomeIcons.bath,
-                                ),
-                                DetailDivider(),
-                                DetailDescription(
-                                  description: villa.description,
-                                ),
-                                DetailDivider(),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                DetailFacilitation(
-                                  facilitationItems: villa.facilities,
-                                  size: size,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                DetailDivider(),
-                                DetailsMap(
-                                  location: latLng.LatLng(
-                                    villa.latitude,
-                                    villa.longitude,
-                                  ),
-                                ),
-                                DetailDivider(),
-                                // DetailCalendar(),
-                                DetailRange(
-                                  dates: datetimeList,
-                                ),
-                                // DetailTableCalendar(),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                DetailDivider(),
-                                DetailLaws(
-                                  size: size,
-                                  villa: villa,
-                                  fixedRules: rulesList,
-                                ),
-                                // DetailDivider(),
-                              ],
-                            ),
+                              ),
+                              DetailDivider(),
+                              // DetailCalendar(),
+                              DetailRange(
+                                dates: datetimeList,
+                              ),
+                              // DetailTableCalendar(),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              DetailDivider(),
+                              DetailLaws(
+                                size: size,
+                                villa: villa,
+                                fixedRules: rulesList,
+                              ),
+                              // DetailDivider(),
+                            ],
                           ),
                         ),
-                        ReserveButton(
-                          villa: villa,
-                          imageUrl: defImageUrl,
-                          user: widget.user,
-                        ),
-                      ],
-                    ),
+                      ),
+                      ReserveButton(
+                        villa: villa,
+                        imageUrl: defImageUrl,
+                        user: widget.user,
+                      ),
+                    ],
                   ),
                   BackButtonItem(),
                   LikeButton(
@@ -183,10 +181,8 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                 ],
               );
             } else {
-              return Expanded(
-                child: Center(
-                  child: kMyProgressIndicator,
-                ),
+              return Center(
+                child: kMyProgressIndicator,
               );
             }
           },

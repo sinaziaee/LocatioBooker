@@ -30,8 +30,8 @@ class _HostingScreenState extends State<HostingScreen>
     with TickerProviderStateMixin {
   Size size;
   String getAllUsersVillasUrl = '$mainUrl/api/villa/user/';
-  String hostingUrl = '$mainUrl/api/villa/user/all/';
-  String reservedUrl = '$mainUrl/api/villa/user/all/';
+  String hostingUrl = '$mainUrl/api/villa/user/me/?hosted';
+  String reservedUrl = '$mainUrl/api/villa/user/me/?reserved';
 
   List tabsNames = [
     'Hosting',
@@ -54,7 +54,9 @@ class _HostingScreenState extends State<HostingScreen>
     //     });
     //   });
     tabController.addListener(() {
-      tabIndex = (tabController.animation.value).round();
+      setState(() {
+        tabIndex = (tabController.animation.value).round();
+      });
     });
   }
 
@@ -110,9 +112,20 @@ class _HostingScreenState extends State<HostingScreen>
                       List mapList = [];
                       int count = 0;
                       for (Map each in jsonResponse) {
-                        print(each);
                         mapList.add(each);
                         count++;
+                      }
+                      if (count == 0) {
+                        return Center(
+                          child: NothingFound(
+                            image: 'assets/images/resort/no_house.jpg',
+                            size: size,
+                            text1: (this.tabIndex == 0)
+                                ? 'You haven\'t hosted any villa'
+                                : 'You haven\'t reserved any villa',
+                            text2: '',
+                          ),
+                        );
                       }
                       return ListView.builder(
                         itemCount: count,
@@ -185,11 +198,13 @@ class _HostingScreenState extends State<HostingScreen>
       },
     );
     var jsonResponse = convert.json.decode(response.body);
-    print(jsonResponse);
+    // print(jsonResponse);
   }
 
   Future<http.Response> getInfo(int index) async {
+    print(index);
     if (index == 0) {
+      // print(hostingUrl);
       try {
         http.Response response = await http.get(
           Uri.parse(hostingUrl),
@@ -204,6 +219,7 @@ class _HostingScreenState extends State<HostingScreen>
       }
     } //
     else {
+      // print(reservedUrl);
       try {
         http.Response response = await http.get(
           Uri.parse(reservedUrl),

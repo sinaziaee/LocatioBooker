@@ -120,8 +120,8 @@ class _VerificationScreenState extends State<VerificationScreen>
               MyConfirmButton(
                 size: size,
                 color: (progress != verifTime)
-                    ? Colors.red
-                    : Colors.redAccent[100],
+                    ? Colors.blueGrey
+                    : Colors.blueGrey[200],
                 onPressed: () {
                   if(progress == verifTime){
                     return;
@@ -164,7 +164,7 @@ class _VerificationScreenState extends State<VerificationScreen>
               (progress != verifTime)
                   ? Theme(
                       data: ThemeData(
-                        accentColor: Colors.red,
+                        accentColor: Colors.blueGrey,
                       ),
                       child: Container(
                         child: Center(
@@ -175,7 +175,7 @@ class _VerificationScreenState extends State<VerificationScreen>
                               strokeWidth: 10,
                               value: animation.value,
                               backgroundColor: Colors.grey,
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.blueGrey),
                             ),
                           ),
                         ),
@@ -184,7 +184,7 @@ class _VerificationScreenState extends State<VerificationScreen>
                   : Center(
                       child: Icon(
                         Icons.timer_off_outlined,
-                        color: Colors.redAccent[100],
+                        color: Colors.blueGrey[200],
                         size: 200,
                       ),
                     ),
@@ -200,7 +200,7 @@ class _VerificationScreenState extends State<VerificationScreen>
                         onResetPressed();
                       },
                       text: 'Reset',
-                      color: (progress != verifTime) ? Colors.grey : Colors.red,
+                      color: (progress != verifTime) ? Colors.blueGrey[200] : Colors.blueGrey,
                     ),
                   ),
                   Expanded(
@@ -210,7 +210,7 @@ class _VerificationScreenState extends State<VerificationScreen>
                         onCancelPressed();
                       },
                       text: 'Cancel',
-                      color: Colors.red,
+                      color: Colors.blueGrey,
                     ),
                   ),
                 ],
