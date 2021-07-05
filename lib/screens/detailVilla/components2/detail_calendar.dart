@@ -24,15 +24,18 @@ class _DetailCalendarState extends State<DetailCalendar> {
   Widget build(BuildContext context) {
     DatePickerRangeStyles styles = DatePickerRangeStyles(
         selectedPeriodLastDecoration: BoxDecoration(
-            color: selectedPeriodLastColor,
-            borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(24.0),
-                bottomRight: Radius.circular(24.0))),
+          color: selectedPeriodLastColor,
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(24.0),
+            bottomRight: Radius.circular(24.0),
+          ),
+        ),
         selectedPeriodStartDecoration: BoxDecoration(
           color: selectedPeriodStartColor,
           borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(24.0),
-              bottomLeft: Radius.circular(24.0)),
+            topLeft: Radius.circular(24.0),
+            bottomLeft: Radius.circular(24.0),
+          ),
         ),
         selectedPeriodMiddleDecoration: BoxDecoration(
             color: selectedPeriodMiddleColor, shape: BoxShape.rectangle),
@@ -51,10 +54,11 @@ class _DetailCalendarState extends State<DetailCalendar> {
           lastDate: _lastDate,
           datePickerStyles: styles,
           // selectableDayPredicate: (DateTime val) => !_dates.contains(val),
-          selectableDayPredicate: (DateTime val) => !widget.dates.contains(val),
-          // eventDecorationBuilder: _eventDecorationBuilder,
-          // selectableDayPredicate: _isSelectableCustom,
-          // onSelectionError: _onSelectionError,
+          selectableDayPredicate: (DateTime val) {
+            // print('------------------------------------------------');
+            // print(widget.dates);
+            return !widget.dates.contains(val);
+          },
         ),
       ),
     );

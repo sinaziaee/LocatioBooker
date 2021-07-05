@@ -12,7 +12,7 @@ import '../../models/user.dart';
 class ReserveDateScreen extends StatefulWidget {
   final Villa villa;
   final String imageUrl;
-  final List<DateTime> dates;
+  List<DateTime> dates;
   final User user;
 
   ReserveDateScreen({

@@ -154,8 +154,14 @@ class _ReserveButtonState extends State<ReserveButton> {
       print('wrong');
       return;
     }
+    DateTime before = DateTime.now();
+    // List time = before.toString().split('-');
+    DateTime after = DateTime(before.year, before.month, before.day).subtract(Duration(days: 30));
+    // print(after);
+    for (int i = 0; i <= 30; i++) {
+      dates.add(after.add(Duration(days: i)));
+    }
     print('--- *** ---');
-    print(dates);
     Navigator.push(
       context,
       MaterialPageRoute(

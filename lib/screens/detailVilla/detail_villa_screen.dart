@@ -217,7 +217,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
         }
       } //
       else {
-        print(response.body);
+        // print(response.body);
         return null;
       }
 
@@ -230,8 +230,8 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
       if (response.statusCode < 400) {
         var jsonResponse =
             convert.json.decode(convert.utf8.decode(response.bodyBytes));
-        print('--------------------------------');
-        print(jsonResponse);
+        // print('--------------------------------');
+        // print(jsonResponse);
         this.villa = Villa.fromJson(jsonResponse);
         imagesUrlList.clear();
         defImageUrl = villa.images[0];
