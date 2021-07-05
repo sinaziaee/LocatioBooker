@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loctio_booker/constants.dart';
@@ -37,20 +36,16 @@ class _PersonalInformationState extends State<PersonalInformation> {
   TextEditingController firstNameController,
       lastNameController,
       phoneController,
-      genderController,
       bioController,
-      birthController,
+      genderController,
+      dobController,
       emailController;
 
   bool status = true;
-  final FocusNode myFocusNode = FocusNode();
   File imageFile;
   String getImageUrl = '$mainUrl/api/account/show_account_image';
   String uploadImageUrl = '$mainUrl/api/account/update_account_image';
   String url = "$mainUrl/api/account/properties/update";
-  String gender = '';
-
-  // String updateProfileUrl = "$mainUrl/api/account/properties/update";
 
   Future<void> _pickImage(ImageSource source) async {
     try {
@@ -105,20 +100,16 @@ class _PersonalInformationState extends State<PersonalInformation> {
     email = user.email;
     phoneNumber = user.phone;
     country = user.country;
-    // print('TOOOOOOOken: ${user.token}');
     firstNameController.text = firstName;
     lastNameController.text = lastName;
     phoneController.text = phoneNumber;
     emailController.text = user.email;
+    // genderController.text = user.gender;
+    // print(user.gender + ' ******');
+    print(user.bio);
     bioController.text = user.bio;
-    genderController.text = user.gender;
     token = user.token;
-    // print(token);
-    try {
-      // user.printUser();
-    } catch (e) {
-      print(e);
-    }
+    // dobController.text = user.birthday;
     return user;
   }
 
@@ -129,11 +120,9 @@ class _PersonalInformationState extends State<PersonalInformation> {
     phoneController = TextEditingController();
     emailController = TextEditingController();
     bioController = TextEditingController();
-    birthController = TextEditingController();
     genderController = TextEditingController();
-
-    _getPreferences();
-
+    dobController = TextEditingController();
+    // _getPreferences();
     super.initState();
   }
 
@@ -142,16 +131,16 @@ class _PersonalInformationState extends State<PersonalInformation> {
     firstNameController.dispose();
     lastNameController.dispose();
     phoneController.dispose();
-    birthController.dispose();
-    genderController.dispose();
     bioController.dispose();
+    genderController.dispose();
     emailController.dispose();
+    dobController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // print('token is: ${user.token}');
+    print('---------gender: ${genderController.text} -------');
     return Scaffold(
       body: ModalProgressHUD(
         progressIndicator: kMyProgressIndicator,
@@ -178,17 +167,17 @@ class _PersonalInformationState extends State<PersonalInformation> {
                                           ConnectionState.done) {
                                     User user = snapshot.data;
                                     return CustomAvatar(
-                                        onImageSelectPressed: () {
-                                          if(status == true){
-                                            return;
-                                          }
+                                      onImageSelectPressed: () {
+                                        if (status == true) {
+                                          return;
+                                        }
                                         onImageSelectPressed();
                                       },
                                       imageFile: imageFile,
+                                      status: status,
                                       imageUrl: '$mainUrl${user.image}',
                                     );
                                   } else {
-                                    print('here2');
                                     return CustomAvatar(
                                       onImageSelectPressed: () {
                                         onImageSelectPressed();
@@ -280,7 +269,8 @@ class _PersonalInformationState extends State<PersonalInformation> {
                                         left: 25.0, right: 25.0, top: 25.0),
                                     child: new Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: <Widget>[
                                         Expanded(
                                           child: Container(
@@ -310,51 +300,43 @@ class _PersonalInformationState extends State<PersonalInformation> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       Expanded(
-                                        child: Material(
-                                          child: InkWell(
-                                            child: Container(
-                                              height: 50,
-                                              width: 150,
-                                              child: Center(
-                                                child: Text(
-                                                  (gender != null &&
-                                                      gender.length != 0)
-                                                      ? gender
-                                                      : 'N/A',
-                                                  style: kBody2TextStyle.copyWith(),
-                                                ),
-                                              ),
-                                              margin: EdgeInsets.only(
-                                                right: 10,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                border: Border(
-                                                  bottom: BorderSide(
-                                                    color: Colors.grey[400],
-                                                    width: 1.5,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                            right: 5,
+                                          ),
+                                          child: TextField(
                                             onTap: () {
-                                              if(!status == true){
-                                                onGenderDialogPressed();
-                                              }
+                                              onGenderDialogPressed();
                                             },
+                                            textAlign: TextAlign.center,
+                                            controller: genderController,
+                                            readOnly: true,
+                                            decoration: InputDecoration(
+                                                hintText: "Gender"),
+                                            // enabled: !status,
+                                            enabled: false,
                                           ),
                                         ),
                                         flex: 2,
                                       ),
                                       Expanded(
-                                        child: new TextField(
-                                          onTap: () {
-                                            showDateDialog();
-                                          },
-                                          controller: birthController,
-                                          readOnly: true,
-                                          decoration: const InputDecoration(
-                                              hintText: "Enter Birth Date"),
-                                          enabled: !status,
+                                        child: Container(
+                                          margin: EdgeInsets.only(
+                                            left: 5,
+                                          ),
+                                          child: TextField(
+                                            onTap: () {
+                                              showDateDialog();
+                                            },
+                                            textAlign: TextAlign.center,
+                                            controller: dobController,
+                                            readOnly: true,
+                                            decoration: InputDecoration(
+                                                hintText: "Enter Birth Date"),
+                                            // enabled: !status,
+                                            enabled: false,
+
+                                          ),
                                         ),
                                         flex: 2,
                                       ),
@@ -363,13 +345,13 @@ class _PersonalInformationState extends State<PersonalInformation> {
                                 ),
                                 !status
                                     ? ActionButton(
-                                  onCancelPressed: () {
-                                    onCancelPressed();
-                                  },
-                                  onSavedPressed: () {
-                                    onSavedPressed();
-                                  },
-                                )
+                                        onCancelPressed: () {
+                                          onCancelPressed();
+                                        },
+                                        onSavedPressed: () {
+                                          onSavedPressed();
+                                        },
+                                      )
                                     : new Container(),
                               ],
                             ),
@@ -391,7 +373,6 @@ class _PersonalInformationState extends State<PersonalInformation> {
     setState(
       () {
         status = true;
-        FocusScope.of(context).requestFocus(new FocusNode());
         if (isValidated()) uploadInfo();
       },
     );
@@ -401,7 +382,6 @@ class _PersonalInformationState extends State<PersonalInformation> {
     setState(
       () {
         status = true;
-        FocusScope.of(context).requestFocus(new FocusNode());
       },
     );
   }
@@ -411,7 +391,8 @@ class _PersonalInformationState extends State<PersonalInformation> {
     String lastName = lastNameController.text;
     String phone = phoneController.text;
     String bio = bioController.text;
-    // String bio = bioController.text;
+    String gender = genderController.text;
+    String dob = dobController.text;
 
     if (firstName.length < 3) {
       StaticMethods.showErrorDialog(context, 'Bad First Name Format');
@@ -431,9 +412,8 @@ class _PersonalInformationState extends State<PersonalInformation> {
       bio: bio,
       token: token,
       gender: gender,
-      // country: country ?? 'US',
+      birthday: dob,
     );
-    //uploadInfo();
     return true;
   }
 
@@ -441,30 +421,21 @@ class _PersonalInformationState extends State<PersonalInformation> {
     setState(() {
       showSpinner = true;
     });
-    // print('Token: ');
-    // print(user.token);
 
     Map map = Map();
     Map userMap = user.toJson();
+    // print(user.gender);
+    // print(user.dob);
     for (String key in userMap.keys) {
       map[key] = userMap[key];
     }
     if (imageFile != null) {
-      // print(imageFile.path);
       String base64file = convert.base64Encode(imageFile.readAsBytesSync());
       map['filename'] = imageFile.path.split('/').last;
-      // map['base64'] = base64file;
       map['image'] = base64file;
     }
 
-    // print('******************************************************');
-    // print('beforeUpload token: $token');
-
     try {
-      // bool result = await uploadImage();
-      // if(result == false){
-      //   return;
-      // }
       http.Response response = await StaticMethods.upload(
         url,
         map,
@@ -472,16 +443,12 @@ class _PersonalInformationState extends State<PersonalInformation> {
       );
       showSpinner = false;
       setState(() {});
-      // print('statusCode: ${response.statusCode}');
-      // print('response.body : ' + response.body.toString());
       if (response.statusCode < 400) {
         var jsonResponse =
             convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
-        // print(jsonResponse);
+        print(jsonResponse);
         user = User.fromJson(jsonResponse);
         user.token = token;
-
-        // user.image = await getImage();
         saveInfo();
       } else {
         StaticMethods.showErrorDialog(
@@ -520,95 +487,89 @@ class _PersonalInformationState extends State<PersonalInformation> {
       firstDate: DateTime(1900, 01, 01),
       lastDate: DateTime(2020, 01, 01),
     );
-    birthController.text = selectedDateTime.toString().substring(0, 10);
-    // print(selectedDateTime);
+    dobController.text = selectedDateTime.toString().substring(0, 10);
   }
 
   void onImageSelectPressed() {
-    print('heeeeee');
-    // showDialog(
-    //   context: context,
-    //   builder: (BuildContext context) {
-    //     return StaticMethods.myAlertDialog(selectFromCamera, selectFromGallery);
-    //   },
-    // );
-    showDialog(context: context, builder: (BuildContext context){
-      return AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Select Image',
-                    textDirection: TextDirection.rtl,
-                    style: kHeaderTextStyle.copyWith(color: Colors.grey[800]),
-                  ),
-                ],
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Select Image',
+                      textDirection: TextDirection.rtl,
+                      style: kHeaderTextStyle.copyWith(color: Colors.grey[800]),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 0.5,
-              width: double.infinity,
-              color: Colors.grey,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            InkWell(
-              onTap: () {
-                selectFromCamera();
-              },
-              borderRadius: BorderRadius.circular(10),
-              child: SelectImageItem(
-                text: 'From Camera',
-                iconData: Icons.camera_alt,
+              SizedBox(
+                height: 10,
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            InkWell(
-              borderRadius: BorderRadius.circular(10),
-              onTap: () {
-                selectFromGallery();
-              },
-              child: SelectImageItem(
-                text: 'From Gallery',
-                iconData: Icons.insert_photo,
+              Container(
+                height: 0.5,
+                width: double.infinity,
+                color: Colors.grey,
               ),
-            ),
-          ],
-        ),
-      );
-    });
+              SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                onTap: () {
+                  selectFromCamera();
+                },
+                borderRadius: BorderRadius.circular(10),
+                child: SelectImageItem(
+                  text: 'From Camera',
+                  iconData: Icons.camera_alt,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(10),
+                onTap: () {
+                  selectFromGallery();
+                },
+                child: SelectImageItem(
+                  text: 'From Gallery',
+                  iconData: Icons.insert_photo,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   void onGenderDialogPressed() {
-    print('==================');
     showDialog(
       context: context,
       builder: (context) {
         return GenderAlertDialog(
-          gender: gender,
+          gender: genderController.text,
           femalePressed: () {
             setState(() {
-              gender = 'Female';
+              genderController.text = 'Female';
             });
             Navigator.pop(context);
           },
           malePressed: () {
             setState(() {
-              gender = 'Male';
+              genderController.text = 'Male';
             });
             Navigator.pop(context);
           },

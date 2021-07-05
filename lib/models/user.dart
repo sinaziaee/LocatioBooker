@@ -13,6 +13,7 @@ class User {
       bio,
       filename,
       firebaseToken,
+      birthday,
       gender;
 
   int userId;
@@ -32,6 +33,7 @@ class User {
     this.image,
     this.userId,
     this.gender,
+    this.birthday,
   });
 
   User.fromJson(Map<String, dynamic> json) {
@@ -49,6 +51,7 @@ class User {
     bio = json['bio'];
     userId = json['user_id'];
     gender = json['gender'];
+    birthday = json['birthday'];
   }
 
   printUser() {
@@ -98,6 +101,9 @@ class User {
     }
     if (this.token != null && this.token.length != 0) {
       data['token'] = this.token;
+    }
+    if (this.birthday != null && this.birthday.length != 0) {
+      data['birthday'] = this.birthday;
     }
     if (this.image != null && this.image.length != 0) {
       // data['base64'] = this.image;

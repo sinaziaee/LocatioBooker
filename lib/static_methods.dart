@@ -7,7 +7,6 @@ import 'package:opencage_geocoder/opencage_geocoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-import 'models/favorite_villa.dart';
 import 'models/user.dart';
 import 'components/select_image_item.dart';
 import 'screens/home/home_screen.dart';
@@ -49,6 +48,9 @@ class StaticMethods {
     if (user.gender != null) {
       preferences.setString("gender", user.gender);
     }
+    if (user.birthday != null) {
+      preferences.setString("birthday", user.gender);
+    }
     if (user.nationalCode != null) {
       preferences.setString("nationalCode", user.nationalCode);
     }
@@ -68,7 +70,8 @@ class StaticMethods {
     String image = preferences.getString("image");
     String nationalCode = preferences.getString("nationalCode");
     String gender = preferences.getString("gender");
-    print('inPref: $image');
+    String dob = preferences.getString("birthday");
+    print(gender+' =========');
     User user = User(
       email: email,
       password: password,
@@ -81,6 +84,7 @@ class StaticMethods {
       image: image,
       gender: gender,
       bio: bio,
+      birthday: dob,
       userId: userId,
     );
 

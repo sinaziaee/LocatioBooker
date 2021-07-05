@@ -33,12 +33,6 @@ class _SettingsPageState extends State<SettingsPage> {
   String url = '$mainUrl/device/fcms/';
   String firstName, lastName;
 
-  TextEditingController firstNameController;
-  TextEditingController lastNameController;
-  TextEditingController passwordController;
-  TextEditingController rePasswordController;
-  TextEditingController phoneController;
-
   @override
   Widget build(BuildContext context) {
     node = FocusScope.of(context);
@@ -56,6 +50,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 width: 10,
               ),
               CircleAvatar(
+                radius: 40,
                 backgroundImage: (widget.user.image != null)
                     ? NetworkImage('$mainUrl${widget.user.image}')
                     : AssetImage(
@@ -66,18 +61,29 @@ class _SettingsPageState extends State<SettingsPage> {
               SizedBox(
                 width: 20,
               ),
-              Column(children: [
-                Text(
-                  widget.user.firstName + ' ' + widget.user.lastName,
-                  style: kHeaderTextStyle,
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, PersonalInformation.id);
-                  },
-                  child: Text('View Profile'),
-                )
-              ]),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    widget.user.firstName + ' ' + widget.user.lastName,
+                    style: kHeaderTextStyle,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, PersonalInformation.id);
+                    },
+                    child: Text(
+                      'View Profile',
+                      style: kBody1TextStyle.copyWith(
+                        color: Colors.blueGrey,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ],
           ),
           SizedBox(

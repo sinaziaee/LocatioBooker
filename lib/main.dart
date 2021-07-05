@@ -4,7 +4,6 @@ import 'package:loctio_booker/models/firebase_token.dart';
 import 'package:loctio_booker/screens/authentication/sign_up_screen.dart';
 import 'package:loctio_booker/screens/authentication/verification_screen.dart';
 import 'package:loctio_booker/screens/chat/chat_screen.dart';
-import 'package:loctio_booker/screens/profile/profile_screen.dart';
 import 'package:loctio_booker/screens/home/pages/3_settings_page.dart';
 import 'package:loctio_booker/screens/profile/personal_information_screen.dart';
 import 'package:loctio_booker/screens/profile/terms_aggrements_screen.dart';
@@ -103,7 +102,6 @@ class _MyAppState extends State<MyApp> {
         SignUpScreen.id: (context) => SignUpScreen(),
         VerificationScreen.id: (context) => VerificationScreen(),
         SettingsPage.id: (context) => SettingsPage(),
-        ProfileScreen.id: (context) => ProfileScreen(),
         PersonalInformation.id: (context) => PersonalInformation(),
         termsAggrements.id: (context) => termsAggrements(),
         SearchProfileScreen.id: (context) => SearchProfileScreen(),

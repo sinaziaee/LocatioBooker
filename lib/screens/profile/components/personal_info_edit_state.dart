@@ -44,7 +44,7 @@ class PersonalInfoEditStateComponent extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.all(20),
           child: new CircleAvatar(
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.blueGrey,
             radius: 14.0,
             child: new Icon(
               Icons.edit,
