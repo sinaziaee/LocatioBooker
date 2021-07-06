@@ -71,7 +71,6 @@ class StaticMethods {
     String nationalCode = preferences.getString("nationalCode");
     String gender = preferences.getString("gender");
     String dob = preferences.getString("birthday");
-    print(gender+' =========');
     User user = User(
       email: email,
       password: password,

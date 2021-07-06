@@ -7,6 +7,7 @@ import 'package:loctio_booker/screens/detailVilla/reserver_components/reserve_se
 import 'package:loctio_booker/screens/detailVilla/reserver_components/villa_reserve_header.dart';
 import 'package:loctio_booker/static_methods.dart';
 import '../../constants.dart';
+import '../payment/payment_screen.dart';
 import 'reserver_components/reserve_date.dart';
 import 'reserver_components/reserve_no_people.dart';
 import 'package:http/http.dart' as http;
@@ -119,6 +120,20 @@ class _ReserveScreenState extends State<ReserveScreen> {
   }
 
   onReservedPressed() async {
+    var res = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return PaymentScreen(
+            villa: widget.villa,
+            user: widget.user,
+            cost: totalCost,
+          );
+        },
+      ),
+    );
+    print(res);
+    return;
     Map map = Map();
     map['start_date'] = widget.startDate.toString().substring(0, 10);
     map['end_date'] = widget.endDate.toString().substring(0, 10);

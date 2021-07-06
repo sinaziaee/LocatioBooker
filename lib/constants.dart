@@ -68,6 +68,8 @@ final kMyProgressIndicator = Container(
 
 final kRightColor = Colors.blueGrey[300];
 final kLeftColor = Colors.white;
+final kBackColor = Color.fromARGB(50, 57, 128, 255);
+final kFrontColor = Color.fromARGB(37, 57, 128, 255);
 
 final styleSomebody = BubbleStyle(
   nip: BubbleNip.leftCenter,
@@ -97,12 +99,10 @@ final tempHouseImage = 'http://licotab.ir/home/img/clients/sina-ziaee.jpeg';
 final kCustomAppBarDecoration = BoxDecoration(
   color: Colors.blueGrey,
   borderRadius: BorderRadius.only(
-      bottomLeft: Radius.circular(30),
-      bottomRight: Radius.circular(30)
-  ),
+      bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
 );
 
-class AccommodationType{
+class AccommodationType {
   static String villa = 'Villa';
   static String hotel = 'Hotel';
   static String suite = 'Suite';
@@ -116,13 +116,14 @@ class AccommodationType{
   static String traditionalAccommodation = 'Traditional accommodation';
 }
 
-class ResortType{
+class ResortType {
   static String coastal = 'Coastal';
   static String urban = 'Urban';
   static String rural = 'Rural';
   static String motel = 'Motel';
   static String desert = 'Desert';
   static String mountainous = 'Mountainous';
+
   // static String forest = 'Forest';
   static String wild = 'Wild';
   static String suburban = 'Suburban';
