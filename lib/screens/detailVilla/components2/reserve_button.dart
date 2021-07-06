@@ -14,11 +14,13 @@ class ReserveButton extends StatefulWidget {
   final Villa villa;
   final String imageUrl;
   final User user;
+  final bool show;
 
   ReserveButton({
     @required this.villa,
     @required this.imageUrl,
     this.user,
+    this.show,
   });
 
   @override
@@ -70,7 +72,7 @@ class _ReserveButtonState extends State<ReserveButton> {
                     ),
                     Text(
                       // '${villa.rate ?? 4.0}',
-                      '${widget.villa.rate.toString()}',
+                      '${widget.villa.rate != null ? widget.villa.rate.toString() : 4.0}',
                       style: kBody2TextStyle.copyWith(
                         color: Colors.blueGrey[900],
                         fontSize: 16,
@@ -82,14 +84,39 @@ class _ReserveButtonState extends State<ReserveButton> {
               crossAxisAlignment: CrossAxisAlignment.start,
             ),
             Spacer(),
-            Material(
-              borderRadius: BorderRadius.circular(25),
-              color: Colors.blueGrey[800],
-              child: InkWell(
+            if (widget.show == null || widget.show == true) ...[
+              Material(
                 borderRadius: BorderRadius.circular(25),
-                onTap: () {
-                  onPressed();
-                },
+                color: Colors.blueGrey[800],
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(25),
+                  onTap: () {
+                    onPressed();
+                  },
+                  child: Container(
+                    child: Text(
+                      'Reserve',
+                      style: kBody1TextStyle.copyWith(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 50,
+                      vertical: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      // color: Colors.blueGrey[800],
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                  ),
+                ),
+              ),
+            ] //
+            else ...[
+              Material(
+                borderRadius: BorderRadius.circular(25),
+                color: Colors.blueGrey[400],
                 child: Container(
                   child: Text(
                     'Reserve',
@@ -108,7 +135,7 @@ class _ReserveButtonState extends State<ReserveButton> {
                   ),
                 ),
               ),
-            ),
+            ]
           ],
         ),
       ),

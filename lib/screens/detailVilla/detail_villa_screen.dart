@@ -169,6 +169,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                         villa: villa,
                         imageUrl: defImageUrl,
                         user: widget.user,
+                        show: widget.user.userId != villa.ownerId,
                       ),
                     ],
                   ),

@@ -37,7 +37,8 @@ class _ResortIdentificationScreenState
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: StaticMethods.myAppBar('Resort Description Screen', context, widget.user),
+      appBar: StaticMethods.myAppBar(
+          'Resort Description Screen', context, widget.user),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -53,7 +54,8 @@ class _ResortIdentificationScreenState
               text: 'Submit & Continue',
               onPressed: () {
                 onPressed();
-              }, key: Key('submit_identification'),
+              },
+              key: Key('submit_identification'),
             ),
           ],
         ),
@@ -71,6 +73,11 @@ class _ResortIdentificationScreenState
       numBathrooms: numBathroom,
       numShowers: numShowers,
     );
+    if (mCapacity < bCapacity) {
+      StaticMethods.showErrorDialog(
+          context, 'Max capacity cannot be less than base capacity');
+      return;
+    }
     Navigator.push(
       context,
       MaterialPageRoute(

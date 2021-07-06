@@ -105,6 +105,7 @@ class MostReservedAndNewPlaces extends StatelessWidget {
                   List<SearchModel> list = [];
                   int count = 0;
                   var data = jsonResponse['data'];
+                  // print(data);
                   for (int i = 0; i < data.length; i++) {
                     count++;
                     list.add(SearchModel.fromMap(data[i]));

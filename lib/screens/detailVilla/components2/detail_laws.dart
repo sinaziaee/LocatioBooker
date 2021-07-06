@@ -78,25 +78,25 @@ class DetailLaws extends StatelessWidget {
           // SizedBox(
           //   height: 10,
           // ),
-          for (int i = 0; i < villa.rules.length; i++) ...[
-            Row(
-              children: [
-                Icon(
-                  Icons.done,
-                  color: Colors.green,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Text(
-                    villa.rules[i],
-                    style: kBody2TextStyle.copyWith(),
-                  ),
-                ),
-              ],
-            ),
-          ],
+          // for (int i = 0; i < villa.rules.length; i++) ...[
+          //   Row(
+          //     children: [
+          //       Icon(
+          //         Icons.done,
+          //         color: Colors.green,
+          //       ),
+          //       SizedBox(
+          //         width: 10,
+          //       ),
+          //       Expanded(
+          //         child: Text(
+          //           villa.rules[i],
+          //           style: kBody2TextStyle.copyWith(),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ],
         ],
       ),
     );
