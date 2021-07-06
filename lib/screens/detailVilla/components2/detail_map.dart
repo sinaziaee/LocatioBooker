@@ -6,8 +6,14 @@ import '../../../constants.dart';
 
 class DetailsMap extends StatelessWidget {
   final latLng.LatLng location;
+  final String address;
+  final bool visible;
 
-  DetailsMap({this.location});
+  DetailsMap({
+    this.location,
+    this.address,
+    this.visible,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,43 +51,57 @@ class DetailsMap extends StatelessWidget {
                   subdomains: ['a', 'b', 'c']),
               MarkerLayerOptions(
                 markers: [
-                  Marker(
-                    width: 70.0,
-                    height: 70.0,
-                    point: location,
-                    builder: (ctx) => InkWell(
-                      borderRadius: BorderRadius.circular(5),
-                      onTap: () {
-                        // todo: animate to specific child index
-                        // animatedMapMove(loc, 14);
-                        // scrollController.animateTo(150 * index * 1.0,
-                        //     duration: Duration(microseconds: 1000),
-                        //     curve: Curves.ease);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.blueGrey.withOpacity(0.4),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.house,
-                            color: Colors.blueGrey[700],
-                            size: 40,
+                  if (visible) ...[
+                    Marker(
+                      width: 70.0,
+                      height: 70.0,
+                      point: location,
+                      builder: (ctx) => Icon(
+                        Icons.location_pin,
+                        color: Colors.red,
+                        size: 50,
+                      ),
+                    ),
+                  ] //
+                  else ...[
+                    Marker(
+                      width: 70.0,
+                      height: 70.0,
+                      point: location,
+                      builder: (ctx) => InkWell(
+                        borderRadius: BorderRadius.circular(5),
+                        onTap: () {
+                          // todo: animate to specific child index
+                          // animatedMapMove(loc, 14);
+                          // scrollController.animateTo(150 * index * 1.0,
+                          //     duration: Duration(microseconds: 1000),
+                          //     curve: Curves.ease);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.blueGrey.withOpacity(0.4),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.house,
+                              color: Colors.blueGrey[700],
+                              size: 40,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ],
               ),
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 20, right: 20, top:20, bottom: 5),
+          padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
           child: Text(
-            'Exact location will be sent after reservation',
+            visible ? address : 'Exact location will be sent after reservation',
             style: kBody1TextStyle.copyWith(
               color: Colors.blueGrey[800],
               fontSize: 16,

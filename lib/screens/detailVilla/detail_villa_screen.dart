@@ -43,12 +43,12 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
   String villaCalendarUrl = '$mainUrl/api/villa/calendar/show';
   Size size;
   Villa villa;
+  String reservedUrl = '$mainUrl/api/villa/user/me/?reserved';
 
   List<String> rulesList = [];
   List<String> imagesUrlList = [];
-
   List<DateTime> datetimeList = [];
-
+  bool visible = false;
   String defImageUrl;
 
   @override
@@ -101,7 +101,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                               ),
                               DetailRowItem(
                                 value:
-                                '${villa.area} base area, ${villa.numberOfBedrooms} rooms',
+                                'area: ${villa.area} meters, rooms: ${villa.numberOfBedrooms}',
                                 type: 'About Accommodation',
                                 iconData: FontAwesomeIcons.home,
                               ),
@@ -144,13 +144,13 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                                   villa.latitude,
                                   villa.longitude,
                                 ),
+                                visible: visible,
+                                address: villa.address,
                               ),
                               DetailDivider(),
-                              // DetailCalendar(),
                               DetailRange(
                                 dates: datetimeList,
                               ),
-                              // DetailTableCalendar(),
                               SizedBox(
                                 height: 10,
                               ),
@@ -231,20 +231,41 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
       if (response.statusCode < 400) {
         var jsonResponse =
             convert.json.decode(convert.utf8.decode(response.bodyBytes));
-        // print('--------------------------------');
-        // print(jsonResponse);
         this.villa = Villa.fromJson(jsonResponse);
         imagesUrlList.clear();
         defImageUrl = villa.images[0];
-        // print(defImageUrl);
         for (int i = 0; i < villa.images.length; i++) {
           imagesUrlList.add(villa.images[i].toString());
         }
         getFixedRules();
-        return villa;
-      } else {
+      } //
+      else {
         return null;
       }
+
+      response = await http.get(
+        Uri.parse(reservedUrl),
+        headers: {
+          HttpHeaders.authorizationHeader: widget.user.token,
+        },
+      );
+      if (response.statusCode < 400) {
+        var jsonResponse =
+        convert.json.decode(convert.utf8.decode(response.bodyBytes));
+        List<int> idList = [];
+        for(var each in jsonResponse){
+          int id = each['villa_id'];
+          idList.add(id);
+        }
+        if(idList.contains(villa.id)){
+          visible = true;
+        }
+        return villa;
+      } //
+      else {
+        return null;
+      }
+
     } catch (e) {
       print(e);
       StaticMethods.showErrorDialog(context, "Error loading villa");
@@ -279,7 +300,6 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
   }
 
   onChatPressed() async {
-    // print(addChatUrl);
     Map userMap = Map();
     userMap['contact'] = villa.ownerId;
     http.Response response = await http.post(

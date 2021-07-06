@@ -184,7 +184,7 @@ class _ReserveButtonState extends State<ReserveButton> {
     DateTime before = DateTime.now();
     // List time = before.toString().split('-')6
     DateTime after = DateTime(before.year, before.month, before.day)
-        .subtract(Duration(days: 30));
+        .subtract(Duration(days: 60));
     // print(after);
     for (int i = 0; i <= 60; i++) {
       dates.add(after.add(Duration(days: i)));

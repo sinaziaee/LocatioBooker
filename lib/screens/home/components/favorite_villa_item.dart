@@ -78,7 +78,7 @@ class FavoriteVillaItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      ' ${favoriteVilla.rate}',
+                      ' ${favoriteVilla.rate ?? 5.0}',
                       style: kBody3TextStyle.copyWith(),
                     ),
                     Icon(

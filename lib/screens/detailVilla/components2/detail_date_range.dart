@@ -12,7 +12,6 @@ class DetailRange extends StatefulWidget {
 class _DetailRangeState extends State<DetailRange> {
   DateTime _firstDate = DateTime.now().subtract(Duration(days: 345));
 
-  // Set<String> unselectableDates = Set();
   DateTime _lastDate = DateTime.now().add(Duration(days: 345));
 
   Color selectedPeriodStartColor = Colors.redAccent;
@@ -23,7 +22,12 @@ class _DetailRangeState extends State<DetailRange> {
 
   @override
   Widget build(BuildContext context) {
-
+    DateTime before = DateTime.now();
+    DateTime after = DateTime(before.year, before.month, before.day)
+        .subtract(Duration(days: 60));
+    for (int i = 0; i <= 60; i++) {
+      widget.dates.add(after.add(Duration(days: i)));
+    }
     DatePickerRangeStyles styles = DatePickerRangeStyles(
         selectedPeriodLastDecoration: BoxDecoration(
             color: selectedPeriodLastColor,

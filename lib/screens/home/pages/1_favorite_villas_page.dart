@@ -51,15 +51,10 @@ class _FavoriteVillasPageState extends State<FavoriteVillasPage> {
                   if (snapshot.hasData &&
                       snapshot.connectionState == ConnectionState.done) {
                     http.Response response = snapshot.data;
-                    // print(url);
-                    // print('---------------------------');
-                    // print(response.statusCode);
-                    // print(response.body);
                     if (response.statusCode < 400) {
                       var jsonResponse = convert.json
                           .decode(convert.utf8.decode(response.bodyBytes));
                       List list = jsonResponse;
-                      // list = null;
                       if (list == null || list.length == 0) {
                         return NothingFound(
                           size: size,

@@ -333,6 +333,7 @@ class StaticMethods {
   }
 
   static AppBar chatAppbar(BuildContext context, String imageUrl, String name) {
+    print('$mainUrl$imageUrl');
     return AppBar(
       backgroundColor: Colors.blueGrey,
       leading: IconButton(
@@ -344,9 +345,9 @@ class StaticMethods {
       title: Row(
         children: [
           CircleAvatar(
-            backgroundImage: (imageUrl == null || imageUrl.length != 0)
+            backgroundImage: (imageUrl == null || imageUrl.length == 0)
                 ? AssetImage('assets/images/unknown_person.png')
-                : NetworkImage(imageUrl),
+                : NetworkImage('$mainUrl$imageUrl'),
             backgroundColor: Colors.transparent,
           ),
           SizedBox(

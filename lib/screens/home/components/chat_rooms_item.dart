@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loctio_booker/constants.dart';
 
 class ChatRoomItem extends StatelessWidget {
   final String imageUrl;
@@ -37,7 +38,7 @@ class ChatRoomItem extends StatelessWidget {
                 backgroundColor: Colors.white,
                 radius: 22,
                 backgroundImage: (imageUrl != null)
-                    ? NetworkImage(imageUrl)
+                    ? NetworkImage('$mainUrl$imageUrl')
                     : AssetImage(
                         'assets/images/unknown_person.png',
                       ),
