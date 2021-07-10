@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loctio_booker/constants.dart';
@@ -19,6 +20,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'components/gender_alert.dart';
 import '../../components/select_image_item.dart';
+import '../payment/pay_amounts_screen.dart';
 
 class PersonalInformation extends StatefulWidget {
   static String id = 'personal_page';
@@ -46,6 +48,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
   String getImageUrl = '$mainUrl/api/account/show_account_image';
   String uploadImageUrl = '$mainUrl/api/account/update_account_image';
   String url = "$mainUrl/api/account/properties/update";
+  int balance;
 
   Future<void> _pickImage(ImageSource source) async {
     try {
@@ -104,8 +107,6 @@ class _PersonalInformationState extends State<PersonalInformation> {
     lastNameController.text = lastName;
     phoneController.text = phoneNumber;
     emailController.text = user.email;
-    // genderController.text = user.gender;
-    // print(user.gender + ' ******');
     print(user.bio);
     bioController.text = user.bio;
     token = user.token;
@@ -158,54 +159,100 @@ class _PersonalInformationState extends State<PersonalInformation> {
                         Container(
                           height: 210.0,
                           color: Colors.white,
-                          child: Column(
-                            children: <Widget>[
-                              FutureBuilder(
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData &&
-                                      snapshot.connectionState ==
-                                          ConnectionState.done) {
-                                    User user = snapshot.data;
-                                    return CustomAvatar(
-                                      onImageSelectPressed: () {
-                                        if (status == true) {
-                                          return;
-                                        }
-                                        onImageSelectPressed();
-                                      },
-                                      imageFile: imageFile,
-                                      status: status,
-                                      imageUrl: '$mainUrl${user.image}',
-                                    );
-                                  } else {
-                                    return CustomAvatar(
-                                      onImageSelectPressed: () {
-                                        onImageSelectPressed();
-                                      },
-                                      imageFile: imageFile,
-                                      imageUrl: '',
-                                    );
-                                  }
-                                },
-                                future: _getPreferences(),
-                              ),
-                              if (imageFile != null) ...[
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    TextButton(
-                                      onPressed: _cropImage,
-                                      child: Icon(Icons.crop),
+                          child: Stack(
+                            children: [
+                              Column(
+                                children: <Widget>[
+                                  FutureBuilder(
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData &&
+                                          snapshot.connectionState ==
+                                              ConnectionState.done) {
+                                        User user = snapshot.data;
+                                        return CustomAvatar(
+                                          onImageSelectPressed: () {
+                                            if (status == true) {
+                                              return;
+                                            }
+                                            onImageSelectPressed();
+                                          },
+                                          imageFile: imageFile,
+                                          status: status,
+                                          imageUrl: '$mainUrl${user.image}',
+                                        );
+                                      } //
+                                      else {
+                                        return CustomAvatar(
+                                          onImageSelectPressed: () {
+                                            onImageSelectPressed();
+                                          },
+                                          imageFile: imageFile,
+                                          imageUrl: '',
+                                        );
+                                      }
+                                    },
+                                    future: _getPreferences(),
+                                  ),
+                                  if (imageFile != null) ...[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        TextButton(
+                                          onPressed: _cropImage,
+                                          child: Icon(Icons.crop),
+                                        ),
+                                        TextButton(
+                                          onPressed: _clear,
+                                          child: Icon(Icons.refresh),
+                                        ),
+                                      ],
                                     ),
-                                    TextButton(
-                                      onPressed: _clear,
-                                      child: Icon(Icons.refresh),
-                                    ),
+                                  ] else ...[
+                                    SizedBox(),
                                   ],
+                                ],
+                              ),
+                              Positioned(
+                                top: 50,
+                                right: 20,
+                                child: Material(
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(10),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) {
+                                            return PayAmountScreen(user);
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      width: 70,
+                                      height: 90,
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 10,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            FontAwesomeIcons.wallet,
+                                            color: Colors.blueGrey,
+                                            size: 40,
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text('${balance ?? 'N/A'} \$'),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ] else ...[
-                                SizedBox(),
-                              ],
+                              ),
                             ],
                           ),
                         ),
@@ -335,7 +382,6 @@ class _PersonalInformationState extends State<PersonalInformation> {
                                                 hintText: "Enter Birth Date"),
                                             // enabled: !status,
                                             enabled: false,
-
                                           ),
                                         ),
                                         flex: 2,

@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 import '../../../static_methods.dart';
+import 'pay_button.dart';
 
 class BodyContainer extends StatefulWidget {
   final int cost;
@@ -109,36 +110,9 @@ class _BodyContainerState extends State<BodyContainer> {
           SizedBox(
             height: 50,
           ),
-          Center(
-            child: Container(
-              width: 250,
-              child: Material(
-                borderRadius: BorderRadius.circular(25),
-                color: Colors.blueGrey[600],
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(25),
-                  onTap: () {},
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: EdgeInsets.symmetric(
-                      // horizontal: 20,
-                      vertical: 15,
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Pay ${widget.cost} \$',
-                        style: kBody2TextStyle.copyWith(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          PayButton(
+            cost: widget.cost,
+            onPayPressed: (){},
           ),
         ],
       ),

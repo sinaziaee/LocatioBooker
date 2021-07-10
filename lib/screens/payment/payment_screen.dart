@@ -10,11 +10,11 @@ import 'components/body_container.dart';
 
 class PaymentScreen extends StatelessWidget {
   final User user;
-  final Villa villa;
+  final int villaId;
   final int cost;
 
   PaymentScreen({
-    this.villa,
+    this.villaId,
     this.user,
     this.cost,
   });
@@ -33,25 +33,27 @@ class PaymentScreen extends StatelessWidget {
         body: Stack(
           children: [
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: size.height * 0.3,
-                    ),
-                    height: size.height * 0.7,
-                    width: size.width,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(30),
-                        topLeft: Radius.circular(30),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                        top: size.height * 0.3,
                       ),
+                      height: size.height * 0.7,
+                      width: size.width,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(30),
+                          topLeft: Radius.circular(30),
+                        ),
+                      ),
+                      child: BodyContainer(cost, user, villaId),
                     ),
-                    child: BodyContainer(cost, user, villa.villaId),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             Positioned(
