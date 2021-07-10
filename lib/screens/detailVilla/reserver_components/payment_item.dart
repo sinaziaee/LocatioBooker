@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../constants.dart';
 
 class PaymentItem extends StatelessWidget {
   final IconData iconData;
   final String method;
+  final Function onPressed;
 
   PaymentItem({
     this.iconData,
     this.method,
+    this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: InkWell(
-        onTap: (){},
+        onTap: onPressed,
         borderRadius: BorderRadius.circular(10),
         child: Container(
           padding: EdgeInsets.all(10),
