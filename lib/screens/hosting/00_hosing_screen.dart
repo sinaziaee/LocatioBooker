@@ -220,7 +220,6 @@ class _HostingScreenState extends State<HostingScreen>
       }
     } //
     else {
-      // print(reservedUrl);
       try {
         http.Response response = await http.get(
           Uri.parse(reservedUrl),

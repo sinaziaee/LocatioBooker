@@ -56,6 +56,8 @@ dependencies:
   flutter_date_pickers: ^0.2.4
   flutter_local_notifications: ^6.0.0
   flutter_rating_bar: ^4.0.0
+  persistent_bottom_nav_bar: ^4.0.2
+
 
 
 dev_dependencies:
@@ -81,6 +83,7 @@ flutter:
     - assets/images/resort/
     - assets/images/category/
     - assets/images/facilitation/
+    - assets/images/help/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

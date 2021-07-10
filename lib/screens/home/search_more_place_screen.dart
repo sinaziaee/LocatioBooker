@@ -83,11 +83,13 @@ class _SearchMorePlaceScreenState extends State<SearchMorePlaceScreen> {
                       width: 10,
                     ),
                     Material(
+                      color: Colors.white,
                       child: IconButton(
                         color: Colors.white,
                         icon: Icon(
                           Icons.chevron_left,
                           size: 25,
+                          color: Colors.black,
                         ),
                         onPressed: () {
                           Navigator.pop(context);

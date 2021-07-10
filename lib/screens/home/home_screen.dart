@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/models/user.dart';
+import '../../constants.dart';
 import 'pages/0_home_page.dart';
 import 'pages/1_favorite_villas_page.dart';
 import 'pages/2_chat_rooms_page.dart';
@@ -68,46 +69,54 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home_outlined,
-              color: Colors.black,
+              color: kBottomNavigatorColor,
               key: Key('bnbi_home'),
             ),
             title: Text(
               'Villa',
               key: Key('bnbi_villa'),
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(
+                color: kBottomNavigatorColor,
+              ),
             ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               FontAwesomeIcons.heart,
-              color: Colors.black,
+              color: kBottomNavigatorColor,
               size: 18,
             ),
             title: Text(
               'Saved',
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(
+                color: kBottomNavigatorColor,
+              ),
             ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.messenger_outline,
-              color: Colors.black,
+              color: kBottomNavigatorColor,
             ),
             title: Text(
               'Inbox',
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(
+                color: kBottomNavigatorColor,
+              ),
             ),
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person_pin,
-              color: Colors.black,
+              color: kBottomNavigatorColor,
               key: Key('bnbi_profile'),
             ),
             // label: 'Profile',
             title: Text(
-              'Profile',
-              style: TextStyle(color: Colors.black),
+              'Settings',
+              style: TextStyle(
+                color: kBottomNavigatorColor,
+              ),
             ),
           ),
         ],

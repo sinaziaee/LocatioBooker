@@ -30,6 +30,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.city);
     url = '$url&city=${widget.city}';
     return ModalProgressHUD(
       inAsyncCall: showSpinner,

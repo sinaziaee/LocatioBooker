@@ -15,6 +15,8 @@ final kBody1TextStyle = TextStyle(
   color: Colors.black,
 );
 
+final kBottomNavigatorColor = Colors.blueGrey[800];
+
 final kBody2TextStyle = TextStyle(
   fontSize: 15,
   color: Colors.grey[800],
@@ -92,8 +94,8 @@ final styleMe = BubbleStyle(
 );
 
 // final String mainUrl = 'https://softcheetahs.herokuapp.com';
-// final String mainUrl = 'http://192.168.43.126:8000';
-final String mainUrl = 'http://172.17.3.149';
+final String mainUrl = 'http://192.168.43.126:8000';
+// final String mainUrl = 'http://172.17.3.149';
 
 
 final tempHouseImage = 'http://licotab.ir/home/img/clients/sina-ziaee.jpeg';

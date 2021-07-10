@@ -47,6 +47,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
   String reservedUrl = '$mainUrl/api/villa/user/me/?reserved';
 
   List<String> rulesList = [];
+  List<String> fixedRulesList = [];
   List<String> imagesUrlList = [];
   List<DateTime> datetimeList = [];
   String defImageUrl;
@@ -162,7 +163,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                               DetailLaws(
                                 size: size,
                                 villa: villa,
-                                fixedRules: rulesList,
+                                fixedRules: fixedRulesList,
                               ),
                               // DetailDivider(),
                             ],
@@ -250,8 +251,13 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
         for (int i = 0; i < villa.images.length; i++) {
           imagesUrlList.add(villa.images[i].toString());
         }
-        getFixedRules();
-        return villa;
+        bool result = await getFixedRules();
+        if(result == true){
+          return villa;
+        }
+        else {
+          return null;
+        }
       } //
       else {
         return null;
@@ -277,8 +283,10 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
       if (response.statusCode < 400) {
         var jsonResponse =
             convert.json.decode(convert.utf8.decode(response.bodyBytes));
+        // print(jsonResponse);
+        fixedRulesList.clear();
         for (var each in jsonResponse) {
-          rulesList.add(each.toString());
+          fixedRulesList.add(each.toString());
         }
         return true;
       } else {

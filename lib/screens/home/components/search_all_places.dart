@@ -81,6 +81,7 @@ class _SearchAllPlacesScreenState extends State<SearchAllPlacesScreen> {
                       width: 10,
                     ),
                     Material(
+                      color: Colors.white,
                       child: IconButton(
                         icon: Icon(
                           Icons.chevron_left,

@@ -280,19 +280,14 @@ class StaticMethods {
       if (cityValue == null && stateValue == null) {
         response = await geocoder.geocode(countryValue);
       } else if (cityValue == null) {
-        response = await geocoder.geocode(countryValue);
+          response = await geocoder.geocode(countryValue);
       } else {
         response = await geocoder.geocode(cityValue);
       }
-      // setState(() {
-      //   showSpinner = false;
-      // });
     } catch (e) {
-      // setState(() {
-      //   showSpinner = false;
-      // });
       StaticMethods.showErrorDialog(
           context, 'Couldn\'t find geolocation of your city');
+      print('-------------------------');
       print(e);
       return null;
     }

@@ -93,7 +93,10 @@ class Facilitation {
       else if(item == "Microwave"){
           result = '$result/i-microwave';
       }
-      else if(item == "Washing machine"){
+      else if(item == "Chair"){
+          result = '$result/i-chair';
+      }
+      else if(item == "Washing machine" || item == 'Washer'){
           result = '$result/i-washing-machine';
       }
       else if(item == "Dish washer"){

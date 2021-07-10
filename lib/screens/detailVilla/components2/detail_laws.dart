@@ -20,7 +20,8 @@ class DetailLaws extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(fixedRules);
+    // print('rules -------------------');
+    // print(fixedRules);
     return Container(
       padding: EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 10),
       child: Column(
@@ -60,7 +61,7 @@ class DetailLaws extends StatelessWidget {
               children: [
                 Icon(
                   Icons.adjust_outlined,
-                  color: Colors.grey,
+                  color: Colors.blueGrey,
                 ),
                 SizedBox(
                   width: 10,
@@ -75,28 +76,28 @@ class DetailLaws extends StatelessWidget {
               ],
             ),
           ],
-          // SizedBox(
-          //   height: 10,
-          // ),
-          // for (int i = 0; i < villa.rules.length; i++) ...[
-          //   Row(
-          //     children: [
-          //       Icon(
-          //         Icons.done,
-          //         color: Colors.green,
-          //       ),
-          //       SizedBox(
-          //         width: 10,
-          //       ),
-          //       Expanded(
-          //         child: Text(
-          //           villa.rules[i],
-          //           style: kBody2TextStyle.copyWith(),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ],
+          SizedBox(
+            height: 10,
+          ),
+          for (int i = 0; i < fixedRules.length; i++) ...[
+            Row(
+              children: [
+                Icon(
+                  Icons.circle,
+                  color: Colors.blueGrey,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Text(
+                    fixedRules[i],
+                    style: kBody2TextStyle.copyWith(),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ],
       ),
     );

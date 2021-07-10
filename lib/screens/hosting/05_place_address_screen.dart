@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/models/user.dart';
 import 'package:loctio_booker/screens/hosting/06_map_screen.dart';
@@ -13,6 +15,8 @@ import 'components/country_state_city_picker.dart';
 import 'components/my_textfield.dart';
 import "package:latlong2/latlong.dart" as latLng;
 import '../../models/place_address.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 class PlaceAddressScreen extends StatefulWidget {
   final String villa;
@@ -241,20 +245,57 @@ class _PlaceAddressScreenState extends State<PlaceAddressScreen> {
 
     print(placeAddress.state);
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MapScreen(
-          villa: widget.villa,
-          resortDescription: widget.resortDescription,
-          resortIdentification: widget.resortIdentification,
-          facilitation: widget.facilitation,
-          placeAddress: placeAddress,
-          user: widget.user,
-          location: latLng.LatLng(coordinates.latitude, coordinates.longitude),
+    bool result = await checkPostalCode();
+    setState(() {
+      showSpinner = false;
+    });
+    if(result == true){
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MapScreen(
+            villa: widget.villa,
+            resortDescription: widget.resortDescription,
+            resortIdentification: widget.resortIdentification,
+            facilitation: widget.facilitation,
+            placeAddress: placeAddress,
+            user: widget.user,
+            location: latLng.LatLng(coordinates.latitude, coordinates.longitude),
+          ),
         ),
-      ),
-    );
+      );
+    }
+    else {
+      return;
+    }
+
+  }
+
+  Future<bool> checkPostalCode() async {
+    if (postalCodeController.text.length != 0) {
+      String postalCode = postalCodeController.text;
+      http.Response response = await http.post(
+        Uri.parse('$mainUrl/api/villa/check-postal-code/'),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          HttpHeaders.authorizationHeader: widget.user.token,
+        },
+        body: convert.json.encode(
+          {
+            'postal_code': postalCode,
+          },
+        ),
+      );
+      print(response.body);
+      if (response.statusCode == 200) {
+        return true;
+      } //
+      else {
+        return false;
+      }
+    }
+    return true;
   }
 
   Future<Coordinates> getLocation() async {

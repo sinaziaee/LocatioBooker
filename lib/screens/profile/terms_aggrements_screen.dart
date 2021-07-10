@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/constants.dart';
+import 'package:loctio_booker/static_methods.dart';
 
 class termsAggrements extends StatelessWidget {
   static String id = 'terms_screen';
@@ -8,16 +9,22 @@ class termsAggrements extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Terms and Conditions",
-          style: kHeaderTextStyle,
-        ),
-        leading: IconButton(icon: Icon(Icons.chevron_left, size: 30,), onPressed: (){
-          Navigator.pop(context);
-        }),
-        centerTitle: true,
+      appBar: StaticMethods.myAppBar(
+        'Terms and Conditions',
+        context,
+        null,
+        isVisible: false,
       ),
+      // appBar: AppBar(
+      //   title: Text(
+      //     "Terms and Conditions",
+      //     style: kHeaderTextStyle,
+      //   ),
+      //   leading: IconButton(icon: Icon(Icons.chevron_left, size: 30,), onPressed: (){
+      //     Navigator.pop(context);
+      //   }),
+      //   centerTitle: true,
+      // ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(
