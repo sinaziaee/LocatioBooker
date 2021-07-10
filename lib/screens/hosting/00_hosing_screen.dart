@@ -241,7 +241,7 @@ class _HostingScreenState extends State<HostingScreen>
       context,
       MaterialPageRoute(
         builder: (context) {
-          return DetailVillaScreen(villaId: villa.id, user: widget.user);
+          return DetailVillaScreen(villaId: villa.villaId, user: widget.user);
         },
       ),
     );

@@ -13,6 +13,7 @@ import 'package:loctio_booker/screens/detailVilla/components2/detail_header_comp
 import 'package:loctio_booker/screens/detailVilla/components2/detail_images.dart';
 import 'package:loctio_booker/screens/detailVilla/components2/detail_row_item.dart';
 import 'package:loctio_booker/screens/detailVilla/components2/detail_service_body.dart';
+import 'package:loctio_booker/screens/detailVilla/components2/rate_dialog.dart';
 import 'package:loctio_booker/screens/detailVilla/components2/reserve_button.dart';
 import 'package:loctio_booker/static_methods.dart';
 import 'dart:convert' as convert;
@@ -82,6 +83,10 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                               ),
                               DetailHeader(
                                 villa: villa,
+                                visible: villa.isReserved,
+                                onRatePressed: () {
+                                  showRateDialog(villa.villaId);
+                                },
                               ),
                               Container(
                                 height: 0.5,
@@ -176,7 +181,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                   LikeButton(
                     isFavorite: widget.isFavorite,
                     user: widget.user,
-                    villaId: villa.id,
+                    villaId: villa.villaId,
                   ),
                 ],
               );
@@ -326,5 +331,17 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
       setState(() {});
     } //
     else {}
+  }
+
+  void showRateDialog(int villaId) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return RateDialog(
+          user: widget.user,
+          villaId: villa.villaId,
+        );
+      },
+    );
   }
 }

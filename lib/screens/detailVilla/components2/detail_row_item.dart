@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 
 class DetailRowItem extends StatelessWidget {
-
   final IconData iconData;
   final String type, value;
 
-  DetailRowItem({this.iconData, this.type, this.value});
+  DetailRowItem({
+    this.iconData,
+    this.type,
+    this.value,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +21,10 @@ class DetailRowItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(iconData, color: Colors.blueGrey[700],),
+          Icon(
+            iconData,
+            color: Colors.blueGrey[700],
+          ),
           SizedBox(
             width: 20,
           ),

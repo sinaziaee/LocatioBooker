@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:opencage_geocoder/opencage_geocoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';

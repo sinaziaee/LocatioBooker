@@ -143,9 +143,9 @@ class _ReserveButtonState extends State<ReserveButton> {
   }
 
   Future<List<DateTime>> getOccupiedDates() async {
-    print('$calendarUrl/?villa_id=${widget.villa.id}');
+    print('$calendarUrl/?villa_id=${widget.villa.villaId}');
     http.Response response = await http.get(
-      Uri.parse('$calendarUrl/?villa_id=${widget.villa.id}'),
+      Uri.parse('$calendarUrl/?villa_id=${widget.villa.villaId}'),
       headers: {
         HttpHeaders.authorizationHeader: widget.user.token,
       },

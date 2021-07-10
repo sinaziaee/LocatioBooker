@@ -1,7 +1,7 @@
 import 'package:loctio_booker/models/resort_identification.dart';
 
 class Villa {
-  final int id;
+  final int villaId;
   final String country;
   final String state;
   final String city;
@@ -39,7 +39,7 @@ class Villa {
     this.numberOfSingleBeds,
     this.numberOfDoubleBeds,
     this.numberOfShowers,
-    this.id,
+    this.villaId,
     this.country,
     this.state,
     this.city,
@@ -78,7 +78,7 @@ class Villa {
 
     print('here2');
     return Villa(
-        id: json['villa_id'],
+        villaId: json['villa_id'],
         isFavorite: json['like'],
         numberOfBathrooms: json['number_of_bathrooms'],
         numberOfBedrooms: json['number_of_bedrooms'],

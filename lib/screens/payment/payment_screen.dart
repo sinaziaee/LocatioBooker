@@ -49,7 +49,7 @@ class PaymentScreen extends StatelessWidget {
                         topLeft: Radius.circular(30),
                       ),
                     ),
-                    child: BodyContainer(cost, user, villa.id),
+                    child: BodyContainer(cost, user, villa.villaId),
                   ),
                 ],
               ),

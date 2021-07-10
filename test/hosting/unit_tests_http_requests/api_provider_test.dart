@@ -25,7 +25,7 @@ void main(){
         return Response(json.encode(mapJson),200);
       });
       final item = await apiProvider.fetchPosts();
-      expect(item.id, 123);
+      expect(item.villaId, 123);
     });
 
     test("Testing the herouku", () async{

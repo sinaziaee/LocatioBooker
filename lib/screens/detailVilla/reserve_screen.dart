@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:loctio_booker/models/villa.dart';
 import 'package:loctio_booker/screens/detailVilla/components2/detail_divider.dart';
+import 'package:loctio_booker/screens/detailVilla/reserver_components/payment_dialog.dart';
 import 'package:loctio_booker/screens/detailVilla/reserver_components/reserve_send_button.dart';
 import 'package:loctio_booker/screens/detailVilla/reserver_components/villa_reserve_header.dart';
 import 'package:loctio_booker/static_methods.dart';
@@ -120,47 +121,48 @@ class _ReserveScreenState extends State<ReserveScreen> {
   }
 
   onReservedPressed() async {
-    var res = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return PaymentScreen(
-            villa: widget.villa,
-            user: widget.user,
-            cost: totalCost,
-          );
-        },
-      ),
-    );
-    print(res);
-    return;
-    Map map = Map();
-    map['start_date'] = widget.startDate.toString().substring(0, 10);
-    map['end_date'] = widget.endDate.toString().substring(0, 10);
-    map['villa_id'] = widget.villa.id;
-    map['num_of_passengers'] = count;
-    map['total_cost'] = widget.totalCost;
-    map['villa'] = widget.villa.id;
-    http.Response response = await http.post(
-      Uri.parse(addVillaUrl),
-      headers: {
-        HttpHeaders.authorizationHeader: widget.user.token,
-        "Accept": "application/json",
-        "content-type": "application/json",
-      },
-      body: convert.json.encode(map),
-    );
-    if (response.statusCode < 400) {
-      print(response.body);
-      StaticMethods.showSuccessDialog(context, 'Villa Reserved');
-    } //
-    else {
-      print('-------- ******************');
-      print(response.statusCode);
-      print(response.body);
-      print('-------- ******************');
-      StaticMethods.showErrorDialog(context, 'Failed to Reserve Villa !');
-    }
+    showPaymentDialog();
+    // var res = await Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) {
+    //       return PaymentScreen(
+    //         villa: widget.villa,
+    //         user: widget.user,
+    //         cost: totalCost,
+    //       );
+    //     },
+    //   ),
+    // );
+    // print(res);
+    // return;
+    // Map map = Map();
+    // map['start_date'] = widget.startDate.toString().substring(0, 10);
+    // map['end_date'] = widget.endDate.toString().substring(0, 10);
+    // map['villa_id'] = widget.villa.villaId;
+    // map['num_of_passengers'] = count;
+    // map['total_cost'] = widget.totalCost;
+    // map['villa'] = widget.villa.villaId;
+    // http.Response response = await http.post(
+    //   Uri.parse(addVillaUrl),
+    //   headers: {
+    //     HttpHeaders.authorizationHeader: widget.user.token,
+    //     "Accept": "application/json",
+    //     "content-type": "application/json",
+    //   },
+    //   body: convert.json.encode(map),
+    // );
+    // if (response.statusCode < 400) {
+    //   print(response.body);
+    //   StaticMethods.showSuccessDialog(context, 'Villa Reserved');
+    // } //
+    // else {
+    //   print('-------- ******************');
+    //   print(response.statusCode);
+    //   print(response.body);
+    //   print('-------- ******************');
+    //   StaticMethods.showErrorDialog(context, 'Failed to Reserve Villa !');
+    // }
   }
 
   onIncrease() {
@@ -190,5 +192,14 @@ class _ReserveScreenState extends State<ReserveScreen> {
     int price =
         widget.endDate.difference(widget.startDate).inDays * widget.villa.price;
     return price.toString();
+  }
+
+  void showPaymentDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return PaymentDialog();
+      },
+    );
   }
 }
