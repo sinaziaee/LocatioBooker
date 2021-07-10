@@ -42,6 +42,7 @@ class _BodyContainerState extends State<BodyContainer> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.cost);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30),
       child: Column(
