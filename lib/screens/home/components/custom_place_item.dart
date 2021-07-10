@@ -7,13 +7,12 @@ import 'package:loctio_booker/screens/detailVilla/detail_villa_screen.dart';
 class CustomPlaceItem extends StatefulWidget {
   final Place place;
   final Size size;
-  bool isFavorite;
   final User user;
 
   CustomPlaceItem({
     this.place,
     this.size,
-    this.isFavorite,
+    // this.isFavorite,
     this.user,
   });
 
@@ -24,9 +23,9 @@ class CustomPlaceItem extends StatefulWidget {
 class _CustomPlaceItemState extends State<CustomPlaceItem> {
   @override
   Widget build(BuildContext context) {
-    if (widget.isFavorite == null) {
-      widget.isFavorite = false;
-    }
+    // if (widget.isFavorite == null) {
+    //   widget.isFavorite = false;
+    // }
     print('$mainUrl${widget.place.images[0]}');
     return InkWell(
       borderRadius: BorderRadius.circular(10),
@@ -64,35 +63,35 @@ class _CustomPlaceItemState extends State<CustomPlaceItem> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  Positioned(
-                    right: 15,
-                    top: 15,
-                    child: Material(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            widget.isFavorite = !widget.isFavorite;
-                          });
-                        },
-                        borderRadius: BorderRadius.circular(10),
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: (widget.isFavorite)
-                              ? Icon(
-                                  Icons.favorite,
-                                  color: Colors.red,
-                                )
-                              : Icon(Icons.favorite_border_outlined),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Positioned(
+                  //   right: 15,
+                  //   top: 15,
+                  //   child: Material(
+                  //     color: Colors.white,
+                  //     borderRadius: BorderRadius.circular(10),
+                  //     child: InkWell(
+                  //       onTap: () {
+                  //         setState(() {
+                  //           widget.isFavorite = !widget.isFavorite;
+                  //         });
+                  //       },
+                  //       borderRadius: BorderRadius.circular(10),
+                  //       child: Container(
+                  //         width: 40,
+                  //         height: 40,
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(10),
+                  //         ),
+                  //         child: (widget.isFavorite)
+                  //             ? Icon(
+                  //                 Icons.favorite,
+                  //                 color: Colors.red,
+                  //               )
+                  //             : Icon(Icons.favorite_border_outlined),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

@@ -27,7 +27,7 @@ class Villa {
   final int area, ownerId;
   final List rules;
   final ResortIdentification ri;
-  final bool isFavorite, isVisible;
+  final bool isFavorite, isVisible, isReserved;
 
   Villa({
     this.capacity,
@@ -59,20 +59,24 @@ class Villa {
     this.ri,
     this.rules,
     this.isVisible,
+    this.isReserved,
   });
 
   factory Villa.fromJson(Map<String, dynamic> json) {
+    print(json);
     List<String> imagesList = [];
     List<String> facilitiesList = [];
+    print('here');
 
     for (var item in json['images']) {
-      // print("item : ${item}");
       imagesList.add(item);
     }
 
     for (var item in json['facilities']) {
       facilitiesList.add(item);
     }
+
+    print('here2');
     return Villa(
         id: json['villa_id'],
         isFavorite: json['like'],
@@ -101,6 +105,7 @@ class Villa {
         area: json['area'],
         rules: json['rules'],
         rate: json['rate'],
+        isReserved: json['reserved'],
         isVisible: json['visible'],
         ri: json['ri']);
   }

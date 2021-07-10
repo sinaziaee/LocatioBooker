@@ -155,6 +155,7 @@ class _ResultScreenState extends State<ResultScreen> {
     mapList.clear();
     for (Map each in map['data']) {
       mapList.add(each);
+      print(each);
     }
     accNo = mapList.length;
   }

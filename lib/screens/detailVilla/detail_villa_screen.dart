@@ -48,7 +48,6 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
   List<String> rulesList = [];
   List<String> imagesUrlList = [];
   List<DateTime> datetimeList = [];
-  bool visible = false;
   String defImageUrl;
 
   @override
@@ -101,25 +100,25 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                               ),
                               DetailRowItem(
                                 value:
-                                'area: ${villa.area} meters, rooms: ${villa.numberOfBedrooms}',
+                                    'area: ${villa.area} meters, rooms: ${villa.numberOfBedrooms}',
                                 type: 'About Accommodation',
                                 iconData: FontAwesomeIcons.home,
                               ),
                               DetailRowItem(
                                 value:
-                                'Up to ${villa.maxCapacity} people ( ${villa.capacity} people + ${villa.maxCapacity - villa.capacity} more people )',
+                                    'Up to ${villa.maxCapacity} people ( ${villa.capacity} people + ${villa.maxCapacity - villa.capacity} more people )',
                                 type: 'Capacity',
                                 iconData: Icons.people,
                               ),
                               DetailRowItem(
                                 value:
-                                '${villa.numberOfSingleBeds} single beds, ${villa.numberOfDoubleBeds} double beds',
+                                    '${villa.numberOfSingleBeds} single beds, ${villa.numberOfDoubleBeds} double beds',
                                 type: 'Bed Services',
                                 iconData: FontAwesomeIcons.bed,
                               ),
                               DetailRowItem(
                                 value:
-                                '${villa.numberOfBathrooms} bathrooms, ${villa.numberOfShowers} showers',
+                                    '${villa.numberOfBathrooms} bathrooms, ${villa.numberOfShowers} showers',
                                 type: 'WC services',
                                 iconData: FontAwesomeIcons.bath,
                               ),
@@ -144,7 +143,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                                   villa.latitude,
                                   villa.longitude,
                                 ),
-                                visible: visible,
+                                visible: villa.isReserved,
                                 address: villa.address,
                               ),
                               DetailDivider(),
@@ -204,6 +203,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
 
       if (response.statusCode < 400) {
         Map jsonResponse = convert.json.decode(response.body);
+        print(jsonResponse);
         List dateStringList = jsonResponse['dates'];
         datetimeList = [];
         for (String each in dateStringList) {
@@ -221,8 +221,15 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
         // print(response.body);
         return null;
       }
-
-      response = await http.get(
+    } catch (e) {
+      print(
+          '---------------------- getting dates -----------------------------');
+      print(e);
+      StaticMethods.showErrorDialog(context, "Error loading calendar");
+      return null;
+    }
+    try {
+      http.Response response = await http.get(
         Uri.parse('$villaUrl${widget.villaId}'),
         headers: {
           HttpHeaders.authorizationHeader: widget.user.token,
@@ -238,35 +245,14 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
           imagesUrlList.add(villa.images[i].toString());
         }
         getFixedRules();
-      } //
-      else {
-        return null;
-      }
-
-      response = await http.get(
-        Uri.parse(reservedUrl),
-        headers: {
-          HttpHeaders.authorizationHeader: widget.user.token,
-        },
-      );
-      if (response.statusCode < 400) {
-        var jsonResponse =
-        convert.json.decode(convert.utf8.decode(response.bodyBytes));
-        List<int> idList = [];
-        for(var each in jsonResponse){
-          int id = each['villa_id'];
-          idList.add(id);
-        }
-        if(idList.contains(villa.id)){
-          visible = true;
-        }
         return villa;
       } //
       else {
         return null;
       }
-
     } catch (e) {
+      print(
+          '---------------------- getting villa -----------------------------');
       print(e);
       StaticMethods.showErrorDialog(context, "Error loading villa");
       return null;

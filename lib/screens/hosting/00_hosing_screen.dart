@@ -109,9 +109,10 @@ class _HostingScreenState extends State<HostingScreen>
                     http.Response response = snapshot.data;
                     if (response.statusCode < 400) {
                       var jsonResponse = convert.json.decode(response.body);
+                      print(jsonResponse);
                       List mapList = [];
                       int count = 0;
-                      for (Map each in jsonResponse) {
+                      for (Map each in jsonResponse['data']) {
                         mapList.add(each);
                         count++;
                       }
