@@ -1,3 +1,5 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/models/user.dart';
@@ -63,10 +65,10 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: bodyContainer(selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        key: Key('bottom_navigation'),
+      bottomNavigationBar: BottomNavyBar(
+        selectedIndex: selectedIndex,
         items: [
-          BottomNavigationBarItem(
+          BottomNavyBarItem(
             icon: Icon(
               Icons.home_outlined,
               color: kBottomNavigatorColor,
@@ -80,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          BottomNavigationBarItem(
+          BottomNavyBarItem(
             icon: Icon(
               FontAwesomeIcons.heart,
               color: kBottomNavigatorColor,
@@ -93,19 +95,21 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          BottomNavigationBarItem(
+          BottomNavyBarItem(
             icon: Icon(
-              Icons.messenger_outline,
+              Icons.home_outlined,
               color: kBottomNavigatorColor,
+              key: Key('bnbi_home'),
             ),
             title: Text(
-              'Inbox',
+              'Villa',
+              key: Key('bnbi_villa'),
               style: TextStyle(
                 color: kBottomNavigatorColor,
               ),
             ),
           ),
-          BottomNavigationBarItem(
+          BottomNavyBarItem(
             icon: Icon(
               Icons.person_pin,
               color: kBottomNavigatorColor,
@@ -120,11 +124,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
-        onTap: (val) {
-          selectedIndex = val;
-          setState(() {});
+        onItemSelected: (int val) {
+          setState(() {
+            selectedIndex = val;
+          });
         },
-        currentIndex: selectedIndex,
       ),
     );
   }
