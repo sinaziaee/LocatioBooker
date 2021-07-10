@@ -98,7 +98,7 @@ class _SettingsPageState extends State<SettingsPage> {
               style: kBodyTextStyle,
             ),
             leading: Icon(Icons.person),
-            trailing: Icon(Icons.more_vert),
+            trailing: Icon(Icons.chevron_right),
             key: Key('key_account_settings'),
           ),
           ListTile(
@@ -116,14 +116,14 @@ class _SettingsPageState extends State<SettingsPage> {
               style: kBodyTextStyle,
             ),
             leading: Icon(Icons.accessibility),
-            trailing: Icon(Icons.more_vert),
+            trailing: Icon(Icons.chevron_right),
           ),
           ListTile(
             title: Text(
               'Hosting',
               style: kBodyTextStyle,
             ),
-            trailing: Icon(Icons.more_vert),
+            trailing: Icon(Icons.chevron_right),
             leading: Icon(Icons.home),
             onTap: () {
               // Navigator.pushNamed(
@@ -153,7 +153,7 @@ class _SettingsPageState extends State<SettingsPage> {
               'List your place',
               style: kBodyTextStyle,
             ),
-            trailing: Icon(Icons.more_vert),
+            trailing: Icon(Icons.chevron_right),
             leading: Icon(Icons.place),
           ),
           ListTile(
@@ -161,7 +161,7 @@ class _SettingsPageState extends State<SettingsPage> {
               'Security',
               style: kBodyTextStyle,
             ),
-            trailing: Icon(Icons.more_vert),
+            trailing: Icon(Icons.chevron_right),
             leading: Icon(Icons.security),
           ),
           ListTile(
@@ -169,7 +169,7 @@ class _SettingsPageState extends State<SettingsPage> {
               'Update your password',
               style: kBodyTextStyle,
             ),
-            trailing: Icon(Icons.more_vert),
+            trailing: Icon(Icons.chevron_right),
             leading: Icon(Icons.history),
           ),
           ListTile(
@@ -177,7 +177,7 @@ class _SettingsPageState extends State<SettingsPage> {
               'Manage Connected Apps',
               style: kBodyTextStyle,
             ),
-            trailing: Icon(Icons.more_vert),
+            trailing: Icon(Icons.chevron_right),
             leading: Icon(Icons.app_blocking),
           ),
           ListTile(
@@ -185,7 +185,7 @@ class _SettingsPageState extends State<SettingsPage> {
               'Help',
               style: kBodyTextStyle,
             ),
-            trailing: Icon(Icons.more_vert),
+            trailing: Icon(Icons.chevron_right),
             leading: Icon(Icons.help_center_sharp),
           ),
           ListTile(
@@ -193,7 +193,7 @@ class _SettingsPageState extends State<SettingsPage> {
               'Asked Questions',
               style: kBodyTextStyle,
             ),
-            trailing: Icon(Icons.more_vert),
+            trailing: Icon(Icons.chevron_right),
             leading: Icon(Icons.question_answer),
             onTap: () {
               postNotification();
@@ -207,7 +207,7 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: () {
               Navigator.pushNamed(context, termsAggrements.id);
             },
-            trailing: Icon(Icons.more_vert),
+            trailing: Icon(Icons.chevron_right),
             leading: Icon(Icons.laptop_windows),
           ),
         ],

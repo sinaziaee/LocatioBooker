@@ -70,6 +70,8 @@ class _RateDialogState extends State<RateDialog> {
                   },
                 ),
                 headers: {
+                  "Accept": "application/json",
+                  "content-type": "application/json",
                   HttpHeaders.authorizationHeader: widget.user.token,
                 },
               );

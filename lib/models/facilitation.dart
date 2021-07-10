@@ -84,7 +84,7 @@ class Facilitation {
       else if(item == "Oven"){
           result = '$result/i-fridge';
       }
-      else if(item == "Fire place"){
+      else if(item == "Fireplace"){
           result = '$result/i-fireplace';
       }
       else if(item == "Bathroom essentials"){

@@ -19,6 +19,7 @@ class FavoriteVillaItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(favoriteVilla.rate);
     return Container(
       height: size.width * 0.6,
       margin: EdgeInsets.only(

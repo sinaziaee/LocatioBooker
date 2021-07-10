@@ -42,33 +42,36 @@ class DetailHeader extends StatelessWidget {
                   ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.star,
-                    color: Colors.yellow,
-                  ),
-                  // Text(villa.rate),
-                  Text(
-                    '${villa.rate ?? 4.0} ',
-                    style: kBody1TextStyle.copyWith(
-                      color: Colors.blueGrey[800],
-                      fontSize: 18,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.star,
+                      color: Colors.yellow,
                     ),
-                  ),
-                  Icon(
-                    Icons.location_pin,
-                    color: Colors.red,
-                  ),
-                  Text(
-                    '${villa.country}, ${villa.state}, ${villa.city}',
-                    style: kBody1TextStyle.copyWith(
-                      color: Colors.blueGrey[400],
-                      fontSize: 15,
+                    // Text(villa.rate),
+                    Text(
+                      '${villa.rate ?? 4.0} ',
+                      style: kBody1TextStyle.copyWith(
+                        color: Colors.blueGrey[800],
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                ],
+                    Icon(
+                      Icons.location_pin,
+                      color: Colors.red,
+                    ),
+                    Text(
+                      '${villa.country}, ${villa.state}, ${villa.city}',
+                      style: kBody1TextStyle.copyWith(
+                        color: Colors.blueGrey[400],
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

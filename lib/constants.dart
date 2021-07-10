@@ -92,7 +92,9 @@ final styleMe = BubbleStyle(
 );
 
 // final String mainUrl = 'https://softcheetahs.herokuapp.com';
-final String mainUrl = 'http://192.168.43.126:8000';
+// final String mainUrl = 'http://192.168.43.126:8000';
+final String mainUrl = 'http://172.17.3.149';
+
 
 final tempHouseImage = 'http://licotab.ir/home/img/clients/sina-ziaee.jpeg';
 

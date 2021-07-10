@@ -47,7 +47,7 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
           visible:
           (widget.repliedText != null && widget.repliedText.length != 0) || widget.isEditing,
           child: Container(
-            height: 50,
+            height: 60,
             child: Center(
               child: Row(
                 children: [
@@ -187,6 +187,9 @@ class _ChatMessageTextFieldState extends State<ChatMessageTextField> {
   }
 
   void sendMessage() {
+    if(widget.chatController == null || widget.chatController.text.length == 0){
+      return;
+    }
     // new message
     if (!widget.isEditing) {
       Map map = Map();

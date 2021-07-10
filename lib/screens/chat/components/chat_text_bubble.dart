@@ -15,9 +15,9 @@ class ChatTextBubble extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Text(text),
+        Text(text ?? ''),
         Text(
-          time,
+          time ?? '',
           style: kBody3TextStyle.copyWith(),
         ),
       ],

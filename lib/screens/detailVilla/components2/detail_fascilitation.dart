@@ -81,9 +81,7 @@ class DetailFacilitation extends StatelessWidget {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Text(
-                                'All facilities'
-                              ),
+                              title: Text('All facilities'),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -94,7 +92,8 @@ class DetailFacilitation extends StatelessWidget {
                                   child: ListView.builder(
                                     itemCount: facilitationItems.length,
                                     itemBuilder: (context, index) {
-                                      return itemBuilder(facilitationItems[index]);
+                                      return itemBuilder(
+                                          facilitationItems[index]);
                                     },
                                   ),
                                 ),
@@ -131,9 +130,13 @@ class DetailFacilitation extends StatelessWidget {
   }
 
   itemBuilder(String text) {
+    print(text);
     return Row(
       children: [
-        Text(text),
+        Container(
+          width: 100,
+          child: Text(text),
+        ),
         Spacer(),
         Image.asset(
           Facilitation.getImage(text),

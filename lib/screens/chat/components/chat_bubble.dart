@@ -23,6 +23,7 @@ class ChatBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print(message.file);
     return SwipeTo(
       onLeftSwipe: onSwipe,
       child: Row(

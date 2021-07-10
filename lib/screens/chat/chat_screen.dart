@@ -34,7 +34,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  String socketUrl = 'ws://192.168.43.126:8000/ws/api/chat';
+  String socketUrl = 'ws://172.17.3.149:3000/ws/api/chat';
   String uploadFileUrl = '$mainUrl/api/chat/upload/';
 
   final TextEditingController chatController = TextEditingController();

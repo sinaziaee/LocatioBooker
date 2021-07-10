@@ -121,7 +121,7 @@ class _ReserveScreenState extends State<ReserveScreen> {
   }
 
   onReservedPressed() async {
-    showPaymentDialog();
+    // showPaymentDialog();
     // var res = await Navigator.push(
     //   context,
     //   MaterialPageRoute(
@@ -136,33 +136,33 @@ class _ReserveScreenState extends State<ReserveScreen> {
     // );
     // print(res);
     // return;
-    // Map map = Map();
-    // map['start_date'] = widget.startDate.toString().substring(0, 10);
-    // map['end_date'] = widget.endDate.toString().substring(0, 10);
-    // map['villa_id'] = widget.villa.villaId;
-    // map['num_of_passengers'] = count;
-    // map['total_cost'] = widget.totalCost;
-    // map['villa'] = widget.villa.villaId;
-    // http.Response response = await http.post(
-    //   Uri.parse(addVillaUrl),
-    //   headers: {
-    //     HttpHeaders.authorizationHeader: widget.user.token,
-    //     "Accept": "application/json",
-    //     "content-type": "application/json",
-    //   },
-    //   body: convert.json.encode(map),
-    // );
-    // if (response.statusCode < 400) {
-    //   print(response.body);
-    //   StaticMethods.showSuccessDialog(context, 'Villa Reserved');
-    // } //
-    // else {
-    //   print('-------- ******************');
-    //   print(response.statusCode);
-    //   print(response.body);
-    //   print('-------- ******************');
-    //   StaticMethods.showErrorDialog(context, 'Failed to Reserve Villa !');
-    // }
+    Map map = Map();
+    map['start_date'] = widget.startDate.toString().substring(0, 10);
+    map['end_date'] = widget.endDate.toString().substring(0, 10);
+    map['villa_id'] = widget.villa.villaId;
+    map['num_of_passengers'] = count;
+    map['total_cost'] = widget.totalCost;
+    map['villa'] = widget.villa.villaId;
+    http.Response response = await http.post(
+      Uri.parse(addVillaUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: widget.user.token,
+        "Accept": "application/json",
+        "content-type": "application/json",
+      },
+      body: convert.json.encode(map),
+    );
+    if (response.statusCode < 400) {
+      print(response.body);
+      StaticMethods.showSuccessDialog(context, 'Villa Reserved');
+    } //
+    else {
+      print('-------- ******************');
+      print(response.statusCode);
+      print(response.body);
+      print('-------- ******************');
+      StaticMethods.showErrorDialog(context, 'Failed to Reserve Villa !');
+    }
   }
 
   onIncrease() {

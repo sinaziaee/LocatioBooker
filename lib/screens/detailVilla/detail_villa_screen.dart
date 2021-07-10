@@ -206,9 +206,10 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
         },
       );
 
+      // print(response.body);
       if (response.statusCode < 400) {
         Map jsonResponse = convert.json.decode(response.body);
-        print(jsonResponse);
+        // print(jsonResponse);
         List dateStringList = jsonResponse['dates'];
         datetimeList = [];
         for (String each in dateStringList) {

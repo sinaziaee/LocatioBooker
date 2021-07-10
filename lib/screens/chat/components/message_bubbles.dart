@@ -78,9 +78,9 @@ class _MessageBubblesState extends State<MessageBubbles> {
           if (snapshot.hasData) {
             try {
               var jsonResponse = convert.json.decode(snapshot.data);
-              print('----------------------------------------');
-              print(jsonResponse['type']);
-              print('----------------------------------------');
+              // print('----------------------------------------');
+              // print(jsonResponse['type']);
+              // print('----------------------------------------');
               List mapList = jsonResponse['data'];
               messageList = [];
               for (int i = 0; i < mapList.length; i++) {
@@ -108,9 +108,10 @@ class _MessageBubblesState extends State<MessageBubbles> {
               // print("============================");
               // print(e);
               widget.fetcher();
-              return Center(
-                child: kMyProgressIndicator,
-              );
+              // return Center(
+              //   child: kMyProgressIndicator,
+              // );
+              return Container();
             }
           } //
           else if (snapshot.hasError) {

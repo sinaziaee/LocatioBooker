@@ -217,6 +217,7 @@ class _PersonalInformationState extends State<PersonalInformation> {
                                 top: 50,
                                 right: 20,
                                 child: Material(
+                                  color: Colors.white,
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(10),
                                     onTap: () {
