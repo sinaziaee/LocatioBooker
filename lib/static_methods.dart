@@ -93,31 +93,31 @@ class StaticMethods {
 
   static void showSuccessDialog(BuildContext context, String message) {
     AwesomeDialog(
-            context: context,
-            dialogType: DialogType.SUCCES,
-            animType: AnimType.RIGHSLIDE,
-            headerAnimationLoop: false,
-            title: 'Successful',
-            btnOkText: 'OK',
-            desc: message,
-            btnOkOnPress: () {},
-            btnOkIcon: Icons.check_circle,
-            btnOkColor: Colors.green)
+        context: context,
+        dialogType: DialogType.SUCCES,
+        animType: AnimType.RIGHSLIDE,
+        headerAnimationLoop: false,
+        title: 'Successful',
+        btnOkText: 'OK',
+        desc: message,
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.check_circle,
+        btnOkColor: Colors.green)
         .show();
   }
 
   static void showErrorDialog(BuildContext context, String message) {
     AwesomeDialog(
-            context: context,
-            dialogType: DialogType.ERROR,
-            animType: AnimType.LEFTSLIDE,
-            headerAnimationLoop: false,
-            title: 'Error',
-            btnOkText: 'OK',
-            desc: message,
-            btnOkOnPress: () {},
-            btnOkIcon: Icons.close,
-            btnOkColor: Colors.red)
+        context: context,
+        dialogType: DialogType.ERROR,
+        animType: AnimType.LEFTSLIDE,
+        headerAnimationLoop: false,
+        title: 'Error',
+        btnOkText: 'OK',
+        desc: message,
+        btnOkOnPress: () {},
+        btnOkIcon: Icons.close,
+        btnOkColor: Colors.red)
         .show();
   }
 
@@ -160,8 +160,8 @@ class StaticMethods {
     print('myError: ${e.toString()}');
   }
 
-  static AlertDialog myAlertDialog(
-      Function selectFromCamera, Function selectFromGallery) {
+  static AlertDialog myAlertDialog(Function selectFromCamera,
+      Function selectFromGallery) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -221,8 +221,8 @@ class StaticMethods {
     );
   }
 
-  static PreferredSize resultAppBar(
-      BuildContext context, String resultText, Size size) {
+  static PreferredSize resultAppBar(BuildContext context, String resultText,
+      Size size) {
     return PreferredSize(
       child: SafeArea(
         child: Container(
@@ -280,7 +280,7 @@ class StaticMethods {
       if (cityValue == null && stateValue == null) {
         response = await geocoder.geocode(countryValue);
       } else if (cityValue == null) {
-          response = await geocoder.geocode(countryValue);
+        response = await geocoder.geocode(countryValue);
       } else {
         response = await geocoder.geocode(cityValue);
       }
@@ -418,7 +418,7 @@ class StaticMethods {
                     Navigator.pushNamedAndRemoveUntil(
                       context,
                       HomeScreen.id,
-                      (route) => false,
+                          (route) => false,
                       arguments: {
                         'user': user,
                       },
@@ -474,6 +474,27 @@ class StaticMethods {
     }
   }
 
+  static String getDateRange(List dates) {
+    int startDay;
+    int endDay;
+    int month;
+    int year;
+    for (int i = 0; i < dates.length; i++) {
+      if (i == 0) {
+        List time = dates[i].toString().split('-');
+        startDay = int.parse(time[2]);
+        month = int.parse(time[1]);
+        year = int.parse(time[0]);
+      } //
+      else if (i == dates.length - 1) {
+        List time = dates[i].toString().split('-');
+        endDay = int.parse(time[2]);
+      }
+    }
+    String strMonth = StaticMethods.getMonthString(month);
+    return 'from $startDay to $endDay $strMonth $year';
+  }
+
   static List<String> datePickerSplitter(String dateRange) {
     int startIndex = dateRange.indexOf('startDate');
     dateRange = dateRange.substring(startIndex);
@@ -483,5 +504,37 @@ class StaticMethods {
     String startDate = start[1].substring(0, 10);
     String endDate = end[1].substring(0, 10);
     return [startDate, endDate];
+  }
+
+  static Future<bool> postFirebaseToken(User user, String firebaseToken) async {
+    String url = '$mainUrl/device/add/';
+    print(url);
+    try {
+      http.Response response = await http.post(
+        Uri.parse(url),
+        headers: {
+          HttpHeaders.authorizationHeader: user.token,
+          "Accept": "application/json",
+          "content-type": "application/json",
+        },
+        body: convert.json.encode(
+          {
+            'token': firebaseToken,
+          },
+        ),
+      );
+      print(response.statusCode);
+      print(response.body);
+      if (response.statusCode < 400) {
+        return true;
+      } //
+      else {
+        return false;
+      }
+    } //
+    catch (e) {
+      print(e);
+    }
+    return false;
   }
 }

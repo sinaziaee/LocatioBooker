@@ -107,61 +107,96 @@ class _HostingScreenState extends State<HostingScreen>
                   if (snapshot.hasData &&
                       snapshot.connectionState == ConnectionState.done) {
                     http.Response response = snapshot.data;
-                    if (response.statusCode < 400) {
-                      var jsonResponse = convert.json.decode(response.body);
-                      print(jsonResponse);
-                      List mapList = [];
-                      int count = 0;
-                      for (Map each in jsonResponse['data']) {
-                        mapList.add(each);
-                        count++;
-                      }
-                      if (count == 0) {
+                    try {
+                      if (response.statusCode < 400) {
+                        var jsonResponse = convert.json.decode(response.body);
+                        // print(jsonResponse);
+                        List mapList = [];
+                        List<List> dateMapList = [];
+                        // List reserveIdList = [];
+                        int dateCounts = 0;
+                        int count = 0;
+                        for (Map each in jsonResponse['data']) {
+                          mapList.add(each);
+                          count++;
+                          if (each.containsKey('reserved_dates')) {
+                            print(each['reserved_dates']);
+                            List list = each['reserved_dates']
+                                .toString()
+                                .replaceAll('[', '')
+                                .replaceAll(']', '')
+                                .split(',');
+                            List dateL = [];
+                            for (String date in list) {
+                              // print(date);
+                              dateL.add(date);
+                              dateCounts++;
+                            }
+                            dateMapList.add(dateL);
+                          }
+                        }
+                        if (count == 0) {
+                          return Center(
+                            child: NothingFound(
+                              image: 'assets/images/resort/no_house.jpg',
+                              size: size,
+                              text1: (this.tabIndex == 0)
+                                  ? 'You haven\'t hosted any villa'
+                                  : 'You haven\'t reserved any villa',
+                              text2: '',
+                            ),
+                          );
+                        }
+                        return ListView.builder(
+                          itemCount: count,
+                          itemBuilder: (context, index) {
+                            if (this.tabIndex == 0) {
+                              Villa villa = Villa.fromJson(mapList[index]);
+                              return HostPlaceItem(
+                                size: size,
+                                villa: villa,
+                                last: count == index + 1,
+                                onPressed: () {
+                                  onHostItemPressed(villa);
+                                },
+                                onHidePressed: () {
+                                  onHidePressed(villa.villaId, villa.isVisible);
+                                },
+                              );
+                            } //
+                            else {
+                              Villa villa = Villa.fromJson(mapList[index]);
+                              return ReservePlaceItem(
+                                size: size,
+                                villa: villa,
+                                dates: (dateMapList != null &&
+                                        dateMapList.length - 1 <= index)
+                                    ? dateMapList[index]
+                                    : [],
+                                last: count == index + 1,
+                                onPressed: () {
+                                  onHostItemPressed(villa);
+                                },
+                                onCancelPressed: () {
+                                  onCancelPressed(villa.reserveId);
+                                },
+                              );
+                            }
+                          },
+                        );
+                      } //
+                      else {
                         return Center(
-                          child: NothingFound(
-                            image: 'assets/images/resort/no_house.jpg',
-                            size: size,
-                            text1: (this.tabIndex == 0)
-                                ? 'You haven\'t hosted any villa'
-                                : 'You haven\'t reserved any villa',
-                            text2: '',
+                          child: Text(
+                            'An error occurred',
+                            style: kHeaderTextStyle.copyWith(),
                           ),
                         );
                       }
-                      return ListView.builder(
-                        itemCount: count,
-                        itemBuilder: (context, index) {
-                          if (this.tabIndex == 0) {
-                            Villa villa = Villa.fromJson(mapList[index]);
-                            return HostPlaceItem(
-                              size: size,
-                              villa: villa,
-                              last: count == index + 1,
-                              onPressed: () {
-                                onHostItemPressed(villa);
-                              },
-                            );
-                          } //
-                          else {
-                            Villa villa = Villa.fromJson(mapList[index]);
-                            return ReservePlaceItem(
-                              size: size,
-                              villa: villa,
-                              last: count == index + 1,
-                              onPressed: () {
-                                onHostItemPressed(villa);
-                              },
-                            );
-                          }
-                        },
-                      );
-                    } //
-                    else {
+                    } catch (e) {
+                      print(e);
                       return Center(
-                        child: Text(
-                          'An error occurred',
-                          style: kHeaderTextStyle.copyWith(),
-                        ),
+                        child: kMyProgressIndicator,
                       );
                     }
                     // return Container();
@@ -255,5 +290,27 @@ class _HostingScreenState extends State<HostingScreen>
         },
       ),
     );
+  }
+
+  onCancelPressed(int reserveId) {
+    // todo: cancel reservation
+  }
+
+  onHidePressed(int villaId, bool status) async {
+    http.Response response = await http.get(
+      Uri.parse('$mainUrl/api/villa/user/?villa_id=$villaId&visible=${!status}'),
+      headers: {
+        HttpHeaders.authorizationHeader: widget.user.token,
+      },
+    );
+    print(response.body);
+    if(response.statusCode < 400){
+      setState(() {
+
+      });
+    }
+    else {
+      print(response.statusCode);
+    }
   }
 }

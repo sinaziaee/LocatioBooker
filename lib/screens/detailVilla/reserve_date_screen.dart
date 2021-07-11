@@ -125,6 +125,10 @@ class _ReserveDateScreenState extends State<ReserveDateScreen> {
   }
 
   onPressed() {
+    print('=====================================');
+    print(startDate);
+    print(endDate);
+    print('=====================================');
     setState(() {
       Navigator.push(
         context,

@@ -46,6 +46,10 @@ class _ReserveScreenState extends State<ReserveScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('*******************************************');
+    print(widget.startDate);
+    print(widget.endDate);
+    print('*******************************************');
     size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -121,22 +125,12 @@ class _ReserveScreenState extends State<ReserveScreen> {
   }
 
   onReservedPressed() async {
-    // showPaymentDialog();
-    // var res = await Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) {
-    //       return PaymentScreen(
-    //         villa: widget.villa,
-    //         user: widget.user,
-    //         cost: totalCost,
-    //       );
-    //     },
-    //   ),
-    // );
-    // print(res);
-    // return;
     Map map = Map();
+    print('------------------------');
+    print(widget.villa.villaId);
+    print(widget.startDate.toString().substring(0, 10));
+    print(widget.endDate.toString().substring(0, 10));
+    print('------------------------');
     map['start_date'] = widget.startDate.toString().substring(0, 10);
     map['end_date'] = widget.endDate.toString().substring(0, 10);
     map['villa_id'] = widget.villa.villaId;

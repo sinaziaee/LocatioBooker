@@ -15,7 +15,7 @@ class HomePlaceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    searchModel.rate = (searchModel.rate == null) ? 5.0 : searchModel.rate;
+    // searchModel.rate = (searchModel.rate == null) ? 5.0 : searchModel.rate;
     return Material(
       color: Colors.white,
       borderRadius: BorderRadius.circular(10),
@@ -64,13 +64,13 @@ class HomePlaceItem extends StatelessWidget {
                   SizedBox(
                     width: 20,
                     child: Text(
-                      '${searchModel.rate.toString()}',
+                      '${searchModel.rate ?? 0}',
                       style: kBody3TextStyle.copyWith(),
                     ),
                   ),
                   Icon(
-                    Icons.star_border,
-                    color: Colors.yellow,
+                    Icons.star,
+                    color: Colors.yellow[800],
                     size: 20,
                   ),
                 ],

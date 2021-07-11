@@ -6,10 +6,16 @@ import '../../../models/search_model.dart';
 class HostPlaceItem extends StatelessWidget {
   final Size size;
   final Villa villa;
-  final Function onPressed;
+  final Function onPressed, onHidePressed;
   final bool last;
 
-  HostPlaceItem({this.size, this.villa, this.onPressed, this.last});
+  HostPlaceItem({
+    this.size,
+    this.villa,
+    this.onPressed,
+    this.last,
+    this.onHidePressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,59 +54,67 @@ class HostPlaceItem extends StatelessWidget {
                         SizedBox(
                           width: 10,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Spacer(
-                              flex: 1,
-                            ),
-                            SizedBox(
-                              width: size.width - 170,
-                              child: Text(
-                                villa.name,
-                                // textWidthBasis: TextWidthBasis.parent,
-                                style: TextStyle(
-                                  // color: Colors.grey,
-                                  fontSize: 16,
-                                ),
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Spacer(
+                                flex: 1,
                               ),
-                            ),
-                            Spacer(
-                              flex: 1,
-                            ),
-                            Text(
-                              '${villa.country}, ${villa.city}',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                              ),
-                            ),
-                            Spacer(
-                              flex: 1,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  villa.isVisible ? 'active ' : 'inactive ',
-                                  style: kBody3TextStyle.copyWith(
+                              SizedBox(
+                                width: size.width - 170,
+                                child: Text(
+                                  villa.name,
+                                  // textWidthBasis: TextWidthBasis.parent,
+                                  style: TextStyle(
+                                    // color: Colors.grey,
+                                    fontSize: 16,
                                   ),
                                 ),
-                                Icon(
-                                  villa.isVisible
-                                      ? Icons.check_circle
-                                      : Icons.remove_circle,
-                                  color: (villa.isVisible)
-                                      ? Colors.green
-                                      : Colors.red,
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                              Text(
+                                '${villa.country}, ${villa.city}',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 14,
                                 ),
-                              ],
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          // width: 200,
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(10),
+                            onTap: onHidePressed,
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    villa.isVisible ? 'hide ' : 'unhide ',
+                                    style: kBody3TextStyle.copyWith(
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                  Icon(
+                                    villa.isVisible
+                                        ? Icons.check_circle
+                                        : Icons.remove_circle,
+                                    color: (villa.isVisible)
+                                        ? Colors.green
+                                        : Colors.red,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
+                          ),
                         ),
                       ],
                     ),

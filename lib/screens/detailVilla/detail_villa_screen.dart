@@ -146,7 +146,7 @@ class _DetailVillaScreenState extends State<DetailVillaScreen> {
                               DetailDivider(),
                               DetailsMap(
                                 location: latLng.LatLng(
-                                  villa.latitude,
+                                  (villa.latitude>90 || villa.latitude < -90) ? -89 : villa.latitude,
                                   villa.longitude,
                                 ),
                                 visible: villa.isReserved,

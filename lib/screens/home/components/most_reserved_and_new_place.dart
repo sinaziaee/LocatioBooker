@@ -12,18 +12,19 @@ import '../../../components/villa_not_found.dart';
 
 class MostReservedAndNewPlaces extends StatelessWidget {
   final String mostReservedPlacesUrl =
-      '$mainUrl/api/villa/most-registered/show/?page=1&number_of_villa=10';
+      '$mainUrl/api/villa/most-registered/show/?page=1&number_of_villa=5';
   final String newPlaceUrl =
-      '$mainUrl/api/villa/search/?page=1&number_of_villa=10';
+      '$mainUrl/api/villa/search/?page=1&number_of_villa=5';
   final Size size;
   final User user;
   final Function onMostReservedPressed, onNewPlacesPressed;
 
-  MostReservedAndNewPlaces(
-      {this.user,
-      this.size,
-      this.onNewPlacesPressed,
-      this.onMostReservedPressed});
+  MostReservedAndNewPlaces({
+    this.user,
+    this.size,
+    this.onNewPlacesPressed,
+    this.onMostReservedPressed,
+  });
 
   @override
   Widget build(BuildContext context) {

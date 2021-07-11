@@ -67,8 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: BottomNavyBar(
         selectedIndex: selectedIndex,
+        backgroundColor: Colors.white,
         items: [
           BottomNavyBarItem(
+            activeColor: Colors.blueGrey,
             icon: Icon(
               Icons.home_outlined,
               color: kBottomNavigatorColor,
@@ -97,12 +99,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavyBarItem(
             icon: Icon(
-              Icons.home_outlined,
+              Icons.chat_bubble,
               color: kBottomNavigatorColor,
               key: Key('bnbi_home'),
             ),
             title: Text(
-              'Villa',
+              'Chats',
               key: Key('bnbi_villa'),
               style: TextStyle(
                 color: kBottomNavigatorColor,

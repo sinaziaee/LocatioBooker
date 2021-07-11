@@ -18,6 +18,7 @@ class Villa {
   final double longitude;
   final int capacity;
   final int maxCapacity;
+  final int reserveId;
   final int numberOfBathrooms;
   final int numberOfBedrooms;
   final int numberOfSingleBeds;
@@ -43,6 +44,7 @@ class Villa {
     this.country,
     this.state,
     this.city,
+    this.reserveId,
     this.address,
     this.postalCode,
     this.name,
@@ -95,6 +97,7 @@ class Villa {
         address: json['address'],
         postalCode: json['postal_code'],
         name: json['name'],
+        reserveId: json['reserve_id'],
         type: json['type'],
         description: json['description'],
         price: json['price_per_night'],

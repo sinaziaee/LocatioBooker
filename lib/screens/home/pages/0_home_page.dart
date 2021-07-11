@@ -8,6 +8,7 @@ import 'package:loctio_booker/screens/authentication/login_screen.dart';
 import 'package:loctio_booker/screens/home/components/most_reserved_and_new_place.dart';
 import 'package:loctio_booker/screens/home/components/search_all_places.dart';
 import 'package:loctio_booker/screens/home/search_more_place_screen.dart';
+import 'package:loctio_booker/static_methods.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../home/search_city_screen.dart';
 import '../../../constants.dart';
@@ -52,62 +53,65 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    StaticMethods.postFirebaseToken(
+      widget.user,
+      widget.user.firebaseToken,
+    );
     return CustomScrollView(
       slivers: [
         SliverAppBar(
           backgroundColor: Colors.white,
           flexibleSpace: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
-                double top = constraints.biggest.height;
-                return FlexibleSpaceBar(
-                  centerTitle: true,
-                  title: AnimatedOpacity(
-                    duration: Duration(milliseconds: 300),
-                    opacity: (1 - (top / fixedHeight) == 0.72)
-                        ? 1
-                        : 1 - (top / fixedHeight),
-                    curve: Curves.easeOutQuint,
-                    child: CustomHomeSearchBar(
+            double top = constraints.biggest.height;
+            return FlexibleSpaceBar(
+              centerTitle: true,
+              title: AnimatedOpacity(
+                duration: Duration(milliseconds: 300),
+                opacity: (1 - (top / fixedHeight) == 0.72)
+                    ? 1
+                    : 1 - (top / fixedHeight),
+                curve: Curves.easeOutQuint,
+                child: CustomHomeSearchBar(
+                  size: widget.size,
+                  onSearchPressed: () {
+                    onSearchPressed();
+                  },
+                ),
+              ),
+              background: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                    child: Image.asset(
+                      'assets/images/home_image_def.jpg',
+                      fit: BoxFit.fitWidth,
+                      width: widget.size.width,
+                    ),
+                  ),
+                  Positioned(
+                    child: CustomSearch(
                       size: widget.size,
-                      onSearchPressed: () {
+                      onPressed: () {
                         onSearchPressed();
                       },
                     ),
+                    top: 20,
                   ),
-                  background: Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                        ),
-                        child: Image.asset(
-                          'assets/images/home_image_def.jpg',
-                          fit: BoxFit.fitWidth,
-                          width: widget.size.width,
-                        ),
-                      ),
-                      Positioned(
-                        child: CustomSearch(
-                          size: widget.size,
-                          onPressed: () {
-                            onSearchPressed();
-                          },
-                        ),
-                        top: 20,
-                      ),
-                    ],
-                  ),
-                );
-              }),
+                ],
+              ),
+            );
+          }),
           pinned: true,
           floating: true,
           snap: true,
           elevation: 0.0,
           collapsedHeight: 75,
-          expandedHeight: (widget.size.height > widget.size.width)
-              ? fixedHeight
-              : 200,
+          expandedHeight:
+              (widget.size.height > widget.size.width) ? fixedHeight : 200,
           stretch: false,
         ),
         SliverFixedExtentList(
@@ -116,11 +120,14 @@ class _HomePageState extends State<HomePage> {
           delegate: SliverChildListDelegate(
             [
               MostReservedAndNewPlaces(
-                  user: widget.user, size: widget.size, onMostReservedPressed: () {
-                onMorePressed('most-registered');
-              }, onNewPlacesPressed: () {
-                onNewPressed();
-              }),
+                  user: widget.user,
+                  size: widget.size,
+                  onMostReservedPressed: () {
+                    onMorePressed('most-registered');
+                  },
+                  onNewPlacesPressed: () {
+                    onNewPressed();
+                  }),
               HighRatePlace(widget.user, widget.size, () {
                 onMorePressed('most-rated');
               }),

@@ -47,7 +47,7 @@ class CustomSearch extends StatelessWidget {
                       style: kBody3TextStyle.copyWith(),
                     ),
                     CircleAvatar(
-                      backgroundColor: Colors.lightBlue,
+                      backgroundColor: Colors.blueGrey,
                       radius: 16,
                       child: Icon(
                         Icons.search,

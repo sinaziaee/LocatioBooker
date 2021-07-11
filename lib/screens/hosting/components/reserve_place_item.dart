@@ -1,119 +1,161 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/villa.dart';
+import 'package:loctio_booker/static_methods.dart';
 import '../../../models/search_model.dart';
 
 class ReservePlaceItem extends StatelessWidget {
   final Size size;
   final Villa villa;
-  final Function onPressed;
+  final Function onPressed, onCancelPressed;
   final bool last;
+  final List dates;
 
-  ReservePlaceItem({this.size, this.villa, this.onPressed, this.last});
+  ReservePlaceItem({
+    this.size,
+    this.villa,
+    this.onPressed,
+    this.last,
+    this.dates,
+    this.onCancelPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Material(
-          color: Colors.white,
-          child: InkWell(
-            onTap: onPressed,
-            child: Container(
-              height: 70,
-              margin: EdgeInsets.only(),
-              padding: EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 3,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: FadeInImage(
-                            height: 70,
-                            width: 60,
-                            fit: BoxFit.cover,
-                            placeholder:
-                                AssetImage('assets/images/home_def.jpg'),
-                            image: (villa.images != null)
-                                ? NetworkImage('$mainUrl${villa.images[0]}')
-                                : AssetImage('assets/images/home_def.jpg'),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+        Stack(
+          children: [
+            Material(
+              color: Colors.white,
+              child: InkWell(
+                onTap: onPressed,
+                child: Container(
+                  height: 90,
+                  margin: EdgeInsets.only(),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 3,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Row(
                           children: [
-                            Spacer(
-                              flex: 1,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: FadeInImage(
+                                height: 70,
+                                width: 60,
+                                fit: BoxFit.cover,
+                                placeholder:
+                                AssetImage('assets/images/home_def.jpg'),
+                                image: (villa.images != null)
+                                    ? NetworkImage('$mainUrl${villa.images[0]}')
+                                    : AssetImage('assets/images/home_def.jpg'),
+                              ),
                             ),
                             SizedBox(
-                              width: size.width - 160,
-                              child: Text(
-                                villa.name,
-                                // textWidthBasis: TextWidthBasis.parent,
-                                style: TextStyle(
-                                  // color: Colors.grey,
-                                  fontSize: 16,
-                                ),
-                              ),
+                              width: 10,
                             ),
-                            Spacer(
-                              flex: 1,
-                            ),
-                            Text(
-                              '${villa.country}, ${villa.city}',
-                              style: TextStyle(
-                                color: Colors.grey[700],
-                                fontSize: 14,
-                              ),
-                            ),
-                            Spacer(
-                              flex: 1,
-                            ),
-                            Text(
-                              'Reserved in June 2 to 10 2020',
-                              style: kBody3TextStyle.copyWith(
-                                fontSize: 10,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Spacer(
-                              flex: 1,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  '${villa.rate.toString()} ',
-                                  style: kBody3TextStyle.copyWith(),
+                                Spacer(
+                                  flex: 1,
                                 ),
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.yellow[800],
+                                SizedBox(
+                                  width: size.width - 160,
+                                  child: Text(
+                                    villa.name,
+                                    // textWidthBasis: TextWidthBasis.parent,
+                                    style: TextStyle(
+                                      // color: Colors.grey,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                Spacer(
+                                  flex: 1,
+                                ),
+                                Text(
+                                  '${villa.country}, ${villa.city}',
+                                  style: TextStyle(
+                                    color: Colors.grey[700],
+                                    fontSize: 14,
+                                  ),
+                                ),
+                                Spacer(
+                                  flex: 1,
+                                ),
+                                Text(
+                                  'Reserved in June 2 to 10 2020',
+                                  style: kBody3TextStyle.copyWith(
+                                    fontSize: 10,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Spacer(
+                                  flex: 1,
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      '${villa.rate.toString()} ',
+                                      style: kBody3TextStyle.copyWith(),
+                                    ),
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.yellow[800],
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        '   ${StaticMethods.getDateRange(dates)}',
+                        style: kBody3TextStyle.copyWith(),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
+            Positioned(
+              bottom: 0,
+              right: 10,
+              child: Material(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.white,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(15),
+                  onTap: onCancelPressed,
+                  child: Container(
+                    height: 30,
+                    width: 30,
+                    child: Icon(
+                      Icons.hide_source_outlined,
+                      color: Colors.blueGrey,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
         SizedBox(
           height: 5,
