@@ -102,10 +102,10 @@ class MostReservedAndNewPlaces extends StatelessWidget {
                       ),
                     );
                   }
-                  var jsonResponse = convert.jsonDecode(response.body);
+                  var jsonResponse = convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
                   List<SearchModel> list = [];
                   int count = 0;
-                  var data = jsonResponse['data'];
+                    var data = jsonResponse['data'];
                   // print(data);
                   for (int i = 0; i < data.length; i++) {
                     count++;

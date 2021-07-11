@@ -15,8 +15,8 @@ class ApiProvider {
   fetchPosts() async {
     final response = await client
         .get(Uri.parse("https://jsonplaceholder.typicode.com/posts/1"));
-    ItemModel itemModel = ItemModel.fromJson(json.decode(response.body));
-    return itemModel;
+    // ItemModel itemModel = ItemModel.fromJson(json.decode(response.body));
+    return null;
   }
 
   checkIdentityDocument() async {

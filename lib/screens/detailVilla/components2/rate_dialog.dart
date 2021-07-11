@@ -75,8 +75,8 @@ class _RateDialogState extends State<RateDialog> {
                   HttpHeaders.authorizationHeader: widget.user.token,
                 },
               );
+              print(response.body);
               if (response.statusCode < 400) {
-                print(response.statusCode);
                 setState(() {});
                 Navigator.pop(context);
               } //
@@ -84,7 +84,6 @@ class _RateDialogState extends State<RateDialog> {
                 print(
                     '========================================================');
                 print(response.statusCode);
-                print(response.body);
                 print(
                     '========================================================');
               }

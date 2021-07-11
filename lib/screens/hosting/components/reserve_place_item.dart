@@ -48,11 +48,11 @@ class ReservePlaceItem extends StatelessWidget {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: FadeInImage(
-                                height: 70,
+                                height: 80,
                                 width: 60,
                                 fit: BoxFit.cover,
                                 placeholder:
-                                AssetImage('assets/images/home_def.jpg'),
+                                    AssetImage('assets/images/home_def.jpg'),
                                 image: (villa.images != null)
                                     ? NetworkImage('$mainUrl${villa.images[0]}')
                                     : AssetImage('assets/images/home_def.jpg'),
@@ -68,7 +68,7 @@ class ReservePlaceItem extends StatelessWidget {
                                   flex: 1,
                                 ),
                                 SizedBox(
-                                  width: size.width - 160,
+                                  width: size.width - 170,
                                   child: Text(
                                     villa.name,
                                     // textWidthBasis: TextWidthBasis.parent,
@@ -91,32 +91,20 @@ class ReservePlaceItem extends StatelessWidget {
                                 Spacer(
                                   flex: 1,
                                 ),
-                                Text(
-                                  'Reserved in June 2 to 10 2020',
-                                  style: kBody3TextStyle.copyWith(
-                                    fontSize: 10,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
                                 Spacer(
                                   flex: 1,
                                 ),
                               ],
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            Row(
                               children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      '${villa.rate.toString()} ',
-                                      style: kBody3TextStyle.copyWith(),
-                                    ),
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.yellow[800],
-                                    ),
-                                  ],
+                                Text(
+                                  '${villa.rate ?? '0.0'} ',
+                                  style: kBody3TextStyle.copyWith(),
+                                ),
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.yellow[800],
                                 ),
                               ],
                             ),
@@ -137,7 +125,7 @@ class ReservePlaceItem extends StatelessWidget {
             ),
             Positioned(
               bottom: 0,
-              right: 10,
+              right: 20,
               child: Material(
                 borderRadius: BorderRadius.circular(15),
                 color: Colors.white,
@@ -146,10 +134,18 @@ class ReservePlaceItem extends StatelessWidget {
                   onTap: onCancelPressed,
                   child: Container(
                     height: 30,
-                    width: 30,
-                    child: Icon(
-                      Icons.hide_source_outlined,
-                      color: Colors.blueGrey,
+                    width: 60,
+                    // child: Icon(
+                    //   Icons.hide_source_outlined,
+                    //   color: Colors.blueGrey,
+                    // ),
+                    child: Text(
+                      'Cancel book',
+                      style: kBody3TextStyle.copyWith(
+                        fontSize: 10,
+                        color: Colors.blueGrey,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),

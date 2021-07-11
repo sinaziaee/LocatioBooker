@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:loctio_booker/constants.dart';
 import 'package:loctio_booker/models/facilitation.dart';
 import 'package:loctio_booker/models/place_address.dart';
 import 'package:loctio_booker/models/resort_description.dart';

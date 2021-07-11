@@ -29,7 +29,7 @@ class FavoriteVillaItem extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
         child: InkWell(
-          onTap: () {},
+          onTap: onVillaPressed,
           borderRadius: BorderRadius.circular(10),
           child: Container(
             padding: EdgeInsets.only(

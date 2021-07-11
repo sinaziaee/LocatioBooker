@@ -62,7 +62,7 @@ class HostPlaceItem extends StatelessWidget {
                                 flex: 1,
                               ),
                               SizedBox(
-                                width: size.width - 170,
+                                width: size.width - 180,
                                 child: Text(
                                   villa.name,
                                   // textWidthBasis: TextWidthBasis.parent,

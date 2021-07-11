@@ -45,14 +45,6 @@ class _HostingScreenState extends State<HostingScreen>
   void initState() {
     super.initState();
     tabController = TabController(vsync: this, length: 2);
-    // tabController.animation
-    //   ..addListener(() {
-    //     setState(() {
-    //       tabIndex = (tabController.animation.value).round();
-    //       print('_tabController.animation.value: ${tabController.animation.value}');
-    //       print('_currentIndex: $tabController');
-    //     });
-    //   });
     tabController.addListener(() {
       setState(() {
         tabIndex = (tabController.animation.value).round();
@@ -69,7 +61,7 @@ class _HostingScreenState extends State<HostingScreen>
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    getAllUsersVilla();
+    // getAllUsersVilla();
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -109,7 +101,8 @@ class _HostingScreenState extends State<HostingScreen>
                     http.Response response = snapshot.data;
                     try {
                       if (response.statusCode < 400) {
-                        var jsonResponse = convert.json.decode(response.body);
+                        var jsonResponse = convert.json
+                            .decode(convert.utf8.decode(response.bodyBytes));
                         // print(jsonResponse);
                         List mapList = [];
                         List<List> dateMapList = [];
@@ -120,7 +113,7 @@ class _HostingScreenState extends State<HostingScreen>
                           mapList.add(each);
                           count++;
                           if (each.containsKey('reserved_dates')) {
-                            print(each['reserved_dates']);
+                            // print(each['reserved_dates']);
                             List list = each['reserved_dates']
                                 .toString()
                                 .replaceAll('[', '')
@@ -226,19 +219,19 @@ class _HostingScreenState extends State<HostingScreen>
     );
   }
 
-  getAllUsersVilla() async {
-    http.Response response = await http.get(
-      Uri.parse(getAllUsersVillasUrl),
-      headers: {
-        HttpHeaders.authorizationHeader: widget.user.token,
-      },
-    );
-    var jsonResponse = convert.json.decode(response.body);
-    // print(jsonResponse);
-  }
+  // getAllUsersVilla() async {
+  //   http.Response response = await http.get(
+  //     Uri.parse(getAllUsersVillasUrl),
+  //     headers: {
+  //       HttpHeaders.authorizationHeader: widget.user.token,
+  //     },
+  //   );
+  //   var jsonResponse = convert.json.decode(response.body);
+  //   print(jsonResponse);
+  // }
 
   Future<http.Response> getInfo(int index) async {
-    print(index);
+    // print(index);
     if (index == 0) {
       // print(hostingUrl);
       try {
@@ -248,6 +241,8 @@ class _HostingScreenState extends State<HostingScreen>
             HttpHeaders.authorizationHeader: widget.user.token,
           },
         );
+        print(response.statusCode);
+        print(response.body);
         return response;
       } catch (e) {
         print(e);
@@ -262,6 +257,8 @@ class _HostingScreenState extends State<HostingScreen>
             HttpHeaders.authorizationHeader: widget.user.token,
           },
         );
+        print(response.statusCode);
+        print(response.body);
         return response;
       } catch (e) {
         print(e);
@@ -292,24 +289,35 @@ class _HostingScreenState extends State<HostingScreen>
     );
   }
 
-  onCancelPressed(int reserveId) {
-    // todo: cancel reservation
-  }
-
-  onHidePressed(int villaId, bool status) async {
+  onCancelPressed(int reserveId) async {
+    print(reserveId);
+    print('$mainUrl/api/villa/reserve/cancel/?reserve_id=$reserveId');
     http.Response response = await http.get(
-      Uri.parse('$mainUrl/api/villa/user/?villa_id=$villaId&visible=${!status}'),
+      Uri.parse('$mainUrl/api/villa/reserve/cancel/?reserve_id=$reserveId'),
       headers: {
         HttpHeaders.authorizationHeader: widget.user.token,
       },
     );
     print(response.body);
-    if(response.statusCode < 400){
-      setState(() {
-
-      });
+    if (response.statusCode < 400) {
+      setState(() {});
+    } else {
+      print(response.statusCode);
     }
-    else {
+  }
+
+  onHidePressed(int villaId, bool status) async {
+    http.Response response = await http.get(
+      Uri.parse(
+          '$mainUrl/api/villa/user/?villa_id=$villaId&visible=${!status}'),
+      headers: {
+        HttpHeaders.authorizationHeader: widget.user.token,
+      },
+    );
+    print(response.body);
+    if (response.statusCode < 400) {
+      setState(() {});
+    } else {
       print(response.statusCode);
     }
   }

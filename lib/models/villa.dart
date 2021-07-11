@@ -97,7 +97,7 @@ class Villa {
         address: json['address'],
         postalCode: json['postal_code'],
         name: json['name'],
-        reserveId: json['reserve_id'],
+        reserveId: json['calendar_id'],
         type: json['type'],
         description: json['description'],
         price: json['price_per_night'],
